@@ -1,0 +1,850 @@
+@prefix cln: <https://ontology.socialcaredata.io/cultural-need#> .
+@prefix cn: <https://ontology.socialcaredata.io/communication-need#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix la: <https://ontology.socialcaredata.io/living-arrangement#> .
+@prefix linkml: <https://w3id.org/linkml/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pa: <https://ontology.socialcaredata.io/pets-allowance#> .
+@prefix pav: <http://purl.org/pav/> .
+@prefix pl: <https://ontology.socialcaredata.io/> .
+@prefix pt: <https://ontology.socialcaredata.io/placement-type#> .
+@prefix pu: <https://ontology.socialcaredata.io/placement-urgency#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rl: <https://ontology.socialcaredata.io/risk-level#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sl: <https://ontology.socialcaredata.io/suitability-level#> .
+@prefix st: <https://ontology.socialcaredata.io/support-type#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix yns: <https://ontology.socialcaredata.io/presence-status#> .
+
+<https://ontology.socialcaredata.io/placements/0.1.0> a owl:Ontology ;
+    rdfs:label "placements" ;
+    dct:license "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" ;
+    dct:title "Children's Social Care Placements Data Model" ;
+    pav:version "0.1.0" ;
+    skos:definition "A single LinkML data model for Children's Social Care Placements Standard. Exactly matches with https://socialcaredata.github.io/spec/placements/?tab=specification and this is the initial version." .
+
+pl:Placement a owl:Class ;
+    rdfs:label "Placement" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:riskAssessment ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:placementAvailability ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:qualityAssurance ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty pl:actualPlacement ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:placementRecommendation ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:childId ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty pl:placementId ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:placementRequirements ] ;
+    skos:definition "The top-level placement record for a looked-after child, linking together the referral availability, the child's requirements, the social-worker recommendation, the risk assessment, the quality-assurance metadata and (optionally) the placement actually arranged." ;
+    skos:exactMatch pl:Placement ;
+    skos:inScheme pl:placements .
+
+pl:actualPlacement a owl:ObjectProperty ;
+    rdfs:label "actualPlacement" ;
+    rdfs:range pl:ActualPlacement ;
+    skos:definition "Links a Placement to the ActualPlacement that was arranged. Optional - a referral may exist without (yet) having an actual placement." ;
+    skos:inScheme pl:placements .
+
+pl:additionalSupport a owl:ObjectProperty ;
+    rdfs:label "additionalSupport" ;
+    rdfs:range pl:support-type ;
+    skos:definition "Additional support provision required (e.g., additional supervision, therapeutic support, taxis to school)." ;
+    skos:inScheme pl:placements .
+
+pl:childId a owl:DatatypeProperty ;
+    rdfs:label "childId" ;
+    rdfs:range xsd:string ;
+    skos:definition "Identifier unique to each child within the LA, allowing linking between multiple referrals for the same child." ;
+    skos:inScheme pl:placements .
+
+pl:communicationNeeds a owl:ObjectProperty ;
+    rdfs:label "communicationNeeds" ;
+    rdfs:range pl:presence-status ;
+    skos:definition "Whether the child has any communication, language or learning needs." ;
+    skos:inScheme pl:placements .
+
+pl:costDate a owl:DatatypeProperty ;
+    rdfs:label "costDate" ;
+    rdfs:range xsd:date ;
+    skos:definition "Date the placement cost data was captured." ;
+    skos:inScheme pl:placements .
+
+pl:costOfficerName a owl:DatatypeProperty ;
+    rdfs:label "costOfficerName" ;
+    rdfs:range xsd:string ;
+    skos:definition "Name of the officer who recorded the placement cost data." ;
+    skos:inScheme pl:placements .
+
+pl:culturalNeeds a owl:ObjectProperty ;
+    rdfs:label "culturalNeeds" ;
+    rdfs:range pl:cultural-need ;
+    skos:definition "Whether the placement must accommodate specific cultural needs (e.g., access to places of worship)." ;
+    skos:inScheme pl:placements .
+
+pl:deprivationOfLiberty a owl:DatatypeProperty ;
+    rdfs:label "deprivationOfLiberty" ;
+    rdfs:range xsd:boolean ;
+    skos:definition "Whether the child has a Deprivation of Liberty Order (DOL)." ;
+    skos:inScheme pl:placements .
+
+pl:fosterCareSuitability a owl:ObjectProperty ;
+    rdfs:label "fosterCareSuitability" ;
+    rdfs:range pl:suitability-level ;
+    skos:definition "Suitability of foster care for this child, as judged by the social worker." ;
+    skos:inScheme pl:placements .
+
+pl:homeAdaptationRequired a owl:DatatypeProperty ;
+    rdfs:label "homeAdaptationRequired" ;
+    rdfs:range xsd:boolean ;
+    skos:definition "Whether adaptations to the home are required to accommodate the child's needs." ;
+    skos:inScheme pl:placements .
+
+pl:isEducationContinuous a owl:DatatypeProperty ;
+    rdfs:label "isEducationContinuous" ;
+    rdfs:range xsd:boolean ;
+    skos:definition "Whether the child's education was continuous (i.e., not disrupted) as a result of this placement." ;
+    skos:inScheme pl:placements .
+
+pl:isLocationPreferred a owl:DatatypeProperty ;
+    rdfs:label "isLocationPreferred" ;
+    rdfs:range xsd:boolean ;
+    skos:definition "Whether the actual placement location was a preferred location." ;
+    skos:inScheme pl:placements .
+
+pl:livingCompanions a owl:ObjectProperty ;
+    rdfs:label "livingCompanions" ;
+    rdfs:range pl:living-arrangement ;
+    skos:definition "Recommendation as to who the child can be cared for alongside (e.g., solo placement, with other children, only older children)." ;
+    skos:inScheme pl:placements .
+
+pl:neededBy a owl:ObjectProperty ;
+    rdfs:label "neededBy" ;
+    rdfs:range pl:placement-urgency ;
+    skos:definition "When the child needs to be placed by. Captures urgency rather than an absolute date." ;
+    skos:inScheme pl:placements .
+
+pl:pets a owl:ObjectProperty ;
+    rdfs:label "pets" ;
+    rdfs:range pl:pets-allowance ;
+    skos:definition "Whether the child can or must live in a home with pets/animals." ;
+    skos:inScheme pl:placements .
+
+pl:placementAvailability a owl:ObjectProperty ;
+    rdfs:label "placementAvailability" ;
+    rdfs:range pl:PlacementAvailability ;
+    skos:definition "Links a Placement to its PlacementAvailability (referral) record." ;
+    skos:inScheme pl:placements .
+
+pl:placementDate a owl:DatatypeProperty ;
+    rdfs:label "placementDate" ;
+    rdfs:range xsd:date ;
+    skos:definition "Date the actual placement data was captured." ;
+    skos:inScheme pl:placements .
+
+pl:placementId a owl:DatatypeProperty ;
+    rdfs:label "placementId" ;
+    rdfs:range xsd:string ;
+    skos:definition "The unique identifier of the placement record within the LA case management system." ;
+    skos:inScheme pl:placements .
+
+pl:placementLocation a owl:DatatypeProperty ;
+    rdfs:label "placementLocation" ;
+    rdfs:range xsd:string ;
+    skos:definition "The location of the actual placement." ;
+    skos:inScheme pl:placements .
+
+pl:placementOfficerName a owl:DatatypeProperty ;
+    rdfs:label "placementOfficerName" ;
+    rdfs:range xsd:string ;
+    skos:definition "Name of the officer who recorded the actual placement information." ;
+    skos:inScheme pl:placements .
+
+pl:placementRecommendation a owl:ObjectProperty ;
+    rdfs:label "placementRecommendation" ;
+    rdfs:range pl:PlacementRecommendation ;
+    skos:definition "Links a Placement to its PlacementRecommendation." ;
+    skos:inScheme pl:placements .
+
+pl:placementRequirements a owl:ObjectProperty ;
+    rdfs:label "placementRequirements" ;
+    rdfs:range pl:PlacementRequirements ;
+    skos:definition "Links a Placement to its PlacementRequirements." ;
+    skos:inScheme pl:placements .
+
+pl:placementType a owl:ObjectProperty ;
+    rdfs:label "placementType" ;
+    rdfs:range pl:placement-type ;
+    skos:definition "The type of placement the child received." ;
+    skos:inScheme pl:placements .
+
+pl:preferredLocation a owl:DatatypeProperty ;
+    rdfs:label "preferredLocation" ;
+    rdfs:range xsd:string ;
+    skos:definition "Preferred location for the home search." ;
+    skos:inScheme pl:placements .
+
+pl:providerURN a owl:DatatypeProperty ;
+    rdfs:label "providerURN" ;
+    rdfs:range xsd:string ;
+    skos:definition "Provider Unique Reference Number, linked to Ofsted registration. Allows the placement to be linked to Ofsted data about the provider." ;
+    skos:inScheme pl:placements .
+
+pl:qualityAssurance a owl:ObjectProperty ;
+    rdfs:label "qualityAssurance" ;
+    rdfs:range pl:QualityAssurance ;
+    skos:definition "Links a Placement to its QualityAssurance metadata." ;
+    skos:inScheme pl:placements .
+
+pl:referralDate a owl:DatatypeProperty ;
+    rdfs:label "referralDate" ;
+    rdfs:range xsd:date ;
+    skos:definition "Date the referral data was captured." ;
+    skos:inScheme pl:placements .
+
+pl:referralOfficerName a owl:DatatypeProperty ;
+    rdfs:label "referralOfficerName" ;
+    rdfs:range xsd:string ;
+    skos:definition "Name of the officer who recorded the referral information. LA-internal QA only." ;
+    skos:inScheme pl:placements .
+
+pl:residentialCareSuitability a owl:ObjectProperty ;
+    rdfs:label "residentialCareSuitability" ;
+    rdfs:range pl:suitability-level ;
+    skos:definition "Suitability of residential care for this child." ;
+    skos:inScheme pl:placements .
+
+pl:riskAssessment a owl:ObjectProperty ;
+    rdfs:label "riskAssessment" ;
+    rdfs:range pl:RiskAssessment ;
+    skos:definition "Links a Placement to its RiskAssessment." ;
+    skos:inScheme pl:placements .
+
+pl:riskCriminalExploitation a owl:ObjectProperty ;
+    rdfs:label "riskCriminalExploitation" ;
+    rdfs:range pl:risk-level ;
+    skos:definition "Whether the child is known to be at risk of criminal exploitation." ;
+    skos:inScheme pl:placements .
+
+pl:riskDrugAlcohol a owl:ObjectProperty ;
+    rdfs:label "riskDrugAlcohol" ;
+    rdfs:range pl:risk-level ;
+    skos:definition "Whether the child is known to be at risk of drug and alcohol use." ;
+    skos:inScheme pl:placements .
+
+pl:riskEatingDisorder a owl:ObjectProperty ;
+    rdfs:label "riskEatingDisorder" ;
+    rdfs:range pl:risk-level ;
+    skos:definition "Whether the child is known to be at risk of an eating disorder." ;
+    skos:inScheme pl:placements .
+
+pl:riskMissing a owl:ObjectProperty ;
+    rdfs:label "riskMissing" ;
+    rdfs:range pl:risk-level ;
+    skos:definition "Whether the child is known to be at risk of going missing." ;
+    skos:inScheme pl:placements .
+
+pl:riskOther a owl:ObjectProperty ;
+    rdfs:label "riskOther" ;
+    rdfs:range pl:risk-level ;
+    skos:definition "Whether there is a known risk of other types of harm to the child not captured by the standard risk categories." ;
+    skos:inScheme pl:placements .
+
+pl:riskSelfHarm a owl:ObjectProperty ;
+    rdfs:label "riskSelfHarm" ;
+    rdfs:range pl:risk-level ;
+    skos:definition "Whether the child is known to be at risk of self-harm." ;
+    skos:inScheme pl:placements .
+
+pl:riskSexualExploitation a owl:ObjectProperty ;
+    rdfs:label "riskSexualExploitation" ;
+    rdfs:range pl:risk-level ;
+    skos:definition "Whether the child is known to be at risk of sexual exploitation." ;
+    skos:inScheme pl:placements .
+
+pl:riskToOthersAnimals a owl:ObjectProperty ;
+    rdfs:label "riskToOthersAnimals" ;
+    rdfs:range pl:risk-level ;
+    skos:definition "Whether there is a known risk of harm to animals." ;
+    skos:inScheme pl:placements .
+
+pl:riskToOthersCriminal a owl:ObjectProperty ;
+    rdfs:label "riskToOthersCriminal" ;
+    rdfs:range pl:risk-level ;
+    skos:definition "Whether there is a known risk of criminal exploitation for others in the home." ;
+    skos:inScheme pl:placements .
+
+pl:riskToOthersFire a owl:ObjectProperty ;
+    rdfs:label "riskToOthersFire" ;
+    rdfs:range pl:risk-level ;
+    skos:definition "Whether there is a known risk of fire-setting." ;
+    skos:inScheme pl:placements .
+
+pl:riskToOthersOther a owl:ObjectProperty ;
+    rdfs:label "riskToOthersOther" ;
+    rdfs:range pl:risk-level ;
+    skos:definition "Whether there is a known risk of other types of harm to others not captured by the standard risk categories." ;
+    skos:inScheme pl:placements .
+
+pl:riskToOthersPhysical a owl:ObjectProperty ;
+    rdfs:label "riskToOthersPhysical" ;
+    rdfs:range pl:risk-level ;
+    skos:definition "Whether there is a known risk of physical harm to others." ;
+    skos:inScheme pl:placements .
+
+pl:riskToOthersSexual a owl:ObjectProperty ;
+    rdfs:label "riskToOthersSexual" ;
+    rdfs:range pl:risk-level ;
+    skos:definition "Whether there is a known risk of sexual harm to others." ;
+    skos:inScheme pl:placements .
+
+pl:siblingCount a owl:DatatypeProperty ;
+    rdfs:label "siblingCount" ;
+    rdfs:range xsd:nonNegativeInteger ;
+    skos:definition "How many siblings the child should ideally be placed with according to the care plan. 0 if the child has no siblings or is not to be placed with siblings." ;
+    skos:inScheme pl:placements .
+
+pl:siblingsPlacedTogether a owl:DatatypeProperty ;
+    rdfs:label "siblingsPlacedTogether" ;
+    rdfs:range xsd:nonNegativeInteger ;
+    skos:definition "How many siblings were actually placed together." ;
+    skos:inScheme pl:placements .
+
+pl:specificCommunicationRequirement a owl:ObjectProperty ;
+    rdfs:label "specificCommunicationRequirement" ;
+    rdfs:range pl:communication-need ;
+    skos:definition "Specific communication or language requirement (ESOL, BSL, Makaton, Other, None). Multi-valued: a placement may have several." ;
+    skos:inScheme pl:placements .
+
+pl:supportedAccommodationSuitability a owl:ObjectProperty ;
+    rdfs:label "supportedAccommodationSuitability" ;
+    rdfs:range pl:suitability-level ;
+    skos:definition "Suitability of supported accommodation for this child." ;
+    skos:inScheme pl:placements .
+
+pl:totalWeeklyCost a owl:DatatypeProperty ;
+    rdfs:label "totalWeeklyCost" ;
+    rdfs:range xsd:integer ;
+    skos:definition "Total weekly fee paid for the placement (actual weekly fee paid)." ;
+    skos:inScheme pl:placements .
+
+xsd:nonNegativeInteger a rdfs:Datatype ;
+    owl:equivalentClass [ a rdfs:Datatype ;
+            owl:intersectionOf ( xsd:integer [ a rdfs:Datatype ;
+                        owl:onDatatype xsd:integer ;
+                        owl:withRestrictions ( [ xsd:minInclusive 0 ] ) ] ) ] .
+
+pl:ActualPlacement a owl:Class ;
+    rdfs:label "ActualPlacement" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:providerURN ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:totalWeeklyCost ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:placementLocation ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:isLocationPreferred ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:isEducationContinuous ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:placementType ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:siblingsPlacedTogether ] ;
+    skos:definition "The placement actually arranged for the child, including total weekly cost, location, provider URN, sibling co-placement and educational continuity. Optional - a Placement may not (yet) have one." ;
+    skos:exactMatch pl:ActualPlacement ;
+    skos:inScheme pl:placements .
+
+pl:PlacementAvailability a owl:Class ;
+    rdfs:label "PlacementAvailability" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty pl:siblingCount ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty pl:neededBy ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty pl:preferredLocation ] ;
+    skos:definition "The referral request details: how urgently the child needs to be placed, how many siblings should be placed together, and the preferred location for the home search." ;
+    skos:exactMatch pl:PlacementAvailability ;
+    skos:inScheme pl:placements .
+
+pl:PlacementRecommendation a owl:Class ;
+    rdfs:label "PlacementRecommendation" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:fosterCareSuitability ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:supportedAccommodationSuitability ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:residentialCareSuitability ] ;
+    skos:definition "The social worker's recommendation of which categories of placement (foster, residential, supported accommodation) are preferred, suitable but not preferred, unsuitable, or unspecified." ;
+    skos:exactMatch pl:PlacementRecommendation ;
+    skos:inScheme pl:placements .
+
+pl:PlacementRequirements a owl:Class ;
+    rdfs:label "PlacementRequirements" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty pl:additionalSupport ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:homeAdaptationRequired ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:livingCompanions ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:communicationNeeds ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty pl:deprivationOfLiberty ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty pl:specificCommunicationRequirement ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:pets ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:culturalNeeds ] ;
+    skos:definition "The child's needs that the placement must accommodate: communication, cultural, living companions, pets, additional support, deprivation of liberty and home adaptation." ;
+    skos:exactMatch pl:PlacementRequirements ;
+    skos:inScheme pl:placements .
+
+pl:QualityAssurance a owl:Class ;
+    rdfs:label "QualityAssurance" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty pl:referralOfficerName ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:referralDate ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:placementOfficerName ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty pl:costOfficerName ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:costDate ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:placementDate ] ;
+    skos:definition "Metadata about who recorded each part of the placement record (referral, placement, cost) and when. Supports LA-internal review of data-entry practices; not intended to be shared beyond the recording LA." ;
+    skos:exactMatch pl:QualityAssurance ;
+    skos:inScheme pl:placements .
+
+pl:RiskAssessment a owl:Class ;
+    rdfs:label "RiskAssessment" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:riskMissing ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:riskToOthersFire ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:riskToOthersPhysical ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:riskToOthersOther ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:riskOther ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:riskToOthersCriminal ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:riskCriminalExploitation ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:riskDrugAlcohol ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:riskSexualExploitation ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:riskEatingDisorder ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:riskToOthersAnimals ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:riskSelfHarm ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:riskToOthersSexual ] ;
+    skos:definition "Assessment of risks the child is exposed to and risks the child poses to others or property. Each risk is recorded as 'no known risk' or 'risk present'." ;
+    skos:exactMatch pl:RiskAssessment ;
+    skos:inScheme pl:placements .
+
+cn:BSL a owl:Class ;
+    rdfs:label "BSL" ;
+    dct:title "BSL" ;
+    rdfs:subClassOf pl:communication-need ;
+    skos:definition "British Sign Language is required." .
+
+cn:ESOL a owl:Class ;
+    rdfs:label "ESOL" ;
+    dct:title "ESOL" ;
+    rdfs:subClassOf pl:communication-need ;
+    skos:definition "English for Speakers of Other Languages support is required." .
+
+cn:Makaton a owl:Class ;
+    rdfs:label "Makaton" ;
+    dct:title "Makaton" ;
+    rdfs:subClassOf pl:communication-need ;
+    skos:definition "Makaton signing/symbol communication is required." .
+
+cn:None a owl:Class ;
+    rdfs:label "None" ;
+    dct:title "None" ;
+    rdfs:subClassOf pl:communication-need ;
+    skos:definition "No specific communication or language requirements." .
+
+cn:Other a owl:Class ;
+    rdfs:label "Other" ;
+    dct:title "Other" ;
+    rdfs:subClassOf pl:communication-need ;
+    skos:definition "Another communication or language requirement not listed." .
+
+cln:NotKnown a owl:Class ;
+    rdfs:label "Not Known" ;
+    dct:title "Not known" ;
+    rdfs:subClassOf pl:cultural-need ;
+    skos:definition "Whether cultural accommodations are required is not known." .
+
+cln:NotRequired a owl:Class ;
+    rdfs:label "Not Required" ;
+    dct:title "Not required" ;
+    rdfs:subClassOf pl:cultural-need ;
+    skos:definition "No specific cultural accommodations are required." .
+
+cln:Other a owl:Class ;
+    rdfs:label "Other" ;
+    dct:title "Other" ;
+    rdfs:subClassOf pl:cultural-need ;
+    skos:definition "Other cultural needs apply." .
+
+cln:Required a owl:Class ;
+    rdfs:label "Required" ;
+    dct:title "Required" ;
+    rdfs:subClassOf pl:cultural-need ;
+    skos:definition "Specific cultural accommodations are required." .
+
+la:NoPreference a owl:Class ;
+    rdfs:label "No preference" ;
+    dct:title "No preference" ;
+    rdfs:subClassOf pl:living-arrangement ;
+    skos:definition "No preference about who the child lives alongside." .
+
+la:OnlyWithOlderChildren a owl:Class ;
+    rdfs:label "Only with other older children" ;
+    dct:title "Only with other older children" ;
+    rdfs:subClassOf pl:living-arrangement ;
+    skos:definition "The child should only live with other children who are older." .
+
+la:OnlyWithYoungerChildren a owl:Class ;
+    rdfs:label "Only with other younger children" ;
+    dct:title "Only with other younger children" ;
+    rdfs:subClassOf pl:living-arrangement ;
+    skos:definition "The child should only live with other children who are younger." .
+
+la:SoloPlacement a owl:Class ;
+    rdfs:label "Solo placement recommended" ;
+    dct:title "Solo placement recommended" ;
+    rdfs:subClassOf pl:living-arrangement ;
+    skos:definition "A solo placement is recommended; the child should not live with other children." .
+
+la:WithOtherChildren a owl:Class ;
+    rdfs:label "With other children recommended" ;
+    dct:title "With other children recommended" ;
+    rdfs:subClassOf pl:living-arrangement ;
+    skos:definition "Living with other children is recommended." .
+
+pa:No a owl:Class ;
+    rdfs:label "False" ;
+    dct:title "No" ;
+    rdfs:subClassOf pl:pets-allowance ;
+    skos:definition "The child cannot live in a home with pets/animals." .
+
+pa:NotKnown a owl:Class ;
+    rdfs:label "Not known" ;
+    dct:title "Not known" ;
+    rdfs:subClassOf pl:pets-allowance ;
+    skos:definition "Whether the child can live with pets/animals is not known." .
+
+pa:YesCan a owl:Class ;
+    rdfs:label "Yes-can" ;
+    dct:title "Yes - can" ;
+    rdfs:subClassOf pl:pets-allowance ;
+    skos:definition "The child can live in a home with pets/animals." .
+
+pa:YesMust a owl:Class ;
+    rdfs:label "Yes-must" ;
+    dct:title "Yes - must" ;
+    rdfs:subClassOf pl:pets-allowance ;
+    skos:definition "The child must live in a home with pets/animals." .
+
+pt:Foster a owl:Class ;
+    rdfs:label "Foster" ;
+    dct:title "Foster" ;
+    rdfs:subClassOf pl:placement-type ;
+    skos:definition "A placement with an approved foster carer." .
+
+pt:Residential a owl:Class ;
+    rdfs:label "Residential" ;
+    dct:title "Residential" ;
+    rdfs:subClassOf pl:placement-type ;
+    skos:definition "A placement in a residential children's home." .
+
+pt:SupportedAccommodation a owl:Class ;
+    rdfs:label "Supported Accommodation" ;
+    dct:title "Supported Accommodation" ;
+    rdfs:subClassOf pl:placement-type ;
+    skos:definition "A supported accommodation placement (typically for older young people)." .
+
+pu:MoreThanFiveDays a owl:Class ;
+    rdfs:label "> 5 days" ;
+    dct:title "More than 5 days" ;
+    rdfs:subClassOf pl:placement-urgency ;
+    skos:definition "Placement is needed in more than five days." .
+
+pu:Today a owl:Class ;
+    rdfs:label "Today" ;
+    dct:title "Today" ;
+    rdfs:subClassOf pl:placement-urgency ;
+    skos:definition "Placement is needed today." .
+
+pu:WithinFiveDays a owl:Class ;
+    rdfs:label "< 5 days" ;
+    dct:title "Within 5 days" ;
+    rdfs:subClassOf pl:placement-urgency ;
+    skos:definition "Placement is needed within five days." .
+
+yns:No a owl:Class ;
+    rdfs:label "False" ;
+    dct:title "No" ;
+    rdfs:subClassOf pl:presence-status ;
+    skos:definition "Negative." .
+
+yns:NotSpecified a owl:Class ;
+    rdfs:label "Not specified" ;
+    dct:title "Not specified" ;
+    rdfs:subClassOf pl:presence-status ;
+    skos:definition "Not specified." .
+
+yns:Yes a owl:Class ;
+    rdfs:label "True" ;
+    dct:title "True" ;
+    rdfs:subClassOf pl:presence-status ;
+    skos:definition "Affirmative." .
+
+rl:NoKnownRisk a owl:Class ;
+    rdfs:label "No known risk" ;
+    dct:title "No known risk" ;
+    rdfs:subClassOf pl:risk-level ;
+    skos:definition "There is no known risk." .
+
+rl:RiskPresent a owl:Class ;
+    rdfs:label "Risk present" ;
+    dct:title "Risk present" ;
+    rdfs:subClassOf pl:risk-level ;
+    skos:definition "A risk is known to be present." .
+
+sl:NotSpecified a owl:Class ;
+    rdfs:label "Not specified" ;
+    dct:title "Not specified" ;
+    rdfs:subClassOf pl:suitability-level ;
+    skos:definition "Suitability has not been specified." .
+
+sl:Preferred a owl:Class ;
+    rdfs:label "Preferred" ;
+    dct:title "Preferred" ;
+    rdfs:subClassOf pl:suitability-level ;
+    skos:definition "This category of placement is the preferred option for the child." .
+
+sl:SuitableButNotPreferred a owl:Class ;
+    rdfs:label "Suitable but not preferred" ;
+    dct:title "Suitable but not preferred" ;
+    rdfs:subClassOf pl:suitability-level ;
+    skos:definition "This category of placement would be suitable but is not the preferred option." .
+
+sl:Unsuitable a owl:Class ;
+    rdfs:label "Unsuitable" ;
+    dct:title "Unsuitable" ;
+    rdfs:subClassOf pl:suitability-level ;
+    skos:definition "This category of placement is unsuitable for the child." .
+
+st:AdditionalSupervision a owl:Class ;
+    rdfs:label "Additional supervision" ;
+    dct:title "Additional supervision" ;
+    rdfs:subClassOf pl:support-type ;
+    skos:definition "Additional supervision is required." .
+
+st:NotApplicable a owl:Class ;
+    rdfs:label "NA" ;
+    dct:title "Not applicable" ;
+    rdfs:subClassOf pl:support-type ;
+    skos:definition "No additional support is required." .
+
+st:Other a owl:Class ;
+    rdfs:label "Other" ;
+    dct:title "Other" ;
+    rdfs:subClassOf pl:support-type ;
+    skos:definition "Other additional support is required (please specify)." .
+
+st:TaxisToSchool a owl:Class ;
+    rdfs:label "Taxis to school" ;
+    dct:title "Taxis to school" ;
+    rdfs:subClassOf pl:support-type ;
+    skos:definition "Taxis to and from school are required." .
+
+st:TherapeuticSupport a owl:Class ;
+    rdfs:label "Therapeutic support" ;
+    dct:title "Therapeutic support" ;
+    rdfs:subClassOf pl:support-type ;
+    skos:definition "Therapeutic support is required." .
+
+st:WorkerForRespite a owl:Class ;
+    rdfs:label "A worker for respite" ;
+    dct:title "A worker for respite" ;
+    rdfs:subClassOf pl:support-type ;
+    skos:definition "A worker is required to provide respite." .
+
+pl:placement-type a owl:Class ;
+    rdfs:label "PlacementType" ;
+    dct:title "Placement Type" ;
+    owl:unionOf ( pt:Foster pt:Residential pt:SupportedAccommodation ) ;
+    skos:definition "Controlled vocabulary for the type of placement a child receives." ;
+    skos:inScheme pl:placements ;
+    linkml:permissible_values pt:Foster,
+        pt:Residential,
+        pt:SupportedAccommodation .
+
+pl:placement-urgency a owl:Class ;
+    rdfs:label "PlacementUrgency" ;
+    dct:title "Placement Urgency" ;
+    owl:unionOf ( pu:Today pu:WithinFiveDays pu:MoreThanFiveDays ) ;
+    skos:definition "Controlled vocabulary for the urgency of a placement request." ;
+    skos:inScheme pl:placements ;
+    linkml:permissible_values pu:MoreThanFiveDays,
+        pu:Today,
+        pu:WithinFiveDays .
+
+pl:presence-status a owl:Class ;
+    rdfs:label "PresenceStatus" ;
+    dct:title "Yes / No / Not Specified" ;
+    owl:unionOf ( yns:Yes yns:No yns:NotSpecified ) ;
+    skos:definition "Three-valued data presence status (affirmative, negative, unspecified)." ;
+    skos:inScheme pl:placements ;
+    linkml:permissible_values yns:No,
+        yns:NotSpecified,
+        yns:Yes .
+
+pl:cultural-need a owl:Class ;
+    rdfs:label "CulturalNeed" ;
+    dct:title "Cultural Need" ;
+    owl:unionOf ( cln:Required cln:NotRequired cln:NotKnown cln:Other ) ;
+    skos:definition "Controlled vocabulary for whether a child has specific cultural needs." ;
+    skos:inScheme pl:placements ;
+    linkml:permissible_values cln:NotKnown,
+        cln:NotRequired,
+        cln:Other,
+        cln:Required .
+
+pl:pets-allowance a owl:Class ;
+    rdfs:label "PetsAllowance" ;
+    dct:title "Pets Allowance" ;
+    owl:unionOf ( pa:YesMust pa:YesCan pa:No pa:NotKnown ) ;
+    skos:definition "Controlled vocabulary describing whether a child can or must live in a home with pets/animals." ;
+    skos:inScheme pl:placements ;
+    linkml:permissible_values pa:No,
+        pa:NotKnown,
+        pa:YesCan,
+        pa:YesMust .
+
+pl:communication-need a owl:Class ;
+    rdfs:label "CommunicationNeed" ;
+    dct:title "Communication Need" ;
+    owl:unionOf ( cn:ESOL cn:BSL cn:Makaton cn:Other cn:None ) ;
+    skos:definition "Controlled vocabulary for specific communication and language requirements." ;
+    skos:inScheme pl:placements ;
+    linkml:permissible_values cn:BSL,
+        cn:ESOL,
+        cn:Makaton,
+        cn:None,
+        cn:Other .
+
+pl:living-arrangement a owl:Class ;
+    rdfs:label "LivingArrangement" ;
+    dct:title "Living Arrangement" ;
+    owl:unionOf ( la:SoloPlacement la:WithOtherChildren la:OnlyWithOlderChildren la:OnlyWithYoungerChildren la:NoPreference ) ;
+    skos:definition "Controlled vocabulary describing who the child can be cared for alongside." ;
+    skos:inScheme pl:placements ;
+    linkml:permissible_values la:NoPreference,
+        la:OnlyWithOlderChildren,
+        la:OnlyWithYoungerChildren,
+        la:SoloPlacement,
+        la:WithOtherChildren .
+
+pl:suitability-level a owl:Class ;
+    rdfs:label "SuitabilityLevel" ;
+    dct:title "Suitability Level" ;
+    owl:unionOf ( sl:Preferred sl:SuitableButNotPreferred sl:Unsuitable sl:NotSpecified ) ;
+    skos:definition "Controlled vocabulary for how suitable a placement category is for a child." ;
+    skos:inScheme pl:placements ;
+    linkml:permissible_values sl:NotSpecified,
+        sl:Preferred,
+        sl:SuitableButNotPreferred,
+        sl:Unsuitable .
+
+pl:support-type a owl:Class ;
+    rdfs:label "SupportType" ;
+    dct:title "Support Type" ;
+    owl:unionOf ( st:AdditionalSupervision st:TherapeuticSupport st:WorkerForRespite st:TaxisToSchool st:NotApplicable st:Other ) ;
+    skos:definition "Controlled vocabulary for additional support provision required alongside a placement." ;
+    skos:inScheme pl:placements ;
+    linkml:permissible_values st:AdditionalSupervision,
+        st:NotApplicable,
+        st:Other,
+        st:TaxisToSchool,
+        st:TherapeuticSupport,
+        st:WorkerForRespite .
+
+pl:risk-level a owl:Class ;
+    rdfs:label "RiskLevel" ;
+    dct:title "Risk Level" ;
+    owl:unionOf ( rl:NoKnownRisk rl:RiskPresent ) ;
+    skos:definition "Binary controlled vocabulary recording whether a particular risk is present." ;
+    skos:inScheme pl:placements ;
+    linkml:permissible_values rl:NoKnownRisk,
+        rl:RiskPresent .
+

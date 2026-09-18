@@ -1,0 +1,157 @@
+{
+  "@context": {
+    "p":   "https://ontology.socialcaredata.io/",
+    "nuc": "https://ontology.socialcaredata.io/name-use-code#",
+    "auc": "https://ontology.socialcaredata.io/address-use-code#",
+    "gc":  "https://ontology.socialcaredata.io/gender-code#",
+    "psc": "https://ontology.socialcaredata.io/phenotypic-sex-code#",
+    "ec":  "https://ontology.socialcaredata.io/ethnicity-code#",
+    "dai": "https://ontology.socialcaredata.io/date-accuracy-indicator#",
+    "prc": "https://ontology.socialcaredata.io/person-relationship-code#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "ex":  "https://example.org/person/",
+
+    "Person":             "p:Person",
+    "Identifier":         "p:Identifier",
+    "Name": {
+      "@id": "p:Name",
+      "@context": {
+        "use": {
+          "@id": "p:use",
+          "@type": "@vocab",
+          "@context": {
+            "@vocab": "https://ontology.socialcaredata.io/name-use-code#",
+            "usual":     "nuc:Usual",
+            "official":  "nuc:Official",
+            "temp":      "nuc:Temp",
+            "nickname":  "nuc:Nickname",
+            "anonymous": "nuc:Anonymous",
+            "old":       "nuc:Old",
+            "maiden":    "nuc:Maiden"
+          }
+        }
+      }
+    },
+    "Address": {
+      "@id": "p:Address",
+      "@context": {
+        "use": {
+          "@id": "p:use",
+          "@type": "@vocab",
+          "@context": {
+            "@vocab": "https://ontology.socialcaredata.io/address-use-code#",
+            "home":    "auc:Home",
+            "work":    "auc:Work",
+            "temp":    "auc:Temp",
+            "old":     "auc:Old",
+            "billing": "auc:Billing"
+          }
+        }
+      }
+    },
+    "Contact": {
+      "@id": "p:Contact",
+      "@context": {
+        "name": "p:contactName"
+      }
+    },
+    "PersonRelationship": "p:PersonRelationship",
+    "PartialDate":        "p:PartialDate",
+    "Communication":      "p:Communication",
+    "Language":           "p:Language",
+
+    "identifier":                    { "@id": "p:identifier",                   "@type": "@id", "@container": "@set" },
+    "name":                          { "@id": "p:name",                         "@type": "@id", "@container": "@set" },
+    "dateOfBirth":                   { "@id": "p:dateOfBirth",                  "@type": "@id" },
+    "isDeceased":                    { "@id": "p:isDeceased",                   "@type": "xsd:boolean" },
+    "deceasedDate":                  { "@id": "p:deceasedDate",                 "@type": "@id" },
+    "address":                       { "@id": "p:address",                      "@type": "@id", "@container": "@set" },
+    "contact":                       { "@id": "p:contact",                      "@type": "@id", "@container": "@set" },
+    "relatedPerson":                 { "@id": "p:relatedPerson",                "@type": "@id", "@container": "@set" },
+    "primaryContactProfessional":    { "@id": "p:primaryContactProfessional",   "@type": "@id", "@container": "@set" },
+    "matchedPersonRef":              { "@id": "p:matchedPersonRef",             "@type": "@id", "@container": "@set" },
+    "aboutMe":                       { "@id": "p:aboutMe",                      "@type": "@id" },
+    "communication":                 { "@id": "p:communication",                "@type": "@id", "@container": "@set" },
+    "specialCommunicationNeeds":     "p:specialCommunicationNeeds",
+    "language":                      { "@id": "p:language",                     "@type": "@id", "@container": "@set" },
+    "languageCode":                  "p:languageCode",
+    "proficiencyLevel":              "p:proficiencyLevel",
+
+    "value":             "p:value",
+    "system":            { "@id": "p:system", "@type": "@id" },
+
+    "familyName":        { "@id": "p:familyName",    "@container": "@set" },
+    "givenName":         { "@id": "p:givenName",     "@container": "@set" },
+    "preferredName":     "p:preferredName",
+
+    "line1":    "p:line1",
+    "line2":    "p:line2",
+    "city":     "p:city",
+    "postcode": "p:postcode",
+    "UPRN":     "p:UPRN",
+    "USRN":     "p:USRN",
+
+    "email":     { "@id": "p:email",     "@container": "@set" },
+    "telephone": { "@id": "p:telephone", "@container": "@set" },
+
+    "relationship": {
+      "@id": "p:relationship",
+      "@type": "@vocab",
+      "@container": "@set",
+      "@context": { "@vocab": "https://ontology.socialcaredata.io/person-relationship-code#" }
+    },
+
+    "date":              { "@id": "p:date", "@type": "xsd:date" },
+    "accuracyIndicator": "p:accuracyIndicator",
+
+    "genderCode": {
+      "@id": "p:genderCode",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ontology.socialcaredata.io/gender-code#",
+        "1": "gc:Male",
+        "2": "gc:Female",
+        "9": "gc:Indeterminate",
+        "X": "gc:NotKnown"
+      }
+    },
+    "sexCode": {
+      "@id": "p:sexCode",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ontology.socialcaredata.io/phenotypic-sex-code#",
+        "1": "psc:Male",
+        "2": "psc:Female",
+        "9": "psc:Indeterminate",
+        "X": "psc:NotKnown"
+      }
+    },
+    "ethnicityCode": {
+      "@id": "p:ethnicityCode",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ontology.socialcaredata.io/ethnicity-code#",
+        "1":  "ec:AsianBangladeshi",
+        "2":  "ec:AsianChinese",
+        "3":  "ec:AsianIndian",
+        "4":  "ec:AsianPakistani",
+        "5":  "ec:AsianOther",
+        "6":  "ec:BlackAfrican",
+        "7":  "ec:BlackCaribbean",
+        "8":  "ec:BlackOther",
+        "9":  "ec:MixedWhiteAsian",
+        "10": "ec:MixedWhiteBlackAfrican",
+        "11": "ec:MixedWhiteBlackCaribbean",
+        "12": "ec:MixedOther",
+        "13": "ec:WhiteBritish",
+        "14": "ec:WhiteIrish",
+        "15": "ec:WhiteGypsyOrIrishTraveller",
+        "16": "ec:WhiteRoma",
+        "17": "ec:WhiteOther",
+        "18": "ec:OtherArab",
+        "19": "ec:OtherAny",
+        "-8": "ec:DoesNotApply"
+      }
+    }
+  }
+}

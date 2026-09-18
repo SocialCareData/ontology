@@ -1,0 +1,47 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix p: <https://ontology.socialcaredata.io/> .
+@prefix pav: <http://purl.org/pav/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+p:Person a owl:Class ;
+    rdfs:label "Person" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty p:sexCode ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty p:name ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty p:genderCode ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty p:deceasedDate ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty p:isDeceased ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty p:ethnicityCode ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty p:aboutMe ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty p:dateOfBirth ] ;
+    skos:definition "A person recorded as connected to a subject of care. All demographic data is optional; only a Name is mandatory." ;
+    skos:exactMatch p:Person ;
+    skos:inScheme p:person-connected .
+
+p:person-connected a owl:Ontology ;
+    rdfs:label "person-connected" ;
+    dcterms:license "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" ;
+    dcterms:title "Person Standard - Connected Person profile" ;
+    pav:version "1.0.0" ;
+    owl:imports p:person ;
+    skos:definition """Conformance profile for a p:Person who is recorded as *connected* to a subject of care (e.g. a family member, friend, or other related individual). Imports the shared core (person-standard.yaml) and redefines Person so that all demographic data is optional and only a Name is mandatory. A connected person carries at most one Contact and at most one relatedPerson reference. Sub-entity shapes and controlled vocabularies are inherited unchanged from the core.
+SHACL generated from this file is the LinkML equivalent of the hand-written manual-person-connected-shacl-shape.ttl.""" .
+

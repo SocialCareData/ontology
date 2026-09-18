@@ -1,0 +1,406 @@
+@prefix cln: <https://ontology.socialcaredata.io/cultural-need#> .
+@prefix cn: <https://ontology.socialcaredata.io/communication-need#> .
+@prefix la: <https://ontology.socialcaredata.io/living-arrangement#> .
+@prefix nam: <https://ontology.socialcaredata.io/needs-assessment-method#> .
+@prefix nplr: <https://ontology.socialcaredata.io/non-preferred-location-reason#> .
+@prefix pa: <https://ontology.socialcaredata.io/pets-allowance#> .
+@prefix pl: <https://ontology.socialcaredata.io/> .
+@prefix psr: <https://ontology.socialcaredata.io/placement-source#> .
+@prefix pt: <https://ontology.socialcaredata.io/placement-type#> .
+@prefix pu: <https://ontology.socialcaredata.io/placement-urgency#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rl: <https://ontology.socialcaredata.io/risk-level#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix sl: <https://ontology.socialcaredata.io/suitability-level#> .
+@prefix st: <https://ontology.socialcaredata.io/support-type#> .
+@prefix uasc: <https://ontology.socialcaredata.io/uasc-status#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix yns: <https://ontology.socialcaredata.io/presence-status#> .
+
+pl:ActualPlacementShape a sh:NodeShape ;
+    rdfs:comment "The placement actually arranged for the child, including weekly cost (with optional breakdown), location, provider URN, sibling co-placement and educational continuity. Optional - a Placement may not (yet) have one." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "How the placement was sourced." ;
+            sh:in ( psr:RCCContract psr:OtherRegionalContract psr:DirectAwardOffFramework psr:LocalContractOrFramework psr:BlockContract psr:Remand psr:SecureWelfareHub ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 2 ;
+            sh:path pl:placementSource ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Whether the child's education was continuous (i.e., not disrupted) as a result of this placement." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 7 ;
+            sh:path pl:isEducationContinuous ],
+        [ sh:datatype xsd:decimal ;
+            sh:description "Total weekly core cost: the basic price quoted by a provider to deliver the service outlined in their Statement of Purpose, excluding child-specific additional costs." ;
+            sh:maxCount 1 ;
+            sh:minInclusive 0 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 10 ;
+            sh:path pl:coreWeeklyCost ],
+        [ sh:datatype xsd:decimal ;
+            sh:description "Total weekly additional-support cost: costs incurred over and above the core cost to meet the specific needs of the child." ;
+            sh:maxCount 1 ;
+            sh:minInclusive 0 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 11 ;
+            sh:path pl:additionalSupportWeeklyCost ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Whether the actual placement location was a preferred location." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 5 ;
+            sh:path pl:isLocationPreferred ],
+        [ sh:description "The type of placement the child received." ;
+            sh:in ( pt:Foster pt:Residential pt:SupportedAccommodation ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path pl:placementType ],
+        [ sh:datatype xsd:decimal ;
+            sh:description "Any weekly placement costs that do not clearly fall within the core, additional-support or education categories." ;
+            sh:maxCount 1 ;
+            sh:minInclusive 0 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 13 ;
+            sh:path pl:otherWeeklyCost ],
+        [ sh:datatype xsd:date ;
+            sh:description "The date the placement started." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path pl:placementStartDate ],
+        [ sh:datatype xsd:decimal ;
+            sh:description "Total weekly education cost: recorded when the placement includes both care and registered education provision." ;
+            sh:maxCount 1 ;
+            sh:minInclusive 0 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 12 ;
+            sh:path pl:educationWeeklyCost ],
+        [ sh:description "The reason the placement was not found in the preferred location. Use 'Not applicable' when the placement was in the preferred location." ;
+            sh:in ( nplr:CYPParentalPreference nplr:SafeguardingRequirement nplr:ProvisionWithinDistanceNotAvailable nplr:ProvisionWithinDistanceDoesNotExist nplr:CarerMovingOutOfArea nplr:LegalReasons nplr:NotApplicable ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 6 ;
+            sh:path pl:nonPreferredLocationReason ],
+        [ sh:datatype xsd:string ;
+            sh:description "First 3-4 characters of the postcode (UK outward code) for the actual placement location." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 4 ;
+            sh:path pl:placementLocation ;
+            sh:pattern "^[A-Z]{1,2}[0-9][0-9A-Z]?$" ],
+        [ sh:datatype xsd:nonNegativeInteger ;
+            sh:description "How many siblings were actually placed together." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 8 ;
+            sh:path pl:siblingsPlacedTogether ],
+        [ sh:datatype xsd:decimal ;
+            sh:description "Total weekly fee paid for the placement, excluding VAT. Expected to be between £100 and £100,000." ;
+            sh:maxCount 1 ;
+            sh:maxInclusive 100000 ;
+            sh:minCount 1 ;
+            sh:minInclusive 100 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 9 ;
+            sh:path pl:totalWeeklyCost ],
+        [ sh:datatype xsd:string ;
+            sh:description "Provider Unique Reference Number, linked to Ofsted registration. Allows the placement to be linked to Ofsted data about the provider." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 3 ;
+            sh:path pl:providerURN ] ;
+    sh:targetClass pl:ActualPlacement .
+
+pl:PlacementAvailabilityShape a sh:NodeShape ;
+    rdfs:comment "The referral request details: how urgently the child needs to be placed, how many siblings should be placed together, whether the preferred location is local, and (if out of area) why." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "Whether the child is an unaccompanied asylum-seeking child (UASC)." ;
+            sh:in ( uasc:Yes uasc:No uasc:NotApplicable ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 2 ;
+            sh:path pl:uascStatus ],
+        [ sh:description "When the child needs to be placed by. Captures urgency rather than an absolute date." ;
+            sh:in ( pu:Today pu:WithinFiveDays pu:MoreThanFiveDays ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path pl:neededBy ],
+        [ sh:datatype xsd:nonNegativeInteger ;
+            sh:description "How many siblings the child should ideally be placed with according to the care plan. 0 if the child has no siblings or is not to be placed with siblings." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path pl:siblingCount ] ;
+    sh:targetClass pl:PlacementAvailability .
+
+pl:PlacementRecommendationShape a sh:NodeShape ;
+    rdfs:comment "The social worker's recommendation of which categories of placement (foster, residential, supported accommodation) are preferred, suitable but not preferred, unsuitable, or unspecified." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "Suitability of residential care for this child." ;
+            sh:in ( sl:Preferred sl:SuitableButNotPreferred sl:Unsuitable sl:NotSpecified ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 1 ;
+            sh:path pl:residentialCareSuitability ],
+        [ sh:description "Suitability of supported accommodation for this child." ;
+            sh:in ( sl:Preferred sl:SuitableButNotPreferred sl:Unsuitable sl:NotSpecified ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 2 ;
+            sh:path pl:supportedAccommodationSuitability ],
+        [ sh:description "Suitability of foster care for this child, as judged by the social worker." ;
+            sh:in ( sl:Preferred sl:SuitableButNotPreferred sl:Unsuitable sl:NotSpecified ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path pl:fosterCareSuitability ] ;
+    sh:targetClass pl:PlacementRecommendation .
+
+pl:PlacementRequirementsShape a sh:NodeShape ;
+    rdfs:comment "The child's needs that the placement must accommodate: communication, cultural, living companions, pets, additional support, deprivation of liberty and home adaptation." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:boolean ;
+            sh:description "Whether the child has a Deprivation of Liberty Order (DOL)." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 7 ;
+            sh:path pl:deprivationOfLiberty ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Whether adaptations to the home are required to accommodate the child's needs." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 6 ;
+            sh:path pl:homeAdaptationRequired ],
+        [ sh:description "Additional support provision required (e.g., additional supervision, therapeutic support, taxis to school)." ;
+            sh:in ( st:AdditionalSupervision st:TherapeuticSupport st:WorkerForRespite st:TaxisToSchool st:NotApplicable st:Other ) ;
+            sh:order 5 ;
+            sh:path pl:additionalSupport ],
+        [ sh:description "How the child's needs were assessed." ;
+            sh:in ( nam:BERRI nam:CANS nam:OtherFormalisedTool nam:OtherSocialWorkerAssessment ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 8 ;
+            sh:path pl:needsAssessmentMethod ],
+        [ sh:description "Whether the child has any communication, language or learning needs." ;
+            sh:in ( yns:Yes yns:No yns:NotSpecified ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path pl:communicationNeeds ],
+        [ sh:description "Whether the placement must accommodate specific cultural needs (e.g., access to places of worship)." ;
+            sh:in ( cln:Required cln:NotRequired cln:NotKnown cln:Other ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 2 ;
+            sh:path pl:culturalNeeds ],
+        [ sh:description "Whether the child can or must live in a home with pets/animals." ;
+            sh:in ( pa:YesMust pa:YesCan pa:No pa:NotKnown ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 4 ;
+            sh:path pl:pets ],
+        [ sh:description "Recommendation as to who the child can be cared for alongside (e.g., solo placement, with other children, only older children)." ;
+            sh:in ( la:SoloPlacement la:WithOtherChildren la:OnlyWithOlderChildren la:OnlyWithYoungerChildren la:NoPreference ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 3 ;
+            sh:path pl:livingCompanions ],
+        [ sh:description "Specific communication or language requirement (ESOL, BSL, Makaton, Other, None). Multi-valued: a placement may have several." ;
+            sh:in ( cn:ESOL cn:BSL cn:Makaton cn:Other cn:None ) ;
+            sh:minCount 1 ;
+            sh:order 1 ;
+            sh:path pl:specificCommunicationRequirement ] ;
+    sh:targetClass pl:PlacementRequirements .
+
+pl:PlacementShape a sh:NodeShape ;
+    rdfs:comment "The top-level placement record for a looked-after child, linking together the referral availability, the child's requirements, the social-worker recommendation, the risk assessment, the quality-assurance metadata and (optionally) the placement actually arranged." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "The unique identifier of the placement record within the LA case management system." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path pl:placementId ],
+        [ sh:datatype xsd:string ;
+            sh:description "Identifier unique to each child within the LA, allowing linking between multiple referrals for the same child." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path pl:childId ],
+        [ sh:class pl:PlacementAvailability ;
+            sh:description "Links a Placement to its PlacementAvailability (referral) record." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 2 ;
+            sh:path pl:placementAvailability ],
+        [ sh:class pl:ActualPlacement ;
+            sh:description "Links a Placement to the ActualPlacement that was arranged. Optional - a referral may exist without (yet) having an actual placement." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 7 ;
+            sh:path pl:actualPlacement ],
+        [ sh:class pl:QualityAssurance ;
+            sh:description "Links a Placement to its QualityAssurance metadata." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 6 ;
+            sh:path pl:qualityAssurance ],
+        [ sh:class pl:PlacementRecommendation ;
+            sh:description "Links a Placement to its PlacementRecommendation." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 4 ;
+            sh:path pl:placementRecommendation ],
+        [ sh:class pl:RiskAssessment ;
+            sh:description "Links a Placement to its RiskAssessment." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 5 ;
+            sh:path pl:riskAssessment ],
+        [ sh:class pl:PlacementRequirements ;
+            sh:description "Links a Placement to its PlacementRequirements." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 3 ;
+            sh:path pl:placementRequirements ] ;
+    sh:targetClass pl:Placement .
+
+pl:QualityAssuranceShape a sh:NodeShape ;
+    rdfs:comment "Metadata about who recorded each part of the placement record (referral, placement, cost) and when. Supports LA-internal review of data-entry practices; not intended to be shared beyond the recording LA." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "Name of the officer who recorded the actual placement information." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path pl:placementOfficerName ],
+        [ sh:datatype xsd:string ;
+            sh:description "Name of the officer who recorded the referral information. LA-internal QA only." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 4 ;
+            sh:path pl:referralOfficerName ],
+        [ sh:datatype xsd:date ;
+            sh:description "Date of agreed placement start captured on the Case Management System." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path pl:placementDateAdmin ],
+        [ sh:datatype xsd:date ;
+            sh:description "Date when placement cost data was captured on the Case Management System." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 3 ;
+            sh:path pl:costDate ],
+        [ sh:datatype xsd:date ;
+            sh:description "Date of when referral was captured on the Case Management System." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path pl:referralDate ],
+        [ sh:datatype xsd:string ;
+            sh:description "Name of the officer who recorded the placement cost data." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 5 ;
+            sh:path pl:costOfficerName ] ;
+    sh:targetClass pl:QualityAssurance .
+
+pl:RiskAssessmentShape a sh:NodeShape ;
+    rdfs:comment "Assessment of risks the child is exposed to and risks the child poses to others or property. Each risk is recorded as 'no known risk' or 'risk present'." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "Whether the child is known to be at risk of drug and alcohol use." ;
+            sh:in ( rl:NoKnownRisk rl:RiskPresent ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 2 ;
+            sh:path pl:riskDrugAlcohol ],
+        [ sh:description "Whether there is a known risk of criminal exploitation for others in the home." ;
+            sh:in ( rl:NoKnownRisk rl:RiskPresent ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 10 ;
+            sh:path pl:riskToOthersCriminal ],
+        [ sh:description "Whether the child is known to be at risk of self-harm." ;
+            sh:in ( rl:NoKnownRisk rl:RiskPresent ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path pl:riskSelfHarm ],
+        [ sh:description "Whether the child is known to be at risk of criminal exploitation." ;
+            sh:in ( rl:NoKnownRisk rl:RiskPresent ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 1 ;
+            sh:path pl:riskCriminalExploitation ],
+        [ sh:description "Whether the child is known to be at risk of going missing." ;
+            sh:in ( rl:NoKnownRisk rl:RiskPresent ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 4 ;
+            sh:path pl:riskMissing ],
+        [ sh:description "Whether the child is known to be at risk of an eating disorder." ;
+            sh:in ( rl:NoKnownRisk rl:RiskPresent ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 3 ;
+            sh:path pl:riskEatingDisorder ],
+        [ sh:description "Whether the child is known to be at risk of sexual exploitation." ;
+            sh:in ( rl:NoKnownRisk rl:RiskPresent ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 5 ;
+            sh:path pl:riskSexualExploitation ],
+        [ sh:description "Whether there is a known risk of sexual harm to others." ;
+            sh:in ( rl:NoKnownRisk rl:RiskPresent ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 7 ;
+            sh:path pl:riskToOthersSexual ],
+        [ sh:description "Whether there is a known risk of physical harm to others." ;
+            sh:in ( rl:NoKnownRisk rl:RiskPresent ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 6 ;
+            sh:path pl:riskToOthersPhysical ],
+        [ sh:description "Whether there is a known risk of harm to animals." ;
+            sh:in ( rl:NoKnownRisk rl:RiskPresent ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 9 ;
+            sh:path pl:riskToOthersAnimals ],
+        [ sh:description "Whether there is a known risk of fire-setting." ;
+            sh:in ( rl:NoKnownRisk rl:RiskPresent ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 8 ;
+            sh:path pl:riskToOthersFire ] ;
+    sh:targetClass pl:RiskAssessment .
+

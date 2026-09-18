@@ -1,0 +1,530 @@
+@prefix act: <https://ontology.socialcaredata.io/care-actor-type#> .
+@prefix ap: <https://ontology.socialcaredata.io/> .
+@prefix apc: <https://ontology.socialcaredata.io/care-outcome-type#> .
+@prefix at: <https://ontology.socialcaredata.io/answer-type#> .
+@prefix cds: <https://ontology.socialcaredata.io/care-document-status#> .
+@prefix qc: <https://ontology.socialcaredata.io/question-category#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ap:AddressShape a sh:NodeShape ;
+    rdfs:comment "A postal address. Aligned with FHIR Address. UPRN and USRN support property- and street-level disambiguation." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "Unique Property Reference Number of the address." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 4 ;
+            sh:path ap:UPRN ],
+        [ sh:datatype xsd:string ;
+            sh:description "Apartment, suite, unit, building, floor, etc." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path ap:line2 ],
+        [ sh:description "How this address is used - home, work, temp, etc." ;
+            sh:in ( <https://ontology.socialcaredata.io/address-use-code#Home> <https://ontology.socialcaredata.io/address-use-code#Work> <https://ontology.socialcaredata.io/address-use-code#Temp> <https://ontology.socialcaredata.io/address-use-code#Old> <https://ontology.socialcaredata.io/address-use-code#Billing> ) ;
+            sh:maxCount 1 ;
+            sh:name "use" ;
+            sh:order 6 ;
+            sh:path ap:use ],
+        [ sh:datatype xsd:string ;
+            sh:description "Unique Street Reference Number of the address." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 5 ;
+            sh:path ap:USRN ],
+        [ sh:datatype xsd:string ;
+            sh:description "City, town, or village." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path ap:city ],
+        [ sh:datatype xsd:string ;
+            sh:description "Street address (e.g. \"1 High Street\") or care-of line." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path ap:line1 ],
+        [ sh:datatype xsd:string ;
+            sh:description "UK postcode in standard format (e.g. AB1 2CD)." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 3 ;
+            sh:path ap:postcode ;
+            sh:pattern "^[A-Z]{1,2}[0-9][0-9A-Z]? ?[0-9][A-Z]{2}$" ] ;
+    sh:targetClass ap:Address .
+
+ap:AssessmentQuestionShape a sh:NodeShape ;
+    rdfs:comment "A generic Question-and-Answer model used to represent both statutory Care Act questions and local, personalised fields." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "The exact wording of the question as it appears on the local authority's form." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path ap:questionText ],
+        [ sh:datatype xsd:string ;
+            sh:description "An ID for the question. For statutory questions, this should conform to the dictionary of statutory question IDs; for personalised, non statutory questions, this can be anything or left blank." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path ap:questionId ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Whether this question was mandatory on the local authority’s assessment. Should always be True for statutory fields." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 5 ;
+            sh:path ap:required ],
+        [ sh:description "The domain/category of the question." ;
+            sh:in ( qc:PersonalContext qc:Health qc:Housing qc:Finance qc:CommunicationNeeds qc:CANutrition qc:CAHygiene qc:CAToilet qc:CAClothing qc:CAHomeSafety qc:CAHabitableHome qc:CAMaintainingRelationships qc:CAWTEV qc:CACommunityServices qc:CAResponsibilityForOthers qc:Eligibility qc:Emergencies qc:Other ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 1 ;
+            sh:path ap:category ],
+        [ sh:description "Indicates how the answer should be parsed (e.g., String, Boolean, Date, Number, Enum). Ensures data like dates or booleans aren't trapped as unparsable text." ;
+            sh:in ( at:String at:Boolean at:Date at:Number at:Enum ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 4 ;
+            sh:path ap:answerType ],
+        [ sh:datatype xsd:string ;
+            sh:description "The answer to the question as measured in the assessment." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 3 ;
+            sh:path ap:answer ] ;
+    sh:targetClass ap:AssessmentQuestion .
+
+ap:CareActivityShape a sh:NodeShape ;
+    rdfs:comment "The description and details of the care component activity." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:boolean ;
+            sh:description "Flag whether this component is paid via direct payment." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path ap:directPayment ],
+        [ sh:description "Care Act outcome that this care component is aiming to help the subject person achieve." ;
+            sh:in ( apc:CANutrition apc:CAHygiene apc:CAToilet apc:CAClothing apc:CAHomeSafety apc:CAHabitableHome apc:CAMaintainingRelationships apc:CAWTEV apc:CACommunityServices apc:CAResponsibilityForOthers ) ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path ap:outcome ],
+        [ sh:datatype xsd:string ;
+            sh:description "Text description of the care component." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path ap:activityDescription ] ;
+    sh:targetClass ap:CareActivity .
+
+ap:CareActorShape a sh:NodeShape ;
+    rdfs:comment "The actor performing a care component." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The type of person performing the component of the plan." ;
+            sh:in ( act:Self act:Family act:Friend act:Community act:OtherUnpaidCarer act:ProfessionalServices ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path ap:actorType ],
+        [ sh:class ap:Identifier ;
+            sh:description "The ID of the person performing the item of the plan (Person ID, professional ID, or service ID)." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 1 ;
+            sh:path ap:actorId ] ;
+    sh:targetClass ap:CareActor .
+
+ap:CareComponentShape a sh:NodeShape ;
+    rdfs:comment "A specific component of a Care Plan, capturing who does what, when, and to achieve which outcomes." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class ap:CareActor ;
+            sh:description "The actors performing this component of the plan." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path ap:actor ],
+        [ sh:class ap:CareTiming ;
+            sh:description "The schedule and timing information of this component of the plan." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 1 ;
+            sh:path ap:time ],
+        [ sh:class ap:CareActivity ;
+            sh:description "The activity details of this component of the plan." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 2 ;
+            sh:path ap:activity ] ;
+    sh:targetClass ap:CareComponent .
+
+ap:CareNeedsAssessmentShape a sh:NodeShape ;
+    rdfs:comment "A Care Needs Assessment record, completed when an adult contacts or is referred to a local authority's social services team." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:boolean ;
+            sh:description "Does the person have the mental and physical capacity to complete this assessment / plan?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 7 ;
+            sh:path ap:capacityToCompleteAssessment ],
+        [ sh:class ap:Review ;
+            sh:description "List of reviews." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 10 ;
+            sh:path ap:review ],
+        [ sh:description "Status of the document. Lifted from FHIR CarePlan status." ;
+            sh:in ( cds:draft cds:active cds:on-hold cds:entered-in-error cds:ended cds:completed cds:revoked cds:unknown ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 1 ;
+            sh:path ap:status ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Does the person require an advocate to complete this assessment / plan?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 8 ;
+            sh:path ap:advocateRequired ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Does the person consent to information sharing?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 9 ;
+            sh:path ap:consentToInformationSharing ],
+        [ sh:class ap:AssessmentQuestion ;
+            sh:description "The set of assessment questions and answers." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 2 ;
+            sh:path ap:assessmentQuestion ],
+        [ sh:class ap:Identifier ;
+            sh:description "Identifier for the safeguarding or care service episode during which this assessment / plan was completed." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 11 ;
+            sh:path ap:serviceEpisodeId ],
+        [ sh:datatype xsd:dateTime ;
+            sh:description "Date and time that the assessment / plan was completed." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 6 ;
+            sh:path ap:dateCompleted ],
+        [ sh:class ap:Identifier ;
+            sh:description "Any care plan linked to this assessment. Quick signpost that a) a plan was made (ie the person was determined to be eligible) and b) where the plan is (so you don't need to search for it)." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path ap:planId ],
+        [ sh:class ap:Identifier ;
+            sh:description "Identifier for the professional that authored the assessment/plan. Note that we don't need a serviceID, because you can find the service through the professional." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 5 ;
+            sh:path ap:professionalId ],
+        [ sh:class ap:Identifier ;
+            sh:description "Identifier for the subject person." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 4 ;
+            sh:path ap:personId ],
+        [ sh:class ap:Identifier ;
+            sh:description "Identifier for this assessment / plan." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "identifier" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 3 ;
+            sh:path ap:identifier ] ;
+    sh:targetClass ap:CareNeedsAssessment .
+
+ap:CarePlanShape a sh:NodeShape ;
+    rdfs:comment "A Care Plan record, created immediately after an assessment if the person is found to be eligible." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "Status of the document. Lifted from FHIR CarePlan status." ;
+            sh:in ( cds:draft cds:active cds:on-hold cds:entered-in-error cds:ended cds:completed cds:revoked cds:unknown ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 1 ;
+            sh:path ap:status ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Does the person have the mental and physical capacity to complete this assessment / plan?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 7 ;
+            sh:path ap:capacityToCompleteAssessment ],
+        [ sh:class ap:Review ;
+            sh:description "List of reviews." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 10 ;
+            sh:path ap:review ],
+        [ sh:class ap:CareComponent ;
+            sh:description "Components of the care package." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 2 ;
+            sh:path ap:careComponent ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Does the person require an advocate to complete this assessment / plan?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 8 ;
+            sh:path ap:advocateRequired ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Does the person consent to information sharing?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 9 ;
+            sh:path ap:consentToInformationSharing ],
+        [ sh:class ap:Identifier ;
+            sh:description "Identifier for the safeguarding or care service episode during which this assessment / plan was completed." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 11 ;
+            sh:path ap:serviceEpisodeId ],
+        [ sh:datatype xsd:dateTime ;
+            sh:description "Date and time that the assessment / plan was completed." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 6 ;
+            sh:path ap:dateCompleted ],
+        [ sh:class ap:Identifier ;
+            sh:description "Identifier for the professional that authored the assessment/plan. Note that we don't need a serviceID, because you can find the service through the professional." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 5 ;
+            sh:path ap:professionalId ],
+        [ sh:class ap:Identifier ;
+            sh:description "Identifier for the subject person." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 4 ;
+            sh:path ap:personId ],
+        [ sh:class ap:Identifier ;
+            sh:description "Assessment that led to this plan." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path ap:assessmentId ],
+        [ sh:class ap:Identifier ;
+            sh:description "Identifier for this assessment / plan." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "identifier" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 3 ;
+            sh:path ap:identifier ] ;
+    sh:targetClass ap:CarePlan .
+
+ap:CareTimingShape a sh:NodeShape ;
+    rdfs:comment "The schedule and timing information of a care component." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:dateTime ;
+            sh:description "The last date the component of the plan was performed before cancellation." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path ap:endDateTime ],
+        [ sh:datatype xsd:dateTime ;
+            sh:description "The first date the component of the plan was (scheduled to be) performed." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path ap:startDateTime ],
+        [ sh:datatype xsd:string ;
+            sh:description "The frequency the component of the plan is performed, expressed using FHIR Timing or similar." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path ap:frequency ] ;
+    sh:targetClass ap:CareTiming .
+
+ap:ContactShape a sh:NodeShape ;
+    rdfs:comment "Contact details, such as a home, work, or other contact channel grouping." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "One or more email addresses." ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path ap:email ],
+        [ sh:datatype xsd:string ;
+            sh:description "One or more telephone numbers." ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path ap:telephone ],
+        [ sh:datatype xsd:string ;
+            sh:description "Name of the contact type (for example, \"Home\", \"Work\", \"Other\")." ;
+            sh:maxCount 1 ;
+            sh:name "name" ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path ap:contactName ] ;
+    sh:targetClass ap:Contact .
+
+ap:FoundationalInformationShape a sh:NodeShape ;
+    rdfs:comment "Information that is relevant across both assessments and plans." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:boolean ;
+            sh:description "Does the person have the mental and physical capacity to complete this assessment / plan?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 4 ;
+            sh:path ap:capacityToCompleteAssessment ],
+        [ sh:class ap:Review ;
+            sh:description "List of reviews." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 7 ;
+            sh:path ap:review ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Does the person require an advocate to complete this assessment / plan?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 5 ;
+            sh:path ap:advocateRequired ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Does the person consent to information sharing?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 6 ;
+            sh:path ap:consentToInformationSharing ],
+        [ sh:class ap:Identifier ;
+            sh:description "Identifier for the professional that authored the assessment/plan. Note that we don't need a serviceID, because you can find the service through the professional." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 2 ;
+            sh:path ap:professionalId ],
+        [ sh:datatype xsd:dateTime ;
+            sh:description "Date and time that the assessment / plan was completed." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 3 ;
+            sh:path ap:dateCompleted ],
+        [ sh:class ap:Identifier ;
+            sh:description "Identifier for the safeguarding or care service episode during which this assessment / plan was completed." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 8 ;
+            sh:path ap:serviceEpisodeId ],
+        [ sh:class ap:Identifier ;
+            sh:description "Identifier for the subject person." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 1 ;
+            sh:path ap:personId ],
+        [ sh:class ap:Identifier ;
+            sh:description "Identifier for this assessment / plan." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "identifier" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path ap:identifier ] ;
+    sh:targetClass ap:FoundationalInformation .
+
+ap:IdentifierShape a sh:NodeShape ;
+    rdfs:comment "A single identifier for a person or entity, comprising the value and the system in whose namespace the value is unique. Aligned with FHIR Identifier and the NHS PDS UNIQUE_REFERENCE definition." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "The identifier value, unique within the issuing system." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path ap:value ],
+        [ sh:description "The URI of the system or namespace within which the identifier is unique (e.g. https://fhir.nhs.uk/Id/nhs-number)." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path ap:system ] ;
+    sh:targetClass ap:Identifier .
+
+ap:NameShape a sh:NodeShape ;
+    rdfs:comment "Container for a person's name parts, aligned with FHIR HumanName. A person may have multiple names with different uses." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "Any preferred given or middle name used by the person - for example, \"Joe\" where their legal first name is \"Joseph\"." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path ap:preferredName ],
+        [ sh:description "The purpose of this name instance - usual, official, former, etc." ;
+            sh:in ( <https://ontology.socialcaredata.io/name-use-code#Usual> <https://ontology.socialcaredata.io/name-use-code#Official> <https://ontology.socialcaredata.io/name-use-code#Temp> <https://ontology.socialcaredata.io/name-use-code#Nickname> <https://ontology.socialcaredata.io/name-use-code#Anonymous> <https://ontology.socialcaredata.io/name-use-code#Old> <https://ontology.socialcaredata.io/name-use-code#Maiden> ) ;
+            sh:maxCount 1 ;
+            sh:name "use" ;
+            sh:order 3 ;
+            sh:path ap:use ],
+        [ sh:datatype xsd:string ;
+            sh:description "The surname or family name. Multi-valued to support compound or hyphenated family names recorded as separate parts." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path ap:familyName ],
+        [ sh:datatype xsd:string ;
+            sh:description "The first name and any middle names." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path ap:givenName ] ;
+    sh:targetClass ap:Name .
+
+ap:ReviewShape a sh:NodeShape ;
+    rdfs:comment "Review information associated with an assessment or care plan." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:boolean ;
+            sh:description "Whether this is a review of a previous assessment / plan or not." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path ap:isReview ],
+        [ sh:class ap:Identifier ;
+            sh:description "A link to the previous assessment / plan that is being reviewed." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 1 ;
+            sh:path ap:previousId ] ;
+    sh:targetClass ap:Review .
+

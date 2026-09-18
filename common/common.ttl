@@ -1,0 +1,292 @@
+@prefix auc: <https://ontology.socialcaredata.io/address-use-code#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix linkml: <https://w3id.org/linkml/> .
+@prefix nuc: <https://ontology.socialcaredata.io/name-use-code#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pav: <http://purl.org/pav/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sc: <https://ontology.socialcaredata.io/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+sc:email a owl:DatatypeProperty ;
+    rdfs:label "email" ;
+    rdfs:range xsd:string ;
+    skos:definition "One or more email addresses." ;
+    skos:inScheme sc:common .
+
+sc:telephone a owl:DatatypeProperty ;
+    rdfs:label "telephone" ;
+    rdfs:range xsd:string ;
+    skos:definition "One or more telephone numbers." ;
+    skos:inScheme sc:common .
+
+sc:Address a owl:Class ;
+    rdfs:label "Address" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom [ a rdfs:Datatype ;
+                    owl:intersectionOf ( xsd:string [ a rdfs:Datatype ;
+                                owl:onDatatype xsd:string ;
+                                owl:withRestrictions ( [ xsd:pattern "^[A-Z]{1,2}[0-9][0-9A-Z]? ?[0-9][A-Z]{2}$" ] ) ] ) ] ;
+            owl:onProperty sc:postcode ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty sc:USRN ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty sc:UPRN ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty sc:postcode ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty sc:addressUse ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty sc:line2 ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty sc:city ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty sc:line1 ] ;
+    skos:definition "A postal address. Aligned with FHIR Address. UPRN and USRN support property- and street-level disambiguation." ;
+    skos:exactMatch sc:Address ;
+    skos:inScheme sc:common .
+
+sc:Contact a owl:Class ;
+    rdfs:label "Contact" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty sc:contactName ] ;
+    skos:definition "Contact details, such as a home, work, or other contact channel grouping." ;
+    skos:exactMatch sc:Contact ;
+    skos:inScheme sc:common .
+
+sc:Identifier a owl:Class ;
+    rdfs:label "Identifier" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty sc:system ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty sc:value ] ;
+    skos:definition "A single identifier for a person or entity, comprising the value and the system in whose namespace the value is unique. Aligned with FHIR Identifier and the NHS PDS UNIQUE_REFERENCE definition." ;
+    skos:exactMatch sc:Identifier ;
+    skos:inScheme sc:common .
+
+sc:Name a owl:Class ;
+    rdfs:label "Name" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty sc:nameUse ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty sc:preferredName ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty sc:givenName ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty sc:familyName ] ;
+    skos:definition "Container for a person's name parts, aligned with FHIR HumanName. A person may have multiple names with different uses." ;
+    skos:exactMatch sc:Name ;
+    skos:inScheme sc:common .
+
+sc:UPRN a owl:DatatypeProperty ;
+    rdfs:label "UPRN" ;
+    rdfs:range xsd:string ;
+    skos:definition "Unique Property Reference Number of the address." ;
+    skos:inScheme sc:common .
+
+sc:USRN a owl:DatatypeProperty ;
+    rdfs:label "USRN" ;
+    rdfs:range xsd:string ;
+    skos:definition "Unique Street Reference Number of the address." ;
+    skos:inScheme sc:common .
+
+sc:addressUse a owl:ObjectProperty ;
+    rdfs:label "addressUse" ;
+    dct:title "use" ;
+    rdfs:range sc:address-use-code ;
+    skos:definition "How this address is used - home, work, temp, etc." ;
+    skos:inScheme sc:common .
+
+sc:city a owl:DatatypeProperty ;
+    rdfs:label "city" ;
+    rdfs:range xsd:string ;
+    skos:definition "City, town, or village." ;
+    skos:inScheme sc:common .
+
+sc:contactName a owl:DatatypeProperty ;
+    rdfs:label "contactName" ;
+    dct:title "name" ;
+    rdfs:range xsd:string ;
+    skos:definition "Name of the contact type (for example, \"Home\", \"Work\", \"Other\")." ;
+    skos:inScheme sc:common .
+
+sc:familyName a owl:DatatypeProperty ;
+    rdfs:label "familyName" ;
+    rdfs:range xsd:string ;
+    skos:definition "The surname or family name. Multi-valued to support compound or hyphenated family names recorded as separate parts." ;
+    skos:inScheme sc:common .
+
+sc:givenName a owl:DatatypeProperty ;
+    rdfs:label "givenName" ;
+    rdfs:range xsd:string ;
+    skos:definition "The first name and any middle names." ;
+    skos:inScheme sc:common .
+
+sc:line1 a owl:DatatypeProperty ;
+    rdfs:label "line1" ;
+    rdfs:range xsd:string ;
+    skos:definition "Street address (e.g. \"1 High Street\") or care-of line." ;
+    skos:inScheme sc:common .
+
+sc:line2 a owl:DatatypeProperty ;
+    rdfs:label "line2" ;
+    rdfs:range xsd:string ;
+    skos:definition "Apartment, suite, unit, building, floor, etc." ;
+    skos:inScheme sc:common .
+
+sc:nameUse a owl:ObjectProperty ;
+    rdfs:label "nameUse" ;
+    dct:title "use" ;
+    rdfs:range sc:name-use-code ;
+    skos:definition "The purpose of this name instance - usual, official, former, etc." ;
+    skos:inScheme sc:common .
+
+sc:preferredName a owl:DatatypeProperty ;
+    rdfs:label "preferredName" ;
+    rdfs:range xsd:string ;
+    skos:definition "Any preferred given or middle name used by the person - for example, \"Joe\" where their legal first name is \"Joseph\"." ;
+    skos:inScheme sc:common .
+
+sc:system a owl:DatatypeProperty ;
+    rdfs:label "system" ;
+    rdfs:range xsd:anyURI ;
+    skos:definition "The URI of the system or namespace within which the identifier is unique (e.g. https://fhir.nhs.uk/Id/nhs-number)." ;
+    skos:inScheme sc:common .
+
+sc:value a owl:DatatypeProperty ;
+    rdfs:label "value" ;
+    rdfs:range xsd:string ;
+    skos:definition "The identifier value, unique within the issuing system." ;
+    skos:inScheme sc:common .
+
+auc:Billing a owl:Class ;
+    rdfs:label "billing" ;
+    dct:title "Billing" ;
+    rdfs:subClassOf sc:address-use-code ;
+    skos:definition "An address to be used to send bills, invoices, receipts etc." .
+
+auc:Home a owl:Class ;
+    rdfs:label "home" ;
+    dct:title "Home" ;
+    rdfs:subClassOf sc:address-use-code ;
+    skos:definition "A communication address at a home." .
+
+auc:Old a owl:Class ;
+    rdfs:label "old" ;
+    dct:title "Old / Incorrect" ;
+    rdfs:subClassOf sc:address-use-code ;
+    skos:definition "This address is no longer in use (or was never correct but retained for records)." .
+
+auc:Temp a owl:Class ;
+    rdfs:label "temp" ;
+    dct:title "Temporary" ;
+    rdfs:subClassOf sc:address-use-code ;
+    skos:definition "A temporary address." .
+
+auc:Work a owl:Class ;
+    rdfs:label "work" ;
+    dct:title "Work" ;
+    rdfs:subClassOf sc:address-use-code ;
+    skos:definition "An office address. First choice for business-related contacts during business hours." .
+
+nuc:Anonymous a owl:Class ;
+    rdfs:label "anonymous" ;
+    dct:title "Anonymous" ;
+    rdfs:subClassOf sc:name-use-code ;
+    skos:definition "A pseudonym used to protect the person's privacy." .
+
+nuc:Maiden a owl:Class ;
+    rdfs:label "maiden" ;
+    dct:title "Maiden name" ;
+    rdfs:subClassOf sc:name-use-code ;
+    skos:definition "A name used prior to marriage. Applies regardless of gender." .
+
+nuc:Nickname a owl:Class ;
+    rdfs:label "nickname" ;
+    dct:title "Nickname" ;
+    rdfs:subClassOf sc:name-use-code ;
+    skos:definition "An informal name not part of the person's formal or usual name." .
+
+nuc:Official a owl:Class ;
+    rdfs:label "official" ;
+    dct:title "Official name" ;
+    rdfs:subClassOf sc:name-use-code ;
+    skos:definition "The formal name registered in a government register." .
+
+nuc:Old a owl:Class ;
+    rdfs:label "old" ;
+    dct:title "Old name" ;
+    rdfs:subClassOf sc:name-use-code ;
+    skos:definition "A name no longer in use, retained for record-matching purposes." .
+
+nuc:Temp a owl:Class ;
+    rdfs:label "temp" ;
+    dct:title "Temporary name" ;
+    rdfs:subClassOf sc:name-use-code ;
+    skos:definition "A temporary name; assigned at birth, in emergencies, or where the full name is not yet known." .
+
+nuc:Usual a owl:Class ;
+    rdfs:label "usual" ;
+    dct:title "Usual name" ;
+    rdfs:subClassOf sc:name-use-code ;
+    skos:definition "The name commonly used by the person - what they normally go by." .
+
+sc:postcode a owl:DatatypeProperty ;
+    rdfs:label "postcode" ;
+    rdfs:range [ a rdfs:Datatype ;
+            owl:intersectionOf ( xsd:string [ a rdfs:Datatype ;
+                        owl:onDatatype xsd:string ;
+                        owl:withRestrictions ( [ xsd:pattern "^[A-Z]{1,2}[0-9][0-9A-Z]? ?[0-9][A-Z]{2}$" ] ) ] ) ] ;
+    skos:definition "UK postcode in standard format (e.g. AB1 2CD)." ;
+    skos:inScheme sc:common .
+
+sc:address-use-code a owl:Class ;
+    rdfs:label "AddressUseCode" ;
+    dct:title "Address Use Code" ;
+    owl:unionOf ( auc:Home auc:Work auc:Temp auc:Old auc:Billing ) ;
+    skos:definition "How an address is used. Aligned with the FHIR address-use value set." ;
+    skos:inScheme sc:common ;
+    linkml:permissible_values auc:Billing,
+        auc:Home,
+        auc:Old,
+        auc:Temp,
+        auc:Work .
+
+sc:name-use-code a owl:Class ;
+    rdfs:label "NameUseCode" ;
+    dct:title "Name Use Code" ;
+    owl:unionOf ( nuc:Usual nuc:Official nuc:Temp nuc:Nickname nuc:Anonymous nuc:Old nuc:Maiden ) ;
+    skos:definition "The intended purpose of a person's name. Aligned with the FHIR name-use value set." ;
+    skos:inScheme sc:common ;
+    linkml:permissible_values nuc:Anonymous,
+        nuc:Maiden,
+        nuc:Nickname,
+        nuc:Official,
+        nuc:Old,
+        nuc:Temp,
+        nuc:Usual .
+
+sc:common a owl:Ontology ;
+    rdfs:label "common" ;
+    dct:license "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" ;
+    dct:title "Social Care MAIS - Common Objects" ;
+    pav:version "1.0.0" ;
+    skos:definition """The shared, cross-cutting objects of the Social Care MAIS ontology: the building blocks reused by every domain module. It defines the Identifier, Name, Address and Contact structures and their controlled vocabularies (NameUseCode, AddressUseCode) once, so that Person, Placements, Safeguarding and Assessments-and-Plans all reference the same classes and IRIs rather than redefining them.
+This module has no dependency on any domain standard; the domain standards depend on it. It is versioned on its own cadence and composed into the single Social Care MAIS ontology alongside the domain modules.""" .
+

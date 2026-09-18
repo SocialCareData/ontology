@@ -1,0 +1,53 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix p: <https://ontology.socialcaredata.io/> .
+@prefix pav: <http://purl.org/pav/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+p:Person a owl:Class ;
+    rdfs:label "Person" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty p:sexCode ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty p:name ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty p:deceasedDate ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty p:genderCode ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty p:identifier ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty p:address ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty p:isDeceased ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty p:ethnicityCode ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty p:aboutMe ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty p:dateOfBirth ] ;
+    skos:definition "A person who is the subject of care. Core identity, demographic and contact data required to deliver and coordinate care must be present." ;
+    skos:exactMatch p:Person ;
+    skos:inScheme p:person-subject-of-care .
+
+p:person-subject-of-care a owl:Ontology ;
+    rdfs:label "person-subject-of-care" ;
+    dcterms:license "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" ;
+    dcterms:title "Person Standard - Subject of Care profile" ;
+    pav:version "1.0.0" ;
+    owl:imports p:person ;
+    skos:definition """Conformance profile for a p:Person who is the *subject of care*. Imports the shared core (person-standard.yaml) and redefines Person, tightening the cardinalities so that the core identity, demographic and contact data required to deliver and coordinate care are present. Sub-entity shapes (Identifier, Name, Address, Contact, PersonRelationship, PartialDate) and all controlled vocabularies are inherited unchanged from the core.
+SHACL generated from this file is the LinkML equivalent of the hand-written manual-person-subject-of-care-shacl-shape.ttl.""" .
+

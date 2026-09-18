@@ -1,0 +1,1524 @@
+@prefix linkml: <https://w3id.org/linkml/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sc: <https://ontology.socialcaredata.io/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+sc:ActualPlacementShape a sh:NodeShape ;
+    rdfs:comment "The placement actually arranged for the child, including weekly cost (with optional breakdown), location, provider URN, sibling co-placement and educational continuity. Optional - a Placement may not (yet) have one." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "How the placement was sourced." ;
+            sh:in ( <https://ontology.socialcaredata.io/placement-source#RCCContract> <https://ontology.socialcaredata.io/placement-source#OtherRegionalContract> <https://ontology.socialcaredata.io/placement-source#DirectAwardOffFramework> <https://ontology.socialcaredata.io/placement-source#LocalContractOrFramework> <https://ontology.socialcaredata.io/placement-source#BlockContract> <https://ontology.socialcaredata.io/placement-source#Remand> <https://ontology.socialcaredata.io/placement-source#SecureWelfareHub> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 2 ;
+            sh:path sc:placementSource ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Whether the child's education was continuous (i.e., not disrupted) as a result of this placement." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 7 ;
+            sh:path sc:isEducationContinuous ],
+        [ sh:datatype xsd:decimal ;
+            sh:description "Total weekly core cost: the basic price quoted by a provider to deliver the service outlined in their Statement of Purpose, excluding child-specific additional costs." ;
+            sh:maxCount 1 ;
+            sh:minInclusive 0 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 10 ;
+            sh:path sc:coreWeeklyCost ],
+        [ sh:datatype xsd:decimal ;
+            sh:description "Total weekly additional-support cost: costs incurred over and above the core cost to meet the specific needs of the child." ;
+            sh:maxCount 1 ;
+            sh:minInclusive 0 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 11 ;
+            sh:path sc:additionalSupportWeeklyCost ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Whether the actual placement location was a preferred location." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 5 ;
+            sh:path sc:isLocationPreferred ],
+        [ sh:description "The type of placement the child received." ;
+            sh:in ( <https://ontology.socialcaredata.io/placement-type#Foster> <https://ontology.socialcaredata.io/placement-type#Residential> <https://ontology.socialcaredata.io/placement-type#SupportedAccommodation> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path sc:placementType ],
+        [ sh:datatype xsd:decimal ;
+            sh:description "Any weekly placement costs that do not clearly fall within the core, additional-support or education categories." ;
+            sh:maxCount 1 ;
+            sh:minInclusive 0 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 13 ;
+            sh:path sc:otherWeeklyCost ],
+        [ sh:datatype xsd:date ;
+            sh:description "The date the placement started." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sc:placementStartDate ],
+        [ sh:datatype xsd:decimal ;
+            sh:description "Total weekly education cost: recorded when the placement includes both care and registered education provision." ;
+            sh:maxCount 1 ;
+            sh:minInclusive 0 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 12 ;
+            sh:path sc:educationWeeklyCost ],
+        [ sh:description "The reason the placement was not found in the preferred location. Use 'Not applicable' when the placement was in the preferred location." ;
+            sh:in ( <https://ontology.socialcaredata.io/non-preferred-location-reason#CYPParentalPreference> <https://ontology.socialcaredata.io/non-preferred-location-reason#SafeguardingRequirement> <https://ontology.socialcaredata.io/non-preferred-location-reason#ProvisionWithinDistanceNotAvailable> <https://ontology.socialcaredata.io/non-preferred-location-reason#ProvisionWithinDistanceDoesNotExist> <https://ontology.socialcaredata.io/non-preferred-location-reason#CarerMovingOutOfArea> <https://ontology.socialcaredata.io/non-preferred-location-reason#LegalReasons> <https://ontology.socialcaredata.io/non-preferred-location-reason#NotApplicable> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 6 ;
+            sh:path sc:nonPreferredLocationReason ],
+        [ sh:datatype xsd:string ;
+            sh:description "First 3-4 characters of the postcode (UK outward code) for the actual placement location." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 4 ;
+            sh:path sc:placementLocation ;
+            sh:pattern "^[A-Z]{1,2}[0-9][0-9A-Z]?$" ],
+        [ sh:datatype xsd:nonNegativeInteger ;
+            sh:description "How many siblings were actually placed together." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 8 ;
+            sh:path sc:siblingsPlacedTogether ],
+        [ sh:datatype xsd:decimal ;
+            sh:description "Total weekly fee paid for the placement, excluding VAT. Expected to be between £100 and £100,000." ;
+            sh:maxCount 1 ;
+            sh:maxInclusive 100000 ;
+            sh:minCount 1 ;
+            sh:minInclusive 100 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 9 ;
+            sh:path sc:totalWeeklyCost ],
+        [ sh:datatype xsd:string ;
+            sh:description "Provider Unique Reference Number, linked to Ofsted registration. Allows the placement to be linked to Ofsted data about the provider." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 3 ;
+            sh:path sc:providerURN ] ;
+    sh:targetClass sc:ActualPlacement .
+
+sc:AddressShape a sh:NodeShape ;
+    rdfs:comment "A postal address. Aligned with FHIR Address. UPRN and USRN support property- and street-level disambiguation." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "Unique Property Reference Number of the address." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 4 ;
+            sh:path sc:UPRN ],
+        [ sh:datatype xsd:string ;
+            sh:description "Apartment, suite, unit, building, floor, etc." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sc:line2 ],
+        [ sh:description "How this address is used - home, work, temp, etc." ;
+            sh:in ( <https://ontology.socialcaredata.io/address-use-code#Home> <https://ontology.socialcaredata.io/address-use-code#Work> <https://ontology.socialcaredata.io/address-use-code#Temp> <https://ontology.socialcaredata.io/address-use-code#Old> <https://ontology.socialcaredata.io/address-use-code#Billing> ) ;
+            sh:maxCount 1 ;
+            sh:name "use" ;
+            sh:order 6 ;
+            sh:path sc:use ],
+        [ sh:datatype xsd:string ;
+            sh:description "Unique Street Reference Number of the address." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 5 ;
+            sh:path sc:USRN ],
+        [ sh:datatype xsd:string ;
+            sh:description "City, town, or village." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path sc:city ],
+        [ sh:datatype xsd:string ;
+            sh:description "Street address (e.g. \"1 High Street\") or care-of line." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sc:line1 ],
+        [ sh:datatype xsd:string ;
+            sh:description "UK postcode in standard format (e.g. AB1 2CD)." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 3 ;
+            sh:path sc:postcode ;
+            sh:pattern "^[A-Z]{1,2}[0-9][0-9A-Z]? ?[0-9][A-Z]{2}$" ] ;
+    sh:targetClass sc:Address .
+
+sc:AssessmentQuestionShape a sh:NodeShape ;
+    rdfs:comment "A generic Question-and-Answer model used to represent both statutory Care Act questions and local, personalised fields." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "The exact wording of the question as it appears on the local authority's form." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path sc:questionText ],
+        [ sh:datatype xsd:string ;
+            sh:description "An ID for the question. For statutory questions, this should conform to the dictionary of statutory question IDs; for personalised, non statutory questions, this can be anything or left blank." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sc:questionId ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Whether this question was mandatory on the local authority’s assessment. Should always be True for statutory fields." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 5 ;
+            sh:path sc:required ],
+        [ sh:description "The domain/category of the question." ;
+            sh:in ( <https://ontology.socialcaredata.io/question-category#PersonalContext> <https://ontology.socialcaredata.io/question-category#Health> <https://ontology.socialcaredata.io/question-category#Housing> <https://ontology.socialcaredata.io/question-category#Finance> <https://ontology.socialcaredata.io/question-category#CommunicationNeeds> <https://ontology.socialcaredata.io/question-category#CANutrition> <https://ontology.socialcaredata.io/question-category#CAHygiene> <https://ontology.socialcaredata.io/question-category#CAToilet> <https://ontology.socialcaredata.io/question-category#CAClothing> <https://ontology.socialcaredata.io/question-category#CAHomeSafety> <https://ontology.socialcaredata.io/question-category#CAHabitableHome> <https://ontology.socialcaredata.io/question-category#CAMaintainingRelationships> <https://ontology.socialcaredata.io/question-category#CAWTEV> <https://ontology.socialcaredata.io/question-category#CACommunityServices> <https://ontology.socialcaredata.io/question-category#CAResponsibilityForOthers> <https://ontology.socialcaredata.io/question-category#Eligibility> <https://ontology.socialcaredata.io/question-category#Emergencies> <https://ontology.socialcaredata.io/question-category#Other> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 1 ;
+            sh:path sc:category ],
+        [ sh:description "Indicates how the answer should be parsed (e.g., String, Boolean, Date, Number, Enum). Ensures data like dates or booleans aren't trapped as unparsable text." ;
+            sh:in ( <https://ontology.socialcaredata.io/answer-type#String> <https://ontology.socialcaredata.io/answer-type#Boolean> <https://ontology.socialcaredata.io/answer-type#Date> <https://ontology.socialcaredata.io/answer-type#Number> <https://ontology.socialcaredata.io/answer-type#Enum> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 4 ;
+            sh:path sc:answerType ],
+        [ sh:datatype xsd:string ;
+            sh:description "The answer to the question as measured in the assessment." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 3 ;
+            sh:path sc:answer ] ;
+    sh:targetClass sc:AssessmentQuestion .
+
+sc:CareActivityShape a sh:NodeShape ;
+    rdfs:comment "The description and details of the care component activity." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:boolean ;
+            sh:description "Flag whether this component is paid via direct payment." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path sc:directPayment ],
+        [ sh:description "Care Act outcome that this care component is aiming to help the subject person achieve." ;
+            sh:in ( <https://ontology.socialcaredata.io/care-outcome-type#CANutrition> <https://ontology.socialcaredata.io/care-outcome-type#CAHygiene> <https://ontology.socialcaredata.io/care-outcome-type#CAToilet> <https://ontology.socialcaredata.io/care-outcome-type#CAClothing> <https://ontology.socialcaredata.io/care-outcome-type#CAHomeSafety> <https://ontology.socialcaredata.io/care-outcome-type#CAHabitableHome> <https://ontology.socialcaredata.io/care-outcome-type#CAMaintainingRelationships> <https://ontology.socialcaredata.io/care-outcome-type#CAWTEV> <https://ontology.socialcaredata.io/care-outcome-type#CACommunityServices> <https://ontology.socialcaredata.io/care-outcome-type#CAResponsibilityForOthers> ) ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path sc:outcome ],
+        [ sh:datatype xsd:string ;
+            sh:description "Text description of the care component." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sc:activityDescription ] ;
+    sh:targetClass sc:CareActivity .
+
+sc:CareActorShape a sh:NodeShape ;
+    rdfs:comment "The actor performing a care component." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The type of person performing the component of the plan." ;
+            sh:in ( <https://ontology.socialcaredata.io/care-actor-type#Self> <https://ontology.socialcaredata.io/care-actor-type#Family> <https://ontology.socialcaredata.io/care-actor-type#Friend> <https://ontology.socialcaredata.io/care-actor-type#Community> <https://ontology.socialcaredata.io/care-actor-type#OtherUnpaidCarer> <https://ontology.socialcaredata.io/care-actor-type#ProfessionalServices> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path sc:actorType ],
+        [ sh:class sc:Identifier ;
+            sh:description "The ID of the person performing the item of the plan (Person ID, professional ID, or service ID)." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 1 ;
+            sh:path sc:actorId ] ;
+    sh:targetClass sc:CareActor .
+
+sc:CareComponentShape a sh:NodeShape ;
+    rdfs:comment "A specific component of a Care Plan, capturing who does what, when, and to achieve which outcomes." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class sc:CareActor ;
+            sh:description "The actors performing this component of the plan." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path sc:actor ],
+        [ sh:class sc:CareTiming ;
+            sh:description "The schedule and timing information of this component of the plan." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 1 ;
+            sh:path sc:time ],
+        [ sh:class sc:CareActivity ;
+            sh:description "The activity details of this component of the plan." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 2 ;
+            sh:path sc:activity ] ;
+    sh:targetClass sc:CareComponent .
+
+sc:CareNeedsAssessmentShape a sh:NodeShape ;
+    rdfs:comment "A Care Needs Assessment record, completed when an adult contacts or is referred to a local authority's social services team." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:boolean ;
+            sh:description "Does the person have the mental and physical capacity to complete this assessment / plan?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 7 ;
+            sh:path sc:capacityToCompleteAssessment ],
+        [ sh:class sc:Review ;
+            sh:description "List of reviews." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 10 ;
+            sh:path sc:review ],
+        [ sh:description "Status of the document. Lifted from FHIR CarePlan status." ;
+            sh:in ( <https://ontology.socialcaredata.io/care-document-status#draft> <https://ontology.socialcaredata.io/care-document-status#active> <https://ontology.socialcaredata.io/care-document-status#on-hold> <https://ontology.socialcaredata.io/care-document-status#entered-in-error> <https://ontology.socialcaredata.io/care-document-status#ended> <https://ontology.socialcaredata.io/care-document-status#completed> <https://ontology.socialcaredata.io/care-document-status#revoked> <https://ontology.socialcaredata.io/care-document-status#unknown> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 1 ;
+            sh:path sc:status ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Does the person require an advocate to complete this assessment / plan?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 8 ;
+            sh:path sc:advocateRequired ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Does the person consent to information sharing?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 9 ;
+            sh:path sc:consentToInformationSharing ],
+        [ sh:class sc:AssessmentQuestion ;
+            sh:description "The set of assessment questions and answers." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 2 ;
+            sh:path sc:assessmentQuestion ],
+        [ sh:class sc:Identifier ;
+            sh:description "Identifier for the safeguarding or care service episode during which this assessment / plan was completed." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 11 ;
+            sh:path sc:serviceEpisodeId ],
+        [ sh:datatype xsd:dateTime ;
+            sh:description "Date and time that the assessment / plan was completed." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 6 ;
+            sh:path sc:dateCompleted ],
+        [ sh:class sc:Identifier ;
+            sh:description "Any care plan linked to this assessment. Quick signpost that a) a plan was made (ie the person was determined to be eligible) and b) where the plan is (so you don't need to search for it)." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path sc:planId ],
+        [ sh:class sc:Identifier ;
+            sh:description "Identifier for the professional that authored the assessment/plan. Note that we don't need a serviceID, because you can find the service through the professional." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 5 ;
+            sh:path sc:professionalId ],
+        [ sh:class sc:Identifier ;
+            sh:description "Identifier for the subject person." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 4 ;
+            sh:path sc:personId ],
+        [ sh:class sc:Identifier ;
+            sh:description "Identifier for this assessment / plan." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "identifier" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 3 ;
+            sh:path sc:identifier ] ;
+    sh:targetClass sc:CareNeedsAssessment .
+
+sc:CarePlanShape a sh:NodeShape ;
+    rdfs:comment "A Care Plan record, created immediately after an assessment if the person is found to be eligible." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "Status of the document. Lifted from FHIR CarePlan status." ;
+            sh:in ( <https://ontology.socialcaredata.io/care-document-status#draft> <https://ontology.socialcaredata.io/care-document-status#active> <https://ontology.socialcaredata.io/care-document-status#on-hold> <https://ontology.socialcaredata.io/care-document-status#entered-in-error> <https://ontology.socialcaredata.io/care-document-status#ended> <https://ontology.socialcaredata.io/care-document-status#completed> <https://ontology.socialcaredata.io/care-document-status#revoked> <https://ontology.socialcaredata.io/care-document-status#unknown> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 1 ;
+            sh:path sc:status ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Does the person have the mental and physical capacity to complete this assessment / plan?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 7 ;
+            sh:path sc:capacityToCompleteAssessment ],
+        [ sh:class sc:Review ;
+            sh:description "List of reviews." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 10 ;
+            sh:path sc:review ],
+        [ sh:class sc:CareComponent ;
+            sh:description "Components of the care package." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 2 ;
+            sh:path sc:careComponent ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Does the person require an advocate to complete this assessment / plan?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 8 ;
+            sh:path sc:advocateRequired ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Does the person consent to information sharing?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 9 ;
+            sh:path sc:consentToInformationSharing ],
+        [ sh:class sc:Identifier ;
+            sh:description "Identifier for the safeguarding or care service episode during which this assessment / plan was completed." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 11 ;
+            sh:path sc:serviceEpisodeId ],
+        [ sh:datatype xsd:dateTime ;
+            sh:description "Date and time that the assessment / plan was completed." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 6 ;
+            sh:path sc:dateCompleted ],
+        [ sh:class sc:Identifier ;
+            sh:description "Identifier for the professional that authored the assessment/plan. Note that we don't need a serviceID, because you can find the service through the professional." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 5 ;
+            sh:path sc:professionalId ],
+        [ sh:class sc:Identifier ;
+            sh:description "Identifier for the subject person." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 4 ;
+            sh:path sc:personId ],
+        [ sh:class sc:Identifier ;
+            sh:description "Assessment that led to this plan." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path sc:assessmentId ],
+        [ sh:class sc:Identifier ;
+            sh:description "Identifier for this assessment / plan." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "identifier" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 3 ;
+            sh:path sc:identifier ] ;
+    sh:targetClass sc:CarePlan .
+
+sc:CareTimingShape a sh:NodeShape ;
+    rdfs:comment "The schedule and timing information of a care component." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:dateTime ;
+            sh:description "The last date the component of the plan was performed before cancellation." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path sc:endDateTime ],
+        [ sh:datatype xsd:dateTime ;
+            sh:description "The first date the component of the plan was (scheduled to be) performed." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sc:startDateTime ],
+        [ sh:datatype xsd:string ;
+            sh:description "The frequency the component of the plan is performed, expressed using FHIR Timing or similar." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sc:frequency ] ;
+    sh:targetClass sc:CareTiming .
+
+sc:CommunicationShape a sh:NodeShape ;
+    rdfs:comment "Professional recording of a person's communication requirements and language proficiencies." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "Free-text describing professionally recorded communication needs or reasonable adjustments (e.g. BSL interpreter needed, uses communication board)." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sc:specialCommunicationNeeds ],
+        [ sh:class sc:Language ;
+            sh:description "Specific language(s) spoken or understood by the person, optionally annotated with proficiency." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 1 ;
+            sh:path sc:language ] ;
+    sh:targetClass sc:Communication .
+
+sc:ContactShape a sh:NodeShape ;
+    rdfs:comment "Contact details, such as a home, work, or other contact channel grouping." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "One or more email addresses." ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sc:email ],
+        [ sh:datatype xsd:string ;
+            sh:description "One or more telephone numbers." ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path sc:telephone ],
+        [ sh:datatype xsd:string ;
+            sh:description "Name of the contact type (for example, \"Home\", \"Work\", \"Other\")." ;
+            sh:maxCount 1 ;
+            sh:name "name" ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sc:contactName ] ;
+    sh:targetClass sc:Contact .
+
+sc:FindingShape a sh:NodeShape ;
+    rdfs:comment "An observation or measurement made during the course of a service episode about the subject and their circumstances. May be recorded as a structured Observation, a quantitative Measurement, and/or free text." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "A finding that cannot be represented as an Observation or Measurement." ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path sc:text ],
+        [ sh:class sc:Measurement ;
+            sh:description "Quantitative measurement(s) about the subject or their circumstances." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 1 ;
+            sh:path sc:measurement ],
+        [ sh:class sc:Observation ;
+            sh:description "Qualitative observation(s) about the subject or their circumstances." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path sc:observation ] ;
+    sh:targetClass sc:Finding .
+
+sc:FoundationalInformationShape a sh:NodeShape ;
+    rdfs:comment "Information that is relevant across both assessments and plans." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:boolean ;
+            sh:description "Does the person have the mental and physical capacity to complete this assessment / plan?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 4 ;
+            sh:path sc:capacityToCompleteAssessment ],
+        [ sh:class sc:Review ;
+            sh:description "List of reviews." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 7 ;
+            sh:path sc:review ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Does the person require an advocate to complete this assessment / plan?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 5 ;
+            sh:path sc:advocateRequired ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Does the person consent to information sharing?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 6 ;
+            sh:path sc:consentToInformationSharing ],
+        [ sh:class sc:Identifier ;
+            sh:description "Identifier for the professional that authored the assessment/plan. Note that we don't need a serviceID, because you can find the service through the professional." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 2 ;
+            sh:path sc:professionalId ],
+        [ sh:datatype xsd:dateTime ;
+            sh:description "Date and time that the assessment / plan was completed." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 3 ;
+            sh:path sc:dateCompleted ],
+        [ sh:class sc:Identifier ;
+            sh:description "Identifier for the safeguarding or care service episode during which this assessment / plan was completed." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 8 ;
+            sh:path sc:serviceEpisodeId ],
+        [ sh:class sc:Identifier ;
+            sh:description "Identifier for the subject person." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 1 ;
+            sh:path sc:personId ],
+        [ sh:class sc:Identifier ;
+            sh:description "Identifier for this assessment / plan." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "identifier" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path sc:identifier ] ;
+    sh:targetClass sc:FoundationalInformation .
+
+sc:IdentifierShape a sh:NodeShape ;
+    rdfs:comment "A single identifier for a person or entity, comprising the value and the system in whose namespace the value is unique. Aligned with FHIR Identifier and the NHS PDS UNIQUE_REFERENCE definition." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "The identifier value, unique within the issuing system." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sc:value ],
+        [ sh:description "The URI of the system or namespace within which the identifier is unique (e.g. https://fhir.nhs.uk/Id/nhs-number)." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path sc:system ] ;
+    sh:targetClass sc:Identifier .
+
+sc:LanguageShape a sh:NodeShape ;
+    rdfs:comment "A specific language the person is proficient in, including proficiency level." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "A code or name representing the language (e.g., 'en', 'eng', 'bsl', 'British Sign Language')." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sc:languageCode ],
+        [ sh:datatype xsd:string ;
+            sh:description "The level of proficiency or fluency in the language (e.g., 'fluent', 'native', 'basic')." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sc:proficiencyLevel ] ;
+    sh:targetClass sc:Language .
+
+sc:LifeEventShape a sh:NodeShape ;
+    rdfs:comment "A significant, time-bound occurrence in an individual's life that may have implications for their safety, wellbeing or development - for example attendance at A&E, a child being reported as missing, or an exclusion from school. Life events are not inherently positive or negative but can signal levels of risk, vulnerability or changing need." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class sc:TimeInformation ;
+            sh:description "Details about the timing of the episode or life event." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 5 ;
+            sh:path sc:timeInformation ],
+        [ sh:datatype xsd:string ;
+            sh:description "Details about the location of the episode or life event." ;
+            sh:nodeKind sh:Literal ;
+            sh:order 6 ;
+            sh:path sc:location ],
+        [ sh:description "Code(s) for the type of life event." ;
+            sh:in ( <https://ontology.socialcaredata.io/event-code#Birth> <https://ontology.socialcaredata.io/event-code#Death> <https://ontology.socialcaredata.io/event-code#AeAttendance> <https://ontology.socialcaredata.io/event-code#SchoolExclusion> <https://ontology.socialcaredata.io/event-code#SchoolSuspension> <https://ontology.socialcaredata.io/event-code#MissingPerson> <https://ontology.socialcaredata.io/event-code#SafeguardingConcern> <https://ontology.socialcaredata.io/event-code#Referral> <https://ontology.socialcaredata.io/event-code#Homeless> ) ;
+            sh:minCount 1 ;
+            sh:name "type" ;
+            sh:order 1 ;
+            sh:path sc:eventType ],
+        [ sh:class sc:Identifier ;
+            sh:description "Unique identifiers associated with the entity." ;
+            sh:minCount 1 ;
+            sh:name "identifier" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path sc:identifier ],
+        [ sh:class sc:Identifier ;
+            sh:description "References (by Identifier) to Services associated with the entity." ;
+            sh:name "relatedService" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 4 ;
+            sh:path sc:relatedService ],
+        [ sh:class sc:SubjectPerson ;
+            sh:description "References to the Person(s) the episode or life event concerns." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 2 ;
+            sh:path sc:subjectPerson ],
+        [ sh:class sc:RelatedProfessional ;
+            sh:description "References to the Professional(s) involved, qualified by involvement." ;
+            sh:name "relatedProfessional" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 3 ;
+            sh:path sc:relatedProfessional ] ;
+    sh:targetClass sc:LifeEvent .
+
+sc:MeasurementShape a sh:NodeShape ;
+    rdfs:comment "A quantitative measurement of something related to the subject or their circumstances (for example \"Authorised Absences\" or \"Referrals\")." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The type of measurement." ;
+            sh:in ( <https://ontology.socialcaredata.io/measurement-type#Attendance> <https://ontology.socialcaredata.io/measurement-type#AuthorisedAbsences> <https://ontology.socialcaredata.io/measurement-type#UnauthorisedAbsences> <https://ontology.socialcaredata.io/measurement-type#CaringHoursPerWeek> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "type" ;
+            sh:order 2 ;
+            sh:path sc:measurementType ],
+        [ sh:datatype xsd:decimal ;
+            sh:description "A decimal number representing the value of the measurement." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "value" ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sc:measurementValue ],
+        [ sh:description "The unit of measurement." ;
+            sh:in ( <https://ontology.socialcaredata.io/measurement-unit#Count> <https://ontology.socialcaredata.io/measurement-unit#Pct> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "unit" ;
+            sh:order 1 ;
+            sh:path sc:unit ] ;
+    sh:targetClass sc:Measurement .
+
+sc:NameShape a sh:NodeShape ;
+    rdfs:comment "Container for a person's name parts, aligned with FHIR HumanName. A person may have multiple names with different uses." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "Any preferred given or middle name used by the person - for example, \"Joe\" where their legal first name is \"Joseph\"." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path sc:preferredName ],
+        [ sh:description "The purpose of this name instance - usual, official, former, etc." ;
+            sh:in ( <https://ontology.socialcaredata.io/name-use-code#Usual> <https://ontology.socialcaredata.io/name-use-code#Official> <https://ontology.socialcaredata.io/name-use-code#Temp> <https://ontology.socialcaredata.io/name-use-code#Nickname> <https://ontology.socialcaredata.io/name-use-code#Anonymous> <https://ontology.socialcaredata.io/name-use-code#Old> <https://ontology.socialcaredata.io/name-use-code#Maiden> ) ;
+            sh:maxCount 1 ;
+            sh:name "use" ;
+            sh:order 3 ;
+            sh:path sc:use ],
+        [ sh:datatype xsd:string ;
+            sh:description "The surname or family name. Multi-valued to support compound or hyphenated family names recorded as separate parts." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sc:familyName ],
+        [ sh:datatype xsd:string ;
+            sh:description "The first name and any middle names." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sc:givenName ] ;
+    sh:targetClass sc:Name .
+
+sc:ObservationShape a sh:NodeShape ;
+    rdfs:comment "A qualitative observation that represents an attribute of the subject or their circumstances (for example \"NEET\" or \"free-school-meals\")." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "The type of observation, drawn from the Observation Type Vocabulary (e.g. NEET, free-school-meals, SEND.SpLD). The vocabulary is extensible (some codes carry dynamic sub-parts such as EAL.<ISO 639-1 code>), so it is modelled as an open string rather than a closed enumeration. See the ObservationType enum for the reference list of codes." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "type" ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sc:observationType ],
+        [ sh:datatype xsd:dateTime ;
+            sh:description "The date at which this observation was first true, as an ISO 8601 date-time." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "startDate" ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sc:startDate ],
+        [ sh:datatype xsd:dateTime ;
+            sh:description "The date at which this observation was made false (if now outdated)." ;
+            sh:maxCount 1 ;
+            sh:name "endDate" ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path sc:endDate ] ;
+    sh:targetClass sc:Observation .
+
+sc:OrganisationShape a sh:NodeShape ;
+    rdfs:comment "An organisation involved in the safeguarding or wellbeing of a person - for example a local authority, an NHS trust, a school, or an education authority. Aligns with the FHIR Organization resource." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "Other names the entity is known by." ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path sc:alias ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Code for the entity's status - whether it is currently active." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 4 ;
+            sh:path sc:active ],
+        [ sh:description "Code(s) for the kind of organisation." ;
+            sh:in ( <https://ontology.socialcaredata.io/organisation-code#LocalAuthority> <https://ontology.socialcaredata.io/organisation-code#NhsTrust> <https://ontology.socialcaredata.io/organisation-code#PoliceForce> ) ;
+            sh:minCount 1 ;
+            sh:name "type" ;
+            sh:order 3 ;
+            sh:path sc:organisationType ],
+        [ sh:class sc:Identifier ;
+            sh:description "Unique identifiers associated with the entity." ;
+            sh:minCount 1 ;
+            sh:name "identifier" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path sc:identifier ],
+        [ sh:class sc:Address ;
+            sh:description "Physical location(s) of the entity." ;
+            sh:name "address" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 5 ;
+            sh:path sc:address ],
+        [ sh:datatype xsd:string ;
+            sh:description "The official name of the organisation or service." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "name" ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sc:name ],
+        [ sh:class sc:Identifier ;
+            sh:description "References (by Identifier) to Professionals associated with the entity." ;
+            sh:name "relatedProfessional" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 7 ;
+            sh:path sc:relatedProfessional ],
+        [ sh:class sc:Contact ;
+            sh:description "Contact information for the organisation." ;
+            sh:minCount 1 ;
+            sh:name "contact" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 6 ;
+            sh:path sc:contact ],
+        [ sh:class sc:Identifier ;
+            sh:description "References to Services the organisation provides or contributes to." ;
+            sh:minCount 1 ;
+            sh:name "relatedService" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 8 ;
+            sh:path sc:relatedService ] ;
+    sh:targetClass sc:Organisation .
+
+sc:PartialDateShape a sh:NodeShape ;
+    rdfs:comment "Container for a date that may not be fully known or precise, extended with an accuracy indicator. Used for dates of birth and dates of death." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:date ;
+            sh:description "ISO 8601-formatted date (YYYY-MM-DD)." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sc:date ],
+        [ sh:datatype xsd:string ;
+            sh:description "A three-character code in day-month-year order indicating which parts of the date are accurate (A), estimated (E), or unknown (U)." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sc:accuracyIndicator ;
+            sh:pattern "^[AEU]{3}$" ] ;
+    sh:targetClass sc:PartialDate .
+
+sc:PersonRelationshipShape a sh:NodeShape ;
+    rdfs:comment "A typed reference from one person to another. The reference is by Identifier (so the related person may live in a different system) and is qualified by one or more relationship codes." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "One or more codes describing the kind of relationship." ;
+            sh:in ( <https://ontology.socialcaredata.io/person-relationship-code#FAMMEMB> <https://ontology.socialcaredata.io/person-relationship-code#CHILD> <https://ontology.socialcaredata.io/person-relationship-code#NCHILD> <https://ontology.socialcaredata.io/person-relationship-code#CHLDADOPT> <https://ontology.socialcaredata.io/person-relationship-code#DAUADOPT> <https://ontology.socialcaredata.io/person-relationship-code#SONADOPT> <https://ontology.socialcaredata.io/person-relationship-code#CHLDFOST> <https://ontology.socialcaredata.io/person-relationship-code#DAUFOST> <https://ontology.socialcaredata.io/person-relationship-code#SONFOST> <https://ontology.socialcaredata.io/person-relationship-code#DAUC> <https://ontology.socialcaredata.io/person-relationship-code#DAU> <https://ontology.socialcaredata.io/person-relationship-code#STPDAU> <https://ontology.socialcaredata.io/person-relationship-code#SON> <https://ontology.socialcaredata.io/person-relationship-code#SONC> <https://ontology.socialcaredata.io/person-relationship-code#STPSON> <https://ontology.socialcaredata.io/person-relationship-code#STPCHLD> <https://ontology.socialcaredata.io/person-relationship-code#EXT> <https://ontology.socialcaredata.io/person-relationship-code#AUNT> <https://ontology.socialcaredata.io/person-relationship-code#MAUNT> <https://ontology.socialcaredata.io/person-relationship-code#PAUNT> <https://ontology.socialcaredata.io/person-relationship-code#UNCLE> <https://ontology.socialcaredata.io/person-relationship-code#MUNCLE> <https://ontology.socialcaredata.io/person-relationship-code#PUNCLE> <https://ontology.socialcaredata.io/person-relationship-code#COUSN> <https://ontology.socialcaredata.io/person-relationship-code#MCOUSN> <https://ontology.socialcaredata.io/person-relationship-code#PCOUSN> <https://ontology.socialcaredata.io/person-relationship-code#NIENEPH> <https://ontology.socialcaredata.io/person-relationship-code#NEPHEW> <https://ontology.socialcaredata.io/person-relationship-code#NIECE> <https://ontology.socialcaredata.io/person-relationship-code#GGRPRN> <https://ontology.socialcaredata.io/person-relationship-code#GGRFTH> <https://ontology.socialcaredata.io/person-relationship-code#MGGRFTH> <https://ontology.socialcaredata.io/person-relationship-code#PGGRFTH> <https://ontology.socialcaredata.io/person-relationship-code#GGRMTH> <https://ontology.socialcaredata.io/person-relationship-code#MGGRMTH> <https://ontology.socialcaredata.io/person-relationship-code#PGGRMTH> <https://ontology.socialcaredata.io/person-relationship-code#MGGRPRN> <https://ontology.socialcaredata.io/person-relationship-code#PGGRPRN> <https://ontology.socialcaredata.io/person-relationship-code#GRPRN> <https://ontology.socialcaredata.io/person-relationship-code#GRFTH> <https://ontology.socialcaredata.io/person-relationship-code#MGRFTH> <https://ontology.socialcaredata.io/person-relationship-code#PGRFTH> <https://ontology.socialcaredata.io/person-relationship-code#GRMTH> <https://ontology.socialcaredata.io/person-relationship-code#MGRMTH> <https://ontology.socialcaredata.io/person-relationship-code#PGRMTH> <https://ontology.socialcaredata.io/person-relationship-code#MGRPRN> <https://ontology.socialcaredata.io/person-relationship-code#PGRPRN> <https://ontology.socialcaredata.io/person-relationship-code#GRNDCHILD> <https://ontology.socialcaredata.io/person-relationship-code#GRNDDAU> <https://ontology.socialcaredata.io/person-relationship-code#GRNDSON> <https://ontology.socialcaredata.io/person-relationship-code#INLAW> <https://ontology.socialcaredata.io/person-relationship-code#CHLDINLAW> <https://ontology.socialcaredata.io/person-relationship-code#DAUINLAW> <https://ontology.socialcaredata.io/person-relationship-code#SONINLAW> <https://ontology.socialcaredata.io/person-relationship-code#PRNINLAW> <https://ontology.socialcaredata.io/person-relationship-code#FTHINLAW> <https://ontology.socialcaredata.io/person-relationship-code#MTHINLAW> <https://ontology.socialcaredata.io/person-relationship-code#SIBINLAW> <https://ontology.socialcaredata.io/person-relationship-code#BROINLAW> <https://ontology.socialcaredata.io/person-relationship-code#SISINLAW> <https://ontology.socialcaredata.io/person-relationship-code#PRN> <https://ontology.socialcaredata.io/person-relationship-code#NPRN> <https://ontology.socialcaredata.io/person-relationship-code#ADOPTP> <https://ontology.socialcaredata.io/person-relationship-code#ADOPTF> <https://ontology.socialcaredata.io/person-relationship-code#ADOPTM> <https://ontology.socialcaredata.io/person-relationship-code#PRNFOST> <https://ontology.socialcaredata.io/person-relationship-code#STPPRN> <https://ontology.socialcaredata.io/person-relationship-code#FTH> <https://ontology.socialcaredata.io/person-relationship-code#NFTH> <https://ontology.socialcaredata.io/person-relationship-code#FTHFOST> <https://ontology.socialcaredata.io/person-relationship-code#STPFTH> <https://ontology.socialcaredata.io/person-relationship-code#MTH> <https://ontology.socialcaredata.io/person-relationship-code#NMTH> <https://ontology.socialcaredata.io/person-relationship-code#GESTM> <https://ontology.socialcaredata.io/person-relationship-code#MTHFOST> <https://ontology.socialcaredata.io/person-relationship-code#STPMTH> <https://ontology.socialcaredata.io/person-relationship-code#SIB> <https://ontology.socialcaredata.io/person-relationship-code#NSIB> <https://ontology.socialcaredata.io/person-relationship-code#HSIB> <https://ontology.socialcaredata.io/person-relationship-code#STPSIB> <https://ontology.socialcaredata.io/person-relationship-code#BRO> <https://ontology.socialcaredata.io/person-relationship-code#NBRO> <https://ontology.socialcaredata.io/person-relationship-code#HBRO> <https://ontology.socialcaredata.io/person-relationship-code#STPBRO> <https://ontology.socialcaredata.io/person-relationship-code#SIS> <https://ontology.socialcaredata.io/person-relationship-code#NSIS> <https://ontology.socialcaredata.io/person-relationship-code#HSIS> <https://ontology.socialcaredata.io/person-relationship-code#STPSIS> <https://ontology.socialcaredata.io/person-relationship-code#TWIN> <https://ontology.socialcaredata.io/person-relationship-code#TWINBRO> <https://ontology.socialcaredata.io/person-relationship-code#TWINSIS> <https://ontology.socialcaredata.io/person-relationship-code#ITWIN> <https://ontology.socialcaredata.io/person-relationship-code#ITWINBRO> <https://ontology.socialcaredata.io/person-relationship-code#ITWINSIS> <https://ontology.socialcaredata.io/person-relationship-code#FTWIN> <https://ontology.socialcaredata.io/person-relationship-code#FTWINBRO> <https://ontology.socialcaredata.io/person-relationship-code#FTWINSIS> <https://ontology.socialcaredata.io/person-relationship-code#SPS> <https://ontology.socialcaredata.io/person-relationship-code#HUSB> <https://ontology.socialcaredata.io/person-relationship-code#WIFE> <https://ontology.socialcaredata.io/person-relationship-code#FMRSPS> <https://ontology.socialcaredata.io/person-relationship-code#DOMPART> <https://ontology.socialcaredata.io/person-relationship-code#SIGOTHR> <https://ontology.socialcaredata.io/person-relationship-code#FRND> <https://ontology.socialcaredata.io/person-relationship-code#NBOR> <https://ontology.socialcaredata.io/person-relationship-code#ROOM> <https://ontology.socialcaredata.io/person-relationship-code#ONESELF> ) ;
+            sh:minCount 1 ;
+            sh:order 1 ;
+            sh:path sc:relationship ],
+        [ sh:class sc:Identifier ;
+            sh:description "Reference to the related person's Identifier (system + value)." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path sc:identifier ] ;
+    sh:targetClass sc:PersonRelationship .
+
+sc:PersonShape a sh:NodeShape ;
+    rdfs:comment "A person who is the subject of care. Core identity, demographic and contact data required to deliver and coordinate care must be present." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class sc:PersonRelationship ;
+            sh:description "Related people (multi-valued, optional)." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 10 ;
+            sh:path sc:relatedPerson ],
+        [ sh:class sc:Identifier ;
+            sh:description "References to the primary professionals related to this person (e.g. care coordinators or a GP). Until the Professional standard is published, recorded using the Identifier structure (system + value)." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 11 ;
+            sh:path sc:primaryContactProfessional ],
+        [ sh:description "Subject-of-care Person must have exactly one ethnicityCode (ONS 2021 census 20b)." ;
+            sh:in ( <https://ontology.socialcaredata.io/ethnicity-code#AsianBangladeshi> <https://ontology.socialcaredata.io/ethnicity-code#AsianChinese> <https://ontology.socialcaredata.io/ethnicity-code#AsianIndian> <https://ontology.socialcaredata.io/ethnicity-code#AsianPakistani> <https://ontology.socialcaredata.io/ethnicity-code#AsianOther> <https://ontology.socialcaredata.io/ethnicity-code#BlackAfrican> <https://ontology.socialcaredata.io/ethnicity-code#BlackCaribbean> <https://ontology.socialcaredata.io/ethnicity-code#BlackOther> <https://ontology.socialcaredata.io/ethnicity-code#MixedWhiteAsian> <https://ontology.socialcaredata.io/ethnicity-code#MixedWhiteBlackAfrican> <https://ontology.socialcaredata.io/ethnicity-code#MixedWhiteBlackCaribbean> <https://ontology.socialcaredata.io/ethnicity-code#MixedOther> <https://ontology.socialcaredata.io/ethnicity-code#WhiteBritish> <https://ontology.socialcaredata.io/ethnicity-code#WhiteIrish> <https://ontology.socialcaredata.io/ethnicity-code#WhiteGypsyOrIrishTraveller> <https://ontology.socialcaredata.io/ethnicity-code#WhiteRoma> <https://ontology.socialcaredata.io/ethnicity-code#WhiteOther> <https://ontology.socialcaredata.io/ethnicity-code#OtherArab> <https://ontology.socialcaredata.io/ethnicity-code#OtherAny> <https://ontology.socialcaredata.io/ethnicity-code#DoesNotApply> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 9 ;
+            sh:path sc:ethnicityCode ],
+        [ sh:description "Observed phenotypic sex, where recorded." ;
+            sh:in ( <https://ontology.socialcaredata.io/phenotypic-sex-code#Male> <https://ontology.socialcaredata.io/phenotypic-sex-code#Female> <https://ontology.socialcaredata.io/phenotypic-sex-code#Indeterminate> <https://ontology.socialcaredata.io/phenotypic-sex-code#NotKnown> ) ;
+            sh:maxCount 1 ;
+            sh:order 8 ;
+            sh:path sc:sexCode ],
+        [ sh:class sc:Contact ;
+            sh:description "Contact information (multi-valued, optional)." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 6 ;
+            sh:path sc:contact ],
+        [ sh:class sc:Identifier ;
+            sh:description "References to other Person records where a cross-system match has been identified. Uses the Identifier structure." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 12 ;
+            sh:path sc:matchedPersonRef ],
+        [ sh:description "Subject-of-care Person must have exactly one genderCode." ;
+            sh:in ( <https://ontology.socialcaredata.io/gender-code#Male> <https://ontology.socialcaredata.io/gender-code#Female> <https://ontology.socialcaredata.io/gender-code#Indeterminate> <https://ontology.socialcaredata.io/gender-code#NotKnown> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 7 ;
+            sh:path sc:genderCode ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Subject-of-care Person must record isDeceased." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 3 ;
+            sh:path sc:isDeceased ],
+        [ sh:class sc:PartialDate ;
+            sh:description "Subject-of-care Person must have exactly one dateOfBirth." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 2 ;
+            sh:path sc:dateOfBirth ],
+        [ sh:class sc:Communication ;
+            sh:description "Professional recording of a person's communication requirements and language proficiencies." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 14 ;
+            sh:path sc:communication ],
+        [ sh:class sc:PartialDate ;
+            sh:description "The person's date of death, with an optional accuracy indicator. isDeceased may be true without a known date." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 4 ;
+            sh:path sc:deceasedDate ],
+        [ sh:class sc:Address ;
+            sh:description "Subject-of-care Person must have at least one Address." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 5 ;
+            sh:path sc:address ],
+        [ sh:class sc:Identifier ;
+            sh:description "A reference pointing to the person's self-reported \"About Me\" profile (an in-use standard across health and care allowing individuals to record their wants and needs). Uses the Identifier structure." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 13 ;
+            sh:path sc:aboutMe ],
+        [ sh:class sc:Name ;
+            sh:description "Subject-of-care Person must have exactly one Name." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 1 ;
+            sh:path sc:name ],
+        [ sh:class sc:Identifier ;
+            sh:description "Subject-of-care Person must have at least one Identifier." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path sc:identifier ] ;
+    sh:targetClass sc:Person .
+
+sc:PlacementAvailabilityShape a sh:NodeShape ;
+    rdfs:comment "The referral request details: how urgently the child needs to be placed, how many siblings should be placed together, whether the preferred location is local, and (if out of area) why." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "When the child needs to be placed by. Captures urgency rather than an absolute date." ;
+            sh:in ( <https://ontology.socialcaredata.io/placement-urgency#Today> <https://ontology.socialcaredata.io/placement-urgency#WithinFiveDays> <https://ontology.socialcaredata.io/placement-urgency#MoreThanFiveDays> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path sc:neededBy ],
+        [ sh:description "Whether the child is an unaccompanied asylum-seeking child (UASC)." ;
+            sh:in ( <https://ontology.socialcaredata.io/uasc-status#Yes> <https://ontology.socialcaredata.io/uasc-status#No> <https://ontology.socialcaredata.io/uasc-status#NotApplicable> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 2 ;
+            sh:path sc:uascStatus ],
+        [ sh:datatype xsd:nonNegativeInteger ;
+            sh:description "How many siblings the child should ideally be placed with according to the care plan. 0 if the child has no siblings or is not to be placed with siblings." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sc:siblingCount ] ;
+    sh:targetClass sc:PlacementAvailability .
+
+sc:PlacementRecommendationShape a sh:NodeShape ;
+    rdfs:comment "The social worker's recommendation of which categories of placement (foster, residential, supported accommodation) are preferred, suitable but not preferred, unsuitable, or unspecified." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "Suitability of residential care for this child." ;
+            sh:in ( <https://ontology.socialcaredata.io/suitability-level#Preferred> <https://ontology.socialcaredata.io/suitability-level#SuitableButNotPreferred> <https://ontology.socialcaredata.io/suitability-level#Unsuitable> <https://ontology.socialcaredata.io/suitability-level#NotSpecified> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 1 ;
+            sh:path sc:residentialCareSuitability ],
+        [ sh:description "Suitability of supported accommodation for this child." ;
+            sh:in ( <https://ontology.socialcaredata.io/suitability-level#Preferred> <https://ontology.socialcaredata.io/suitability-level#SuitableButNotPreferred> <https://ontology.socialcaredata.io/suitability-level#Unsuitable> <https://ontology.socialcaredata.io/suitability-level#NotSpecified> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 2 ;
+            sh:path sc:supportedAccommodationSuitability ],
+        [ sh:description "Suitability of foster care for this child, as judged by the social worker." ;
+            sh:in ( <https://ontology.socialcaredata.io/suitability-level#Preferred> <https://ontology.socialcaredata.io/suitability-level#SuitableButNotPreferred> <https://ontology.socialcaredata.io/suitability-level#Unsuitable> <https://ontology.socialcaredata.io/suitability-level#NotSpecified> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path sc:fosterCareSuitability ] ;
+    sh:targetClass sc:PlacementRecommendation .
+
+sc:PlacementRequirementsShape a sh:NodeShape ;
+    rdfs:comment "The child's needs that the placement must accommodate: communication, cultural, living companions, pets, additional support, deprivation of liberty and home adaptation." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:boolean ;
+            sh:description "Whether the child has a Deprivation of Liberty Order (DOL)." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 7 ;
+            sh:path sc:deprivationOfLiberty ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Whether adaptations to the home are required to accommodate the child's needs." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 6 ;
+            sh:path sc:homeAdaptationRequired ],
+        [ sh:description "How the child's needs were assessed." ;
+            sh:in ( <https://ontology.socialcaredata.io/needs-assessment-method#BERRI> <https://ontology.socialcaredata.io/needs-assessment-method#CANS> <https://ontology.socialcaredata.io/needs-assessment-method#OtherFormalisedTool> <https://ontology.socialcaredata.io/needs-assessment-method#OtherSocialWorkerAssessment> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 8 ;
+            sh:path sc:needsAssessmentMethod ],
+        [ sh:description "Additional support provision required (e.g., additional supervision, therapeutic support, taxis to school)." ;
+            sh:in ( <https://ontology.socialcaredata.io/support-type#AdditionalSupervision> <https://ontology.socialcaredata.io/support-type#TherapeuticSupport> <https://ontology.socialcaredata.io/support-type#WorkerForRespite> <https://ontology.socialcaredata.io/support-type#TaxisToSchool> <https://ontology.socialcaredata.io/support-type#NotApplicable> <https://ontology.socialcaredata.io/support-type#Other> ) ;
+            sh:order 5 ;
+            sh:path sc:additionalSupport ],
+        [ sh:description "Whether the child has any communication, language or learning needs." ;
+            sh:in ( <https://ontology.socialcaredata.io/presence-status#Yes> <https://ontology.socialcaredata.io/presence-status#No> <https://ontology.socialcaredata.io/presence-status#NotSpecified> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path sc:communicationNeeds ],
+        [ sh:description "Whether the placement must accommodate specific cultural needs (e.g., access to places of worship)." ;
+            sh:in ( <https://ontology.socialcaredata.io/cultural-need#Required> <https://ontology.socialcaredata.io/cultural-need#NotRequired> <https://ontology.socialcaredata.io/cultural-need#NotKnown> <https://ontology.socialcaredata.io/cultural-need#Other> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 2 ;
+            sh:path sc:culturalNeeds ],
+        [ sh:description "Whether the child can or must live in a home with pets/animals." ;
+            sh:in ( <https://ontology.socialcaredata.io/pets-allowance#YesMust> <https://ontology.socialcaredata.io/pets-allowance#YesCan> <https://ontology.socialcaredata.io/pets-allowance#No> <https://ontology.socialcaredata.io/pets-allowance#NotKnown> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 4 ;
+            sh:path sc:pets ],
+        [ sh:description "Recommendation as to who the child can be cared for alongside (e.g., solo placement, with other children, only older children)." ;
+            sh:in ( <https://ontology.socialcaredata.io/living-arrangement#SoloPlacement> <https://ontology.socialcaredata.io/living-arrangement#WithOtherChildren> <https://ontology.socialcaredata.io/living-arrangement#OnlyWithOlderChildren> <https://ontology.socialcaredata.io/living-arrangement#OnlyWithYoungerChildren> <https://ontology.socialcaredata.io/living-arrangement#NoPreference> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 3 ;
+            sh:path sc:livingCompanions ],
+        [ sh:description "Specific communication or language requirement (ESOL, BSL, Makaton, Other, None). Multi-valued: a placement may have several." ;
+            sh:in ( <https://ontology.socialcaredata.io/communication-need#ESOL> <https://ontology.socialcaredata.io/communication-need#BSL> <https://ontology.socialcaredata.io/communication-need#Makaton> <https://ontology.socialcaredata.io/communication-need#Other> <https://ontology.socialcaredata.io/communication-need#None> ) ;
+            sh:minCount 1 ;
+            sh:order 1 ;
+            sh:path sc:specificCommunicationRequirement ] ;
+    sh:targetClass sc:PlacementRequirements .
+
+sc:PlacementShape a sh:NodeShape ;
+    rdfs:comment "The top-level placement record for a looked-after child, linking together the referral availability, the child's requirements, the social-worker recommendation, the risk assessment, the quality-assurance metadata and (optionally) the placement actually arranged." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "The unique identifier of the placement record within the LA case management system." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sc:placementId ],
+        [ sh:datatype xsd:string ;
+            sh:description "Identifier unique to each child within the LA, allowing linking between multiple referrals for the same child." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sc:childId ],
+        [ sh:class sc:PlacementAvailability ;
+            sh:description "Links a Placement to its PlacementAvailability (referral) record." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 2 ;
+            sh:path sc:placementAvailability ],
+        [ sh:class sc:ActualPlacement ;
+            sh:description "Links a Placement to the ActualPlacement that was arranged. Optional - a referral may exist without (yet) having an actual placement." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 7 ;
+            sh:path sc:actualPlacement ],
+        [ sh:class sc:QualityAssurance ;
+            sh:description "Links a Placement to its QualityAssurance metadata." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 6 ;
+            sh:path sc:qualityAssurance ],
+        [ sh:class sc:PlacementRecommendation ;
+            sh:description "Links a Placement to its PlacementRecommendation." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 4 ;
+            sh:path sc:placementRecommendation ],
+        [ sh:class sc:RiskAssessment ;
+            sh:description "Links a Placement to its RiskAssessment." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 5 ;
+            sh:path sc:riskAssessment ],
+        [ sh:class sc:PlacementRequirements ;
+            sh:description "Links a Placement to its PlacementRequirements." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 3 ;
+            sh:path sc:placementRequirements ] ;
+    sh:targetClass sc:Placement .
+
+sc:ProfessionalShape a sh:NodeShape ;
+    rdfs:comment "An individual acting in a formal role within an organisation who has responsibilities relating to a person's safety, wellbeing, care or support - for example undertaking assessments, creating and monitoring plans, or sharing information in a multi-agency context." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "Text describing the professional's occupational role." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path sc:role ],
+        [ sh:description "Status of the document. Lifted from FHIR CarePlan status." ;
+            sh:in ( <https://ontology.socialcaredata.io/care-document-status#draft> <https://ontology.socialcaredata.io/care-document-status#active> <https://ontology.socialcaredata.io/care-document-status#on-hold> <https://ontology.socialcaredata.io/care-document-status#entered-in-error> <https://ontology.socialcaredata.io/care-document-status#ended> <https://ontology.socialcaredata.io/care-document-status#completed> <https://ontology.socialcaredata.io/care-document-status#revoked> <https://ontology.socialcaredata.io/care-document-status#unknown> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 3 ;
+            sh:path sc:status ],
+        [ sh:class sc:Identifier ;
+            sh:description "Unique identifiers associated with the entity." ;
+            sh:minCount 1 ;
+            sh:name "identifier" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path sc:identifier ],
+        [ sh:class sc:Contact ;
+            sh:description "The professional's contact information (exactly one)." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "contact" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 4 ;
+            sh:path sc:contact ],
+        [ sh:class sc:Identifier ;
+            sh:description "References (by Identifier) to Services associated with the entity." ;
+            sh:name "relatedService" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 5 ;
+            sh:path sc:relatedService ],
+        [ sh:class sc:Identifier ;
+            sh:description "References (by Identifier) to Organisations associated with the entity." ;
+            sh:name "relatedOrganisation" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 6 ;
+            sh:path sc:relatedOrganisation ],
+        [ sh:class sc:Name ;
+            sh:description "The professional's name." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "name" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 1 ;
+            sh:path sc:name ] ;
+    sh:targetClass sc:Professional .
+
+sc:QualityAssuranceShape a sh:NodeShape ;
+    rdfs:comment "Metadata about who recorded each part of the placement record (referral, placement, cost) and when. Supports LA-internal review of data-entry practices; not intended to be shared beyond the recording LA." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "Name of the officer who recorded the actual placement information." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path sc:placementOfficerName ],
+        [ sh:datatype xsd:string ;
+            sh:description "Name of the officer who recorded the referral information. LA-internal QA only." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 4 ;
+            sh:path sc:referralOfficerName ],
+        [ sh:datatype xsd:date ;
+            sh:description "Date of agreed placement start captured on the Case Management System." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sc:placementDateAdmin ],
+        [ sh:datatype xsd:date ;
+            sh:description "Date when placement cost data was captured on the Case Management System." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 3 ;
+            sh:path sc:costDate ],
+        [ sh:datatype xsd:date ;
+            sh:description "Date of when referral was captured on the Case Management System." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sc:referralDate ],
+        [ sh:datatype xsd:string ;
+            sh:description "Name of the officer who recorded the placement cost data." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 5 ;
+            sh:path sc:costOfficerName ] ;
+    sh:targetClass sc:QualityAssurance .
+
+sc:RelatedProfessionalShape a sh:NodeShape ;
+    rdfs:comment "A typed reference to a Professional involved in a service episode or life event." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "Code for the nature of the involvement. Uses an [HL7 v3 ParticipationType code](https://terminology.hl7.org/5.2.0/CodeSystem-v3-ParticipationType.html) directly (e.g. SBJ, PPRF); not defined by this standard, so modelled as an open string." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sc:involvement ],
+        [ sh:class sc:Identifier ;
+            sh:description "A reference (by Identifier) to a Professional record involved in the episode or life event." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path sc:professional ] ;
+    sh:targetClass sc:RelatedProfessional .
+
+sc:ReviewShape a sh:NodeShape ;
+    rdfs:comment "Review information associated with an assessment or care plan." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:boolean ;
+            sh:description "Whether this is a review of a previous assessment / plan or not." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sc:isReview ],
+        [ sh:class sc:Identifier ;
+            sh:description "A link to the previous assessment / plan that is being reviewed." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 1 ;
+            sh:path sc:previousId ] ;
+    sh:targetClass sc:Review .
+
+sc:RiskAssessmentShape a sh:NodeShape ;
+    rdfs:comment "Assessment of risks the child is exposed to and risks the child poses to others or property. Each risk is recorded as 'no known risk' or 'risk present'." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "Whether the child is known to be at risk of drug and alcohol use." ;
+            sh:in ( <https://ontology.socialcaredata.io/risk-level#NoKnownRisk> <https://ontology.socialcaredata.io/risk-level#RiskPresent> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 2 ;
+            sh:path sc:riskDrugAlcohol ],
+        [ sh:description "Whether there is a known risk of criminal exploitation for others in the home." ;
+            sh:in ( <https://ontology.socialcaredata.io/risk-level#NoKnownRisk> <https://ontology.socialcaredata.io/risk-level#RiskPresent> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 10 ;
+            sh:path sc:riskToOthersCriminal ],
+        [ sh:description "Whether the child is known to be at risk of self-harm." ;
+            sh:in ( <https://ontology.socialcaredata.io/risk-level#NoKnownRisk> <https://ontology.socialcaredata.io/risk-level#RiskPresent> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path sc:riskSelfHarm ],
+        [ sh:description "Whether the child is known to be at risk of criminal exploitation." ;
+            sh:in ( <https://ontology.socialcaredata.io/risk-level#NoKnownRisk> <https://ontology.socialcaredata.io/risk-level#RiskPresent> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 1 ;
+            sh:path sc:riskCriminalExploitation ],
+        [ sh:description "Whether the child is known to be at risk of going missing." ;
+            sh:in ( <https://ontology.socialcaredata.io/risk-level#NoKnownRisk> <https://ontology.socialcaredata.io/risk-level#RiskPresent> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 4 ;
+            sh:path sc:riskMissing ],
+        [ sh:description "Whether the child is known to be at risk of an eating disorder." ;
+            sh:in ( <https://ontology.socialcaredata.io/risk-level#NoKnownRisk> <https://ontology.socialcaredata.io/risk-level#RiskPresent> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 3 ;
+            sh:path sc:riskEatingDisorder ],
+        [ sh:description "Whether the child is known to be at risk of sexual exploitation." ;
+            sh:in ( <https://ontology.socialcaredata.io/risk-level#NoKnownRisk> <https://ontology.socialcaredata.io/risk-level#RiskPresent> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 5 ;
+            sh:path sc:riskSexualExploitation ],
+        [ sh:description "Whether there is a known risk of sexual harm to others." ;
+            sh:in ( <https://ontology.socialcaredata.io/risk-level#NoKnownRisk> <https://ontology.socialcaredata.io/risk-level#RiskPresent> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 7 ;
+            sh:path sc:riskToOthersSexual ],
+        [ sh:description "Whether there is a known risk of physical harm to others." ;
+            sh:in ( <https://ontology.socialcaredata.io/risk-level#NoKnownRisk> <https://ontology.socialcaredata.io/risk-level#RiskPresent> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 6 ;
+            sh:path sc:riskToOthersPhysical ],
+        [ sh:description "Whether there is a known risk of harm to animals." ;
+            sh:in ( <https://ontology.socialcaredata.io/risk-level#NoKnownRisk> <https://ontology.socialcaredata.io/risk-level#RiskPresent> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 9 ;
+            sh:path sc:riskToOthersAnimals ],
+        [ sh:description "Whether there is a known risk of fire-setting." ;
+            sh:in ( <https://ontology.socialcaredata.io/risk-level#NoKnownRisk> <https://ontology.socialcaredata.io/risk-level#RiskPresent> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 8 ;
+            sh:path sc:riskToOthersFire ] ;
+    sh:targetClass sc:RiskAssessment .
+
+sc:ServiceEpisodeShape a sh:NodeShape ;
+    rdfs:comment "A bounded period during which an individual receives a defined service, intervention, or package of support from a service or professional. It has a recognisable start and end point, though duration may vary from a single contact to sustained involvement over time." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "Code(s) for the type of service episode." ;
+            sh:in ( <https://ontology.socialcaredata.io/episode-code#EarlyHelp> <https://ontology.socialcaredata.io/episode-code#Ehcp> <https://ontology.socialcaredata.io/episode-code#FamilyCourtOrder> <https://ontology.socialcaredata.io/episode-code#CinPlan> <https://ontology.socialcaredata.io/episode-code#CpPlan> <https://ontology.socialcaredata.io/episode-code#CamhsPlan> <https://ontology.socialcaredata.io/episode-code#Section47> <https://ontology.socialcaredata.io/episode-code#CareLeaver> <https://ontology.socialcaredata.io/episode-code#ChildLookedAfter> <https://ontology.socialcaredata.io/episode-code#AdultSafeguarding> <https://ontology.socialcaredata.io/episode-code#CareActAssessment> <https://ontology.socialcaredata.io/episode-code#CarePlan> ) ;
+            sh:minCount 1 ;
+            sh:name "type" ;
+            sh:order 1 ;
+            sh:path sc:episodeType ],
+        [ sh:class sc:TimeInformation ;
+            sh:description "Details about the timing of the episode." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 5 ;
+            sh:path sc:timeInformation ],
+        [ sh:description "Care Act outcome that this care component is aiming to help the subject person achieve." ;
+            sh:in ( <https://ontology.socialcaredata.io/care-outcome-type#CANutrition> <https://ontology.socialcaredata.io/care-outcome-type#CAHygiene> <https://ontology.socialcaredata.io/care-outcome-type#CAToilet> <https://ontology.socialcaredata.io/care-outcome-type#CAClothing> <https://ontology.socialcaredata.io/care-outcome-type#CAHomeSafety> <https://ontology.socialcaredata.io/care-outcome-type#CAHabitableHome> <https://ontology.socialcaredata.io/care-outcome-type#CAMaintainingRelationships> <https://ontology.socialcaredata.io/care-outcome-type#CAWTEV> <https://ontology.socialcaredata.io/care-outcome-type#CACommunityServices> <https://ontology.socialcaredata.io/care-outcome-type#CAResponsibilityForOthers> ) ;
+            sh:maxCount 1 ;
+            sh:order 8 ;
+            sh:path sc:outcome ],
+        [ sh:datatype xsd:string ;
+            sh:description "Details about the location of the episode." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 6 ;
+            sh:path sc:location ],
+        [ sh:class sc:Identifier ;
+            sh:description "Unique identifiers associated with the entity." ;
+            sh:minCount 1 ;
+            sh:name "identifier" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path sc:identifier ],
+        [ sh:class sc:SubjectPerson ;
+            sh:description "References to the Person(s) the episode or life event concerns." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 2 ;
+            sh:path sc:subjectPerson ],
+        [ sh:class sc:Finding ;
+            sh:description "Observations or measurements made during the course of the episode." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 7 ;
+            sh:path sc:finding ],
+        [ sh:class sc:RelatedProfessional ;
+            sh:description "References to the Professional(s) involved, qualified by involvement." ;
+            sh:name "relatedProfessional" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 3 ;
+            sh:path sc:relatedProfessional ],
+        [ sh:class sc:Identifier ;
+            sh:description "References to the Services involved in the episode." ;
+            sh:minCount 1 ;
+            sh:name "relatedService" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 4 ;
+            sh:path sc:relatedService ] ;
+    sh:targetClass sc:ServiceEpisode .
+
+sc:ServiceShape a sh:NodeShape ;
+    rdfs:comment "A service involved in the safeguarding or wellbeing of a person - the specific intervention or package of support delivered by one or more organisations (e.g. local authority social care, an emergency department, a general practice, or a school)." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "Other names the entity is known by." ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path sc:alias ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Code for the entity's status - whether it is currently active." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 4 ;
+            sh:path sc:active ],
+        [ sh:description "Code(s) for the kind of service." ;
+            sh:in ( <https://ontology.socialcaredata.io/service-code#YouthOffending> <https://ontology.socialcaredata.io/service-code#PrimarySchool> <https://ontology.socialcaredata.io/service-code#HighSchool> <https://ontology.socialcaredata.io/service-code#SenPrimarySchool> <https://ontology.socialcaredata.io/service-code#SenHighSchool> <https://ontology.socialcaredata.io/service-code#AlternativeProvisionSchool> <https://ontology.socialcaredata.io/service-code#SocialCare> <https://ontology.socialcaredata.io/service-code#FamilyCourt> <https://ontology.socialcaredata.io/service-code#Camhs> <https://ontology.socialcaredata.io/service-code#Reablement> <https://ontology.socialcaredata.io/service-code#ShortTermNursingCare> <https://ontology.socialcaredata.io/service-code#ShortTermResidentialCare> <https://ontology.socialcaredata.io/service-code#LongTermNursingCare> <https://ontology.socialcaredata.io/service-code#LongTermResidentialCare> <https://ontology.socialcaredata.io/service-code#HomeSupportDomiciliary> <https://ontology.socialcaredata.io/service-code#DaySupport> <https://ontology.socialcaredata.io/service-code#Meals> <https://ontology.socialcaredata.io/service-code#Transport> <https://ontology.socialcaredata.io/service-code#Equipment> <https://ontology.socialcaredata.io/service-code#DirectPayment> <https://ontology.socialcaredata.io/service-code#SharedLives> <https://ontology.socialcaredata.io/service-code#CommunitySupportedLiving> <https://ontology.socialcaredata.io/service-code#ExtraCareHousing> <https://ontology.socialcaredata.io/service-code#SocialWorkerSupport> <https://ontology.socialcaredata.io/service-code#OtherProfessionalSupport> <https://ontology.socialcaredata.io/service-code#LearningEducationEmployment> <https://ontology.socialcaredata.io/service-code#EndOfLifeCare> <https://ontology.socialcaredata.io/service-code#EmergencySupport> <https://ontology.socialcaredata.io/service-code#OtherShortTermSupport> <https://ontology.socialcaredata.io/service-code#OtherLongTermSupport> <https://ontology.socialcaredata.io/service-code#CarerRespite> <https://ontology.socialcaredata.io/service-code#CarerSittingService> <https://ontology.socialcaredata.io/service-code#CarerUniversalServices> <https://ontology.socialcaredata.io/service-code#OtherCarerSupport> ) ;
+            sh:minCount 1 ;
+            sh:name "type" ;
+            sh:order 3 ;
+            sh:path sc:serviceType ],
+        [ sh:description "The frequency at which the unit cost occurs." ;
+            sh:in ( <https://ontology.socialcaredata.io/service-cost-frequency#None> <https://ontology.socialcaredata.io/service-cost-frequency#PerSession> <https://ontology.socialcaredata.io/service-cost-frequency#Hourly> <https://ontology.socialcaredata.io/service-cost-frequency#Daily> <https://ontology.socialcaredata.io/service-cost-frequency#Weekly> <https://ontology.socialcaredata.io/service-cost-frequency#Fortnightly> <https://ontology.socialcaredata.io/service-cost-frequency#FourWeekly> <https://ontology.socialcaredata.io/service-cost-frequency#Monthly> <https://ontology.socialcaredata.io/service-cost-frequency#Quarterly> <https://ontology.socialcaredata.io/service-cost-frequency#Annually> <https://ontology.socialcaredata.io/service-cost-frequency#OneOff> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 7 ;
+            sh:path sc:costFrequency ],
+        [ sh:description "The way the service is delivered." ;
+            sh:in ( <https://ontology.socialcaredata.io/service-delivery#StMax> <https://ontology.socialcaredata.io/service-delivery#OngoingLow> <https://ontology.socialcaredata.io/service-delivery#OtherShortTerm> <https://ontology.socialcaredata.io/service-delivery#Nursing> <https://ontology.socialcaredata.io/service-delivery#Residential> <https://ontology.socialcaredata.io/service-delivery#Community> <https://ontology.socialcaredata.io/service-delivery#Prison> <https://ontology.socialcaredata.io/service-delivery#UnpaidCarerDirect> <https://ontology.socialcaredata.io/service-delivery#UnpaidCarerSupport> ) ;
+            sh:order 8 ;
+            sh:path sc:delivery ],
+        [ sh:class sc:Identifier ;
+            sh:description "Unique identifiers associated with the entity." ;
+            sh:minCount 1 ;
+            sh:name "identifier" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path sc:identifier ],
+        [ sh:class sc:Address ;
+            sh:description "Physical location(s) of the entity." ;
+            sh:name "address" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 5 ;
+            sh:path sc:address ],
+        [ sh:class sc:Identifier ;
+            sh:description "References (by Identifier) to Organisations associated with the entity." ;
+            sh:name "relatedOrganisation" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 10 ;
+            sh:path sc:relatedOrganisation ],
+        [ sh:datatype xsd:string ;
+            sh:description "The official name of the organisation or service." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "name" ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sc:name ],
+        [ sh:class sc:Contact ;
+            sh:description "Contact information for the service." ;
+            sh:minCount 1 ;
+            sh:name "contact" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 6 ;
+            sh:path sc:contact ],
+        [ sh:class sc:Identifier ;
+            sh:description "References (by Identifier) to Professionals associated with the entity." ;
+            sh:name "relatedProfessional" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 9 ;
+            sh:path sc:relatedProfessional ] ;
+    sh:targetClass sc:Service .
+
+sc:SubjectPersonShape a sh:NodeShape ;
+    rdfs:comment "A typed reference to a Person involved in a service episode or life event." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "Code for the nature of the involvement. Uses an [HL7 v3 ParticipationType code](https://terminology.hl7.org/5.2.0/CodeSystem-v3-ParticipationType.html) directly (e.g. SBJ, PPRF); not defined by this standard, so modelled as an open string." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sc:involvement ],
+        [ sh:class sc:Identifier ;
+            sh:description "A reference (by Identifier) to a Person record involved in the episode or life event." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path sc:person ] ;
+    sh:targetClass sc:SubjectPerson .
+
+sc:TimeInformationShape a sh:NodeShape ;
+    rdfs:comment "Details about the timing of a service episode or life event, including when it started and ended and how frequently it recurs." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:dateTime ;
+            sh:description "The last date the component of the plan was performed before cancellation." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sc:endDateTime ],
+        [ sh:datatype xsd:dateTime ;
+            sh:description "The first date the component of the plan was (scheduled to be) performed." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sc:startDateTime ],
+        [ sh:description "The frequency of the episode or life event, expressed as a [FHIR Timing](https://build.fhir.org/datatypes.html#Timing) datatype. This standard does not define or validate its structure; the value is an arbitrary JSON object conforming to FHIR Timing." ;
+            sh:maxCount 1 ;
+            sh:name "frequency" ;
+            sh:order 2 ;
+            sh:path sc:serviceFrequency ] ;
+    sh:targetClass sc:TimeInformation .
+
+linkml:AnyShape a sh:NodeShape ;
+    rdfs:comment "An open value whose structure is defined and validated elsewhere, not by this standard. Serialised as an arbitrary JSON object." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass linkml:Any .
+

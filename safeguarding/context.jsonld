@@ -1,0 +1,449 @@
+{
+  "@context": {
+    "sg": "https://ontology.socialcaredata.io/",
+    "oc": "https://ontology.socialcaredata.io/organisation-code#",
+    "svc": "https://ontology.socialcaredata.io/service-code#",
+    "scf": "https://ontology.socialcaredata.io/service-cost-frequency#",
+    "sd": "https://ontology.socialcaredata.io/service-delivery#",
+    "epc": "https://ontology.socialcaredata.io/episode-code#",
+    "eo": "https://ontology.socialcaredata.io/episode-outcome#",
+    "evc": "https://ontology.socialcaredata.io/event-code#",
+    "mt": "https://ontology.socialcaredata.io/measurement-type#",
+    "mu": "https://ontology.socialcaredata.io/measurement-unit#",
+    "p": "https://ontology.socialcaredata.io/",
+    "nuc": "https://ontology.socialcaredata.io/name-use-code#",
+    "auc": "https://ontology.socialcaredata.io/address-use-code#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "ex": "https://example.org/safeguarding/",
+    "identifier": {
+      "@id": "sg:identifier",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "alias": {
+      "@id": "sg:alias",
+      "@container": "@set"
+    },
+    "active": {
+      "@id": "sg:active",
+      "@type": "xsd:boolean"
+    },
+    "status": {
+      "@id": "sg:status",
+      "@type": "xsd:boolean"
+    },
+    "address": {
+      "@id": "sg:address",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "role": {
+      "@id": "sg:role",
+      "@container": "@set"
+    },
+    "delivery": {
+      "@id": "sg:delivery",
+      "@type": "@vocab",
+      "@container": "@set",
+      "@context": {
+        "@vocab": "https://ontology.socialcaredata.io/service-delivery#",
+        "st-max": "sd:StMax",
+        "ongoing-low": "sd:OngoingLow",
+        "other-short-term": "sd:OtherShortTerm",
+        "nursing": "sd:Nursing",
+        "residential": "sd:Residential",
+        "community": "sd:Community",
+        "prison": "sd:Prison",
+        "unpaid-carer-direct": "sd:UnpaidCarerDirect",
+        "unpaid-carer-support": "sd:UnpaidCarerSupport"
+      }
+    },
+    "costFrequency": {
+      "@id": "sg:costFrequency",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ontology.socialcaredata.io/service-cost-frequency#",
+        "none": "scf:None",
+        "per-session": "scf:PerSession",
+        "hourly": "scf:Hourly",
+        "daily": "scf:Daily",
+        "weekly": "scf:Weekly",
+        "fortnightly": "scf:Fortnightly",
+        "four-weekly": "scf:FourWeekly",
+        "monthly": "scf:Monthly",
+        "quarterly": "scf:Quarterly",
+        "annually": "scf:Annually",
+        "one-off": "scf:OneOff"
+      }
+    },
+    "relatedProfessional": {
+      "@id": "sg:relatedProfessional",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "relatedService": {
+      "@id": "sg:relatedService",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "relatedOrganisation": {
+      "@id": "sg:relatedOrganisation",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "contact": {
+      "@id": "sg:contact",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "subjectPerson": {
+      "@id": "sg:subjectPerson",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "timeInformation": {
+      "@id": "sg:timeInformation",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "location": {
+      "@id": "sg:location",
+      "@container": "@set"
+    },
+    "finding": {
+      "@id": "sg:finding",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "outcome": {
+      "@id": "sg:outcome",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ontology.socialcaredata.io/episode-outcome#",
+        "reablement": "eo:Reablement",
+        "assessment": "eo:Assessment",
+        "hospital": "eo:Hospital",
+        "continuation": "eo:Continuation",
+        "planning": "eo:Planning",
+        "NFA-planned": "eo:NfaPlanned",
+        "NFA-moved": "eo:NfaMoved",
+        "NFA-NHS-referral": "eo:NfaNhsReferral",
+        "NFA-disregard": "eo:NfaDisregard",
+        "NFA-local-referral": "eo:NfaLocalReferral",
+        "NFA-declined": "eo:NfaDeclined",
+        "NFA-info": "eo:NfaInfo",
+        "NFA-deceased": "eo:NfaDeceased",
+        "NFA-no-offer-other": "eo:NfaNoOfferOther",
+        "NFA-ended-other": "eo:NfaEndedOther",
+        "NFA-other": "eo:NfaOther"
+      }
+    },
+    "person": {
+      "@id": "sg:person",
+      "@type": "@id"
+    },
+    "professional": {
+      "@id": "sg:professional",
+      "@type": "@id"
+    },
+    "involvement": "sg:involvement",
+    "startDateTime": {
+      "@id": "sg:startDateTime",
+      "@type": "xsd:dateTime"
+    },
+    "endDateTime": {
+      "@id": "sg:endDateTime",
+      "@type": "xsd:dateTime"
+    },
+    "observation": {
+      "@id": "sg:observation",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "measurement": {
+      "@id": "sg:measurement",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "text": {
+      "@id": "sg:text",
+      "@container": "@set"
+    },
+    "value": "p:value",
+    "system": {
+      "@id": "p:system",
+      "@type": "@id"
+    },
+    "familyName": {
+      "@id": "p:familyName",
+      "@container": "@set"
+    },
+    "givenName": {
+      "@id": "p:givenName",
+      "@container": "@set"
+    },
+    "preferredName": "p:preferredName",
+    "line1": "p:line1",
+    "line2": "p:line2",
+    "city": "p:city",
+    "postcode": "p:postcode",
+    "UPRN": "p:UPRN",
+    "USRN": "p:USRN",
+    "email": {
+      "@id": "p:email",
+      "@container": "@set"
+    },
+    "telephone": {
+      "@id": "p:telephone",
+      "@container": "@set"
+    },
+    "Organisation": {
+      "@id": "sg:Organisation",
+      "@context": {
+        "name": "sg:name",
+        "type": {
+          "@id": "sg:organisationType",
+          "@type": "@vocab",
+          "@container": "@set",
+          "@context": {
+            "@vocab": "https://ontology.socialcaredata.io/organisation-code#",
+            "local-authority": "oc:LocalAuthority",
+            "nhs-trust": "oc:NhsTrust",
+            "police-force": "oc:PoliceForce"
+          }
+        }
+      }
+    },
+    "Service": {
+      "@id": "sg:Service",
+      "@context": {
+        "name": "sg:name",
+        "type": {
+          "@id": "sg:serviceType",
+          "@type": "@vocab",
+          "@container": "@set",
+          "@context": {
+            "@vocab": "https://ontology.socialcaredata.io/service-code#",
+            "youth-offending": "svc:YouthOffending",
+            "primary-school": "svc:PrimarySchool",
+            "high-school": "svc:HighSchool",
+            "SEN-primary-school": "svc:SenPrimarySchool",
+            "SEN-high-school": "svc:SenHighSchool",
+            "alternative-provision-school": "svc:AlternativeProvisionSchool",
+            "social-care": "svc:SocialCare",
+            "family-court": "svc:FamilyCourt",
+            "CAMHS": "svc:Camhs",
+            "reablement": "svc:Reablement",
+            "short-term-nursing-care": "svc:ShortTermNursingCare",
+            "short-term-residential-care": "svc:ShortTermResidentialCare",
+            "long-term-nursing-care": "svc:LongTermNursingCare",
+            "long-term-residential-care": "svc:LongTermResidentialCare",
+            "home-support-domiciliary": "svc:HomeSupportDomiciliary",
+            "day-support": "svc:DaySupport",
+            "meals": "svc:Meals",
+            "transport": "svc:Transport",
+            "equipment": "svc:Equipment",
+            "direct-payment": "svc:DirectPayment",
+            "shared-lives": "svc:SharedLives",
+            "community-supported-living": "svc:CommunitySupportedLiving",
+            "extra-care-housing": "svc:ExtraCareHousing",
+            "social-worker-support": "svc:SocialWorkerSupport",
+            "other-professional-support": "svc:OtherProfessionalSupport",
+            "learning-education-employment": "svc:LearningEducationEmployment",
+            "end-of-life-care": "svc:EndOfLifeCare",
+            "emergency-support": "svc:EmergencySupport",
+            "other-short-term-support": "svc:OtherShortTermSupport",
+            "other-long-term-support": "svc:OtherLongTermSupport",
+            "carer-respite": "svc:CarerRespite",
+            "carer-sitting-service": "svc:CarerSittingService",
+            "carer-universal-services": "svc:CarerUniversalServices",
+            "other-carer-support": "svc:OtherCarerSupport"
+          }
+        }
+      }
+    },
+    "Professional": {
+      "@id": "sg:Professional",
+      "@context": {
+        "name": {
+          "@id": "sg:name",
+          "@type": "@id"
+        }
+      }
+    },
+    "ServiceEpisode": {
+      "@id": "sg:ServiceEpisode",
+      "@context": {
+        "type": {
+          "@id": "sg:episodeType",
+          "@type": "@vocab",
+          "@container": "@set",
+          "@context": {
+            "@vocab": "https://ontology.socialcaredata.io/episode-code#",
+            "early-help": "epc:EarlyHelp",
+            "ehcp": "epc:Ehcp",
+            "family-court-order": "epc:FamilyCourtOrder",
+            "cin-plan": "epc:CinPlan",
+            "cp-plan": "epc:CpPlan",
+            "CAMHS-plan": "epc:CamhsPlan",
+            "section-47": "epc:Section47",
+            "care-leaver": "epc:CareLeaver",
+            "child-looked-after": "epc:ChildLookedAfter",
+            "adult-safeguarding": "epc:AdultSafeguarding"
+          }
+        }
+      }
+    },
+    "LifeEvent": {
+      "@id": "sg:LifeEvent",
+      "@context": {
+        "type": {
+          "@id": "sg:eventType",
+          "@type": "@vocab",
+          "@container": "@set",
+          "@context": {
+            "@vocab": "https://ontology.socialcaredata.io/event-code#",
+            "birth": "evc:Birth",
+            "death": "evc:Death",
+            "ae-attendance": "evc:AeAttendance",
+            "school-exclusion": "evc:SchoolExclusion",
+            "school-suspension": "evc:SchoolSuspension",
+            "missing-person": "evc:MissingPerson",
+            "safeguarding-concern": "evc:SafeguardingConcern",
+            "referral": "evc:Referral",
+            "homeless": "evc:Homeless"
+          }
+        }
+      }
+    },
+    "SubjectPerson": "sg:SubjectPerson",
+    "RelatedProfessional": "sg:RelatedProfessional",
+    "TimeInformation": {
+      "@id": "sg:TimeInformation",
+      "@context": {
+        "frequency": {
+          "@id": "sg:serviceFrequency",
+          "@type": "@id"
+        }
+      }
+    },
+    "Timing": "sg:Timing",
+    "Repeat": {
+      "@id": "sg:Repeat",
+      "@context": {
+        "dayOfWeek": {
+          "@id": "sg:dayOfWeek",
+          "@container": "@set"
+        },
+        "frequency": {
+          "@id": "sg:frequencyCount",
+          "@type": "xsd:integer"
+        },
+        "period": {
+          "@id": "sg:period",
+          "@type": "xsd:integer"
+        },
+        "periodUnit": "sg:periodUnit",
+        "timeOfDay": {
+          "@id": "sg:timeOfDay",
+          "@container": "@set"
+        },
+        "when": {
+          "@id": "sg:when",
+          "@container": "@set"
+        }
+      }
+    },
+    "repeat": {
+      "@id": "sg:repeat",
+      "@type": "@id"
+    },
+    "Finding": "sg:Finding",
+    "Observation": {
+      "@id": "sg:Observation",
+      "@context": {
+        "type": "sg:observationType",
+        "startDate": {
+          "@id": "sg:startDate",
+          "@type": "xsd:dateTime"
+        },
+        "endDate": {
+          "@id": "sg:endDate",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+    "Measurement": {
+      "@id": "sg:Measurement",
+      "@context": {
+        "value": {
+          "@id": "sg:measurementValue",
+          "@type": "xsd:decimal"
+        },
+        "unit": {
+          "@id": "sg:unit",
+          "@type": "@vocab",
+          "@context": {
+            "@vocab": "https://ontology.socialcaredata.io/measurement-unit#",
+            "count": "mu:Count",
+            "pct": "mu:Pct"
+          }
+        },
+        "type": {
+          "@id": "sg:measurementType",
+          "@type": "@vocab",
+          "@context": {
+            "@vocab": "https://ontology.socialcaredata.io/measurement-type#",
+            "Attendance": "mt:Attendance",
+            "Authorised Absences": "mt:AuthorisedAbsences",
+            "Unauthorised Absences": "mt:UnauthorisedAbsences",
+            "caring-hours-per-week": "mt:CaringHoursPerWeek"
+          }
+        }
+      }
+    },
+    "Identifier": "p:Identifier",
+    "Name": {
+      "@id": "p:Name",
+      "@context": {
+        "use": {
+          "@id": "p:use",
+          "@type": "@vocab",
+          "@context": {
+            "@vocab": "https://ontology.socialcaredata.io/name-use-code#",
+            "usual": "nuc:Usual",
+            "official": "nuc:Official",
+            "temp": "nuc:Temp",
+            "nickname": "nuc:Nickname",
+            "anonymous": "nuc:Anonymous",
+            "old": "nuc:Old",
+            "maiden": "nuc:Maiden"
+          }
+        }
+      }
+    },
+    "Address": {
+      "@id": "p:Address",
+      "@context": {
+        "use": {
+          "@id": "p:use",
+          "@type": "@vocab",
+          "@context": {
+            "@vocab": "https://ontology.socialcaredata.io/address-use-code#",
+            "home": "auc:Home",
+            "work": "auc:Work",
+            "temp": "auc:Temp",
+            "old": "auc:Old",
+            "billing": "auc:Billing"
+          }
+        }
+      }
+    },
+    "Contact": {
+      "@id": "p:Contact",
+      "@context": {
+        "name": "p:contactName"
+      }
+    }
+  }
+}

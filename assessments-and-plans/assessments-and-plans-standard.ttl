@@ -1,0 +1,881 @@
+@prefix act: <https://ontology.socialcaredata.io/care-actor-type#> .
+@prefix ap: <https://ontology.socialcaredata.io/> .
+@prefix apc: <https://ontology.socialcaredata.io/care-outcome-type#> .
+@prefix at: <https://ontology.socialcaredata.io/answer-type#> .
+@prefix cds: <https://ontology.socialcaredata.io/care-document-status#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix es: <https://ontology.socialcaredata.io/eligibility-status#> .
+@prefix fs: <https://ontology.socialcaredata.io/funding-status#> .
+@prefix linkml: <https://w3id.org/linkml/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pav: <http://purl.org/pav/> .
+@prefix qc: <https://ontology.socialcaredata.io/question-category#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sq: <https://ontology.socialcaredata.io/statutory-question-id#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ap:previousId a owl:ObjectProperty ;
+    rdfs:label "previousId" ;
+    rdfs:range ap:Identifier ;
+    skos:definition "A link to the previous assessment / plan that is being reviewed." ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:serviceEpisodeId a owl:ObjectProperty ;
+    rdfs:label "serviceEpisodeId" ;
+    rdfs:range ap:Identifier ;
+    skos:definition "Identifier for the safeguarding or care service episode during which this assessment / plan was completed." ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:CareNeedsAssessment a owl:Class ;
+    rdfs:label "CareNeedsAssessment" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ap:status ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ap:planId ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty ap:assessmentQuestion ],
+        ap:FoundationalInformation ;
+    skos:definition "A Care Needs Assessment record, completed when an adult contacts or is referred to a local authority's social services team." ;
+    skos:exactMatch ap:CareNeedsAssessment ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:CarePlan a owl:Class ;
+    rdfs:label "CarePlan" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ap:status ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty ap:careComponent ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ap:assessmentId ],
+        ap:FoundationalInformation ;
+    skos:definition "A Care Plan record, created immediately after an assessment if the person is found to be eligible." ;
+    skos:exactMatch ap:CarePlan ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:activity a owl:ObjectProperty ;
+    rdfs:label "activity" ;
+    rdfs:range ap:CareActivity ;
+    skos:definition "The activity details of this component of the plan." ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:activityDescription a owl:DatatypeProperty ;
+    rdfs:label "activityDescription" ;
+    rdfs:range xsd:string ;
+    skos:definition "Text description of the care component." ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:actor a owl:ObjectProperty ;
+    rdfs:label "actor" ;
+    rdfs:range ap:CareActor ;
+    skos:definition "The actors performing this component of the plan." ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:actorId a owl:ObjectProperty ;
+    rdfs:label "actorId" ;
+    rdfs:range ap:Identifier ;
+    skos:definition "The ID of the person performing the item of the plan (Person ID, professional ID, or service ID)." ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:actorType a owl:ObjectProperty ;
+    rdfs:label "actorType" ;
+    rdfs:range ap:care-actor-type ;
+    skos:definition "The type of person performing the component of the plan." ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:advocateRequired a owl:DatatypeProperty ;
+    rdfs:label "advocateRequired" ;
+    rdfs:range xsd:boolean ;
+    skos:definition "Does the person require an advocate to complete this assessment / plan?" ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:answer a owl:DatatypeProperty ;
+    rdfs:label "answer" ;
+    rdfs:range xsd:string ;
+    skos:definition "The answer to the question as measured in the assessment." ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:answerType a owl:ObjectProperty ;
+    rdfs:label "answerType" ;
+    rdfs:range ap:answer-type ;
+    skos:definition "Indicates how the answer should be parsed (e.g., String, Boolean, Date, Number, Enum). Ensures data like dates or booleans aren't trapped as unparsable text." ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:apIdentifier a owl:ObjectProperty ;
+    rdfs:label "apIdentifier" ;
+    dct:title "identifier" ;
+    rdfs:range ap:Identifier ;
+    skos:definition "Identifier for this assessment / plan." ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:assessmentId a owl:ObjectProperty ;
+    rdfs:label "assessmentId" ;
+    rdfs:range ap:Identifier ;
+    skos:definition "Assessment that led to this plan." ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:assessmentQuestion a owl:ObjectProperty ;
+    rdfs:label "assessmentQuestion" ;
+    rdfs:range ap:AssessmentQuestion ;
+    skos:definition "The set of assessment questions and answers." ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:capacityToCompleteAssessment a owl:DatatypeProperty ;
+    rdfs:label "capacityToCompleteAssessment" ;
+    rdfs:range xsd:boolean ;
+    skos:definition "Does the person have the mental and physical capacity to complete this assessment / plan?" ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:careComponent a owl:ObjectProperty ;
+    rdfs:label "careComponent" ;
+    rdfs:range ap:CareComponent ;
+    skos:definition "Components of the care package." ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:category a owl:ObjectProperty ;
+    rdfs:label "category" ;
+    rdfs:range ap:question-category ;
+    skos:definition "The domain/category of the question." ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:consentToInformationSharing a owl:DatatypeProperty ;
+    rdfs:label "consentToInformationSharing" ;
+    rdfs:range xsd:boolean ;
+    skos:definition "Does the person consent to information sharing?" ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:dateCompleted a owl:DatatypeProperty ;
+    rdfs:label "dateCompleted" ;
+    rdfs:range xsd:dateTime ;
+    skos:definition "Date and time that the assessment / plan was completed." ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:directPayment a owl:DatatypeProperty ;
+    rdfs:label "directPayment" ;
+    rdfs:range xsd:boolean ;
+    skos:definition "Flag whether this component is paid via direct payment." ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:endDateTime a owl:DatatypeProperty ;
+    rdfs:label "endDateTime" ;
+    rdfs:range xsd:dateTime ;
+    skos:definition "The last date the component of the plan was performed before cancellation." ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:frequency a owl:DatatypeProperty ;
+    rdfs:label "frequency" ;
+    rdfs:range xsd:string ;
+    skos:definition "The frequency the component of the plan is performed, expressed using FHIR Timing or similar." ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:isReview a owl:DatatypeProperty ;
+    rdfs:label "isReview" ;
+    rdfs:range xsd:boolean ;
+    skos:definition "Whether this is a review of a previous assessment / plan or not." ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:outcome a owl:ObjectProperty ;
+    rdfs:label "outcome" ;
+    rdfs:range ap:care-act-outcome ;
+    skos:definition "Care Act outcome that this care component is aiming to help the subject person achieve." ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:personId a owl:ObjectProperty ;
+    rdfs:label "personId" ;
+    rdfs:range ap:Identifier ;
+    skos:definition "Identifier for the subject person." ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:planId a owl:ObjectProperty ;
+    rdfs:label "planId" ;
+    rdfs:range ap:Identifier ;
+    skos:definition "Any care plan linked to this assessment. Quick signpost that a) a plan was made (ie the person was determined to be eligible) and b) where the plan is (so you don't need to search for it)." ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:professionalId a owl:ObjectProperty ;
+    rdfs:label "professionalId" ;
+    rdfs:range ap:Identifier ;
+    skos:definition "Identifier for the professional that authored the assessment/plan. Note that we don't need a serviceID, because you can find the service through the professional." ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:questionId a owl:DatatypeProperty ;
+    rdfs:label "questionId" ;
+    rdfs:range xsd:string ;
+    skos:definition "An ID for the question. For statutory questions, this should conform to the dictionary of statutory question IDs; for personalised, non statutory questions, this can be anything or left blank." ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:questionText a owl:DatatypeProperty ;
+    rdfs:label "questionText" ;
+    rdfs:range xsd:string ;
+    skos:definition "The exact wording of the question as it appears on the local authority's form." ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:required a owl:DatatypeProperty ;
+    rdfs:label "required" ;
+    rdfs:range xsd:boolean ;
+    skos:definition "Whether this question was mandatory on the local authority’s assessment. Should always be True for statutory fields." ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:review a owl:ObjectProperty ;
+    rdfs:label "review" ;
+    rdfs:range ap:Review ;
+    skos:definition "List of reviews." ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:startDateTime a owl:DatatypeProperty ;
+    rdfs:label "startDateTime" ;
+    rdfs:range xsd:dateTime ;
+    skos:definition "The first date the component of the plan was (scheduled to be) performed." ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:time a owl:ObjectProperty ;
+    rdfs:label "time" ;
+    rdfs:range ap:CareTiming ;
+    skos:definition "The schedule and timing information of this component of the plan." ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:AssessmentQuestion a owl:Class ;
+    rdfs:label "AssessmentQuestion" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ap:required ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ap:questionId ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ap:questionText ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ap:answerType ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty ap:answer ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ap:category ] ;
+    skos:definition "A generic Question-and-Answer model used to represent both statutory Care Act questions and local, personalised fields." ;
+    skos:exactMatch ap:AssessmentQuestion ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:CareActivity a owl:Class ;
+    rdfs:label "CareActivity" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ap:outcome ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ap:directPayment ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ap:activityDescription ] ;
+    skos:definition "The description and details of the care component activity." ;
+    skos:exactMatch ap:CareActivity ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:CareActor a owl:Class ;
+    rdfs:label "CareActor" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ap:actorId ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ap:actorType ] ;
+    skos:definition "The actor performing a care component." ;
+    skos:exactMatch ap:CareActor ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:CareComponent a owl:Class ;
+    rdfs:label "CareComponent" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ap:time ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ap:activity ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty ap:actor ] ;
+    skos:definition "A specific component of a Care Plan, capturing who does what, when, and to achieve which outcomes." ;
+    skos:exactMatch ap:CareComponent ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:CareTiming a owl:Class ;
+    rdfs:label "CareTiming" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ap:startDateTime ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ap:endDateTime ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ap:frequency ] ;
+    skos:definition "The schedule and timing information of a care component." ;
+    skos:exactMatch ap:CareTiming ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:Review a owl:Class ;
+    rdfs:label "Review" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ap:isReview ] ;
+    skos:definition "Review information associated with an assessment or care plan." ;
+    skos:exactMatch ap:Review ;
+    skos:inScheme ap:assessments-and-plans .
+
+at:Boolean a owl:Class ;
+    rdfs:label "Boolean" ;
+    dct:title "Boolean" ;
+    rdfs:subClassOf ap:answer-type ;
+    skos:definition "True/False value." .
+
+at:Date a owl:Class ;
+    rdfs:label "Date" ;
+    dct:title "Date" ;
+    rdfs:subClassOf ap:answer-type ;
+    skos:definition "ISO date-time or date value." .
+
+at:Enum a owl:Class ;
+    rdfs:label "Enum" ;
+    dct:title "Enum" ;
+    rdfs:subClassOf ap:answer-type ;
+    skos:definition "Value from a controlled vocabulary." .
+
+at:Number a owl:Class ;
+    rdfs:label "Number" ;
+    dct:title "Number" ;
+    rdfs:subClassOf ap:answer-type ;
+    skos:definition "Numeric value." .
+
+at:String a owl:Class ;
+    rdfs:label "String" ;
+    dct:title "String" ;
+    rdfs:subClassOf ap:answer-type ;
+    skos:definition "Free-form text value." .
+
+act:Community a owl:Class ;
+    rdfs:label "Community" ;
+    dct:title "Community" ;
+    rdfs:subClassOf ap:care-actor-type ;
+    skos:definition "Community-led or voluntary network support." .
+
+act:Family a owl:Class ;
+    rdfs:label "Family" ;
+    dct:title "Family" ;
+    rdfs:subClassOf ap:care-actor-type ;
+    skos:definition "A family member providing informal care." .
+
+act:Friend a owl:Class ;
+    rdfs:label "Friend" ;
+    dct:title "Friend" ;
+    rdfs:subClassOf ap:care-actor-type ;
+    skos:definition "A friend providing informal care." .
+
+act:OtherUnpaidCarer a owl:Class ;
+    rdfs:label "Other unpaid carer" ;
+    dct:title "Other Unpaid Carer" ;
+    rdfs:subClassOf ap:care-actor-type ;
+    skos:definition "Any other informal, unpaid caregiver." .
+
+act:ProfessionalServices a owl:Class ;
+    rdfs:label "Professional services" ;
+    dct:title "Professional Services" ;
+    rdfs:subClassOf ap:care-actor-type ;
+    skos:definition "A formal, paid professional or commissioned service provider." .
+
+act:Self a owl:Class ;
+    rdfs:label "Self" ;
+    dct:title "Self" ;
+    rdfs:subClassOf ap:care-actor-type ;
+    skos:definition "The subject person themselves performing the activity." .
+
+cds:active a owl:Class ;
+    rdfs:label "active" ;
+    dct:title "Active" ;
+    rdfs:subClassOf ap:care-document-status ;
+    skos:definition "The plan is complete, approved, and currently being acted upon." .
+
+cds:completed a owl:Class ;
+    rdfs:label "completed" ;
+    dct:title "Completed" ;
+    rdfs:subClassOf ap:care-document-status ;
+    skos:definition "The plan has been successfully executed and all actions are complete." .
+
+cds:draft a owl:Class ;
+    rdfs:label "draft" ;
+    dct:title "Draft" ;
+    rdfs:subClassOf ap:care-document-status ;
+    skos:definition "The plan is in development and not yet ready to be acted upon." .
+
+cds:ended a owl:Class ;
+    rdfs:label "ended" ;
+    dct:title "Ended" ;
+    rdfs:subClassOf ap:care-document-status ;
+    skos:definition "The plan was active but has now been completed or cancelled prior to normal end." .
+
+cds:entered-in-error a owl:Class ;
+    rdfs:label "entered-in-error" ;
+    dct:title "Entered in Error" ;
+    rdfs:subClassOf ap:care-document-status ;
+    skos:definition "The plan was created incorrectly and should be disregarded." .
+
+cds:on-hold a owl:Class ;
+    rdfs:label "on-hold" ;
+    dct:title "On-Hold" ;
+    rdfs:subClassOf ap:care-document-status ;
+    skos:definition "Actions on the plan are temporarily suspended." .
+
+cds:revoked a owl:Class ;
+    rdfs:label "revoked" ;
+    dct:title "Revoked" ;
+    rdfs:subClassOf ap:care-document-status ;
+    skos:definition "The plan has been explicitly withdrawn and is no longer valid." .
+
+cds:unknown a owl:Class ;
+    rdfs:label "unknown" ;
+    dct:title "Unknown" ;
+    rdfs:subClassOf ap:care-document-status ;
+    skos:definition "The status of the plan cannot be determined." .
+
+apc:CAClothing a owl:Class ;
+    rdfs:label "CA-CLOTHING" ;
+    dct:title "Being appropriately clothed" ;
+    rdfs:subClassOf ap:care-act-outcome .
+
+apc:CACommunityServices a owl:Class ;
+    rdfs:label "CA-COMMUNITY" ;
+    dct:title "Making use of necessary facilities or services in the local community" ;
+    rdfs:subClassOf ap:care-act-outcome .
+
+apc:CAHabitableHome a owl:Class ;
+    rdfs:label "CA-HABITABLEHOME" ;
+    dct:title "Maintaining a habitable home environment" ;
+    rdfs:subClassOf ap:care-act-outcome .
+
+apc:CAHomeSafety a owl:Class ;
+    rdfs:label "CA-HOMESAFETY" ;
+    dct:title "Being able to make use of the home safely" ;
+    rdfs:subClassOf ap:care-act-outcome .
+
+apc:CAHygiene a owl:Class ;
+    rdfs:label "CA-HYGIENE" ;
+    dct:title "Maintaining personal hygiene" ;
+    rdfs:subClassOf ap:care-act-outcome .
+
+apc:CAMaintainingRelationships a owl:Class ;
+    rdfs:label "CA-RELATIONSHIPS" ;
+    dct:title "Developing and maintaining family or other personal relationships" ;
+    rdfs:subClassOf ap:care-act-outcome .
+
+apc:CANutrition a owl:Class ;
+    rdfs:label "CA-NUTRITION" ;
+    dct:title "Managing and maintaining nutrition" ;
+    rdfs:subClassOf ap:care-act-outcome .
+
+apc:CAResponsibilityForOthers a owl:Class ;
+    rdfs:label "CA-CARINGOTHERS" ;
+    dct:title "Carrying out any caring responsibilities for others" ;
+    rdfs:subClassOf ap:care-act-outcome .
+
+apc:CAToilet a owl:Class ;
+    rdfs:label "CA-TOILET" ;
+    dct:title "Managing toilet needs" ;
+    rdfs:subClassOf ap:care-act-outcome .
+
+apc:CAWTEV a owl:Class ;
+    rdfs:label "CA-WTEV" ;
+    dct:title "Accessing and engaging in work, training, education, or volunteering" ;
+    rdfs:subClassOf ap:care-act-outcome .
+
+es:eligible-needs-identified a owl:Class ;
+    rdfs:label "Eligible needs identified" ;
+    dct:title "Eligible needs identified" ;
+    rdfs:subClassOf ap:care-act-eligibility-status ;
+    skos:definition "Eligible needs have been identified according to the Care Act 2014." .
+
+es:no-needs-identified a owl:Class ;
+    rdfs:label "No needs identified" ;
+    dct:title "No needs identified" ;
+    rdfs:subClassOf ap:care-act-eligibility-status ;
+    skos:definition "No social care needs were identified during the assessment." .
+
+es:non-eligible-needs-identified a owl:Class ;
+    rdfs:label "Non-eligible needs identified" ;
+    dct:title "Non-eligible needs identified" ;
+    rdfs:subClassOf ap:care-act-eligibility-status ;
+    skos:definition "Needs have been identified, but they are not eligible for funding under the Care Act 2014." .
+
+fs:fully-client-funded a owl:Class ;
+    rdfs:label "Fully client funded" ;
+    dct:title "Fully client funded" ;
+    rdfs:subClassOf ap:client-funding-status ;
+    skos:definition "The client is responsible for paying the full cost of their care." .
+
+fs:fully-social-care-funded a owl:Class ;
+    rdfs:label "Fully social care funded" ;
+    dct:title "Fully social care funded" ;
+    rdfs:subClassOf ap:client-funding-status ;
+    skos:definition "The full cost of care is funded by social care services." .
+
+fs:joint-client-and-social-care-funded a owl:Class ;
+    rdfs:label "Joint client and social care funded" ;
+    dct:title "Joint client and social care funded" ;
+    rdfs:subClassOf ap:client-funding-status ;
+    skos:definition "The cost of care is shared between the client and social care services." .
+
+fs:unknown a owl:Class ;
+    rdfs:label "Unknown" ;
+    dct:title "Unknown" ;
+    rdfs:subClassOf ap:client-funding-status ;
+    skos:definition "The funding status of the client is currently unknown." .
+
+qc:CAClothing a owl:Class ;
+    rdfs:label "CA.clothing" ;
+    dct:title "Care Act Outcome: Being appropriately clothed" ;
+    rdfs:subClassOf ap:question-category .
+
+qc:CACommunityServices a owl:Class ;
+    rdfs:label "CA.communityServices" ;
+    dct:title "Care Act Outcome: Making use of necessary facilities or services in the local community" ;
+    rdfs:subClassOf ap:question-category .
+
+qc:CAHabitableHome a owl:Class ;
+    rdfs:label "CA.habitableHome" ;
+    dct:title "Care Act Outcome: Maintaining a habitable home environment" ;
+    rdfs:subClassOf ap:question-category .
+
+qc:CAHomeSafety a owl:Class ;
+    rdfs:label "CA.homeSafety" ;
+    dct:title "Care Act Outcome: Being able to make use of the home safely" ;
+    rdfs:subClassOf ap:question-category .
+
+qc:CAHygiene a owl:Class ;
+    rdfs:label "CA.hygiene" ;
+    dct:title "Care Act Outcome: Maintaining personal hygiene" ;
+    rdfs:subClassOf ap:question-category .
+
+qc:CAMaintainingRelationships a owl:Class ;
+    rdfs:label "CA.maintainingRelationships" ;
+    dct:title "Care Act Outcome: Developing and maintaining family or other personal relationships" ;
+    rdfs:subClassOf ap:question-category .
+
+qc:CANutrition a owl:Class ;
+    rdfs:label "CA.nutrition" ;
+    dct:title "Care Act Outcome: Managing and maintaining nutrition" ;
+    rdfs:subClassOf ap:question-category .
+
+qc:CAResponsibilityForOthers a owl:Class ;
+    rdfs:label "CA.responsibilityForOthers" ;
+    dct:title "Care Act Outcome: Carrying out any caring responsibilities for others" ;
+    rdfs:subClassOf ap:question-category .
+
+qc:CAToilet a owl:Class ;
+    rdfs:label "CA.toilet" ;
+    dct:title "Care Act Outcome: Managing toilet needs" ;
+    rdfs:subClassOf ap:question-category .
+
+qc:CAWTEV a owl:Class ;
+    rdfs:label "CA.WTEV" ;
+    dct:title "Care Act Outcome: Accessing and engaging in work, training, education, or volunteering" ;
+    rdfs:subClassOf ap:question-category .
+
+qc:CommunicationNeeds a owl:Class ;
+    rdfs:label "Communication needs" ;
+    dct:title "Communication Needs" ;
+    rdfs:subClassOf ap:question-category .
+
+qc:Eligibility a owl:Class ;
+    rdfs:label "Eligibility" ;
+    dct:title "Eligibility" ;
+    rdfs:subClassOf ap:question-category .
+
+qc:Emergencies a owl:Class ;
+    rdfs:label "Emergencies" ;
+    dct:title "Emergencies" ;
+    rdfs:subClassOf ap:question-category .
+
+qc:Finance a owl:Class ;
+    rdfs:label "Finance" ;
+    dct:title "Finance" ;
+    rdfs:subClassOf ap:question-category .
+
+qc:Health a owl:Class ;
+    rdfs:label "Health" ;
+    dct:title "Health" ;
+    rdfs:subClassOf ap:question-category .
+
+qc:Housing a owl:Class ;
+    rdfs:label "Housing" ;
+    dct:title "Housing" ;
+    rdfs:subClassOf ap:question-category .
+
+qc:Other a owl:Class ;
+    rdfs:label "Other" ;
+    dct:title "Other" ;
+    rdfs:subClassOf ap:question-category .
+
+qc:PersonalContext a owl:Class ;
+    rdfs:label "PersonalContext" ;
+    dct:title "Personal Context" ;
+    rdfs:subClassOf ap:question-category .
+
+ap:status a owl:ObjectProperty ;
+    rdfs:label "status" ;
+    rdfs:range ap:care-document-status ;
+    skos:definition "Status of the document. Lifted from FHIR CarePlan status." ;
+    skos:inScheme ap:assessments-and-plans .
+
+sq:CA-CARINGOTHERS-01 a owl:Class ;
+    rdfs:label "CA-CARINGOTHERS-01" ;
+    dct:title "CA-CARINGOTHERS-01" ;
+    rdfs:subClassOf ap:statutory-question-id ;
+    skos:definition "Care act: Carrying out any caring responsibilities for others. Does the person currently achieve this outcome? (Expected answerType: any)" .
+
+sq:CA-CLOTHING-01 a owl:Class ;
+    rdfs:label "CA-CLOTHING-01" ;
+    dct:title "CA-CLOTHING-01" ;
+    rdfs:subClassOf ap:statutory-question-id ;
+    skos:definition "Care act: Being appropriately clothed. Does the person currently achieve this outcome? (Expected answerType: any)" .
+
+sq:CA-COMMUNITY-01 a owl:Class ;
+    rdfs:label "CA-COMMUNITY-01" ;
+    dct:title "CA-COMMUNITY-01" ;
+    rdfs:subClassOf ap:statutory-question-id ;
+    skos:definition "Care act: Making use of necessary facilities or services in the local community, including public transport, and recreational facilities or services. Does the person currently achieve this outcome? (Expected answerType: any)" .
+
+sq:CA-ELIGIBILITY-01 a owl:Class ;
+    rdfs:label "CA-ELIGIBILITY-01" ;
+    dct:title "CA-ELIGIBILITY-01" ;
+    rdfs:subClassOf ap:statutory-question-id ;
+    skos:definition "Have eligible needs been identified, according to the Care Act 2014? (Expected answerType: Enum matching CareActEligibilityStatus)" .
+
+sq:CA-HABITABLEHOME-01 a owl:Class ;
+    rdfs:label "CA-HABITABLEHOME-01" ;
+    dct:title "CA-HABITABLEHOME-01" ;
+    rdfs:subClassOf ap:statutory-question-id ;
+    skos:definition "Care act: Maintaining a habitable home environment. Does the person currently achieve this outcome? (Expected answerType: any)" .
+
+sq:CA-HOMESAFETY-01 a owl:Class ;
+    rdfs:label "CA-HOMESAFETY-01" ;
+    dct:title "CA-HOMESAFETY-01" ;
+    rdfs:subClassOf ap:statutory-question-id ;
+    skos:definition "Care act: Being able to make use of the home safely. Does the person currently achieve this outcome? (Expected answerType: any)" .
+
+sq:CA-HYGIENE-01 a owl:Class ;
+    rdfs:label "CA-HYGIENE-01" ;
+    dct:title "CA-HYGIENE-01" ;
+    rdfs:subClassOf ap:statutory-question-id ;
+    skos:definition "Care act: Maintaining personal hygiene. Does the person currently achieve this outcome? (Expected answerType: any)" .
+
+sq:CA-NUTRITION-01 a owl:Class ;
+    rdfs:label "CA-NUTRITION-01" ;
+    dct:title "CA-NUTRITION-01" ;
+    rdfs:subClassOf ap:statutory-question-id ;
+    skos:definition "Care act: Managing and maintaining nutrition. Does the person currently achieve this outcome? (Expected answerType: any)" .
+
+sq:CA-RELATIONSHIPS-01 a owl:Class ;
+    rdfs:label "CA-RELATIONSHIPS-01" ;
+    dct:title "CA-RELATIONSHIPS-01" ;
+    rdfs:subClassOf ap:statutory-question-id ;
+    skos:definition "Care act: Developing and maintaining family or other personal relationships. Does the person currently achieve this outcome? (Expected answerType: any)" .
+
+sq:CA-TOILET-01 a owl:Class ;
+    rdfs:label "CA-TOILET-01" ;
+    dct:title "CA-TOILET-01" ;
+    rdfs:subClassOf ap:statutory-question-id ;
+    skos:definition "Care act: Managing toilet needs Does the person currently achieve this outcome? (Expected answerType: any)" .
+
+sq:CA-WTEV-01 a owl:Class ;
+    rdfs:label "CA-WTEV-01" ;
+    dct:title "CA-WTEV-01" ;
+    rdfs:subClassOf ap:statutory-question-id ;
+    skos:definition "Care act: Accessing and engaging in work, training, education, or volunteering. Does the person currently achieve this outcome? (Expected answerType: any)" .
+
+sq:STAT-FINANCE-01 a owl:Class ;
+    rdfs:label "STAT-FINANCE-01" ;
+    dct:title "STAT-FINANCE-01" ;
+    rdfs:subClassOf ap:statutory-question-id ;
+    skos:definition "What is the client’s (potential) funding status? (Expected answerType: Enum matching ClientFundingStatus)" .
+
+sq:STAT-HEALTH-01 a owl:Class ;
+    rdfs:label "STAT-HEALTH-01" ;
+    dct:title "STAT-HEALTH-01" ;
+    rdfs:subClassOf ap:statutory-question-id ;
+    skos:definition "Does the person have previous or ongoing health conditions that may affect their day-to-day life? (Expected answerType: Boolean)" .
+
+sq:STAT-HOUSING-01 a owl:Class ;
+    rdfs:label "STAT-HOUSING-01" ;
+    dct:title "STAT-HOUSING-01" ;
+    rdfs:subClassOf ap:statutory-question-id ;
+    skos:definition "Does the person live alone? (Expected answerType: Boolean)" .
+
+ap:FoundationalInformation a owl:Class ;
+    rdfs:label "FoundationalInformation" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ap:consentToInformationSharing ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ap:professionalId ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty ap:review ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ap:apIdentifier ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ap:dateCompleted ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ap:personId ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ap:capacityToCompleteAssessment ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ap:advocateRequired ] ;
+    skos:definition "Information that is relevant across both assessments and plans." ;
+    skos:exactMatch ap:FoundationalInformation ;
+    skos:inScheme ap:assessments-and-plans .
+
+ap:care-act-eligibility-status a owl:Class ;
+    rdfs:label "CareActEligibilityStatus" ;
+    dct:title "Care Act Eligibility Status" ;
+    owl:unionOf ( es:eligible-needs-identified es:non-eligible-needs-identified es:no-needs-identified ) ;
+    skos:definition "Vocabulary for Care Act 2014 eligibility assessment under CA-ELIGIBILITY-01." ;
+    skos:inScheme ap:assessments-and-plans ;
+    linkml:permissible_values es:eligible-needs-identified,
+        es:no-needs-identified,
+        es:non-eligible-needs-identified .
+
+ap:client-funding-status a owl:Class ;
+    rdfs:label "ClientFundingStatus" ;
+    dct:title "Client Funding Status" ;
+    owl:unionOf ( fs:fully-client-funded fs:joint-client-and-social-care-funded fs:fully-social-care-funded fs:unknown ) ;
+    skos:definition "Vocabulary for potential client funding status under STAT-FINANCE-01." ;
+    skos:inScheme ap:assessments-and-plans ;
+    linkml:permissible_values fs:fully-client-funded,
+        fs:fully-social-care-funded,
+        fs:joint-client-and-social-care-funded,
+        fs:unknown .
+
+ap:answer-type a owl:Class ;
+    rdfs:label "AnswerType" ;
+    dct:title "Answer Type" ;
+    owl:unionOf ( at:String at:Boolean at:Date at:Number at:Enum ) ;
+    skos:definition "Indicates how the answer to a question should be parsed and represented." ;
+    skos:inScheme ap:assessments-and-plans ;
+    linkml:permissible_values at:Boolean,
+        at:Date,
+        at:Enum,
+        at:Number,
+        at:String .
+
+ap:care-actor-type a owl:Class ;
+    rdfs:label "CareActorType" ;
+    dct:title "Care Actor Type" ;
+    owl:unionOf ( act:Self act:Family act:Friend act:Community act:OtherUnpaidCarer act:ProfessionalServices ) ;
+    skos:definition "The type of actor delivering a care component in a plan." ;
+    skos:inScheme ap:assessments-and-plans ;
+    linkml:permissible_values act:Community,
+        act:Family,
+        act:Friend,
+        act:OtherUnpaidCarer,
+        act:ProfessionalServices,
+        act:Self .
+
+ap:care-document-status a owl:Class ;
+    rdfs:label "DocumentStatus" ;
+    dct:title "Care Document Status" ;
+    owl:unionOf ( cds:draft cds:active cds:on-hold cds:entered-in-error cds:ended cds:completed cds:revoked cds:unknown ) ;
+    skos:definition "Status of the care plan or care needs assessment document. Lifted from FHIR CarePlan status." ;
+    skos:inScheme ap:assessments-and-plans ;
+    linkml:permissible_values cds:active,
+        cds:completed,
+        cds:draft,
+        cds:ended,
+        cds:entered-in-error,
+        cds:on-hold,
+        cds:revoked,
+        cds:unknown .
+
+ap:care-act-outcome a owl:Class ;
+    rdfs:label "CareActOutcome" ;
+    dct:title "Care Act Outcome" ;
+    owl:unionOf ( apc:CANutrition apc:CAHygiene apc:CAToilet apc:CAClothing apc:CAHomeSafety apc:CAHabitableHome apc:CAMaintainingRelationships apc:CAWTEV apc:CACommunityServices apc:CAResponsibilityForOthers ) ;
+    skos:definition "The 10 outcomes defined under the Care Act 2014 that a Care Plan component can help a person to achieve." ;
+    skos:inScheme ap:assessments-and-plans ;
+    linkml:permissible_values apc:CAClothing,
+        apc:CACommunityServices,
+        apc:CAHabitableHome,
+        apc:CAHomeSafety,
+        apc:CAHygiene,
+        apc:CAMaintainingRelationships,
+        apc:CANutrition,
+        apc:CAResponsibilityForOthers,
+        apc:CAToilet,
+        apc:CAWTEV .
+
+ap:statutory-question-id a owl:Class ;
+    rdfs:label "StatutoryQuestionId" ;
+    dct:title "Statutory Question ID" ;
+    owl:unionOf ( sq:STAT-HEALTH-01 sq:STAT-HOUSING-01 sq:STAT-FINANCE-01 sq:CA-NUTRITION-01 sq:CA-HYGIENE-01 sq:CA-TOILET-01 sq:CA-CLOTHING-01 sq:CA-HOMESAFETY-01 sq:CA-HABITABLEHOME-01 sq:CA-RELATIONSHIPS-01 sq:CA-WTEV-01 sq:CA-COMMUNITY-01 sq:CA-CARINGOTHERS-01 sq:CA-ELIGIBILITY-01 ) ;
+    skos:definition "The official dictionary/vocabulary of statutory question codes mandated by the Care Act 2014 or common assessment guidelines." ;
+    skos:inScheme ap:assessments-and-plans ;
+    linkml:permissible_values sq:CA-CARINGOTHERS-01,
+        sq:CA-CLOTHING-01,
+        sq:CA-COMMUNITY-01,
+        sq:CA-ELIGIBILITY-01,
+        sq:CA-HABITABLEHOME-01,
+        sq:CA-HOMESAFETY-01,
+        sq:CA-HYGIENE-01,
+        sq:CA-NUTRITION-01,
+        sq:CA-RELATIONSHIPS-01,
+        sq:CA-TOILET-01,
+        sq:CA-WTEV-01,
+        sq:STAT-FINANCE-01,
+        sq:STAT-HEALTH-01,
+        sq:STAT-HOUSING-01 .
+
+ap:question-category a owl:Class ;
+    rdfs:label "QuestionCategory" ;
+    dct:title "Question Category" ;
+    owl:unionOf ( qc:PersonalContext qc:Health qc:Housing qc:Finance qc:CommunicationNeeds qc:CANutrition qc:CAHygiene qc:CAToilet qc:CAClothing qc:CAHomeSafety qc:CAHabitableHome qc:CAMaintainingRelationships qc:CAWTEV qc:CACommunityServices qc:CAResponsibilityForOthers qc:Eligibility qc:Emergencies qc:Other ) ;
+    skos:definition "Categories/domains under which Care Act assessments and custom local authority questions sit." ;
+    skos:inScheme ap:assessments-and-plans ;
+    linkml:permissible_values qc:CAClothing,
+        qc:CACommunityServices,
+        qc:CAHabitableHome,
+        qc:CAHomeSafety,
+        qc:CAHygiene,
+        qc:CAMaintainingRelationships,
+        qc:CANutrition,
+        qc:CAResponsibilityForOthers,
+        qc:CAToilet,
+        qc:CAWTEV,
+        qc:CommunicationNeeds,
+        qc:Eligibility,
+        qc:Emergencies,
+        qc:Finance,
+        qc:Health,
+        qc:Housing,
+        qc:Other,
+        qc:PersonalContext .
+
+ap:assessments-and-plans a owl:Ontology ;
+    rdfs:label "assessments-and-plans" ;
+    dct:license "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" ;
+    dct:title "Standards for Care Needs Assessments and Care Plans Data Model" ;
+    pav:version "1.0.0" ;
+    owl:imports ap:common ;
+    skos:definition "A single LinkML data model for the Care Needs Assessments and Care Plans Standard (PUB05). This standard defines the shared, back-end fields of information for assessments and care plans." .
+

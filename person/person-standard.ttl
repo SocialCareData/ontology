@@ -1,0 +1,1192 @@
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix ec: <https://ontology.socialcaredata.io/ethnicity-code#> .
+@prefix gc: <https://ontology.socialcaredata.io/gender-code#> .
+@prefix linkml: <https://w3id.org/linkml/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix p: <https://ontology.socialcaredata.io/> .
+@prefix pav: <http://purl.org/pav/> .
+@prefix prc: <https://ontology.socialcaredata.io/person-relationship-code#> .
+@prefix psc: <https://ontology.socialcaredata.io/phenotypic-sex-code#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+p:address a owl:ObjectProperty ;
+    rdfs:label "address" ;
+    rdfs:range p:Address ;
+    skos:definition "Physical addresses where the person can be contacted." ;
+    skos:inScheme p:person .
+
+p:communication a owl:ObjectProperty ;
+    rdfs:label "communication" ;
+    rdfs:range p:Communication ;
+    skos:definition "Professional recording of a person's communication requirements and language proficiencies." ;
+    skos:inScheme p:person .
+
+p:contact a owl:ObjectProperty ;
+    rdfs:label "contact" ;
+    rdfs:range p:Contact ;
+    skos:definition "The person's contact information." ;
+    skos:inScheme p:person .
+
+p:language a owl:ObjectProperty ;
+    rdfs:label "language" ;
+    rdfs:range p:Language ;
+    skos:definition "Specific language(s) spoken or understood by the person, optionally annotated with proficiency." ;
+    skos:inScheme p:person .
+
+p:matchedPersonRef a owl:ObjectProperty ;
+    rdfs:label "matchedPersonRef" ;
+    rdfs:range p:Identifier ;
+    skos:definition "References to other Person records where a cross-system match has been identified. Uses the Identifier structure." ;
+    skos:inScheme p:person .
+
+p:primaryContactProfessional a owl:ObjectProperty ;
+    rdfs:label "primaryContactProfessional" ;
+    rdfs:range p:Identifier ;
+    skos:definition "References to the primary professionals related to this person (e.g. care coordinators or a GP). Until the Professional standard is published, recorded using the Identifier structure (system + value)." ;
+    skos:inScheme p:person .
+
+p:relatedPerson a owl:ObjectProperty ;
+    rdfs:label "relatedPerson" ;
+    rdfs:range p:PersonRelationship ;
+    skos:definition "References to other people related to this person, with the kind of relationship." ;
+    skos:inScheme p:person .
+
+p:Person a owl:Class ;
+    rdfs:label "Person" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty p:genderCode ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty p:deceasedDate ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty p:name ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty p:isDeceased ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty p:ethnicityCode ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty p:sexCode ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty p:aboutMe ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty p:dateOfBirth ] ;
+    skos:definition "The top-level record describing an individual. Consolidates the core identity attributes required to distinguish one person from another and to record relationships between individuals. This is the canonical base Person; the two conformance profiles tighten the cardinalities below." ;
+    skos:exactMatch p:Person ;
+    skos:inScheme p:person .
+
+p:aboutMe a owl:ObjectProperty ;
+    rdfs:label "aboutMe" ;
+    rdfs:range p:Identifier ;
+    skos:definition "A reference pointing to the person's self-reported \"About Me\" profile (an in-use standard across health and care allowing individuals to record their wants and needs). Uses the Identifier structure." ;
+    skos:inScheme p:person .
+
+p:date a owl:DatatypeProperty ;
+    rdfs:label "date" ;
+    rdfs:range xsd:date ;
+    skos:definition "ISO 8601-formatted date (YYYY-MM-DD)." ;
+    skos:inScheme p:person .
+
+p:dateOfBirth a owl:ObjectProperty ;
+    rdfs:label "dateOfBirth" ;
+    rdfs:range p:PartialDate ;
+    skos:definition "The person's date of birth, with an optional accuracy indicator." ;
+    skos:inScheme p:person .
+
+p:deceasedDate a owl:ObjectProperty ;
+    rdfs:label "deceasedDate" ;
+    rdfs:range p:PartialDate ;
+    skos:definition "The person's date of death, with an optional accuracy indicator. isDeceased may be true without a known date." ;
+    skos:inScheme p:person .
+
+p:ethnicityCode a owl:ObjectProperty ;
+    rdfs:label "ethnicityCode" ;
+    rdfs:range p:ethnicity-code ;
+    skos:definition "The person's stated ethnicity, using the ONS 18+1 categories from the 2021 census. Statutorily required in adult social care; optional elsewhere." ;
+    skos:inScheme p:person .
+
+p:genderCode a owl:ObjectProperty ;
+    rdfs:label "genderCode" ;
+    rdfs:range p:gender-code ;
+    skos:definition "The person's stated gender." ;
+    skos:inScheme p:person .
+
+p:identifier a owl:ObjectProperty ;
+    rdfs:label "identifier" ;
+    rdfs:range p:Identifier ;
+    skos:definition "Unique identifiers associated with the person (e.g. NHS number, internal case-management system ID)." ;
+    skos:inScheme p:person .
+
+p:isDeceased a owl:DatatypeProperty ;
+    rdfs:label "isDeceased" ;
+    rdfs:range xsd:boolean ;
+    skos:definition "Whether the person is deceased." ;
+    skos:inScheme p:person .
+
+p:languageCode a owl:DatatypeProperty ;
+    rdfs:label "languageCode" ;
+    rdfs:range xsd:string ;
+    skos:definition "A code or name representing the language (e.g., 'en', 'eng', 'bsl', 'British Sign Language')." ;
+    skos:inScheme p:person .
+
+p:name a owl:ObjectProperty ;
+    rdfs:label "name" ;
+    rdfs:range p:Name ;
+    skos:definition "A name for the person, with a usage indicating its purpose (usual, maiden, nickname, etc.)." ;
+    skos:inScheme p:person .
+
+p:proficiencyLevel a owl:DatatypeProperty ;
+    rdfs:label "proficiencyLevel" ;
+    rdfs:range xsd:string ;
+    skos:definition "The level of proficiency or fluency in the language (e.g., 'fluent', 'native', 'basic')." ;
+    skos:inScheme p:person .
+
+p:relationship a owl:ObjectProperty ;
+    rdfs:label "relationship" ;
+    rdfs:range p:person-relationship-code ;
+    skos:definition "One or more codes describing the kind of relationship." ;
+    skos:inScheme p:person .
+
+p:sexCode a owl:ObjectProperty ;
+    rdfs:label "sexCode" ;
+    rdfs:range p:phenotypic-sex-code ;
+    skos:definition "Observed phenotypic sex, where recorded." ;
+    skos:inScheme p:person .
+
+p:specialCommunicationNeeds a owl:DatatypeProperty ;
+    rdfs:label "specialCommunicationNeeds" ;
+    rdfs:range xsd:string ;
+    skos:definition "Free-text describing professionally recorded communication needs or reasonable adjustments (e.g. BSL interpreter needed, uses communication board)." ;
+    skos:inScheme p:person .
+
+p:Communication a owl:Class ;
+    rdfs:label "Communication" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty p:specialCommunicationNeeds ] ;
+    skos:definition "Professional recording of a person's communication requirements and language proficiencies." ;
+    skos:exactMatch p:Communication ;
+    skos:inScheme p:person .
+
+p:Language a owl:Class ;
+    rdfs:label "Language" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty p:proficiencyLevel ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty p:languageCode ] ;
+    skos:definition "A specific language the person is proficient in, including proficiency level." ;
+    skos:exactMatch p:Language ;
+    skos:inScheme p:person .
+
+p:PersonRelationship a owl:Class ;
+    rdfs:label "PersonRelationship" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty p:identifier ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty p:relationship ] ;
+    skos:definition "A typed reference from one person to another. The reference is by Identifier (so the related person may live in a different system) and is qualified by one or more relationship codes." ;
+    skos:exactMatch p:PersonRelationship ;
+    skos:inScheme p:person .
+
+p:accuracyIndicator a owl:DatatypeProperty ;
+    rdfs:label "accuracyIndicator" ;
+    rdfs:range [ a rdfs:Datatype ;
+            owl:intersectionOf ( xsd:string [ a rdfs:Datatype ;
+                        owl:onDatatype xsd:string ;
+                        owl:withRestrictions ( [ xsd:pattern "^[AEU]{3}$" ] ) ] ) ] ;
+    skos:definition "A three-character code in day-month-year order indicating which parts of the date are accurate (A), estimated (E), or unknown (U)." ;
+    skos:inScheme p:person .
+
+ec:AsianBangladeshi a owl:Class ;
+    rdfs:label "1" ;
+    dct:title "Asian, Asian British or Asian Welsh: Bangladeshi" ;
+    rdfs:subClassOf p:ethnicity-code .
+
+ec:AsianChinese a owl:Class ;
+    rdfs:label "2" ;
+    dct:title "Asian, Asian British or Asian Welsh: Chinese" ;
+    rdfs:subClassOf p:ethnicity-code .
+
+ec:AsianIndian a owl:Class ;
+    rdfs:label "3" ;
+    dct:title "Asian, Asian British or Asian Welsh: Indian" ;
+    rdfs:subClassOf p:ethnicity-code .
+
+ec:AsianOther a owl:Class ;
+    rdfs:label "5" ;
+    dct:title "Asian, Asian British or Asian Welsh: Other Asian" ;
+    rdfs:subClassOf p:ethnicity-code .
+
+ec:AsianPakistani a owl:Class ;
+    rdfs:label "4" ;
+    dct:title "Asian, Asian British or Asian Welsh: Pakistani" ;
+    rdfs:subClassOf p:ethnicity-code .
+
+ec:BlackAfrican a owl:Class ;
+    rdfs:label "6" ;
+    dct:title "Black, Black British, Black Welsh, Caribbean or African: African" ;
+    rdfs:subClassOf p:ethnicity-code .
+
+ec:BlackCaribbean a owl:Class ;
+    rdfs:label "7" ;
+    dct:title "Black, Black British, Black Welsh, Caribbean or African: Caribbean" ;
+    rdfs:subClassOf p:ethnicity-code .
+
+ec:BlackOther a owl:Class ;
+    rdfs:label "8" ;
+    dct:title "Black, Black British, Black Welsh, Caribbean or African: Other Black" ;
+    rdfs:subClassOf p:ethnicity-code .
+
+ec:DoesNotApply a owl:Class ;
+    rdfs:label "-8" ;
+    dct:title "Does not apply (Students and schoolchildren living away during term-time)" ;
+    rdfs:subClassOf p:ethnicity-code .
+
+ec:MixedOther a owl:Class ;
+    rdfs:label "12" ;
+    dct:title "Mixed or Multiple ethnic groups: Other Mixed or Multiple ethnic groups" ;
+    rdfs:subClassOf p:ethnicity-code .
+
+ec:MixedWhiteAsian a owl:Class ;
+    rdfs:label "9" ;
+    dct:title "Mixed or Multiple ethnic groups: White and Asian" ;
+    rdfs:subClassOf p:ethnicity-code .
+
+ec:MixedWhiteBlackAfrican a owl:Class ;
+    rdfs:label "10" ;
+    dct:title "Mixed or Multiple ethnic groups: White and Black African" ;
+    rdfs:subClassOf p:ethnicity-code .
+
+ec:MixedWhiteBlackCaribbean a owl:Class ;
+    rdfs:label "11" ;
+    dct:title "Mixed or Multiple ethnic groups: White and Black Caribbean" ;
+    rdfs:subClassOf p:ethnicity-code .
+
+ec:OtherAny a owl:Class ;
+    rdfs:label "19" ;
+    dct:title "Other ethnic group: Any other ethnic group" ;
+    rdfs:subClassOf p:ethnicity-code .
+
+ec:OtherArab a owl:Class ;
+    rdfs:label "18" ;
+    dct:title "Other ethnic group: Arab" ;
+    rdfs:subClassOf p:ethnicity-code .
+
+ec:WhiteBritish a owl:Class ;
+    rdfs:label "13" ;
+    dct:title "White: English, Welsh, Scottish, Northern Irish or British" ;
+    rdfs:subClassOf p:ethnicity-code .
+
+ec:WhiteGypsyOrIrishTraveller a owl:Class ;
+    rdfs:label "15" ;
+    dct:title "White: Gypsy or Irish Traveller" ;
+    rdfs:subClassOf p:ethnicity-code .
+
+ec:WhiteIrish a owl:Class ;
+    rdfs:label "14" ;
+    dct:title "White: Irish" ;
+    rdfs:subClassOf p:ethnicity-code .
+
+ec:WhiteOther a owl:Class ;
+    rdfs:label "17" ;
+    dct:title "White: Other White" ;
+    rdfs:subClassOf p:ethnicity-code .
+
+ec:WhiteRoma a owl:Class ;
+    rdfs:label "16" ;
+    dct:title "White: Roma" ;
+    rdfs:subClassOf p:ethnicity-code .
+
+gc:Female a owl:Class ;
+    rdfs:label "2" ;
+    dct:title "Female" ;
+    rdfs:subClassOf p:gender-code ;
+    skos:definition "The person identifies as female." .
+
+gc:Indeterminate a owl:Class ;
+    rdfs:label "9" ;
+    dct:title "Indeterminate" ;
+    rdfs:subClassOf p:gender-code ;
+    skos:definition "Unable to be classified as either male or female." .
+
+gc:Male a owl:Class ;
+    rdfs:label "1" ;
+    dct:title "Male" ;
+    rdfs:subClassOf p:gender-code ;
+    skos:definition "The person identifies as male." .
+
+gc:NotKnown a owl:Class ;
+    rdfs:label "X" ;
+    dct:title "Not Known" ;
+    rdfs:subClassOf p:gender-code ;
+    skos:definition "Not recorded, or information unavailable." .
+
+prc:ADOPTF a owl:Class ;
+    rdfs:label "ADOPTF" ;
+    dct:title "Adoptive father" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A male parent who legally adopted the scoping person." .
+
+prc:ADOPTM a owl:Class ;
+    rdfs:label "ADOPTM" ;
+    dct:title "Adoptive mother" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A female parent who legally adopted the scoping person." .
+
+prc:ADOPTP a owl:Class ;
+    rdfs:label "ADOPTP" ;
+    dct:title "Adoptive parent" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A parent who legally adopted the scoping person." .
+
+prc:AUNT a owl:Class ;
+    rdfs:label "AUNT" ;
+    dct:title "Aunt" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Sister of the scoping person's parent." .
+
+prc:BRO a owl:Class ;
+    rdfs:label "BRO" ;
+    dct:title "Brother" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Male sibling." .
+
+prc:BROINLAW a owl:Class ;
+    rdfs:label "BROINLAW" ;
+    dct:title "Brother-in-law" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "The spouse's brother, or the husband of the scoping person's sister." .
+
+prc:CHILD a owl:Class ;
+    rdfs:label "CHILD" ;
+    dct:title "Child" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Offspring of the scoping person." .
+
+prc:CHLDADOPT a owl:Class ;
+    rdfs:label "CHLDADOPT" ;
+    dct:title "Adopted child" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A child legally adopted and raised by the scoping person." .
+
+prc:CHLDFOST a owl:Class ;
+    rdfs:label "CHLDFOST" ;
+    dct:title "Foster child" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A child receiving parental care without legal or blood ties." .
+
+prc:CHLDINLAW a owl:Class ;
+    rdfs:label "CHLDINLAW" ;
+    dct:title "Child-in-law" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Spouse of the scoping person's child." .
+
+prc:COUSN a owl:Class ;
+    rdfs:label "COUSN" ;
+    dct:title "Cousin" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A relative descended from a common ancestor by multiple steps." .
+
+prc:DAU a owl:Class ;
+    rdfs:label "DAU" ;
+    dct:title "Natural daughter" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Female offspring of the scoping person." .
+
+prc:DAUADOPT a owl:Class ;
+    rdfs:label "DAUADOPT" ;
+    dct:title "Adopted daughter" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A female child legally adopted and raised by the scoping person." .
+
+prc:DAUC a owl:Class ;
+    rdfs:label "DAUC" ;
+    dct:title "Daughter" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A female child (of any type) of the scoping person." .
+
+prc:DAUFOST a owl:Class ;
+    rdfs:label "DAUFOST" ;
+    dct:title "Foster daughter" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A female child receiving foster parental care." .
+
+prc:DAUINLAW a owl:Class ;
+    rdfs:label "DAUINLAW" ;
+    dct:title "Daughter-in-law" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Wife of the scoping person's son." .
+
+prc:DOMPART a owl:Class ;
+    rdfs:label "DOMPART" ;
+    dct:title "Domestic partner" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A cohabiting partner who is not a spouse." .
+
+prc:EXT a owl:Class ;
+    rdfs:label "EXT" ;
+    dct:title "Extended family member" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A non-immediate genetic or legal relative (e.g. aunt, cousin)." .
+
+prc:FAMMEMB a owl:Class ;
+    rdfs:label "FAMMEMB" ;
+    dct:title "Family member" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A familial relationship between two people." .
+
+prc:FMRSPS a owl:Class ;
+    rdfs:label "FMRSPS" ;
+    dct:title "Former spouse" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A previously married partner; the marriage has been dissolved." .
+
+prc:FRND a owl:Class ;
+    rdfs:label "FRND" ;
+    dct:title "Friend" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A known, liked, and trusted person who is not a relative." .
+
+prc:FTH a owl:Class ;
+    rdfs:label "FTH" ;
+    dct:title "Father" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Male parent." .
+
+prc:FTHFOST a owl:Class ;
+    rdfs:label "FTHFOST" ;
+    dct:title "Foster father" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Male state-certified caregiver for the scoping person as a foster child." .
+
+prc:FTHINLAW a owl:Class ;
+    rdfs:label "FTHINLAW" ;
+    dct:title "Father-in-law" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Father of the scoping person's spouse." .
+
+prc:FTWIN a owl:Class ;
+    rdfs:label "FTWIN" ;
+    dct:title "Fraternal twin" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A twin from distinct egg/sperm pairs." .
+
+prc:FTWINBRO a owl:Class ;
+    rdfs:label "FTWINBRO" ;
+    dct:title "Fraternal twin brother" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Male fraternal twin." .
+
+prc:FTWINSIS a owl:Class ;
+    rdfs:label "FTWINSIS" ;
+    dct:title "Fraternal twin sister" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Female fraternal twin." .
+
+prc:GESTM a owl:Class ;
+    rdfs:label "GESTM" ;
+    dct:title "Gestational mother" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A woman whose womb carried the foetus (distinct from biological mother where surrogacy is involved)." .
+
+prc:GGRFTH a owl:Class ;
+    rdfs:label "GGRFTH" ;
+    dct:title "Great-grandfather" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Father of the scoping person's grandparent." .
+
+prc:GGRMTH a owl:Class ;
+    rdfs:label "GGRMTH" ;
+    dct:title "Great-grandmother" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Mother of the scoping person's grandparent." .
+
+prc:GGRPRN a owl:Class ;
+    rdfs:label "GGRPRN" ;
+    dct:title "Great-grandparent" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Parent of the scoping person's grandparent." .
+
+prc:GRFTH a owl:Class ;
+    rdfs:label "GRFTH" ;
+    dct:title "Grandfather" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Father of the scoping person's parent." .
+
+prc:GRMTH a owl:Class ;
+    rdfs:label "GRMTH" ;
+    dct:title "Grandmother" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Mother of the scoping person's parent." .
+
+prc:GRNDCHILD a owl:Class ;
+    rdfs:label "GRNDCHILD" ;
+    dct:title "Grandchild" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Child of the scoping person's son or daughter." .
+
+prc:GRNDDAU a owl:Class ;
+    rdfs:label "GRNDDAU" ;
+    dct:title "Granddaughter" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Daughter of the scoping person's child." .
+
+prc:GRNDSON a owl:Class ;
+    rdfs:label "GRNDSON" ;
+    dct:title "Grandson" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Son of the scoping person's child." .
+
+prc:GRPRN a owl:Class ;
+    rdfs:label "GRPRN" ;
+    dct:title "Grandparent" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Parent of the scoping person's parent." .
+
+prc:HBRO a owl:Class ;
+    rdfs:label "HBRO" ;
+    dct:title "Half-brother" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Male sibling related by a single biological parent." .
+
+prc:HSIB a owl:Class ;
+    rdfs:label "HSIB" ;
+    dct:title "Half-sibling" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Related to the scoping person by a single biological parent." .
+
+prc:HSIS a owl:Class ;
+    rdfs:label "HSIS" ;
+    dct:title "Half-sister" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Female sibling related by a single biological parent." .
+
+prc:HUSB a owl:Class ;
+    rdfs:label "HUSB" ;
+    dct:title "Husband" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A man joined in marriage." .
+
+prc:INLAW a owl:Class ;
+    rdfs:label "INLAW" ;
+    dct:title "In-law" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A member of the scoping person's spouse's immediate family." .
+
+prc:ITWIN a owl:Class ;
+    rdfs:label "ITWIN" ;
+    dct:title "Identical twin" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A twin from the same egg/sperm pair as the scoping person." .
+
+prc:ITWINBRO a owl:Class ;
+    rdfs:label "ITWINBRO" ;
+    dct:title "Identical twin brother" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Male identical twin." .
+
+prc:ITWINSIS a owl:Class ;
+    rdfs:label "ITWINSIS" ;
+    dct:title "Identical twin sister" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Female identical twin." .
+
+prc:MAUNT a owl:Class ;
+    rdfs:label "MAUNT" ;
+    dct:title "Maternal aunt" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Biological sister of the scoping person's biological mother." .
+
+prc:MCOUSN a owl:Class ;
+    rdfs:label "MCOUSN" ;
+    dct:title "Maternal cousin" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Biological relative via the scoping person's mother's line." .
+
+prc:MGGRFTH a owl:Class ;
+    rdfs:label "MGGRFTH" ;
+    dct:title "Maternal great-grandfather" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Biological father of the scoping person's maternal grandparent." .
+
+prc:MGGRMTH a owl:Class ;
+    rdfs:label "MGGRMTH" ;
+    dct:title "Maternal great-grandmother" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Biological mother of the scoping person's maternal grandparent." .
+
+prc:MGGRPRN a owl:Class ;
+    rdfs:label "MGGRPRN" ;
+    dct:title "Maternal great-grandparent" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Biological parent of the scoping person's maternal grandparent." .
+
+prc:MGRFTH a owl:Class ;
+    rdfs:label "MGRFTH" ;
+    dct:title "Maternal grandfather" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Biological father of the scoping person's biological mother." .
+
+prc:MGRMTH a owl:Class ;
+    rdfs:label "MGRMTH" ;
+    dct:title "Maternal grandmother" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Biological mother of the scoping person's biological mother." .
+
+prc:MGRPRN a owl:Class ;
+    rdfs:label "MGRPRN" ;
+    dct:title "Maternal grandparent" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Biological parent of the scoping person's biological mother." .
+
+prc:MTH a owl:Class ;
+    rdfs:label "MTH" ;
+    dct:title "Mother" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Female parent." .
+
+prc:MTHFOST a owl:Class ;
+    rdfs:label "MTHFOST" ;
+    dct:title "Foster mother" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Female state-certified caregiver for the scoping person as a foster child." .
+
+prc:MTHINLAW a owl:Class ;
+    rdfs:label "MTHINLAW" ;
+    dct:title "Mother-in-law" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Mother of the scoping person's spouse." .
+
+prc:MUNCLE a owl:Class ;
+    rdfs:label "MUNCLE" ;
+    dct:title "Maternal uncle" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Biological brother of the scoping person's biological mother." .
+
+prc:NBOR a owl:Class ;
+    rdfs:label "NBOR" ;
+    dct:title "Neighbour" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A person living nearby." .
+
+prc:NBRO a owl:Class ;
+    rdfs:label "NBRO" ;
+    dct:title "Natural brother" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Male sibling with the same biological parents as the scoping person." .
+
+prc:NCHILD a owl:Class ;
+    rdfs:label "NCHILD" ;
+    dct:title "Natural child" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Offspring determined by birth." .
+
+prc:NEPHEW a owl:Class ;
+    rdfs:label "NEPHEW" ;
+    dct:title "Nephew" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Son of the scoping person's sibling." .
+
+prc:NFTH a owl:Class ;
+    rdfs:label "NFTH" ;
+    dct:title "Natural father" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Male biological parent." .
+
+prc:NIECE a owl:Class ;
+    rdfs:label "NIECE" ;
+    dct:title "Niece" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Daughter of the scoping person's sibling." .
+
+prc:NIENEPH a owl:Class ;
+    rdfs:label "NIENEPH" ;
+    dct:title "Niece/nephew" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Child of the scoping person's sibling." .
+
+prc:NMTH a owl:Class ;
+    rdfs:label "NMTH" ;
+    dct:title "Natural mother" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Female biological parent." .
+
+prc:NPRN a owl:Class ;
+    rdfs:label "NPRN" ;
+    dct:title "Natural parent" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Biological parent." .
+
+prc:NSIB a owl:Class ;
+    rdfs:label "NSIB" ;
+    dct:title "Natural sibling" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Both biological parents in common with the scoping person." .
+
+prc:NSIS a owl:Class ;
+    rdfs:label "NSIS" ;
+    dct:title "Natural sister" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Female sibling with the same biological parents as the scoping person." .
+
+prc:ONESELF a owl:Class ;
+    rdfs:label "ONESELF" ;
+    dct:title "Self" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A relationship of the person with themselves (used to express identity links)." .
+
+prc:PAUNT a owl:Class ;
+    rdfs:label "PAUNT" ;
+    dct:title "Paternal aunt" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Biological sister of the scoping person's biological father." .
+
+prc:PCOUSN a owl:Class ;
+    rdfs:label "PCOUSN" ;
+    dct:title "Paternal cousin" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Biological relative via the scoping person's father's line." .
+
+prc:PGGRFTH a owl:Class ;
+    rdfs:label "PGGRFTH" ;
+    dct:title "Paternal great-grandfather" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Biological father of the scoping person's paternal grandparent." .
+
+prc:PGGRMTH a owl:Class ;
+    rdfs:label "PGGRMTH" ;
+    dct:title "Paternal great-grandmother" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Biological mother of the scoping person's paternal grandparent." .
+
+prc:PGGRPRN a owl:Class ;
+    rdfs:label "PGGRPRN" ;
+    dct:title "Paternal great-grandparent" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Biological parent of the scoping person's paternal grandparent." .
+
+prc:PGRFTH a owl:Class ;
+    rdfs:label "PGRFTH" ;
+    dct:title "Paternal grandfather" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Biological father of the scoping person's biological father." .
+
+prc:PGRMTH a owl:Class ;
+    rdfs:label "PGRMTH" ;
+    dct:title "Paternal grandmother" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Biological mother of the scoping person's biological father." .
+
+prc:PGRPRN a owl:Class ;
+    rdfs:label "PGRPRN" ;
+    dct:title "Paternal grandparent" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Biological parent of the scoping person's biological father." .
+
+prc:PRN a owl:Class ;
+    rdfs:label "PRN" ;
+    dct:title "Parent" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "One who begets, gives birth to, or raises the scoping person." .
+
+prc:PRNFOST a owl:Class ;
+    rdfs:label "PRNFOST" ;
+    dct:title "Foster parent" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A state-certified caregiver for the scoping person as a foster child." .
+
+prc:PRNINLAW a owl:Class ;
+    rdfs:label "PRNINLAW" ;
+    dct:title "Parent-in-law" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A parent of the scoping person's spouse." .
+
+prc:PUNCLE a owl:Class ;
+    rdfs:label "PUNCLE" ;
+    dct:title "Paternal uncle" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Biological brother of the scoping person's biological father." .
+
+prc:ROOM a owl:Class ;
+    rdfs:label "ROOM" ;
+    dct:title "Roommate" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A person sharing living quarters." .
+
+prc:SIB a owl:Class ;
+    rdfs:label "SIB" ;
+    dct:title "Sibling" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Shares one or both parents with the scoping person." .
+
+prc:SIBINLAW a owl:Class ;
+    rdfs:label "SIBINLAW" ;
+    dct:title "Sibling-in-law" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "The spouse's sibling or the spouse of the scoping person's sibling." .
+
+prc:SIGOTHR a owl:Class ;
+    rdfs:label "SIGOTHR" ;
+    dct:title "Significant other" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A person important to the scoping person's well-being (spouse or equivalent)." .
+
+prc:SIS a owl:Class ;
+    rdfs:label "SIS" ;
+    dct:title "Sister" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Female sibling." .
+
+prc:SISINLAW a owl:Class ;
+    rdfs:label "SISINLAW" ;
+    dct:title "Sister-in-law" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "The spouse's sister, or the wife of the scoping person's brother." .
+
+prc:SON a owl:Class ;
+    rdfs:label "SON" ;
+    dct:title "Natural son" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Male offspring of the scoping person." .
+
+prc:SONADOPT a owl:Class ;
+    rdfs:label "SONADOPT" ;
+    dct:title "Adopted son" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A male child legally adopted and raised by the scoping person." .
+
+prc:SONC a owl:Class ;
+    rdfs:label "SONC" ;
+    dct:title "Son" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A male child (of any type) of the scoping person." .
+
+prc:SONFOST a owl:Class ;
+    rdfs:label "SONFOST" ;
+    dct:title "Foster son" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A male child receiving foster parental care." .
+
+prc:SONINLAW a owl:Class ;
+    rdfs:label "SONINLAW" ;
+    dct:title "Son-in-law" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Husband of the scoping person's daughter." .
+
+prc:SPS a owl:Class ;
+    rdfs:label "SPS" ;
+    dct:title "Spouse" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Marriage partner." .
+
+prc:STPBRO a owl:Class ;
+    rdfs:label "STPBRO" ;
+    dct:title "Stepbrother" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A son of the scoping person's stepparent." .
+
+prc:STPCHLD a owl:Class ;
+    rdfs:label "STPCHLD" ;
+    dct:title "Stepchild" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A child of the scoping person's spouse by a previous union." .
+
+prc:STPDAU a owl:Class ;
+    rdfs:label "STPDAU" ;
+    dct:title "Stepdaughter" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A daughter of the scoping person's spouse by a previous union." .
+
+prc:STPFTH a owl:Class ;
+    rdfs:label "STPFTH" ;
+    dct:title "Stepfather" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Husband of the scoping person's mother, where he is not the biological father." .
+
+prc:STPMTH a owl:Class ;
+    rdfs:label "STPMTH" ;
+    dct:title "Stepmother" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Wife of the scoping person's father, where she is not the biological mother." .
+
+prc:STPPRN a owl:Class ;
+    rdfs:label "STPPRN" ;
+    dct:title "Stepparent" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Spouse of the scoping person's parent, where they are not the biological parent." .
+
+prc:STPSIB a owl:Class ;
+    rdfs:label "STPSIB" ;
+    dct:title "Stepsibling" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A child of the scoping person's stepparent." .
+
+prc:STPSIS a owl:Class ;
+    rdfs:label "STPSIS" ;
+    dct:title "Stepsister" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A daughter of the scoping person's stepparent." .
+
+prc:STPSON a owl:Class ;
+    rdfs:label "STPSON" ;
+    dct:title "Stepson" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A son of the scoping person's spouse by a previous union." .
+
+prc:TWIN a owl:Class ;
+    rdfs:label "TWIN" ;
+    dct:title "Twin" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A twin from the same womb or parental pairing as the scoping person." .
+
+prc:TWINBRO a owl:Class ;
+    rdfs:label "TWINBRO" ;
+    dct:title "Twin brother" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Male twin." .
+
+prc:TWINSIS a owl:Class ;
+    rdfs:label "TWINSIS" ;
+    dct:title "Twin sister" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Female twin." .
+
+prc:UNCLE a owl:Class ;
+    rdfs:label "UNCLE" ;
+    dct:title "Uncle" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "Brother of the scoping person's parent." .
+
+prc:WIFE a owl:Class ;
+    rdfs:label "WIFE" ;
+    dct:title "Wife" ;
+    rdfs:subClassOf p:person-relationship-code ;
+    skos:definition "A woman joined in marriage." .
+
+psc:Female a owl:Class ;
+    rdfs:label "2" ;
+    dct:title "Female" ;
+    rdfs:subClassOf p:phenotypic-sex-code ;
+    skos:definition "The person is phenotypically female." .
+
+psc:Indeterminate a owl:Class ;
+    rdfs:label "9" ;
+    dct:title "Indeterminate" ;
+    rdfs:subClassOf p:phenotypic-sex-code ;
+    skos:definition "Unable to be classified phenotypically as either male or female." .
+
+psc:Male a owl:Class ;
+    rdfs:label "1" ;
+    dct:title "Male" ;
+    rdfs:subClassOf p:phenotypic-sex-code ;
+    skos:definition "The person is phenotypically male." .
+
+psc:NotKnown a owl:Class ;
+    rdfs:label "X" ;
+    dct:title "Not Known" ;
+    rdfs:subClassOf p:phenotypic-sex-code ;
+    skos:definition "Not recorded, or information unavailable." .
+
+p:PartialDate a owl:Class ;
+    rdfs:label "PartialDate" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty p:date ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom [ a rdfs:Datatype ;
+                    owl:intersectionOf ( xsd:string [ a rdfs:Datatype ;
+                                owl:onDatatype xsd:string ;
+                                owl:withRestrictions ( [ xsd:pattern "^[AEU]{3}$" ] ) ] ) ] ;
+            owl:onProperty p:accuracyIndicator ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty p:accuracyIndicator ] ;
+    skos:definition "Container for a date that may not be fully known or precise, extended with an accuracy indicator. Used for dates of birth and dates of death." ;
+    skos:exactMatch p:PartialDate ;
+    skos:inScheme p:person .
+
+p:gender-code a owl:Class ;
+    rdfs:label "GenderCode" ;
+    dct:title "Gender Code" ;
+    owl:unionOf ( gc:Male gc:Female gc:Indeterminate gc:NotKnown ) ;
+    skos:definition "A person's stated gender identity, as distinct from biological sex. Aligned with NHS PERSON_STATED_GENDER_CODE." ;
+    skos:inScheme p:person ;
+    linkml:permissible_values gc:Female,
+        gc:Indeterminate,
+        gc:Male,
+        gc:NotKnown .
+
+p:phenotypic-sex-code a owl:Class ;
+    rdfs:label "PhenotypicSexCode" ;
+    dct:title "Phenotypic Sex Code" ;
+    owl:unionOf ( psc:Male psc:Female psc:Indeterminate psc:NotKnown ) ;
+    skos:definition "Observed phenotypic sex where recorded, representing biological characteristics rather than gender identity. Aligned with NHS PDS PERSON_PHENOTYPIC_SEX." ;
+    skos:inScheme p:person ;
+    linkml:permissible_values psc:Female,
+        psc:Indeterminate,
+        psc:Male,
+        psc:NotKnown .
+
+p:ethnicity-code a owl:Class ;
+    rdfs:label "EthnicityCode" ;
+    dct:title "Ethnicity Code" ;
+    owl:unionOf ( ec:AsianBangladeshi ec:AsianChinese ec:AsianIndian ec:AsianPakistani ec:AsianOther ec:BlackAfrican ec:BlackCaribbean ec:BlackOther ec:MixedWhiteAsian ec:MixedWhiteBlackAfrican ec:MixedWhiteBlackCaribbean ec:MixedOther ec:WhiteBritish ec:WhiteIrish ec:WhiteGypsyOrIrishTraveller ec:WhiteRoma ec:WhiteOther ec:OtherArab ec:OtherAny ec:DoesNotApply ) ;
+    skos:definition "The person's stated ethnicity. Uses ONS Census 2021 Ethnic group classification 20b codes." ;
+    skos:inScheme p:person ;
+    linkml:permissible_values ec:AsianBangladeshi,
+        ec:AsianChinese,
+        ec:AsianIndian,
+        ec:AsianOther,
+        ec:AsianPakistani,
+        ec:BlackAfrican,
+        ec:BlackCaribbean,
+        ec:BlackOther,
+        ec:DoesNotApply,
+        ec:MixedOther,
+        ec:MixedWhiteAsian,
+        ec:MixedWhiteBlackAfrican,
+        ec:MixedWhiteBlackCaribbean,
+        ec:OtherAny,
+        ec:OtherArab,
+        ec:WhiteBritish,
+        ec:WhiteGypsyOrIrishTraveller,
+        ec:WhiteIrish,
+        ec:WhiteOther,
+        ec:WhiteRoma .
+
+p:person a owl:Ontology ;
+    rdfs:label "person" ;
+    dct:license "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" ;
+    dct:title "Person Standard Data Model" ;
+    pav:version "1.0.0" ;
+    owl:imports p:common ;
+    skos:definition """A single LinkML data model for the Person Standard: a common data model for identifying and describing a person across social care systems, designed to unblock multi-agency information sharing (MAIS) and Single View use cases.
+This schema is the authoritative *shared core* for person identity. It defines the person-specific sub-entities (PersonRelationship, PartialDate, Communication, Language), every person slot, the person controlled vocabularies, and a canonical base `Person`. The cross-cutting building blocks (Identifier, Name, Address, Contact and their vocabularies) live in the `common` module and are imported. The two conformance profiles - `person-subject-of-care.yaml` and `person-connected.yaml` - import this file and redefine `Person` with the cardinalities appropriate to a person who is the subject of care versus a related/connected person. SHACL is generated from the two profile files.""" .
+
+p:person-relationship-code a owl:Class ;
+    rdfs:label "PersonRelationshipCode" ;
+    dct:title "Person Relationship Code" ;
+    owl:unionOf ( prc:FAMMEMB prc:CHILD prc:NCHILD prc:CHLDADOPT prc:DAUADOPT prc:SONADOPT prc:CHLDFOST prc:DAUFOST prc:SONFOST prc:DAUC prc:DAU prc:STPDAU prc:SON prc:SONC prc:STPSON prc:STPCHLD prc:EXT prc:AUNT prc:MAUNT prc:PAUNT prc:UNCLE prc:MUNCLE prc:PUNCLE prc:COUSN prc:MCOUSN prc:PCOUSN prc:NIENEPH prc:NEPHEW prc:NIECE prc:GGRPRN prc:GGRFTH prc:MGGRFTH prc:PGGRFTH prc:GGRMTH prc:MGGRMTH prc:PGGRMTH prc:MGGRPRN prc:PGGRPRN prc:GRPRN prc:GRFTH prc:MGRFTH prc:PGRFTH prc:GRMTH prc:MGRMTH prc:PGRMTH prc:MGRPRN prc:PGRPRN prc:GRNDCHILD prc:GRNDDAU prc:GRNDSON prc:INLAW prc:CHLDINLAW prc:DAUINLAW prc:SONINLAW prc:PRNINLAW prc:FTHINLAW prc:MTHINLAW prc:SIBINLAW prc:BROINLAW prc:SISINLAW prc:PRN prc:NPRN prc:ADOPTP prc:ADOPTF prc:ADOPTM prc:PRNFOST prc:STPPRN prc:FTH prc:NFTH prc:FTHFOST prc:STPFTH prc:MTH prc:NMTH prc:GESTM prc:MTHFOST prc:STPMTH prc:SIB prc:NSIB prc:HSIB prc:STPSIB prc:BRO prc:NBRO prc:HBRO prc:STPBRO prc:SIS prc:NSIS prc:HSIS prc:STPSIS prc:TWIN prc:TWINBRO prc:TWINSIS prc:ITWIN prc:ITWINBRO prc:ITWINSIS prc:FTWIN prc:FTWINBRO prc:FTWINSIS prc:SPS prc:HUSB prc:WIFE prc:FMRSPS prc:DOMPART prc:SIGOTHR prc:FRND prc:NBOR prc:ROOM prc:ONESELF ) ;
+    skos:definition "HL7 v3 PersonalRelationshipRoleType concepts describing personal relationships between individuals (family, spousal, foster, adoptive, other)." ;
+    skos:inScheme p:person ;
+    linkml:permissible_values prc:ADOPTF,
+        prc:ADOPTM,
+        prc:ADOPTP,
+        prc:AUNT,
+        prc:BRO,
+        prc:BROINLAW,
+        prc:CHILD,
+        prc:CHLDADOPT,
+        prc:CHLDFOST,
+        prc:CHLDINLAW,
+        prc:COUSN,
+        prc:DAU,
+        prc:DAUADOPT,
+        prc:DAUC,
+        prc:DAUFOST,
+        prc:DAUINLAW,
+        prc:DOMPART,
+        prc:EXT,
+        prc:FAMMEMB,
+        prc:FMRSPS,
+        prc:FRND,
+        prc:FTH,
+        prc:FTHFOST,
+        prc:FTHINLAW,
+        prc:FTWIN,
+        prc:FTWINBRO,
+        prc:FTWINSIS,
+        prc:GESTM,
+        prc:GGRFTH,
+        prc:GGRMTH,
+        prc:GGRPRN,
+        prc:GRFTH,
+        prc:GRMTH,
+        prc:GRNDCHILD,
+        prc:GRNDDAU,
+        prc:GRNDSON,
+        prc:GRPRN,
+        prc:HBRO,
+        prc:HSIB,
+        prc:HSIS,
+        prc:HUSB,
+        prc:INLAW,
+        prc:ITWIN,
+        prc:ITWINBRO,
+        prc:ITWINSIS,
+        prc:MAUNT,
+        prc:MCOUSN,
+        prc:MGGRFTH,
+        prc:MGGRMTH,
+        prc:MGGRPRN,
+        prc:MGRFTH,
+        prc:MGRMTH,
+        prc:MGRPRN,
+        prc:MTH,
+        prc:MTHFOST,
+        prc:MTHINLAW,
+        prc:MUNCLE,
+        prc:NBOR,
+        prc:NBRO,
+        prc:NCHILD,
+        prc:NEPHEW,
+        prc:NFTH,
+        prc:NIECE,
+        prc:NIENEPH,
+        prc:NMTH,
+        prc:NPRN,
+        prc:NSIB,
+        prc:NSIS,
+        prc:ONESELF,
+        prc:PAUNT,
+        prc:PCOUSN,
+        prc:PGGRFTH,
+        prc:PGGRMTH,
+        prc:PGGRPRN,
+        prc:PGRFTH,
+        prc:PGRMTH,
+        prc:PGRPRN,
+        prc:PRN,
+        prc:PRNFOST,
+        prc:PRNINLAW,
+        prc:PUNCLE,
+        prc:ROOM,
+        prc:SIB,
+        prc:SIBINLAW,
+        prc:SIGOTHR,
+        prc:SIS,
+        prc:SISINLAW,
+        prc:SON,
+        prc:SONADOPT,
+        prc:SONC,
+        prc:SONFOST,
+        prc:SONINLAW,
+        prc:SPS,
+        prc:STPBRO,
+        prc:STPCHLD,
+        prc:STPDAU,
+        prc:STPFTH,
+        prc:STPMTH,
+        prc:STPPRN,
+        prc:STPSIB,
+        prc:STPSIS,
+        prc:STPSON,
+        prc:TWIN,
+        prc:TWINBRO,
+        prc:TWINSIS,
+        prc:UNCLE,
+        prc:WIFE .
+

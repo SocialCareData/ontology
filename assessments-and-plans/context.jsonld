@@ -1,0 +1,149 @@
+{
+  "@context": {
+    "ap":   "https://ontology.socialcaredata.io/",
+    "apc":  "https://ontology.socialcaredata.io/care-outcome-type#",
+    "act":  "https://ontology.socialcaredata.io/care-actor-type#",
+    "at":   "https://ontology.socialcaredata.io/answer-type#",
+    "qc":   "https://ontology.socialcaredata.io/question-category#",
+    "cds":  "https://ontology.socialcaredata.io/care-document-status#",
+    "xsd":  "http://www.w3.org/2001/XMLSchema#",
+    "ex":   "https://example.org/assessments-and-plans/",
+    "p": "https://ontology.socialcaredata.io/",
+
+    "CareNeedsAssessment":       "ap:CareNeedsAssessment",
+    "CarePlan":                  "ap:CarePlan",
+    "Review":                    "ap:Review",
+    "AssessmentQuestion":        "ap:AssessmentQuestion",
+    "CareComponent":             "ap:CareComponent",
+    "CareActor":                 "ap:CareActor",
+    "CareTiming":                  "ap:CareTiming",
+    "CareActivity":              "ap:CareActivity",
+    "Identifier":                "p:Identifier",
+
+    "identifier":                    { "@id": "ap:identifier",                    "@type": "@id" },
+    "personId":                      { "@id": "ap:personId",                      "@type": "@id" },
+    "professionalId":                { "@id": "ap:professionalId",                "@type": "@id" },
+    "dateCompleted":                 { "@id": "ap:dateCompleted",                 "@type": "xsd:dateTime" },
+    "capacityToCompleteAssessment":  { "@id": "ap:capacityToCompleteAssessment",  "@type": "xsd:boolean" },
+    "advocateRequired":              { "@id": "ap:advocateRequired",              "@type": "xsd:boolean" },
+    "consentToInformationSharing":   { "@id": "ap:consentToInformationSharing",   "@type": "xsd:boolean" },
+    "review":                        { "@id": "ap:review",                        "@type": "@id", "@container": "@set" },
+    "serviceEpisodeId":              { "@id": "ap:serviceEpisodeId",              "@type": "@id", "@container": "@set" },
+
+    "isReview":                      { "@id": "ap:isReview",                      "@type": "xsd:boolean" },
+    "previousId":                    { "@id": "ap:previousId",                    "@type": "@id", "@container": "@set" },
+
+    "planId":                        { "@id": "ap:planId",                        "@type": "@id" },
+    "assessmentQuestion":            { "@id": "ap:assessmentQuestion",            "@type": "@id", "@container": "@set" },
+
+    "questionId":                    "ap:questionId",
+    "questionText":                  "ap:questionText",
+    "answer":                        { "@id": "ap:answer",                        "@container": "@set" },
+    "required":                      { "@id": "ap:required",                      "@type": "xsd:boolean" },
+
+    "assessmentId":                  { "@id": "ap:assessmentId",                  "@type": "@id" },
+    "careComponent":                 { "@id": "ap:careComponent",                 "@type": "@id", "@container": "@set" },
+
+    "actor":                         { "@id": "ap:actor",                         "@type": "@id", "@container": "@set" },
+    "time":                          { "@id": "ap:time",                          "@type": "@id" },
+    "activity":                      { "@id": "ap:activity",                      "@type": "@id" },
+
+    "actorId":                       { "@id": "ap:actorId",                       "@type": "@id" },
+    "frequency":                     "ap:frequency",
+    "startDateTime":                 { "@id": "ap:startDateTime",                 "@type": "xsd:dateTime" },
+    "endDateTime":                   { "@id": "ap:endDateTime",                   "@type": "xsd:dateTime" },
+
+    "activityDescription":           "ap:activityDescription",
+    "directPayment":                 { "@id": "ap:directPayment",                 "@type": "xsd:boolean" },
+
+    "value":                         "p:value",
+    "system":                        { "@id": "p:system",                         "@type": "@id" },
+
+    "status": {
+      "@id": "ap:status",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ontology.socialcaredata.io/care-document-status#",
+        "draft":            "cds:draft",
+        "active":           "cds:active",
+        "on-hold":          "cds:on-hold",
+        "entered-in-error": "cds:entered-in-error",
+        "ended":            "cds:ended",
+        "completed":        "cds:completed",
+        "revoked":          "cds:revoked",
+        "unknown":          "cds:unknown"
+      }
+    },
+
+    "category": {
+      "@id": "ap:category",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ontology.socialcaredata.io/question-category#",
+        "PersonalContext":             "qc:PersonalContext",
+        "Health":                      "qc:Health",
+        "Housing":                     "qc:Housing",
+        "Finance":                     "qc:Finance",
+        "Communication needs":         "qc:CommunicationNeeds",
+        "CA.nutrition":                "qc:CANutrition",
+        "CA.hygiene":                  "qc:CAHygiene",
+        "CA.toilet":                   "qc:CAToilet",
+        "CA.clothing":                 "qc:CAClothing",
+        "CA.homeSafety":               "qc:CAHomeSafety",
+        "CA.habitableHome":             "qc:CAHabitableHome",
+        "CA.maintainingRelationships": "qc:CAMaintainingRelationships",
+        "CA.WTEV":                     "qc:CAWTEV",
+        "CA.communityServices":        "qc:CACommunityServices",
+        "CA.responsibilityForOthers":  "qc:CAResponsibilityForOthers",
+        "Eligibility":                 "qc:Eligibility",
+        "Emergencies":                 "qc:Emergencies",
+        "Other":                       "qc:Other"
+      }
+    },
+
+    "answerType": {
+      "@id": "ap:answerType",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ontology.socialcaredata.io/answer-type#",
+        "String":  "at:String",
+        "Boolean": "at:Boolean",
+        "Date":    "at:Date",
+        "Number":  "at:Number",
+        "Enum":    "at:Enum"
+      }
+    },
+
+    "actorType": {
+      "@id": "ap:actorType",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ontology.socialcaredata.io/care-actor-type#",
+        "Self":                  "act:Self",
+        "Family":                "act:Family",
+        "Friend":                "act:Friend",
+        "Community":             "act:Community",
+        "Other unpaid carer":    "act:OtherUnpaidCarer",
+        "Professional services": "act:ProfessionalServices"
+      }
+    },
+
+    "outcome": {
+      "@id": "ap:outcome",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ontology.socialcaredata.io/care-outcome-type#",
+        "CA-NUTRITION":     "apc:CANutrition",
+        "CA-HYGIENE":       "apc:CAHygiene",
+        "CA-TOILET":        "apc:CAToilet",
+        "CA-CLOTHING":       "apc:CAClothing",
+        "CA-HOMESAFETY":     "apc:CAHomeSafety",
+        "CA-HABITABLEHOME":  "apc:CAHabitableHome",
+        "CA-RELATIONSHIPS":  "apc:CAMaintainingRelationships",
+        "CA-WTEV":           "apc:CAWTEV",
+        "CA-COMMUNITY":      "apc:CACommunityServices",
+        "CA-CARINGOTHERS":   "apc:CAResponsibilityForOthers"
+      }
+    }
+  }
+}

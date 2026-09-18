@@ -1,0 +1,69 @@
+{
+  "@context": {
+    "sc":  "https://ontology.socialcaredata.io/",
+    "nuc": "https://ontology.socialcaredata.io/name-use-code#",
+    "auc": "https://ontology.socialcaredata.io/address-use-code#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "Identifier": "sc:Identifier",
+    "Name": {
+      "@id": "sc:Name",
+      "@context": {
+        "use": {
+          "@id": "sc:use",
+          "@type": "@vocab",
+          "@context": {
+            "@vocab": "https://ontology.socialcaredata.io/name-use-code#",
+            "usual":     "nuc:Usual",
+            "official":  "nuc:Official",
+            "temp":      "nuc:Temp",
+            "nickname":  "nuc:Nickname",
+            "anonymous": "nuc:Anonymous",
+            "old":       "nuc:Old",
+            "maiden":    "nuc:Maiden"
+          }
+        }
+      }
+    },
+    "Address": {
+      "@id": "sc:Address",
+      "@context": {
+        "use": {
+          "@id": "sc:use",
+          "@type": "@vocab",
+          "@context": {
+            "@vocab": "https://ontology.socialcaredata.io/address-use-code#",
+            "home":    "auc:Home",
+            "work":    "auc:Work",
+            "temp":    "auc:Temp",
+            "old":     "auc:Old",
+            "billing": "auc:Billing"
+          }
+        }
+      }
+    },
+    "Contact": {
+      "@id": "sc:Contact",
+      "@context": {
+        "name": "sc:contactName"
+      }
+    },
+
+    "value":         "sc:value",
+    "system":        { "@id": "sc:system", "@type": "@id" },
+
+    "familyName":    { "@id": "sc:familyName", "@container": "@set" },
+    "givenName":     { "@id": "sc:givenName",  "@container": "@set" },
+    "preferredName": "sc:preferredName",
+
+    "line1":    "sc:line1",
+    "line2":    "sc:line2",
+    "city":     "sc:city",
+    "postcode": "sc:postcode",
+    "UPRN":     "sc:UPRN",
+    "USRN":     "sc:USRN",
+
+    "email":     { "@id": "sc:email",     "@container": "@set" },
+    "telephone": { "@id": "sc:telephone", "@container": "@set" }
+  }
+}

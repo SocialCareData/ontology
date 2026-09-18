@@ -1,0 +1,585 @@
+@prefix eo: <https://ontology.socialcaredata.io/episode-outcome#> .
+@prefix epc: <https://ontology.socialcaredata.io/episode-code#> .
+@prefix evc: <https://ontology.socialcaredata.io/event-code#> .
+@prefix linkml: <https://w3id.org/linkml/> .
+@prefix mt: <https://ontology.socialcaredata.io/measurement-type#> .
+@prefix mu: <https://ontology.socialcaredata.io/measurement-unit#> .
+@prefix oc: <https://ontology.socialcaredata.io/organisation-code#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix scf: <https://ontology.socialcaredata.io/service-cost-frequency#> .
+@prefix sd: <https://ontology.socialcaredata.io/service-delivery#> .
+@prefix sg: <https://ontology.socialcaredata.io/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix svc: <https://ontology.socialcaredata.io/service-code#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+sg:AddressShape a sh:NodeShape ;
+    rdfs:comment "A postal address. Aligned with FHIR Address. UPRN and USRN support property- and street-level disambiguation." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "How this address is used - home, work, temp, etc." ;
+            sh:in ( <https://ontology.socialcaredata.io/address-use-code#Home> <https://ontology.socialcaredata.io/address-use-code#Work> <https://ontology.socialcaredata.io/address-use-code#Temp> <https://ontology.socialcaredata.io/address-use-code#Old> <https://ontology.socialcaredata.io/address-use-code#Billing> ) ;
+            sh:maxCount 1 ;
+            sh:name "use" ;
+            sh:order 6 ;
+            sh:path sg:use ],
+        [ sh:datatype xsd:string ;
+            sh:description "Unique Property Reference Number of the address." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 4 ;
+            sh:path sg:UPRN ],
+        [ sh:datatype xsd:string ;
+            sh:description "Apartment, suite, unit, building, floor, etc." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sg:line2 ],
+        [ sh:datatype xsd:string ;
+            sh:description "Unique Street Reference Number of the address." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 5 ;
+            sh:path sg:USRN ],
+        [ sh:datatype xsd:string ;
+            sh:description "City, town, or village." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path sg:city ],
+        [ sh:datatype xsd:string ;
+            sh:description "Street address (e.g. \"1 High Street\") or care-of line." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sg:line1 ],
+        [ sh:datatype xsd:string ;
+            sh:description "UK postcode in standard format (e.g. AB1 2CD)." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 3 ;
+            sh:path sg:postcode ;
+            sh:pattern "^[A-Z]{1,2}[0-9][0-9A-Z]? ?[0-9][A-Z]{2}$" ] ;
+    sh:targetClass sg:Address .
+
+sg:ContactShape a sh:NodeShape ;
+    rdfs:comment "Contact details, such as a home, work, or other contact channel grouping." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "One or more telephone numbers." ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path sg:telephone ],
+        [ sh:datatype xsd:string ;
+            sh:description "One or more email addresses." ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sg:email ],
+        [ sh:datatype xsd:string ;
+            sh:description "Name of the contact type (for example, \"Home\", \"Work\", \"Other\")." ;
+            sh:maxCount 1 ;
+            sh:name "name" ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sg:contactName ] ;
+    sh:targetClass sg:Contact .
+
+sg:FindingShape a sh:NodeShape ;
+    rdfs:comment "An observation or measurement made during the course of a service episode about the subject and their circumstances. May be recorded as a structured Observation, a quantitative Measurement, and/or free text." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "A finding that cannot be represented as an Observation or Measurement." ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path sg:text ],
+        [ sh:class sg:Measurement ;
+            sh:description "Quantitative measurement(s) about the subject or their circumstances." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 1 ;
+            sh:path sg:measurement ],
+        [ sh:class sg:Observation ;
+            sh:description "Qualitative observation(s) about the subject or their circumstances." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path sg:observation ] ;
+    sh:targetClass sg:Finding .
+
+sg:IdentifierShape a sh:NodeShape ;
+    rdfs:comment "A single identifier for a person or entity, comprising the value and the system in whose namespace the value is unique. Aligned with FHIR Identifier and the NHS PDS UNIQUE_REFERENCE definition." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "The identifier value, unique within the issuing system." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sg:value ],
+        [ sh:description "The URI of the system or namespace within which the identifier is unique (e.g. https://fhir.nhs.uk/Id/nhs-number)." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path sg:system ] ;
+    sh:targetClass sg:Identifier .
+
+sg:LifeEventShape a sh:NodeShape ;
+    rdfs:comment "A significant, time-bound occurrence in an individual's life that may have implications for their safety, wellbeing or development - for example attendance at A&E, a child being reported as missing, or an exclusion from school. Life events are not inherently positive or negative but can signal levels of risk, vulnerability or changing need." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class sg:TimeInformation ;
+            sh:description "Details about the timing of the episode or life event." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 5 ;
+            sh:path sg:timeInformation ],
+        [ sh:description "Code(s) for the type of life event." ;
+            sh:in ( evc:Birth evc:Death evc:AeAttendance evc:SchoolExclusion evc:SchoolSuspension evc:MissingPerson evc:SafeguardingConcern evc:Referral evc:Homeless ) ;
+            sh:minCount 1 ;
+            sh:name "type" ;
+            sh:order 1 ;
+            sh:path sg:eventType ],
+        [ sh:datatype xsd:string ;
+            sh:description "Details about the location of the episode or life event." ;
+            sh:nodeKind sh:Literal ;
+            sh:order 6 ;
+            sh:path sg:location ],
+        [ sh:class sg:SubjectPerson ;
+            sh:description "References to the Person(s) the episode or life event concerns." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 2 ;
+            sh:path sg:subjectPerson ],
+        [ sh:class sg:Identifier ;
+            sh:description "Unique identifiers associated with the entity." ;
+            sh:minCount 1 ;
+            sh:name "identifier" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path sg:identifier ],
+        [ sh:class sg:Identifier ;
+            sh:description "References (by Identifier) to Services associated with the entity." ;
+            sh:name "relatedService" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 4 ;
+            sh:path sg:relatedService ],
+        [ sh:class sg:RelatedProfessional ;
+            sh:description "References to the Professional(s) involved, qualified by involvement." ;
+            sh:name "relatedProfessional" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 3 ;
+            sh:path sg:relatedProfessional ] ;
+    sh:targetClass sg:LifeEvent .
+
+sg:MeasurementShape a sh:NodeShape ;
+    rdfs:comment "A quantitative measurement of something related to the subject or their circumstances (for example \"Authorised Absences\" or \"Referrals\")." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The type of measurement." ;
+            sh:in ( mt:Attendance mt:AuthorisedAbsences mt:UnauthorisedAbsences mt:CaringHoursPerWeek ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "type" ;
+            sh:order 2 ;
+            sh:path sg:measurementType ],
+        [ sh:description "The unit of measurement." ;
+            sh:in ( mu:Count mu:Pct ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "unit" ;
+            sh:order 1 ;
+            sh:path sg:unit ],
+        [ sh:datatype xsd:decimal ;
+            sh:description "A decimal number representing the value of the measurement." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "value" ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sg:measurementValue ] ;
+    sh:targetClass sg:Measurement .
+
+sg:NameShape a sh:NodeShape ;
+    rdfs:comment "Container for a person's name parts, aligned with FHIR HumanName. A person may have multiple names with different uses." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The purpose of this name instance - usual, official, former, etc." ;
+            sh:in ( <https://ontology.socialcaredata.io/name-use-code#Usual> <https://ontology.socialcaredata.io/name-use-code#Official> <https://ontology.socialcaredata.io/name-use-code#Temp> <https://ontology.socialcaredata.io/name-use-code#Nickname> <https://ontology.socialcaredata.io/name-use-code#Anonymous> <https://ontology.socialcaredata.io/name-use-code#Old> <https://ontology.socialcaredata.io/name-use-code#Maiden> ) ;
+            sh:maxCount 1 ;
+            sh:name "use" ;
+            sh:order 3 ;
+            sh:path sg:use ],
+        [ sh:datatype xsd:string ;
+            sh:description "Any preferred given or middle name used by the person - for example, \"Joe\" where their legal first name is \"Joseph\"." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path sg:preferredName ],
+        [ sh:datatype xsd:string ;
+            sh:description "The surname or family name. Multi-valued to support compound or hyphenated family names recorded as separate parts." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sg:familyName ],
+        [ sh:datatype xsd:string ;
+            sh:description "The first name and any middle names." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sg:givenName ] ;
+    sh:targetClass sg:Name .
+
+sg:ObservationShape a sh:NodeShape ;
+    rdfs:comment "A qualitative observation that represents an attribute of the subject or their circumstances (for example \"NEET\" or \"free-school-meals\")." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "The type of observation, drawn from the Observation Type Vocabulary (e.g. NEET, free-school-meals, SEND.SpLD). The vocabulary is extensible (some codes carry dynamic sub-parts such as EAL.<ISO 639-1 code>), so it is modelled as an open string rather than a closed enumeration. See the ObservationType enum for the reference list of codes." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "type" ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sg:observationType ],
+        [ sh:datatype xsd:dateTime ;
+            sh:description "The date at which this observation was first true, as an ISO 8601 date-time." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "startDate" ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sg:startDate ],
+        [ sh:datatype xsd:dateTime ;
+            sh:description "The date at which this observation was made false (if now outdated)." ;
+            sh:maxCount 1 ;
+            sh:name "endDate" ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path sg:endDate ] ;
+    sh:targetClass sg:Observation .
+
+sg:OrganisationShape a sh:NodeShape ;
+    rdfs:comment "An organisation involved in the safeguarding or wellbeing of a person - for example a local authority, an NHS trust, a school, or an education authority. Aligns with the FHIR Organization resource." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "Other names the entity is known by." ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path sg:alias ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Code for the entity's status - whether it is currently active." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 4 ;
+            sh:path sg:active ],
+        [ sh:description "Code(s) for the kind of organisation." ;
+            sh:in ( oc:LocalAuthority oc:NhsTrust oc:PoliceForce ) ;
+            sh:minCount 1 ;
+            sh:name "type" ;
+            sh:order 3 ;
+            sh:path sg:organisationType ],
+        [ sh:class sg:Identifier ;
+            sh:description "Unique identifiers associated with the entity." ;
+            sh:minCount 1 ;
+            sh:name "identifier" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path sg:identifier ],
+        [ sh:class sg:Address ;
+            sh:description "Physical location(s) of the entity." ;
+            sh:name "address" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 5 ;
+            sh:path sg:address ],
+        [ sh:datatype xsd:string ;
+            sh:description "The official name of the organisation or service." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "name" ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sg:name ],
+        [ sh:class sg:Identifier ;
+            sh:description "References (by Identifier) to Professionals associated with the entity." ;
+            sh:name "relatedProfessional" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 7 ;
+            sh:path sg:relatedProfessional ],
+        [ sh:class sg:Contact ;
+            sh:description "Contact information for the organisation." ;
+            sh:minCount 1 ;
+            sh:name "contact" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 6 ;
+            sh:path sg:contact ],
+        [ sh:class sg:Identifier ;
+            sh:description "References to Services the organisation provides or contributes to." ;
+            sh:minCount 1 ;
+            sh:name "relatedService" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 8 ;
+            sh:path sg:relatedService ] ;
+    sh:targetClass sg:Organisation .
+
+sg:ProfessionalShape a sh:NodeShape ;
+    rdfs:comment "An individual acting in a formal role within an organisation who has responsibilities relating to a person's safety, wellbeing, care or support - for example undertaking assessments, creating and monitoring plans, or sharing information in a multi-agency context." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:boolean ;
+            sh:description "The professional's current working status." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 3 ;
+            sh:path sg:status ],
+        [ sh:datatype xsd:string ;
+            sh:description "Text describing the professional's occupational role." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path sg:role ],
+        [ sh:class sg:Identifier ;
+            sh:description "Unique identifiers associated with the entity." ;
+            sh:minCount 1 ;
+            sh:name "identifier" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path sg:identifier ],
+        [ sh:class sg:Contact ;
+            sh:description "The professional's contact information (exactly one)." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "contact" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 4 ;
+            sh:path sg:contact ],
+        [ sh:class sg:Identifier ;
+            sh:description "References (by Identifier) to Services associated with the entity." ;
+            sh:name "relatedService" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 5 ;
+            sh:path sg:relatedService ],
+        [ sh:class sg:Identifier ;
+            sh:description "References (by Identifier) to Organisations associated with the entity." ;
+            sh:name "relatedOrganisation" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 6 ;
+            sh:path sg:relatedOrganisation ],
+        [ sh:class sg:Name ;
+            sh:description "The professional's name." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "name" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 1 ;
+            sh:path sg:name ] ;
+    sh:targetClass sg:Professional .
+
+sg:RelatedProfessionalShape a sh:NodeShape ;
+    rdfs:comment "A typed reference to a Professional involved in a service episode or life event." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "Code for the nature of the involvement. Uses an [HL7 v3 ParticipationType code](https://terminology.hl7.org/5.2.0/CodeSystem-v3-ParticipationType.html) directly (e.g. SBJ, PPRF); not defined by this standard, so modelled as an open string." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sg:involvement ],
+        [ sh:class sg:Identifier ;
+            sh:description "A reference (by Identifier) to a Professional record involved in the episode or life event." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path sg:professional ] ;
+    sh:targetClass sg:RelatedProfessional .
+
+sg:ServiceEpisodeShape a sh:NodeShape ;
+    rdfs:comment "A bounded period during which an individual receives a defined service, intervention, or package of support from a service or professional. It has a recognisable start and end point, though duration may vary from a single contact to sustained involvement over time." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "Code(s) for the type of service episode." ;
+            sh:in ( epc:EarlyHelp epc:Ehcp epc:FamilyCourtOrder epc:CinPlan epc:CpPlan epc:CamhsPlan epc:Section47 epc:CareLeaver epc:ChildLookedAfter epc:AdultSafeguarding epc:CareActAssessment epc:CarePlan ) ;
+            sh:minCount 1 ;
+            sh:name "type" ;
+            sh:order 1 ;
+            sh:path sg:episodeType ],
+        [ sh:description "Outcome of the episode for the subject." ;
+            sh:in ( eo:Reablement eo:Assessment eo:Hospital eo:Continuation eo:Planning eo:NfaPlanned eo:NfaMoved eo:NfaNhsReferral eo:NfaDisregard eo:NfaLocalReferral eo:NfaDeclined eo:NfaInfo eo:NfaDeceased eo:NfaNoOfferOther eo:NfaEndedOther eo:NfaOther ) ;
+            sh:maxCount 1 ;
+            sh:order 8 ;
+            sh:path sg:outcome ],
+        [ sh:class sg:TimeInformation ;
+            sh:description "Details about the timing of the episode." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 5 ;
+            sh:path sg:timeInformation ],
+        [ sh:class sg:SubjectPerson ;
+            sh:description "References to the Person(s) the episode or life event concerns." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 2 ;
+            sh:path sg:subjectPerson ],
+        [ sh:datatype xsd:string ;
+            sh:description "Details about the location of the episode." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 6 ;
+            sh:path sg:location ],
+        [ sh:class sg:Identifier ;
+            sh:description "Unique identifiers associated with the entity." ;
+            sh:minCount 1 ;
+            sh:name "identifier" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path sg:identifier ],
+        [ sh:class sg:Finding ;
+            sh:description "Observations or measurements made during the course of the episode." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 7 ;
+            sh:path sg:finding ],
+        [ sh:class sg:RelatedProfessional ;
+            sh:description "References to the Professional(s) involved, qualified by involvement." ;
+            sh:name "relatedProfessional" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 3 ;
+            sh:path sg:relatedProfessional ],
+        [ sh:class sg:Identifier ;
+            sh:description "References to the Services involved in the episode." ;
+            sh:minCount 1 ;
+            sh:name "relatedService" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 4 ;
+            sh:path sg:relatedService ] ;
+    sh:targetClass sg:ServiceEpisode .
+
+sg:ServiceShape a sh:NodeShape ;
+    rdfs:comment "A service involved in the safeguarding or wellbeing of a person - the specific intervention or package of support delivered by one or more organisations (e.g. local authority social care, an emergency department, a general practice, or a school)." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "Other names the entity is known by." ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path sg:alias ],
+        [ sh:description "Code(s) for the kind of service." ;
+            sh:in ( svc:YouthOffending svc:PrimarySchool svc:HighSchool svc:SenPrimarySchool svc:SenHighSchool svc:AlternativeProvisionSchool svc:SocialCare svc:FamilyCourt svc:Camhs svc:Reablement svc:ShortTermNursingCare svc:ShortTermResidentialCare svc:LongTermNursingCare svc:LongTermResidentialCare svc:HomeSupportDomiciliary svc:DaySupport svc:Meals svc:Transport svc:Equipment svc:DirectPayment svc:SharedLives svc:CommunitySupportedLiving svc:ExtraCareHousing svc:SocialWorkerSupport svc:OtherProfessionalSupport svc:LearningEducationEmployment svc:EndOfLifeCare svc:EmergencySupport svc:OtherShortTermSupport svc:OtherLongTermSupport svc:CarerRespite svc:CarerSittingService svc:CarerUniversalServices svc:OtherCarerSupport ) ;
+            sh:minCount 1 ;
+            sh:name "type" ;
+            sh:order 3 ;
+            sh:path sg:serviceType ],
+        [ sh:description "The way the service is delivered." ;
+            sh:in ( sd:StMax sd:OngoingLow sd:OtherShortTerm sd:Nursing sd:Residential sd:Community sd:Prison sd:UnpaidCarerDirect sd:UnpaidCarerSupport ) ;
+            sh:order 8 ;
+            sh:path sg:delivery ],
+        [ sh:description "The frequency at which the unit cost occurs." ;
+            sh:in ( scf:None scf:PerSession scf:Hourly scf:Daily scf:Weekly scf:Fortnightly scf:FourWeekly scf:Monthly scf:Quarterly scf:Annually scf:OneOff ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 7 ;
+            sh:path sg:costFrequency ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Code for the entity's status - whether it is currently active." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 4 ;
+            sh:path sg:active ],
+        [ sh:class sg:Identifier ;
+            sh:description "Unique identifiers associated with the entity." ;
+            sh:minCount 1 ;
+            sh:name "identifier" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path sg:identifier ],
+        [ sh:class sg:Address ;
+            sh:description "Physical location(s) of the entity." ;
+            sh:name "address" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 5 ;
+            sh:path sg:address ],
+        [ sh:class sg:Identifier ;
+            sh:description "References (by Identifier) to Organisations associated with the entity." ;
+            sh:name "relatedOrganisation" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 10 ;
+            sh:path sg:relatedOrganisation ],
+        [ sh:datatype xsd:string ;
+            sh:description "The official name of the organisation or service." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "name" ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sg:name ],
+        [ sh:class sg:Contact ;
+            sh:description "Contact information for the service." ;
+            sh:minCount 1 ;
+            sh:name "contact" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 6 ;
+            sh:path sg:contact ],
+        [ sh:class sg:Identifier ;
+            sh:description "References (by Identifier) to Professionals associated with the entity." ;
+            sh:name "relatedProfessional" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 9 ;
+            sh:path sg:relatedProfessional ] ;
+    sh:targetClass sg:Service .
+
+sg:SubjectPersonShape a sh:NodeShape ;
+    rdfs:comment "A typed reference to a Person involved in a service episode or life event." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "Code for the nature of the involvement. Uses an [HL7 v3 ParticipationType code](https://terminology.hl7.org/5.2.0/CodeSystem-v3-ParticipationType.html) directly (e.g. SBJ, PPRF); not defined by this standard, so modelled as an open string." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sg:involvement ],
+        [ sh:class sg:Identifier ;
+            sh:description "A reference (by Identifier) to a Person record involved in the episode or life event." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path sg:person ] ;
+    sh:targetClass sg:SubjectPerson .
+
+sg:TimeInformationShape a sh:NodeShape ;
+    rdfs:comment "Details about the timing of a service episode or life event, including when it started and ended and how frequently it recurs." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:dateTime ;
+            sh:description "The end of the episode or life event, as an ISO 8601 date-time." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sg:endDateTime ],
+        [ sh:description "The frequency of the episode or life event, expressed as a [FHIR Timing](https://build.fhir.org/datatypes.html#Timing) datatype. This standard does not define or validate its structure; the value is an arbitrary JSON object conforming to FHIR Timing." ;
+            sh:maxCount 1 ;
+            sh:name "frequency" ;
+            sh:order 2 ;
+            sh:path sg:serviceFrequency ],
+        [ sh:datatype xsd:dateTime ;
+            sh:description "The start of the episode or life event, as an ISO 8601 date-time." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sg:startDateTime ] ;
+    sh:targetClass sg:TimeInformation .
+
+linkml:AnyShape a sh:NodeShape ;
+    rdfs:comment "An open value whose structure is defined and validated elsewhere, not by this standard. Serialised as an arbitrary JSON object." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass linkml:Any .
+

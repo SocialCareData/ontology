@@ -1,0 +1,132 @@
+@prefix auc: <https://ontology.socialcaredata.io/address-use-code#> .
+@prefix nuc: <https://ontology.socialcaredata.io/name-use-code#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sc: <https://ontology.socialcaredata.io/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+sc:AddressShape a sh:NodeShape ;
+    rdfs:comment "A postal address. Aligned with FHIR Address. UPRN and USRN support property- and street-level disambiguation." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "How this address is used - home, work, temp, etc." ;
+            sh:in ( auc:Home auc:Work auc:Temp auc:Old auc:Billing ) ;
+            sh:maxCount 1 ;
+            sh:name "use" ;
+            sh:order 6 ;
+            sh:path sc:use ],
+        [ sh:datatype xsd:string ;
+            sh:description "Unique Property Reference Number of the address." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 4 ;
+            sh:path sc:UPRN ],
+        [ sh:datatype xsd:string ;
+            sh:description "Apartment, suite, unit, building, floor, etc." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sc:line2 ],
+        [ sh:datatype xsd:string ;
+            sh:description "Unique Street Reference Number of the address." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 5 ;
+            sh:path sc:USRN ],
+        [ sh:datatype xsd:string ;
+            sh:description "City, town, or village." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path sc:city ],
+        [ sh:datatype xsd:string ;
+            sh:description "Street address (e.g. \"1 High Street\") or care-of line." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sc:line1 ],
+        [ sh:datatype xsd:string ;
+            sh:description "UK postcode in standard format (e.g. AB1 2CD)." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 3 ;
+            sh:path sc:postcode ;
+            sh:pattern "^[A-Z]{1,2}[0-9][0-9A-Z]? ?[0-9][A-Z]{2}$" ] ;
+    sh:targetClass sc:Address .
+
+sc:ContactShape a sh:NodeShape ;
+    rdfs:comment "Contact details, such as a home, work, or other contact channel grouping." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "One or more telephone numbers." ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path sc:telephone ],
+        [ sh:datatype xsd:string ;
+            sh:description "One or more email addresses." ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sc:email ],
+        [ sh:datatype xsd:string ;
+            sh:description "Name of the contact type (for example, \"Home\", \"Work\", \"Other\")." ;
+            sh:maxCount 1 ;
+            sh:name "name" ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sc:contactName ] ;
+    sh:targetClass sc:Contact .
+
+sc:IdentifierShape a sh:NodeShape ;
+    rdfs:comment "A single identifier for a person or entity, comprising the value and the system in whose namespace the value is unique. Aligned with FHIR Identifier and the NHS PDS UNIQUE_REFERENCE definition." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "The identifier value, unique within the issuing system." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sc:value ],
+        [ sh:description "The URI of the system or namespace within which the identifier is unique (e.g. https://fhir.nhs.uk/Id/nhs-number)." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path sc:system ] ;
+    sh:targetClass sc:Identifier .
+
+sc:NameShape a sh:NodeShape ;
+    rdfs:comment "Container for a person's name parts, aligned with FHIR HumanName. A person may have multiple names with different uses." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "Any preferred given or middle name used by the person - for example, \"Joe\" where their legal first name is \"Joseph\"." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path sc:preferredName ],
+        [ sh:description "The purpose of this name instance - usual, official, former, etc." ;
+            sh:in ( nuc:Usual nuc:Official nuc:Temp nuc:Nickname nuc:Anonymous nuc:Old nuc:Maiden ) ;
+            sh:maxCount 1 ;
+            sh:name "use" ;
+            sh:order 3 ;
+            sh:path sc:use ],
+        [ sh:datatype xsd:string ;
+            sh:description "The surname or family name. Multi-valued to support compound or hyphenated family names recorded as separate parts." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sc:familyName ],
+        [ sh:datatype xsd:string ;
+            sh:description "The first name and any middle names." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sc:givenName ] ;
+    sh:targetClass sc:Name .
+
