@@ -112,6 +112,20 @@ enums:
 
 ## Regenerating downstream artifacts
 
+> **Normally you don't.** The published `.ttl` artifacts are built by
+> [`build_ontology.py`](../../assets/scripts/build_ontology.py) and synced to
+> [SocialCareData/ontology](https://github.com/SocialCareData/ontology) by the
+> `Sync ontology` workflow. Run the script rather than the raw commands, so you
+> get the same bytes CI does:
+>
+> ```bash
+> pip install -r src/assets/scripts/requirements.txt
+> python src/assets/scripts/build_ontology.py --out build/ontology
+> ```
+>
+> The commands below are what that script runs, for when you need to inspect a
+> single schema by hand.
+
 Run from the model's directory. Using placements as the example:
 
 ```bash
@@ -119,7 +133,7 @@ Run from the model's directory. Using placements as the example:
 gen-shacl --non-closed --suffix Shape -im ../imports.json placements-standard.yaml > placements-standard-shape.ttl
 
 # OWL / RDF, JSON Schema, docs, Pydantic, …
-gen-owl --consolidate-cardinality-axioms --skip-vacuous-min-zero-cardinality-axioms --skip-vacuous-local-range-axioms -im ../imports.json placements-standard.yaml > placements-standard.ttl
+gen-owl --no-mergeimports --ontology-uri-suffix '' --consolidate-cardinality-axioms --skip-vacuous-min-zero-cardinality-axioms --skip-vacuous-local-range-axioms -im ../imports.json placements-standard.yaml > placements-standard.ttl
 gen-json-schema -im ../imports.json placements-standard.yaml
 gen-doc -im ../imports.json placements-standard.yaml
 ```
@@ -133,6 +147,27 @@ gen-doc -im ../imports.json placements-standard.yaml
 are emitted and validate the nested objects; `gen-owl` uses `--no-mergeimports`
 so the imported module's classes are referenced via `owl:imports` rather than
 copied in.
+
+`--ontology-uri-suffix ''` is **not** optional. Left off, `gen-owl` appends its
+default `.owl.ttl`, so a schema declaring
+`id: https://ontology.socialcaredata.io/placements` publishes itself as
+`…/placements.owl.ttl` and is not dereferenceable at its own IRI. (The older
+artifacts under `src/assets/model/` predate this and still carry the bug.) Where
+several files share one `id` — placements keeps frozen v1 and v0.1 alongside the
+current schema — the build gives the frozen ones a version-qualified suffix
+(`--ontology-uri-suffix /1.0.0`) so no two published files claim the same
+`owl:Ontology` IRI.
+
+### The output is not byte-reproducible on its own
+
+Two identical `gen-owl` or `gen-shacl` runs emit **isomorphic but differently
+ordered** Turtle — rdflib's blank-node labelling varies per process, and
+`PYTHONHASHSEED` does not affect it. Published directly, that would open a large
+and meaningless pull request on every sync. `build_ontology.py` therefore
+canonicalises every file (RDFC-1.0 blank-node relabelling, then re-serialise)
+before writing it, and CI re-runs the whole build and diffs the two trees to
+keep the guarantee honest. If you compare a hand-run artifact against a
+published one, compare the graphs, not the bytes.
 
 ## What `gen-shacl` does NOT generate
 

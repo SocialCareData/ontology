@@ -1,0 +1,27 @@
+name: Attach ontology files to release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Collect ontology files
+        run: |
+          mkdir -p dist
+          find . -path ./.git -prune -o \( -name '*.ttl' -o -name '*.jsonld' \) -print |
+            while read -r f; do
+              cp "$f" "dist/$(echo "${f#./}" | tr '/' '-')"
+            done
+
+      - name: Upload to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "${{ github.event.release.tag_name }}" dist/* --clobber
