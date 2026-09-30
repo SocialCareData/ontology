@@ -36,6 +36,7 @@ jobs:
                 cp "$f" "dist/${name}"
               fi
             done
+          cp social-care/manifest.yml dist/manifest.yml
 
       - name: Upload to release
         env:
