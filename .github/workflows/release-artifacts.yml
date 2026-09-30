@@ -14,11 +14,27 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Collect ontology files
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+          REPO: ${{ github.repository }}
         run: |
           mkdir -p dist
+          base_url="https://github.com/${REPO}/releases/download/${TAG}/"
           find . -path ./.git -prune -o \( -name '*.ttl' -o -name '*.jsonld' \) -print |
             while read -r f; do
-              cp "$f" "dist/$(echo "${f#./}" | tr '/' '-')"
+              rel="${f#./}"
+              dir="$(dirname "$rel")"
+              name="$(basename "$rel")"
+              if [ "$name" = "context.jsonld" ]; then
+                if [ "$dir" = "social-care" ]; then
+                  # Default context: rewrite relative links to versioned release URLs
+                  sed -E "s#\"\.\./([^/\"]+)/context\.jsonld\"#\"${base_url}\1-context.jsonld\"#g" "$f" > "dist/context.jsonld"
+                else
+                  cp "$f" "dist/${dir}-context.jsonld"
+                fi
+              else
+                cp "$f" "dist/${name}"
+              fi
             done
 
       - name: Upload to release
