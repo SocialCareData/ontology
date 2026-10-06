@@ -6,7 +6,7 @@ Information Sharing) data standards, published under the single flat namespace
 
 > ## Everything here is generated — do not edit
 >
-> These files are produced from the LinkML schemas in
+> Except `examples/`, these files are produced from the LinkML schemas in
 > [SocialCareData/standard](https://github.com/SocialCareData/standard) under
 > `src/_data/model/`, and are overwritten on every sync. Edit the LinkML YAML
 > there and let the sync republish; changes made directly in this repository
@@ -26,6 +26,7 @@ an ontology (`<name>.ttl`) and, where applicable, a SHACL shape
 | `safeguarding/` | Safeguarding — organisations, services, professionals, service episodes, life events. |
 | `assessments-and-plans/` | Care needs assessments and care plans. |
 | `mais/` | The merged umbrella ontology and the release manifest. |
+| `examples/` | Hand-written JSON-LD records, valid and invalid, for every standard. Not generated; see [`examples/README.md`](examples/README.md). |
 
 ## Which file should I use?
 
@@ -92,9 +93,11 @@ directory layout intact if you vendor these files.
 ## How this repository is updated
 
 A GitHub Action in `SocialCareData/standard` regenerates everything whenever the
-LinkML schemas change, validates the standards' examples against the fresh
-shapes, and opens a pull request here. Generation is deterministic, so a pull
-request appears only when an artifact genuinely changed.
+LinkML schemas change and opens a pull request here. Generation is
+deterministic, so a pull request appears only when an artifact genuinely
+changed. The sync leaves `examples/` alone; those records are maintained here,
+and [SocialCareData/validator](https://github.com/SocialCareData/validator)
+runs them against the published shapes as its conformance suite.
 
 See [`model-management.md`](model-management.md) for how the schemas are authored
 and what the generators do and do not produce.

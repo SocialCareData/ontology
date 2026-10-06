@@ -20,7 +20,9 @@ jobs:
         run: |
           mkdir -p dist
           base_url="https://github.com/${REPO}/releases/download/${TAG}/"
-          find . -path ./.git -prune -o \( -name '*.ttl' -o -name '*.jsonld' \) -print |
+          # examples/ holds data, not ontology files, and its names would
+          # collide once flattened into dist/.
+          find . \( -path ./.git -o -path ./examples \) -prune -o \( -name '*.ttl' -o -name '*.jsonld' \) -print |
             while read -r f; do
               rel="${f#./}"
               dir="$(dirname "$rel")"
