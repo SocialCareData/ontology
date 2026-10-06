@@ -663,7 +663,7 @@ yns:NotSpecified a owl:Class ;
 
 yns:Yes a owl:Class ;
     rdfs:label "True" ;
-    dct:title "True" ;
+    dct:title "Yes" ;
     rdfs:subClassOf pl:presence-status ;
     skos:definition "Affirmative." .
 

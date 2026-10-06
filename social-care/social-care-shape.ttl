@@ -162,33 +162,34 @@ sc:AddressShape a sh:NodeShape ;
     sh:targetClass sc:Address .
 
 sc:AssessmentQuestionShape a sh:NodeShape ;
-    rdfs:comment "A generic Question-and-Answer model used to represent both statutory Care Act questions and local, personalised fields." ;
+    rdfs:comment "A generic Question-and-Answer model used to represent both statutory and local, personalised questions." ;
     sh:closed false ;
     sh:ignoredProperties ( rdf:type ) ;
     sh:property [ sh:datatype xsd:string ;
-            sh:description "The exact wording of the question as it appears on the local authority's form." ;
+            sh:description "The exact wording of the question as it appears on the form." ;
             sh:maxCount 1 ;
             sh:minCount 1 ;
             sh:nodeKind sh:Literal ;
             sh:order 2 ;
             sh:path sc:questionText ],
         [ sh:datatype xsd:string ;
-            sh:description "An ID for the question. For statutory questions, this should conform to the dictionary of statutory question IDs; for personalised, non statutory questions, this can be anything or left blank." ;
+            sh:description "An ID for the question. Standards may define a dictionary of IDs for statutory or well-known questions; for personalised, local questions, this can be anything or left blank." ;
             sh:maxCount 1 ;
             sh:nodeKind sh:Literal ;
             sh:order 0 ;
             sh:path sc:questionId ],
         [ sh:datatype xsd:boolean ;
-            sh:description "Whether this question was mandatory on the local authority’s assessment. Should always be True for statutory fields." ;
+            sh:description "Whether this question was mandatory on the form." ;
             sh:maxCount 1 ;
             sh:minCount 1 ;
             sh:nodeKind sh:Literal ;
             sh:order 5 ;
             sh:path sc:required ],
-        [ sh:description "The domain/category of the question." ;
-            sh:in ( <https://ontology.socialcaredata.io/question-category#PersonalContext> <https://ontology.socialcaredata.io/question-category#Health> <https://ontology.socialcaredata.io/question-category#Housing> <https://ontology.socialcaredata.io/question-category#Finance> <https://ontology.socialcaredata.io/question-category#CommunicationNeeds> <https://ontology.socialcaredata.io/question-category#CANutrition> <https://ontology.socialcaredata.io/question-category#CAHygiene> <https://ontology.socialcaredata.io/question-category#CAToilet> <https://ontology.socialcaredata.io/question-category#CAClothing> <https://ontology.socialcaredata.io/question-category#CAHomeSafety> <https://ontology.socialcaredata.io/question-category#CAHabitableHome> <https://ontology.socialcaredata.io/question-category#CAMaintainingRelationships> <https://ontology.socialcaredata.io/question-category#CAWTEV> <https://ontology.socialcaredata.io/question-category#CACommunityServices> <https://ontology.socialcaredata.io/question-category#CAResponsibilityForOthers> <https://ontology.socialcaredata.io/question-category#Eligibility> <https://ontology.socialcaredata.io/question-category#Emergencies> <https://ontology.socialcaredata.io/question-category#Other> ) ;
+        [ sh:datatype xsd:string ;
+            sh:description "The domain/category of the question." ;
             sh:maxCount 1 ;
             sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
             sh:order 1 ;
             sh:path sc:category ],
         [ sh:description "Indicates how the answer should be parsed (e.g., String, Boolean, Date, Number, Enum). Ensures data like dates or booleans aren't trapped as unparsable text." ;
@@ -198,7 +199,7 @@ sc:AssessmentQuestionShape a sh:NodeShape ;
             sh:order 4 ;
             sh:path sc:answerType ],
         [ sh:datatype xsd:string ;
-            sh:description "The answer to the question as measured in the assessment." ;
+            sh:description "The answer to the question." ;
             sh:minCount 1 ;
             sh:nodeKind sh:Literal ;
             sh:order 3 ;
@@ -248,6 +249,50 @@ sc:CareActorShape a sh:NodeShape ;
             sh:path sc:actorId ] ;
     sh:targetClass sc:CareActor .
 
+sc:CareAssessmentQuestionShape a sh:NodeShape ;
+    rdfs:comment "A generic Question-and-Answer model used to represent both statutory Care Act questions and local, personalised fields." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "The exact wording of the question as it appears on the form." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path sc:questionText ],
+        [ sh:datatype xsd:string ;
+            sh:description "An ID for the question. Standards may define a dictionary of IDs for statutory or well-known questions; for personalised, local questions, this can be anything or left blank." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sc:questionId ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Whether this question was mandatory on the form." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 5 ;
+            sh:path sc:required ],
+        [ sh:description "The domain/category of the question." ;
+            sh:in ( <https://ontology.socialcaredata.io/question-category#PersonalContext> <https://ontology.socialcaredata.io/question-category#Health> <https://ontology.socialcaredata.io/question-category#Housing> <https://ontology.socialcaredata.io/question-category#Finance> <https://ontology.socialcaredata.io/question-category#CommunicationNeeds> <https://ontology.socialcaredata.io/question-category#CANutrition> <https://ontology.socialcaredata.io/question-category#CAHygiene> <https://ontology.socialcaredata.io/question-category#CAToilet> <https://ontology.socialcaredata.io/question-category#CAClothing> <https://ontology.socialcaredata.io/question-category#CAHomeSafety> <https://ontology.socialcaredata.io/question-category#CAHabitableHome> <https://ontology.socialcaredata.io/question-category#CAMaintainingRelationships> <https://ontology.socialcaredata.io/question-category#CAWTEV> <https://ontology.socialcaredata.io/question-category#CACommunityServices> <https://ontology.socialcaredata.io/question-category#CAResponsibilityForOthers> <https://ontology.socialcaredata.io/question-category#Eligibility> <https://ontology.socialcaredata.io/question-category#Emergencies> <https://ontology.socialcaredata.io/question-category#Other> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 1 ;
+            sh:path sc:category ],
+        [ sh:description "Indicates how the answer should be parsed (e.g., String, Boolean, Date, Number, Enum). Ensures data like dates or booleans aren't trapped as unparsable text." ;
+            sh:in ( <https://ontology.socialcaredata.io/answer-type#String> <https://ontology.socialcaredata.io/answer-type#Boolean> <https://ontology.socialcaredata.io/answer-type#Date> <https://ontology.socialcaredata.io/answer-type#Number> <https://ontology.socialcaredata.io/answer-type#Enum> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 4 ;
+            sh:path sc:answerType ],
+        [ sh:datatype xsd:string ;
+            sh:description "The answer to the question." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 3 ;
+            sh:path sc:answer ] ;
+    sh:targetClass sc:CareAssessmentQuestion .
+
 sc:CareComponentShape a sh:NodeShape ;
     rdfs:comment "A specific component of a Care Plan, capturing who does what, when, and to achieve which outcomes." ;
     sh:closed false ;
@@ -258,7 +303,7 @@ sc:CareComponentShape a sh:NodeShape ;
             sh:nodeKind sh:BlankNodeOrIRI ;
             sh:order 0 ;
             sh:path sc:actor ],
-        [ sh:class sc:CareTiming ;
+        [ sh:class sc:Timing ;
             sh:description "The schedule and timing information of this component of the plan." ;
             sh:maxCount 1 ;
             sh:minCount 1 ;
@@ -297,6 +342,12 @@ sc:CareNeedsAssessmentShape a sh:NodeShape ;
             sh:minCount 1 ;
             sh:order 1 ;
             sh:path sc:status ],
+        [ sh:class sc:CareAssessmentQuestion ;
+            sh:description "The set of assessment questions and answers." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 2 ;
+            sh:path sc:assessmentQuestion ],
         [ sh:datatype xsd:boolean ;
             sh:description "Does the person require an advocate to complete this assessment / plan?" ;
             sh:maxCount 1 ;
@@ -311,12 +362,6 @@ sc:CareNeedsAssessmentShape a sh:NodeShape ;
             sh:nodeKind sh:Literal ;
             sh:order 9 ;
             sh:path sc:consentToInformationSharing ],
-        [ sh:class sc:AssessmentQuestion ;
-            sh:description "The set of assessment questions and answers." ;
-            sh:minCount 1 ;
-            sh:nodeKind sh:BlankNodeOrIRI ;
-            sh:order 2 ;
-            sh:path sc:assessmentQuestion ],
         [ sh:class sc:Identifier ;
             sh:description "Identifier for the safeguarding or care service episode during which this assessment / plan was completed." ;
             sh:nodeKind sh:BlankNodeOrIRI ;
@@ -444,32 +489,6 @@ sc:CarePlanShape a sh:NodeShape ;
             sh:order 3 ;
             sh:path sc:identifier ] ;
     sh:targetClass sc:CarePlan .
-
-sc:CareTimingShape a sh:NodeShape ;
-    rdfs:comment "The schedule and timing information of a care component." ;
-    sh:closed false ;
-    sh:ignoredProperties ( rdf:type ) ;
-    sh:property [ sh:datatype xsd:dateTime ;
-            sh:description "The last date the component of the plan was performed before cancellation." ;
-            sh:maxCount 1 ;
-            sh:nodeKind sh:Literal ;
-            sh:order 2 ;
-            sh:path sc:endDateTime ],
-        [ sh:datatype xsd:dateTime ;
-            sh:description "The first date the component of the plan was (scheduled to be) performed." ;
-            sh:maxCount 1 ;
-            sh:minCount 1 ;
-            sh:nodeKind sh:Literal ;
-            sh:order 1 ;
-            sh:path sc:startDateTime ],
-        [ sh:datatype xsd:string ;
-            sh:description "The frequency the component of the plan is performed, expressed using FHIR Timing or similar." ;
-            sh:maxCount 1 ;
-            sh:minCount 1 ;
-            sh:nodeKind sh:Literal ;
-            sh:order 0 ;
-            sh:path sc:frequency ] ;
-    sh:targetClass sc:CareTiming .
 
 sc:CommunicationShape a sh:NodeShape ;
     rdfs:comment "Professional recording of a person's communication requirements and language proficiencies." ;
@@ -641,16 +660,16 @@ sc:LifeEventShape a sh:NodeShape ;
     rdfs:comment "A significant, time-bound occurrence in an individual's life that may have implications for their safety, wellbeing or development - for example attendance at A&E, a child being reported as missing, or an exclusion from school. Life events are not inherently positive or negative but can signal levels of risk, vulnerability or changing need." ;
     sh:closed false ;
     sh:ignoredProperties ( rdf:type ) ;
-    sh:property [ sh:class sc:TimeInformation ;
-            sh:description "Details about the timing of the episode or life event." ;
-            sh:nodeKind sh:BlankNodeOrIRI ;
-            sh:order 5 ;
-            sh:path sc:timeInformation ],
-        [ sh:datatype xsd:string ;
+    sh:property [ sh:datatype xsd:string ;
             sh:description "Details about the location of the episode or life event." ;
             sh:nodeKind sh:Literal ;
             sh:order 6 ;
             sh:path sc:location ],
+        [ sh:class sc:Timing ;
+            sh:description "Details about the timing of the episode or life event." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 5 ;
+            sh:path sc:timeInformation ],
         [ sh:description "Code(s) for the type of life event." ;
             sh:in ( <https://ontology.socialcaredata.io/event-code#Birth> <https://ontology.socialcaredata.io/event-code#Death> <https://ontology.socialcaredata.io/event-code#AeAttendance> <https://ontology.socialcaredata.io/event-code#SchoolExclusion> <https://ontology.socialcaredata.io/event-code#SchoolSuspension> <https://ontology.socialcaredata.io/event-code#MissingPerson> <https://ontology.socialcaredata.io/event-code#SafeguardingConcern> <https://ontology.socialcaredata.io/event-code#Referral> <https://ontology.socialcaredata.io/event-code#Homeless> ) ;
             sh:minCount 1 ;
@@ -805,6 +824,12 @@ sc:OrganisationShape a sh:NodeShape ;
             sh:nodeKind sh:BlankNodeOrIRI ;
             sh:order 5 ;
             sh:path sc:address ],
+        [ sh:class sc:Identifier ;
+            sh:description "References (by Identifier) to Professionals associated with the entity." ;
+            sh:name "relatedProfessional" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 7 ;
+            sh:path sc:relatedProfessional ],
         [ sh:datatype xsd:string ;
             sh:description "The official name of the organisation or service." ;
             sh:maxCount 1 ;
@@ -812,13 +837,7 @@ sc:OrganisationShape a sh:NodeShape ;
             sh:name "name" ;
             sh:nodeKind sh:Literal ;
             sh:order 1 ;
-            sh:path sc:name ],
-        [ sh:class sc:Identifier ;
-            sh:description "References (by Identifier) to Professionals associated with the entity." ;
-            sh:name "relatedProfessional" ;
-            sh:nodeKind sh:BlankNodeOrIRI ;
-            sh:order 7 ;
-            sh:path sc:relatedProfessional ],
+            sh:path sc:entityName ],
         [ sh:class sc:Contact ;
             sh:description "Contact information for the organisation." ;
             sh:minCount 1 ;
@@ -1140,12 +1159,13 @@ sc:ProfessionalShape a sh:NodeShape ;
             sh:nodeKind sh:Literal ;
             sh:order 2 ;
             sh:path sc:role ],
-        [ sh:description "Status of the document. Lifted from FHIR CarePlan status." ;
-            sh:in ( <https://ontology.socialcaredata.io/care-document-status#draft> <https://ontology.socialcaredata.io/care-document-status#active> <https://ontology.socialcaredata.io/care-document-status#on-hold> <https://ontology.socialcaredata.io/care-document-status#entered-in-error> <https://ontology.socialcaredata.io/care-document-status#ended> <https://ontology.socialcaredata.io/care-document-status#completed> <https://ontology.socialcaredata.io/care-document-status#revoked> <https://ontology.socialcaredata.io/care-document-status#unknown> ) ;
+        [ sh:datatype xsd:boolean ;
+            sh:description "The professional's current working status." ;
             sh:maxCount 1 ;
-            sh:minCount 1 ;
+            sh:name "status" ;
+            sh:nodeKind sh:Literal ;
             sh:order 3 ;
-            sh:path sc:status ],
+            sh:path sc:workingStatus ],
         [ sh:class sc:Identifier ;
             sh:description "Unique identifiers associated with the entity." ;
             sh:minCount 1 ;
@@ -1349,23 +1369,24 @@ sc:ServiceEpisodeShape a sh:NodeShape ;
             sh:name "type" ;
             sh:order 1 ;
             sh:path sc:episodeType ],
-        [ sh:class sc:TimeInformation ;
+        [ sh:class sc:Timing ;
             sh:description "Details about the timing of the episode." ;
             sh:minCount 1 ;
             sh:nodeKind sh:BlankNodeOrIRI ;
             sh:order 5 ;
             sh:path sc:timeInformation ],
-        [ sh:description "Care Act outcome that this care component is aiming to help the subject person achieve." ;
-            sh:in ( <https://ontology.socialcaredata.io/care-outcome-type#CANutrition> <https://ontology.socialcaredata.io/care-outcome-type#CAHygiene> <https://ontology.socialcaredata.io/care-outcome-type#CAToilet> <https://ontology.socialcaredata.io/care-outcome-type#CAClothing> <https://ontology.socialcaredata.io/care-outcome-type#CAHomeSafety> <https://ontology.socialcaredata.io/care-outcome-type#CAHabitableHome> <https://ontology.socialcaredata.io/care-outcome-type#CAMaintainingRelationships> <https://ontology.socialcaredata.io/care-outcome-type#CAWTEV> <https://ontology.socialcaredata.io/care-outcome-type#CACommunityServices> <https://ontology.socialcaredata.io/care-outcome-type#CAResponsibilityForOthers> ) ;
-            sh:maxCount 1 ;
-            sh:order 8 ;
-            sh:path sc:outcome ],
         [ sh:datatype xsd:string ;
             sh:description "Details about the location of the episode." ;
             sh:minCount 1 ;
             sh:nodeKind sh:Literal ;
             sh:order 6 ;
             sh:path sc:location ],
+        [ sh:description "Outcome of the episode for the subject." ;
+            sh:in ( <https://ontology.socialcaredata.io/episode-outcome#Reablement> <https://ontology.socialcaredata.io/episode-outcome#Assessment> <https://ontology.socialcaredata.io/episode-outcome#Hospital> <https://ontology.socialcaredata.io/episode-outcome#Continuation> <https://ontology.socialcaredata.io/episode-outcome#Planning> <https://ontology.socialcaredata.io/episode-outcome#NfaPlanned> <https://ontology.socialcaredata.io/episode-outcome#NfaMoved> <https://ontology.socialcaredata.io/episode-outcome#NfaNhsReferral> <https://ontology.socialcaredata.io/episode-outcome#NfaDisregard> <https://ontology.socialcaredata.io/episode-outcome#NfaLocalReferral> <https://ontology.socialcaredata.io/episode-outcome#NfaDeclined> <https://ontology.socialcaredata.io/episode-outcome#NfaInfo> <https://ontology.socialcaredata.io/episode-outcome#NfaDeceased> <https://ontology.socialcaredata.io/episode-outcome#NfaNoOfferOther> <https://ontology.socialcaredata.io/episode-outcome#NfaEndedOther> <https://ontology.socialcaredata.io/episode-outcome#NfaOther> ) ;
+            sh:maxCount 1 ;
+            sh:name "outcome" ;
+            sh:order 8 ;
+            sh:path sc:episodeOutcome ],
         [ sh:class sc:Identifier ;
             sh:description "Unique identifiers associated with the entity." ;
             sh:minCount 1 ;
@@ -1449,14 +1470,6 @@ sc:ServiceShape a sh:NodeShape ;
             sh:nodeKind sh:BlankNodeOrIRI ;
             sh:order 10 ;
             sh:path sc:relatedOrganisation ],
-        [ sh:datatype xsd:string ;
-            sh:description "The official name of the organisation or service." ;
-            sh:maxCount 1 ;
-            sh:minCount 1 ;
-            sh:name "name" ;
-            sh:nodeKind sh:Literal ;
-            sh:order 1 ;
-            sh:path sc:name ],
         [ sh:class sc:Contact ;
             sh:description "Contact information for the service." ;
             sh:minCount 1 ;
@@ -1469,7 +1482,15 @@ sc:ServiceShape a sh:NodeShape ;
             sh:name "relatedProfessional" ;
             sh:nodeKind sh:BlankNodeOrIRI ;
             sh:order 9 ;
-            sh:path sc:relatedProfessional ] ;
+            sh:path sc:relatedProfessional ],
+        [ sh:datatype xsd:string ;
+            sh:description "The official name of the organisation or service." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "name" ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sc:entityName ] ;
     sh:targetClass sc:Service .
 
 sc:SubjectPersonShape a sh:NodeShape ;
@@ -1492,32 +1513,31 @@ sc:SubjectPersonShape a sh:NodeShape ;
             sh:path sc:person ] ;
     sh:targetClass sc:SubjectPerson .
 
-sc:TimeInformationShape a sh:NodeShape ;
-    rdfs:comment "Details about the timing of a service episode or life event, including when it started and ended and how frequently it recurs." ;
+sc:TimingShape a sh:NodeShape ;
+    rdfs:comment "The schedule and timing information of an activity, episode or event: when it started and ended and how frequently it recurs." ;
     sh:closed false ;
     sh:ignoredProperties ( rdf:type ) ;
-    sh:property [ sh:datatype xsd:dateTime ;
-            sh:description "The last date the component of the plan was performed before cancellation." ;
+    sh:property [ sh:description "How frequently the activity, episode or event recurs, expressed as a [FHIR Timing](https://build.fhir.org/datatypes.html#Timing) datatype. This model does not define or validate its structure; the value is an arbitrary JSON object conforming to FHIR Timing." ;
+            sh:maxCount 1 ;
+            sh:order 0 ;
+            sh:path sc:frequency ],
+        [ sh:datatype xsd:dateTime ;
+            sh:description "The end of the activity, episode or event (or the last date it was performed), as an ISO 8601 date-time." ;
             sh:maxCount 1 ;
             sh:nodeKind sh:Literal ;
-            sh:order 1 ;
+            sh:order 2 ;
             sh:path sc:endDateTime ],
         [ sh:datatype xsd:dateTime ;
-            sh:description "The first date the component of the plan was (scheduled to be) performed." ;
+            sh:description "The start of the activity, episode or event (or the first date it was scheduled to be performed), as an ISO 8601 date-time." ;
             sh:maxCount 1 ;
             sh:minCount 1 ;
             sh:nodeKind sh:Literal ;
-            sh:order 0 ;
-            sh:path sc:startDateTime ],
-        [ sh:description "The frequency of the episode or life event, expressed as a [FHIR Timing](https://build.fhir.org/datatypes.html#Timing) datatype. This standard does not define or validate its structure; the value is an arbitrary JSON object conforming to FHIR Timing." ;
-            sh:maxCount 1 ;
-            sh:name "frequency" ;
-            sh:order 2 ;
-            sh:path sc:serviceFrequency ] ;
-    sh:targetClass sc:TimeInformation .
+            sh:order 1 ;
+            sh:path sc:startDateTime ] ;
+    sh:targetClass sc:Timing .
 
 linkml:AnyShape a sh:NodeShape ;
-    rdfs:comment "An open value whose structure is defined and validated elsewhere, not by this standard. Serialised as an arbitrary JSON object." ;
+    rdfs:comment "An open value whose structure is defined and validated elsewhere, not by this model. Serialised as an arbitrary JSON object." ;
     sh:closed false ;
     sh:ignoredProperties ( rdf:type ) ;
     sh:targetClass linkml:Any .

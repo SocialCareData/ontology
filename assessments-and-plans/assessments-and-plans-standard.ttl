@@ -1,7 +1,6 @@
 @prefix act: <https://ontology.socialcaredata.io/care-actor-type#> .
 @prefix ap: <https://ontology.socialcaredata.io/> .
 @prefix apc: <https://ontology.socialcaredata.io/care-outcome-type#> .
-@prefix at: <https://ontology.socialcaredata.io/answer-type#> .
 @prefix cds: <https://ontology.socialcaredata.io/care-document-status#> .
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix es: <https://ontology.socialcaredata.io/eligibility-status#> .
@@ -96,18 +95,6 @@ ap:advocateRequired a owl:DatatypeProperty ;
     skos:definition "Does the person require an advocate to complete this assessment / plan?" ;
     skos:inScheme ap:assessments-and-plans .
 
-ap:answer a owl:DatatypeProperty ;
-    rdfs:label "answer" ;
-    rdfs:range xsd:string ;
-    skos:definition "The answer to the question as measured in the assessment." ;
-    skos:inScheme ap:assessments-and-plans .
-
-ap:answerType a owl:ObjectProperty ;
-    rdfs:label "answerType" ;
-    rdfs:range ap:answer-type ;
-    skos:definition "Indicates how the answer should be parsed (e.g., String, Boolean, Date, Number, Enum). Ensures data like dates or booleans aren't trapped as unparsable text." ;
-    skos:inScheme ap:assessments-and-plans .
-
 ap:apIdentifier a owl:ObjectProperty ;
     rdfs:label "apIdentifier" ;
     dct:title "identifier" ;
@@ -123,7 +110,7 @@ ap:assessmentId a owl:ObjectProperty ;
 
 ap:assessmentQuestion a owl:ObjectProperty ;
     rdfs:label "assessmentQuestion" ;
-    rdfs:range ap:AssessmentQuestion ;
+    rdfs:range ap:CareAssessmentQuestion ;
     skos:definition "The set of assessment questions and answers." ;
     skos:inScheme ap:assessments-and-plans .
 
@@ -137,12 +124,6 @@ ap:careComponent a owl:ObjectProperty ;
     rdfs:label "careComponent" ;
     rdfs:range ap:CareComponent ;
     skos:definition "Components of the care package." ;
-    skos:inScheme ap:assessments-and-plans .
-
-ap:category a owl:ObjectProperty ;
-    rdfs:label "category" ;
-    rdfs:range ap:question-category ;
-    skos:definition "The domain/category of the question." ;
     skos:inScheme ap:assessments-and-plans .
 
 ap:consentToInformationSharing a owl:DatatypeProperty ;
@@ -161,18 +142,6 @@ ap:directPayment a owl:DatatypeProperty ;
     rdfs:label "directPayment" ;
     rdfs:range xsd:boolean ;
     skos:definition "Flag whether this component is paid via direct payment." ;
-    skos:inScheme ap:assessments-and-plans .
-
-ap:endDateTime a owl:DatatypeProperty ;
-    rdfs:label "endDateTime" ;
-    rdfs:range xsd:dateTime ;
-    skos:definition "The last date the component of the plan was performed before cancellation." ;
-    skos:inScheme ap:assessments-and-plans .
-
-ap:frequency a owl:DatatypeProperty ;
-    rdfs:label "frequency" ;
-    rdfs:range xsd:string ;
-    skos:definition "The frequency the component of the plan is performed, expressed using FHIR Timing or similar." ;
     skos:inScheme ap:assessments-and-plans .
 
 ap:isReview a owl:DatatypeProperty ;
@@ -205,64 +174,16 @@ ap:professionalId a owl:ObjectProperty ;
     skos:definition "Identifier for the professional that authored the assessment/plan. Note that we don't need a serviceID, because you can find the service through the professional." ;
     skos:inScheme ap:assessments-and-plans .
 
-ap:questionId a owl:DatatypeProperty ;
-    rdfs:label "questionId" ;
-    rdfs:range xsd:string ;
-    skos:definition "An ID for the question. For statutory questions, this should conform to the dictionary of statutory question IDs; for personalised, non statutory questions, this can be anything or left blank." ;
-    skos:inScheme ap:assessments-and-plans .
-
-ap:questionText a owl:DatatypeProperty ;
-    rdfs:label "questionText" ;
-    rdfs:range xsd:string ;
-    skos:definition "The exact wording of the question as it appears on the local authority's form." ;
-    skos:inScheme ap:assessments-and-plans .
-
-ap:required a owl:DatatypeProperty ;
-    rdfs:label "required" ;
-    rdfs:range xsd:boolean ;
-    skos:definition "Whether this question was mandatory on the local authority’s assessment. Should always be True for statutory fields." ;
-    skos:inScheme ap:assessments-and-plans .
-
 ap:review a owl:ObjectProperty ;
     rdfs:label "review" ;
     rdfs:range ap:Review ;
     skos:definition "List of reviews." ;
     skos:inScheme ap:assessments-and-plans .
 
-ap:startDateTime a owl:DatatypeProperty ;
-    rdfs:label "startDateTime" ;
-    rdfs:range xsd:dateTime ;
-    skos:definition "The first date the component of the plan was (scheduled to be) performed." ;
-    skos:inScheme ap:assessments-and-plans .
-
 ap:time a owl:ObjectProperty ;
     rdfs:label "time" ;
-    rdfs:range ap:CareTiming ;
+    rdfs:range ap:Timing ;
     skos:definition "The schedule and timing information of this component of the plan." ;
-    skos:inScheme ap:assessments-and-plans .
-
-ap:AssessmentQuestion a owl:Class ;
-    rdfs:label "AssessmentQuestion" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:cardinality 1 ;
-            owl:onProperty ap:required ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty ap:questionId ],
-        [ a owl:Restriction ;
-            owl:cardinality 1 ;
-            owl:onProperty ap:questionText ],
-        [ a owl:Restriction ;
-            owl:cardinality 1 ;
-            owl:onProperty ap:answerType ],
-        [ a owl:Restriction ;
-            owl:minCardinality 1 ;
-            owl:onProperty ap:answer ],
-        [ a owl:Restriction ;
-            owl:cardinality 1 ;
-            owl:onProperty ap:category ] ;
-    skos:definition "A generic Question-and-Answer model used to represent both statutory Care Act questions and local, personalised fields." ;
-    skos:exactMatch ap:AssessmentQuestion ;
     skos:inScheme ap:assessments-and-plans .
 
 ap:CareActivity a owl:Class ;
@@ -292,6 +213,19 @@ ap:CareActor a owl:Class ;
     skos:exactMatch ap:CareActor ;
     skos:inScheme ap:assessments-and-plans .
 
+ap:CareAssessmentQuestion a owl:Class ;
+    rdfs:label "CareAssessmentQuestion" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom ap:question-category ;
+            owl:onProperty ap:category ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ap:category ],
+        ap:AssessmentQuestion ;
+    skos:definition "A generic Question-and-Answer model used to represent both statutory Care Act questions and local, personalised fields." ;
+    skos:exactMatch ap:CareAssessmentQuestion ;
+    skos:inScheme ap:assessments-and-plans .
+
 ap:CareComponent a owl:Class ;
     rdfs:label "CareComponent" ;
     rdfs:subClassOf [ a owl:Restriction ;
@@ -307,21 +241,6 @@ ap:CareComponent a owl:Class ;
     skos:exactMatch ap:CareComponent ;
     skos:inScheme ap:assessments-and-plans .
 
-ap:CareTiming a owl:Class ;
-    rdfs:label "CareTiming" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:cardinality 1 ;
-            owl:onProperty ap:startDateTime ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty ap:endDateTime ],
-        [ a owl:Restriction ;
-            owl:cardinality 1 ;
-            owl:onProperty ap:frequency ] ;
-    skos:definition "The schedule and timing information of a care component." ;
-    skos:exactMatch ap:CareTiming ;
-    skos:inScheme ap:assessments-and-plans .
-
 ap:Review a owl:Class ;
     rdfs:label "Review" ;
     rdfs:subClassOf [ a owl:Restriction ;
@@ -330,36 +249,6 @@ ap:Review a owl:Class ;
     skos:definition "Review information associated with an assessment or care plan." ;
     skos:exactMatch ap:Review ;
     skos:inScheme ap:assessments-and-plans .
-
-at:Boolean a owl:Class ;
-    rdfs:label "Boolean" ;
-    dct:title "Boolean" ;
-    rdfs:subClassOf ap:answer-type ;
-    skos:definition "True/False value." .
-
-at:Date a owl:Class ;
-    rdfs:label "Date" ;
-    dct:title "Date" ;
-    rdfs:subClassOf ap:answer-type ;
-    skos:definition "ISO date-time or date value." .
-
-at:Enum a owl:Class ;
-    rdfs:label "Enum" ;
-    dct:title "Enum" ;
-    rdfs:subClassOf ap:answer-type ;
-    skos:definition "Value from a controlled vocabulary." .
-
-at:Number a owl:Class ;
-    rdfs:label "Number" ;
-    dct:title "Number" ;
-    rdfs:subClassOf ap:answer-type ;
-    skos:definition "Numeric value." .
-
-at:String a owl:Class ;
-    rdfs:label "String" ;
-    dct:title "String" ;
-    rdfs:subClassOf ap:answer-type ;
-    skos:definition "Free-form text value." .
 
 act:Community a owl:Class ;
     rdfs:label "Community" ;
@@ -767,18 +656,6 @@ ap:client-funding-status a owl:Class ;
         fs:fully-social-care-funded,
         fs:joint-client-and-social-care-funded,
         fs:unknown .
-
-ap:answer-type a owl:Class ;
-    rdfs:label "AnswerType" ;
-    dct:title "Answer Type" ;
-    owl:unionOf ( at:String at:Boolean at:Date at:Number at:Enum ) ;
-    skos:definition "Indicates how the answer to a question should be parsed and represented." ;
-    skos:inScheme ap:assessments-and-plans ;
-    linkml:permissible_values at:Boolean,
-        at:Date,
-        at:Enum,
-        at:Number,
-        at:String .
 
 ap:care-actor-type a owl:Class ;
     rdfs:label "CareActorType" ;

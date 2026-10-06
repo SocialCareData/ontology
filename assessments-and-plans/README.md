@@ -13,7 +13,7 @@ JSON Schema and docs are generated from the YAML.
 
 | File | Role |
 | --- | --- |
-| `assessments-and-plans-standard.yaml` | **Authoritative source.** Prefixes, the two top-level classes (`CareNeedsAssessment`, `CarePlan`), the `FoundationalInformation` mixin they share, the supporting objects (`Review`, `AssessmentQuestion`, `CareComponent`, `CareActor`, `CareTiming`, `CareActivity`), every slot, and the controlled vocabularies (enums). `Identifier` is **imported** from the common module (see below). |
+| `assessments-and-plans-standard.yaml` | **Authoritative source.** Prefixes, the two top-level classes (`CareNeedsAssessment`, `CarePlan`), the `FoundationalInformation` mixin they share, the supporting objects (`Review`, `CareAssessmentQuestion`, `CareComponent`, `CareActor`, `CareActivity`), every slot, and the controlled vocabularies (enums). `Identifier`, `AssessmentQuestion`, `Timing` and the `AnswerType` enum are **imported** from the common module (see below). |
 | `../imports.json` | Top-level importmap shared by all modules: maps each module id (e.g. `https://ontology.socialcaredata.io/common`) to its local `*.yaml` file, so imports can be written as clean IRIs. |
 | `assessments-and-plans-standard-shape.ttl` | *Generated* SHACL — one `NodeShape` per class, including the imported `p:Identifier` shape. |
 | `assessments-and-plans-standard.ttl` | *Generated* OWL/RDF ontology. Declares `owl:imports` of the common module and references `Identifier` rather than redefining it. |
@@ -72,11 +72,25 @@ Two consequences to keep in mind when editing the YAML:
   `0..*` on `Person`. The documentation, the predicate and the JSON-LD key all
   still read `identifier`.
 
+### Reused common objects
+
+`AssessmentQuestion` and `Timing` are defined once in the common module so other
+standards can reuse them.
+
+- The common `AssessmentQuestion.category` is an open string. This standard
+  narrows it with **`CareAssessmentQuestion`** (`is_a: AssessmentQuestion`),
+  whose `slot_usage` restricts `category` to `QuestionCategory` (restating
+  `range:` there, per the `gen-owl` caveat above). `assessmentQuestion` ranges
+  over `CareAssessmentQuestion`, so the generated SHACL puts the `sh:in` for
+  `QuestionCategory` on that shape.
+- `CareComponent.time` ranges over the common `Timing`, whose `frequency` is a
+  FHIR `Timing` object (range `Any`, not validated by this model).
+
 ### Vocabularies that are not bound to a slot
 
 `ClientFundingStatus` and `CareActEligibilityStatus` are the answer vocabularies
 for the statutory questions `STAT-FINANCE-01` and `CA-ELIGIBILITY-01`. Because
-`AssessmentQuestion.answer` is deliberately an open string (its parsing is
+`CareAssessmentQuestion.answer` is deliberately an open string (its parsing is
 declared by `answerType`), these enums are published as reference vocabularies
 and are **not** the range of any slot, so `gen-shacl` emits no `sh:in` for them.
 
@@ -100,8 +114,14 @@ Person classes are referenced via `owl:imports` rather than copied in.
 
 ## Validating the examples
 
+The examples live in `examples/` of
+[SocialCareData/ontology](https://github.com/SocialCareData/ontology), beside the
+shapes below, and the validator in
+[SocialCareData/validator](https://github.com/SocialCareData/validator), which
+fetches both from there.
+
 ```bash
-cd ../../shacl/validation
-npm install
-node validate.js assessments-and-plans
+npx @socialcaredata/validator -p assessments-and-plans yourdata.jsonld
 ```
+
+Or in a browser: <https://socialcaredata.github.io/validator/>

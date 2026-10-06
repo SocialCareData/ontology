@@ -865,7 +865,7 @@ yns:NotSpecified a owl:Class ;
 
 yns:Yes a owl:Class ;
     rdfs:label "True" ;
-    dct:title "True" ;
+    dct:title "Yes" ;
     rdfs:subClassOf pl:presence-status ;
     skos:definition "Affirmative." .
 
@@ -966,7 +966,7 @@ uasc:NotApplicable a owl:Class ;
 
 uasc:Yes a owl:Class ;
     rdfs:label "True" ;
-    dct:title "True" ;
+    dct:title "Yes" ;
     rdfs:subClassOf pl:uasc-status ;
     skos:definition "The child is an unaccompanied asylum-seeking child." .
 

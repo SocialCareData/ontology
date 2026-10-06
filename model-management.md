@@ -22,15 +22,17 @@ under `src/_data/model/` — that compose into one **Social Care MAIS** ontology
   and their vocabularies), depended on by the domain modules.
 - `person/`, `placements/`, `safeguarding/`, `assessments-and-plans/` — the
   domain standards; each imports `common` for the shared objects.
-- `mais/mais.yaml` — the **umbrella** schema. It has no terms of its own; it
+- `social-care/social-care.yaml` — the **umbrella** schema. It has no terms of its own; it
   `imports` every module so the merged ontology can be generated from one file.
-  `mais/manifest.yml` pins the module versions that make up a release.
+  `social-care/manifest.yml` pins the module versions that make up a release.
 
 Everything lives under a **single flat namespace**,
 `https://ontology.socialcaredata.io/`, so a term keeps the same IRI whether used
 in a module or in the merged ontology. Same-named slots across modules therefore
 share one IRI — keep genuinely different fields distinctly named (e.g.
-`specialCommunicationNeeds`, `serviceFrequency`, `measurementValue`).
+`specialCommunicationNeeds`, `measurementValue`). A field that really is the
+same in several modules (e.g. `Timing`'s `startDateTime`) belongs in the common
+module rather than being defined in each.
 
 Cross-module imports use each module's ontology id (e.g.
 `https://ontology.socialcaredata.io/common`) and are resolved to local files by
@@ -223,20 +225,29 @@ same top-level `imports.json` as every other cross-module import.
 
 ## Validating the examples
 
-Each model ships JSON-LD examples that are checked against its generated shapes
-by the standard-agnostic validator in
-[`src/assets/shacl/validation/`](../shacl/validation/README.md). Files named
-`valid-*.jsonld` must conform; `invalid-*.jsonld` must not.
+The JSON-LD examples live in `examples/` of
+[SocialCareData/ontology](https://github.com/SocialCareData/ontology), beside the
+shapes they exercise; the sync from this repository leaves that folder alone.
+The validator that checks them lives in
+[SocialCareData/validator](https://github.com/SocialCareData/validator). This
+repository keeps the LinkML schemas the shapes are generated from.
 
 ```bash
-cd src/assets/shacl/validation
-npm install
-node validate.js                          # every standard, every profile
-node validate.js placements               # one standard
-node validate.js person subject-of-care   # one standard, one profile
+npx @socialcaredata/validator -p placements yourdata.jsonld
+npx @socialcaredata/validator profiles          # what it can check against
 ```
 
+There is also a browser version at <https://socialcaredata.github.io/validator/>.
+
+The validator fetches shapes and contexts by URL from
+[SocialCareData/ontology](https://github.com/SocialCareData/ontology) rather than
+bundling copies, so it always checks against the published artifacts. Files named
+`valid-*.jsonld` must conform and `invalid-*.jsonld` must not; that suite runs in
+the validator's own CI, on every change and nightly against the latest shapes.
+
 A profile may load **several** shape files (the generated shape plus any
-hand-maintained `*-rules-shape.ttl`); they are merged before validation.
-Register a new standard/profile in the `STANDARDS` map at the top of
-`validate.js`.
+hand-maintained `*-rules-shape.ttl`); they are merged before validation. The
+rules shapes are published to the ontology repository by `copy_aux` in
+`build_ontology.py` precisely so the validator can fetch them. To add a standard
+or profile, see the validator's
+[contributing guide](https://github.com/SocialCareData/validator/blob/main/docs/contributing.md).

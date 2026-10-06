@@ -28,8 +28,8 @@
       "@id": "sg:active",
       "@type": "xsd:boolean"
     },
-    "status": {
-      "@id": "sg:status",
+    "workingStatus": {
+      "@id": "sg:workingStatus",
       "@type": "xsd:boolean"
     },
     "address": {
@@ -115,8 +115,8 @@
       "@type": "@id",
       "@container": "@set"
     },
-    "outcome": {
-      "@id": "sg:outcome",
+    "episodeOutcome": {
+      "@id": "sg:episodeOutcome",
       "@type": "@vocab",
       "@context": {
         "@vocab": "https://ontology.socialcaredata.io/episode-outcome#",
@@ -318,16 +318,15 @@
     },
     "SubjectPerson": "sg:SubjectPerson",
     "RelatedProfessional": "sg:RelatedProfessional",
-    "TimeInformation": {
-      "@id": "sg:TimeInformation",
+    "Timing": {
+      "@id": "sg:Timing",
       "@context": {
         "frequency": {
-          "@id": "sg:serviceFrequency",
+          "@id": "sg:frequency",
           "@type": "@id"
         }
       }
     },
-    "Timing": "sg:Timing",
     "Repeat": {
       "@id": "sg:Repeat",
       "@context": {

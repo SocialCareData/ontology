@@ -3,9 +3,12 @@
     "sc":  "https://ontology.socialcaredata.io/",
     "nuc": "https://ontology.socialcaredata.io/name-use-code#",
     "auc": "https://ontology.socialcaredata.io/address-use-code#",
+    "at":  "https://ontology.socialcaredata.io/answer-type#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
 
     "Identifier": "sc:Identifier",
+    "AssessmentQuestion": "sc:AssessmentQuestion",
+    "Timing": "sc:Timing",
     "Name": {
       "@id": "sc:Name",
       "@context": {
@@ -64,6 +67,28 @@
     "USRN":     "sc:USRN",
 
     "email":     { "@id": "sc:email",     "@container": "@set" },
-    "telephone": { "@id": "sc:telephone", "@container": "@set" }
+    "telephone": { "@id": "sc:telephone", "@container": "@set" },
+
+    "questionId":   "sc:questionId",
+    "category":     "sc:category",
+    "questionText": "sc:questionText",
+    "answer":       { "@id": "sc:answer",   "@container": "@set" },
+    "required":     { "@id": "sc:required", "@type": "xsd:boolean" },
+    "answerType": {
+      "@id": "sc:answerType",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ontology.socialcaredata.io/answer-type#",
+        "String":  "at:String",
+        "Boolean": "at:Boolean",
+        "Date":    "at:Date",
+        "Number":  "at:Number",
+        "Enum":    "at:Enum"
+      }
+    },
+
+    "frequency":     "sc:frequency",
+    "startDateTime": { "@id": "sc:startDateTime", "@type": "xsd:dateTime" },
+    "endDateTime":   { "@id": "sc:endDateTime",   "@type": "xsd:dateTime" }
   }
 }
