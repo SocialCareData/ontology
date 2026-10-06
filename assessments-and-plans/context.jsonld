@@ -14,9 +14,10 @@
     "CarePlan":                  "ap:CarePlan",
     "Review":                    "ap:Review",
     "AssessmentQuestion":        "ap:AssessmentQuestion",
+    "CareAssessmentQuestion":    "ap:CareAssessmentQuestion",
     "CareComponent":             "ap:CareComponent",
     "CareActor":                 "ap:CareActor",
-    "CareTiming":                  "ap:CareTiming",
+    "Timing":                    "ap:Timing",
     "CareActivity":              "ap:CareActivity",
     "Identifier":                "p:Identifier",
 

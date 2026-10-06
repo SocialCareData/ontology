@@ -1,3 +1,4 @@
+@prefix linkml: <https://w3id.org/linkml/> .
 @prefix p: <https://ontology.socialcaredata.io/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -55,6 +56,51 @@ p:AddressShape a sh:NodeShape ;
             sh:path p:postcode ;
             sh:pattern "^[A-Z]{1,2}[0-9][0-9A-Z]? ?[0-9][A-Z]{2}$" ] ;
     sh:targetClass p:Address .
+
+p:AssessmentQuestionShape a sh:NodeShape ;
+    rdfs:comment "A generic Question-and-Answer model used to represent both statutory and local, personalised questions." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "An ID for the question. Standards may define a dictionary of IDs for statutory or well-known questions; for personalised, local questions, this can be anything or left blank." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path p:questionId ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Whether this question was mandatory on the form." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 5 ;
+            sh:path p:required ],
+        [ sh:datatype xsd:string ;
+            sh:description "The exact wording of the question as it appears on the form." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path p:questionText ],
+        [ sh:description "Indicates how the answer should be parsed (e.g., String, Boolean, Date, Number, Enum). Ensures data like dates or booleans aren't trapped as unparsable text." ;
+            sh:in ( <https://ontology.socialcaredata.io/answer-type#String> <https://ontology.socialcaredata.io/answer-type#Boolean> <https://ontology.socialcaredata.io/answer-type#Date> <https://ontology.socialcaredata.io/answer-type#Number> <https://ontology.socialcaredata.io/answer-type#Enum> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 4 ;
+            sh:path p:answerType ],
+        [ sh:datatype xsd:string ;
+            sh:description "The domain/category of the question." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path p:category ],
+        [ sh:datatype xsd:string ;
+            sh:description "The answer to the question." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 3 ;
+            sh:path p:answer ] ;
+    sh:targetClass p:AssessmentQuestion .
 
 p:CommunicationShape a sh:NodeShape ;
     rdfs:comment "Professional recording of a person's communication requirements and language proficiencies." ;
@@ -290,4 +336,33 @@ p:PersonShape a sh:NodeShape ;
             sh:order 1 ;
             sh:path p:name ] ;
     sh:targetClass p:Person .
+
+p:TimingShape a sh:NodeShape ;
+    rdfs:comment "The schedule and timing information of an activity, episode or event: when it started and ended and how frequently it recurs." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "How frequently the activity, episode or event recurs, expressed as a [FHIR Timing](https://build.fhir.org/datatypes.html#Timing) datatype. This model does not define or validate its structure; the value is an arbitrary JSON object conforming to FHIR Timing." ;
+            sh:maxCount 1 ;
+            sh:order 0 ;
+            sh:path p:frequency ],
+        [ sh:datatype xsd:dateTime ;
+            sh:description "The end of the activity, episode or event (or the last date it was performed), as an ISO 8601 date-time." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path p:endDateTime ],
+        [ sh:datatype xsd:dateTime ;
+            sh:description "The start of the activity, episode or event (or the first date it was scheduled to be performed), as an ISO 8601 date-time." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path p:startDateTime ] ;
+    sh:targetClass p:Timing .
+
+linkml:AnyShape a sh:NodeShape ;
+    rdfs:comment "An open value whose structure is defined and validated elsewhere, not by this model. Serialised as an arbitrary JSON object." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass linkml:Any .
 

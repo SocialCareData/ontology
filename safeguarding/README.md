@@ -13,7 +13,7 @@ JSON Schema and docs are generated from the YAML.
 
 | File | Role |
 | --- | --- |
-| `safeguarding-standard.yaml` | **Authoritative source.** Prefixes, the five top-level classes (`Organisation`, `Service`, `Professional`, `ServiceEpisode`, `LifeEvent`), the linking/supporting objects (`SubjectPerson`, `RelatedProfessional`, `TimeInformation`, `Finding`, `Observation`, `Measurement`), every slot, and the controlled vocabularies (enums). The shared objects are **imported** from the common module (see below). |
+| `safeguarding-standard.yaml` | **Authoritative source.** Prefixes, the five top-level classes (`Organisation`, `Service`, `Professional`, `ServiceEpisode`, `LifeEvent`), the linking/supporting objects (`SubjectPerson`, `RelatedProfessional`, `Finding`, `Observation`, `Measurement`), every slot, and the controlled vocabularies (enums). The shared objects (`Identifier`, `Name`, `Address`, `Contact`, `Timing`) are **imported** from the common module (see below). |
 | `../imports.json` | Top-level importmap shared by all modules: maps each module id (e.g. `https://ontology.socialcaredata.io/common`) to its local `*.yaml` file, so imports can be written as clean IRIs. |
 | `safeguarding-standard-shape.ttl` | *Generated* SHACL — one `NodeShape` per class, including the imported `p:Identifier` / `p:Name` / `p:Address` / `p:Contact` shapes. |
 | `safeguarding-standard.ttl` | *Generated* OWL/RDF ontology. Declares `owl:imports` of the common module and references the shared-object IRIs (`Identifier` …) rather than redefining them. |
@@ -60,9 +60,9 @@ the standard's prose:
 
 - `involvement` (on `SubjectPerson` / `RelatedProfessional`) takes an HL7 v3
   `ParticipationType` code directly — modelled as an open string.
-- `frequency` (on `TimeInformation`) is a FHIR `Timing`. This standard does not
-  define or validate its structure — the value is an arbitrary JSON object
-  (range `Any`) conforming to FHIR Timing.
+- `frequency` (on the common `Timing` object, the range of `timeInformation`) is
+  a FHIR `Timing`. The model does not define or validate its structure — the
+  value is an arbitrary JSON object (range `Any`) conforming to FHIR Timing.
 - `Observation.type` draws from the extensible Observation Type Vocabulary
   (which has dynamic sub-parts such as `EAL.<ISO 639-1>`), so it is an open
   string rather than an enum.
@@ -83,8 +83,14 @@ Person classes are referenced via `owl:imports` rather than copied in.
 
 ## Validating the examples
 
+The examples live in `examples/` of
+[SocialCareData/ontology](https://github.com/SocialCareData/ontology), beside the
+shapes below, and the validator in
+[SocialCareData/validator](https://github.com/SocialCareData/validator), which
+fetches both from there.
+
 ```bash
-cd ../../shacl/validation
-npm install
-node validate.js safeguarding
+npx @socialcaredata/validator -p safeguarding yourdata.jsonld
 ```
+
+Or in a browser: <https://socialcaredata.github.io/validator/>

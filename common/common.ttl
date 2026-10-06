@@ -1,3 +1,4 @@
+@prefix at: <https://ontology.socialcaredata.io/answer-type#> .
 @prefix auc: <https://ontology.socialcaredata.io/address-use-code#> .
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix linkml: <https://w3id.org/linkml/> .
@@ -55,6 +56,36 @@ sc:Address a owl:Class ;
     skos:exactMatch sc:Address ;
     skos:inScheme sc:common .
 
+sc:Any a owl:Class ;
+    rdfs:label "Any" ;
+    skos:definition "An open value whose structure is defined and validated elsewhere, not by this model. Serialised as an arbitrary JSON object." ;
+    skos:exactMatch linkml:Any ;
+    skos:inScheme sc:common .
+
+sc:AssessmentQuestion a owl:Class ;
+    rdfs:label "AssessmentQuestion" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty sc:required ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty sc:questionId ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty sc:questionText ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty sc:answerType ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty sc:answer ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty sc:category ] ;
+    skos:definition "A generic Question-and-Answer model used to represent both statutory and local, personalised questions." ;
+    skos:exactMatch sc:AssessmentQuestion ;
+    skos:inScheme sc:common .
+
 sc:Contact a owl:Class ;
     rdfs:label "Contact" ;
     rdfs:subClassOf [ a owl:Restriction ;
@@ -94,6 +125,21 @@ sc:Name a owl:Class ;
     skos:exactMatch sc:Name ;
     skos:inScheme sc:common .
 
+sc:Timing a owl:Class ;
+    rdfs:label "Timing" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty sc:startDateTime ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty sc:endDateTime ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty sc:frequency ] ;
+    skos:definition "The schedule and timing information of an activity, episode or event: when it started and ended and how frequently it recurs." ;
+    skos:exactMatch sc:Timing ;
+    skos:inScheme sc:common .
+
 sc:UPRN a owl:DatatypeProperty ;
     rdfs:label "UPRN" ;
     rdfs:range xsd:string ;
@@ -113,6 +159,24 @@ sc:addressUse a owl:ObjectProperty ;
     skos:definition "How this address is used - home, work, temp, etc." ;
     skos:inScheme sc:common .
 
+sc:answer a owl:DatatypeProperty ;
+    rdfs:label "answer" ;
+    rdfs:range xsd:string ;
+    skos:definition "The answer to the question." ;
+    skos:inScheme sc:common .
+
+sc:answerType a owl:ObjectProperty ;
+    rdfs:label "answerType" ;
+    rdfs:range sc:answer-type ;
+    skos:definition "Indicates how the answer should be parsed (e.g., String, Boolean, Date, Number, Enum). Ensures data like dates or booleans aren't trapped as unparsable text." ;
+    skos:inScheme sc:common .
+
+sc:category a owl:DatatypeProperty ;
+    rdfs:label "category" ;
+    rdfs:range xsd:string ;
+    skos:definition "The domain/category of the question." ;
+    skos:inScheme sc:common .
+
 sc:city a owl:DatatypeProperty ;
     rdfs:label "city" ;
     rdfs:range xsd:string ;
@@ -126,10 +190,22 @@ sc:contactName a owl:DatatypeProperty ;
     skos:definition "Name of the contact type (for example, \"Home\", \"Work\", \"Other\")." ;
     skos:inScheme sc:common .
 
+sc:endDateTime a owl:DatatypeProperty ;
+    rdfs:label "endDateTime" ;
+    rdfs:range xsd:dateTime ;
+    skos:definition "The end of the activity, episode or event (or the last date it was performed), as an ISO 8601 date-time." ;
+    skos:inScheme sc:common .
+
 sc:familyName a owl:DatatypeProperty ;
     rdfs:label "familyName" ;
     rdfs:range xsd:string ;
     skos:definition "The surname or family name. Multi-valued to support compound or hyphenated family names recorded as separate parts." ;
+    skos:inScheme sc:common .
+
+sc:frequency a owl:ObjectProperty ;
+    rdfs:label "frequency" ;
+    rdfs:range sc:Any ;
+    skos:definition "How frequently the activity, episode or event recurs, expressed as a [FHIR Timing](https://build.fhir.org/datatypes.html#Timing) datatype. This model does not define or validate its structure; the value is an arbitrary JSON object conforming to FHIR Timing." ;
     skos:inScheme sc:common .
 
 sc:givenName a owl:DatatypeProperty ;
@@ -161,6 +237,30 @@ sc:preferredName a owl:DatatypeProperty ;
     rdfs:label "preferredName" ;
     rdfs:range xsd:string ;
     skos:definition "Any preferred given or middle name used by the person - for example, \"Joe\" where their legal first name is \"Joseph\"." ;
+    skos:inScheme sc:common .
+
+sc:questionId a owl:DatatypeProperty ;
+    rdfs:label "questionId" ;
+    rdfs:range xsd:string ;
+    skos:definition "An ID for the question. Standards may define a dictionary of IDs for statutory or well-known questions; for personalised, local questions, this can be anything or left blank." ;
+    skos:inScheme sc:common .
+
+sc:questionText a owl:DatatypeProperty ;
+    rdfs:label "questionText" ;
+    rdfs:range xsd:string ;
+    skos:definition "The exact wording of the question as it appears on the form." ;
+    skos:inScheme sc:common .
+
+sc:required a owl:DatatypeProperty ;
+    rdfs:label "required" ;
+    rdfs:range xsd:boolean ;
+    skos:definition "Whether this question was mandatory on the form." ;
+    skos:inScheme sc:common .
+
+sc:startDateTime a owl:DatatypeProperty ;
+    rdfs:label "startDateTime" ;
+    rdfs:range xsd:dateTime ;
+    skos:definition "The start of the activity, episode or event (or the first date it was scheduled to be performed), as an ISO 8601 date-time." ;
     skos:inScheme sc:common .
 
 sc:system a owl:DatatypeProperty ;
@@ -204,6 +304,36 @@ auc:Work a owl:Class ;
     dct:title "Work" ;
     rdfs:subClassOf sc:address-use-code ;
     skos:definition "An office address. First choice for business-related contacts during business hours." .
+
+at:Boolean a owl:Class ;
+    rdfs:label "Boolean" ;
+    dct:title "Boolean" ;
+    rdfs:subClassOf sc:answer-type ;
+    skos:definition "True/False value." .
+
+at:Date a owl:Class ;
+    rdfs:label "Date" ;
+    dct:title "Date" ;
+    rdfs:subClassOf sc:answer-type ;
+    skos:definition "ISO date-time or date value." .
+
+at:Enum a owl:Class ;
+    rdfs:label "Enum" ;
+    dct:title "Enum" ;
+    rdfs:subClassOf sc:answer-type ;
+    skos:definition "Value from a controlled vocabulary." .
+
+at:Number a owl:Class ;
+    rdfs:label "Number" ;
+    dct:title "Number" ;
+    rdfs:subClassOf sc:answer-type ;
+    skos:definition "Numeric value." .
+
+at:String a owl:Class ;
+    rdfs:label "String" ;
+    dct:title "String" ;
+    rdfs:subClassOf sc:answer-type ;
+    skos:definition "Free-form text value." .
 
 nuc:Anonymous a owl:Class ;
     rdfs:label "anonymous" ;
@@ -268,6 +398,18 @@ sc:address-use-code a owl:Class ;
         auc:Temp,
         auc:Work .
 
+sc:answer-type a owl:Class ;
+    rdfs:label "AnswerType" ;
+    dct:title "Answer Type" ;
+    owl:unionOf ( at:String at:Boolean at:Date at:Number at:Enum ) ;
+    skos:definition "Indicates how the answer to a question should be parsed and represented." ;
+    skos:inScheme sc:common ;
+    linkml:permissible_values at:Boolean,
+        at:Date,
+        at:Enum,
+        at:Number,
+        at:String .
+
 sc:name-use-code a owl:Class ;
     rdfs:label "NameUseCode" ;
     dct:title "Name Use Code" ;
@@ -287,6 +429,5 @@ sc:common a owl:Ontology ;
     dct:license "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" ;
     dct:title "Social Care MAIS - Common Objects" ;
     pav:version "1.0.0" ;
-    skos:definition """The shared, cross-cutting objects of the Social Care MAIS ontology: the building blocks reused by every domain module. It defines the Identifier, Name, Address and Contact structures and their controlled vocabularies (NameUseCode, AddressUseCode) once, so that Person, Placements, Safeguarding and Assessments-and-Plans all reference the same classes and IRIs rather than redefining them.
-This module has no dependency on any domain standard; the domain standards depend on it. It is versioned on its own cadence and composed into the single Social Care MAIS ontology alongside the domain modules.""" .
+    skos:definition "The shared, cross-cutting objects of the Social Care MAIS ontology: the building blocks reused by every domain module." .
 

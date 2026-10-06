@@ -66,6 +66,51 @@ sg:AddressShape a sh:NodeShape ;
             sh:pattern "^[A-Z]{1,2}[0-9][0-9A-Z]? ?[0-9][A-Z]{2}$" ] ;
     sh:targetClass sg:Address .
 
+sg:AssessmentQuestionShape a sh:NodeShape ;
+    rdfs:comment "A generic Question-and-Answer model used to represent both statutory and local, personalised questions." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "The exact wording of the question as it appears on the form." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path sg:questionText ],
+        [ sh:datatype xsd:string ;
+            sh:description "An ID for the question. Standards may define a dictionary of IDs for statutory or well-known questions; for personalised, local questions, this can be anything or left blank." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sg:questionId ],
+        [ sh:description "Indicates how the answer should be parsed (e.g., String, Boolean, Date, Number, Enum). Ensures data like dates or booleans aren't trapped as unparsable text." ;
+            sh:in ( <https://ontology.socialcaredata.io/answer-type#String> <https://ontology.socialcaredata.io/answer-type#Boolean> <https://ontology.socialcaredata.io/answer-type#Date> <https://ontology.socialcaredata.io/answer-type#Number> <https://ontology.socialcaredata.io/answer-type#Enum> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 4 ;
+            sh:path sg:answerType ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Whether this question was mandatory on the form." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 5 ;
+            sh:path sg:required ],
+        [ sh:datatype xsd:string ;
+            sh:description "The domain/category of the question." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sg:category ],
+        [ sh:datatype xsd:string ;
+            sh:description "The answer to the question." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 3 ;
+            sh:path sg:answer ] ;
+    sh:targetClass sg:AssessmentQuestion .
+
 sg:ContactShape a sh:NodeShape ;
     rdfs:comment "Contact details, such as a home, work, or other contact channel grouping." ;
     sh:closed false ;
@@ -133,12 +178,7 @@ sg:LifeEventShape a sh:NodeShape ;
     rdfs:comment "A significant, time-bound occurrence in an individual's life that may have implications for their safety, wellbeing or development - for example attendance at A&E, a child being reported as missing, or an exclusion from school. Life events are not inherently positive or negative but can signal levels of risk, vulnerability or changing need." ;
     sh:closed false ;
     sh:ignoredProperties ( rdf:type ) ;
-    sh:property [ sh:class sg:TimeInformation ;
-            sh:description "Details about the timing of the episode or life event." ;
-            sh:nodeKind sh:BlankNodeOrIRI ;
-            sh:order 5 ;
-            sh:path sg:timeInformation ],
-        [ sh:description "Code(s) for the type of life event." ;
+    sh:property [ sh:description "Code(s) for the type of life event." ;
             sh:in ( evc:Birth evc:Death evc:AeAttendance evc:SchoolExclusion evc:SchoolSuspension evc:MissingPerson evc:SafeguardingConcern evc:Referral evc:Homeless ) ;
             sh:minCount 1 ;
             sh:name "type" ;
@@ -149,6 +189,11 @@ sg:LifeEventShape a sh:NodeShape ;
             sh:nodeKind sh:Literal ;
             sh:order 6 ;
             sh:path sg:location ],
+        [ sh:class sg:Timing ;
+            sh:description "Details about the timing of the episode or life event." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 5 ;
+            sh:path sg:timeInformation ],
         [ sh:class sg:SubjectPerson ;
             sh:description "References to the Person(s) the episode or life event concerns." ;
             sh:minCount 1 ;
@@ -297,6 +342,12 @@ sg:OrganisationShape a sh:NodeShape ;
             sh:nodeKind sh:BlankNodeOrIRI ;
             sh:order 5 ;
             sh:path sg:address ],
+        [ sh:class sg:Identifier ;
+            sh:description "References (by Identifier) to Professionals associated with the entity." ;
+            sh:name "relatedProfessional" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 7 ;
+            sh:path sg:relatedProfessional ],
         [ sh:datatype xsd:string ;
             sh:description "The official name of the organisation or service." ;
             sh:maxCount 1 ;
@@ -304,13 +355,7 @@ sg:OrganisationShape a sh:NodeShape ;
             sh:name "name" ;
             sh:nodeKind sh:Literal ;
             sh:order 1 ;
-            sh:path sg:name ],
-        [ sh:class sg:Identifier ;
-            sh:description "References (by Identifier) to Professionals associated with the entity." ;
-            sh:name "relatedProfessional" ;
-            sh:nodeKind sh:BlankNodeOrIRI ;
-            sh:order 7 ;
-            sh:path sg:relatedProfessional ],
+            sh:path sg:entityName ],
         [ sh:class sg:Contact ;
             sh:description "Contact information for the organisation." ;
             sh:minCount 1 ;
@@ -331,18 +376,19 @@ sg:ProfessionalShape a sh:NodeShape ;
     rdfs:comment "An individual acting in a formal role within an organisation who has responsibilities relating to a person's safety, wellbeing, care or support - for example undertaking assessments, creating and monitoring plans, or sharing information in a multi-agency context." ;
     sh:closed false ;
     sh:ignoredProperties ( rdf:type ) ;
-    sh:property [ sh:datatype xsd:boolean ;
-            sh:description "The professional's current working status." ;
-            sh:maxCount 1 ;
-            sh:nodeKind sh:Literal ;
-            sh:order 3 ;
-            sh:path sg:status ],
-        [ sh:datatype xsd:string ;
+    sh:property [ sh:datatype xsd:string ;
             sh:description "Text describing the professional's occupational role." ;
             sh:minCount 1 ;
             sh:nodeKind sh:Literal ;
             sh:order 2 ;
             sh:path sg:role ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "The professional's current working status." ;
+            sh:maxCount 1 ;
+            sh:name "status" ;
+            sh:nodeKind sh:Literal ;
+            sh:order 3 ;
+            sh:path sg:workingStatus ],
         [ sh:class sg:Identifier ;
             sh:description "Unique identifiers associated with the entity." ;
             sh:minCount 1 ;
@@ -410,12 +456,7 @@ sg:ServiceEpisodeShape a sh:NodeShape ;
             sh:name "type" ;
             sh:order 1 ;
             sh:path sg:episodeType ],
-        [ sh:description "Outcome of the episode for the subject." ;
-            sh:in ( eo:Reablement eo:Assessment eo:Hospital eo:Continuation eo:Planning eo:NfaPlanned eo:NfaMoved eo:NfaNhsReferral eo:NfaDisregard eo:NfaLocalReferral eo:NfaDeclined eo:NfaInfo eo:NfaDeceased eo:NfaNoOfferOther eo:NfaEndedOther eo:NfaOther ) ;
-            sh:maxCount 1 ;
-            sh:order 8 ;
-            sh:path sg:outcome ],
-        [ sh:class sg:TimeInformation ;
+        [ sh:class sg:Timing ;
             sh:description "Details about the timing of the episode." ;
             sh:minCount 1 ;
             sh:nodeKind sh:BlankNodeOrIRI ;
@@ -433,6 +474,12 @@ sg:ServiceEpisodeShape a sh:NodeShape ;
             sh:nodeKind sh:Literal ;
             sh:order 6 ;
             sh:path sg:location ],
+        [ sh:description "Outcome of the episode for the subject." ;
+            sh:in ( eo:Reablement eo:Assessment eo:Hospital eo:Continuation eo:Planning eo:NfaPlanned eo:NfaMoved eo:NfaNhsReferral eo:NfaDisregard eo:NfaLocalReferral eo:NfaDeclined eo:NfaInfo eo:NfaDeceased eo:NfaNoOfferOther eo:NfaEndedOther eo:NfaOther ) ;
+            sh:maxCount 1 ;
+            sh:name "outcome" ;
+            sh:order 8 ;
+            sh:path sg:episodeOutcome ],
         [ sh:class sg:Identifier ;
             sh:description "Unique identifiers associated with the entity." ;
             sh:minCount 1 ;
@@ -510,14 +557,6 @@ sg:ServiceShape a sh:NodeShape ;
             sh:nodeKind sh:BlankNodeOrIRI ;
             sh:order 10 ;
             sh:path sg:relatedOrganisation ],
-        [ sh:datatype xsd:string ;
-            sh:description "The official name of the organisation or service." ;
-            sh:maxCount 1 ;
-            sh:minCount 1 ;
-            sh:name "name" ;
-            sh:nodeKind sh:Literal ;
-            sh:order 1 ;
-            sh:path sg:name ],
         [ sh:class sg:Contact ;
             sh:description "Contact information for the service." ;
             sh:minCount 1 ;
@@ -530,7 +569,15 @@ sg:ServiceShape a sh:NodeShape ;
             sh:name "relatedProfessional" ;
             sh:nodeKind sh:BlankNodeOrIRI ;
             sh:order 9 ;
-            sh:path sg:relatedProfessional ] ;
+            sh:path sg:relatedProfessional ],
+        [ sh:datatype xsd:string ;
+            sh:description "The official name of the organisation or service." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "name" ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sg:entityName ] ;
     sh:targetClass sg:Service .
 
 sg:SubjectPersonShape a sh:NodeShape ;
@@ -553,32 +600,31 @@ sg:SubjectPersonShape a sh:NodeShape ;
             sh:path sg:person ] ;
     sh:targetClass sg:SubjectPerson .
 
-sg:TimeInformationShape a sh:NodeShape ;
-    rdfs:comment "Details about the timing of a service episode or life event, including when it started and ended and how frequently it recurs." ;
+sg:TimingShape a sh:NodeShape ;
+    rdfs:comment "The schedule and timing information of an activity, episode or event: when it started and ended and how frequently it recurs." ;
     sh:closed false ;
     sh:ignoredProperties ( rdf:type ) ;
-    sh:property [ sh:datatype xsd:dateTime ;
-            sh:description "The end of the episode or life event, as an ISO 8601 date-time." ;
+    sh:property [ sh:description "How frequently the activity, episode or event recurs, expressed as a [FHIR Timing](https://build.fhir.org/datatypes.html#Timing) datatype. This model does not define or validate its structure; the value is an arbitrary JSON object conforming to FHIR Timing." ;
+            sh:maxCount 1 ;
+            sh:order 0 ;
+            sh:path sg:frequency ],
+        [ sh:datatype xsd:dateTime ;
+            sh:description "The end of the activity, episode or event (or the last date it was performed), as an ISO 8601 date-time." ;
             sh:maxCount 1 ;
             sh:nodeKind sh:Literal ;
-            sh:order 1 ;
-            sh:path sg:endDateTime ],
-        [ sh:description "The frequency of the episode or life event, expressed as a [FHIR Timing](https://build.fhir.org/datatypes.html#Timing) datatype. This standard does not define or validate its structure; the value is an arbitrary JSON object conforming to FHIR Timing." ;
-            sh:maxCount 1 ;
-            sh:name "frequency" ;
             sh:order 2 ;
-            sh:path sg:serviceFrequency ],
+            sh:path sg:endDateTime ],
         [ sh:datatype xsd:dateTime ;
-            sh:description "The start of the episode or life event, as an ISO 8601 date-time." ;
+            sh:description "The start of the activity, episode or event (or the first date it was scheduled to be performed), as an ISO 8601 date-time." ;
             sh:maxCount 1 ;
             sh:minCount 1 ;
             sh:nodeKind sh:Literal ;
-            sh:order 0 ;
+            sh:order 1 ;
             sh:path sg:startDateTime ] ;
-    sh:targetClass sg:TimeInformation .
+    sh:targetClass sg:Timing .
 
 linkml:AnyShape a sh:NodeShape ;
-    rdfs:comment "An open value whose structure is defined and validated elsewhere, not by this standard. Serialised as an arbitrary JSON object." ;
+    rdfs:comment "An open value whose structure is defined and validated elsewhere, not by this model. Serialised as an arbitrary JSON object." ;
     sh:closed false ;
     sh:ignoredProperties ( rdf:type ) ;
     sh:targetClass linkml:Any .
