@@ -62,7 +62,7 @@ sc:mais a owl:Ontology ;
     dcterms:title "Social Care MAIS Ontology" ;
     pav:version "2026.1.0" ;
     skos:definition """The umbrella Social Care MAIS (Multi-Agency Information Sharing) ontology. It has no classes or slots of its own; it composes the independently-versioned modules - common, person, placements, safeguarding, and assessments-and-plans - into a single ontology under one flat namespace (https://ontology.socialcaredata.io/).
-Each module is authored and versioned on its own cadence; a MAIS release pins a compatible set of module versions (see manifest.yml) and is generated from this file. Generate the merged ontology with `gen-owl --mergeimports mais.yaml` resolved through the top-level imports.json.""" .
+Each module is authored and versioned on its own cadence; a MAIS release pins a compatible set of module versions (see manifest.yml) and is generated from this file.""" .
 
 sc:matchedPersonRef a owl:ObjectProperty ;
     rdfs:label "matchedPersonRef" ;
@@ -148,9 +148,9 @@ sc:text a owl:DatatypeProperty ;
 
 sc:Any a owl:Class ;
     rdfs:label "Any" ;
-    skos:definition "An open value whose structure is defined and validated elsewhere, not by this standard. Serialised as an arbitrary JSON object." ;
+    skos:definition "An open value whose structure is defined and validated elsewhere, not by this model. Serialised as an arbitrary JSON object." ;
     skos:exactMatch linkml:Any ;
-    skos:inScheme sc:safeguarding .
+    skos:inScheme sc:common .
 
 sc:CareNeedsAssessment a owl:Class ;
     rdfs:label "CareNeedsAssessment" ;
@@ -293,9 +293,6 @@ sc:Professional a owl:Class ;
     rdfs:label "Professional" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:cardinality 1 ;
-            owl:onProperty sc:status ],
-        [ a owl:Restriction ;
-            owl:cardinality 1 ;
             owl:onProperty sc:contactSingle ],
         [ a owl:Restriction ;
             owl:minCardinality 1 ;
@@ -303,6 +300,9 @@ sc:Professional a owl:Class ;
         [ a owl:Restriction ;
             owl:minCardinality 1 ;
             owl:onProperty sc:sgIdentifier ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty sc:workingStatus ],
         [ a owl:Restriction ;
             owl:cardinality 1 ;
             owl:onProperty sc:professionalName ] ;
@@ -337,14 +337,14 @@ sc:Service a owl:Class ;
 sc:ServiceEpisode a owl:Class ;
     rdfs:label "ServiceEpisode" ;
     rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty sc:episodeOutcome ],
+        [ a owl:Restriction ;
             owl:minCardinality 1 ;
             owl:onProperty sc:relatedServiceRef ],
         [ a owl:Restriction ;
             owl:minCardinality 1 ;
             owl:onProperty sc:episodeType ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty sc:outcome ],
         [ a owl:Restriction ;
             owl:minCardinality 1 ;
             owl:onProperty sc:sgIdentifier ],
@@ -437,14 +437,14 @@ sc:advocateRequired a owl:DatatypeProperty ;
 sc:answer a owl:DatatypeProperty ;
     rdfs:label "answer" ;
     rdfs:range xsd:string ;
-    skos:definition "The answer to the question as measured in the assessment." ;
-    skos:inScheme sc:assessments-and-plans .
+    skos:definition "The answer to the question." ;
+    skos:inScheme sc:common .
 
 sc:answerType a owl:ObjectProperty ;
     rdfs:label "answerType" ;
     rdfs:range sc:answer-type ;
     skos:definition "Indicates how the answer should be parsed (e.g., String, Boolean, Date, Number, Enum). Ensures data like dates or booleans aren't trapped as unparsable text." ;
-    skos:inScheme sc:assessments-and-plans .
+    skos:inScheme sc:common .
 
 sc:apIdentifier a owl:ObjectProperty ;
     rdfs:label "apIdentifier" ;
@@ -461,7 +461,7 @@ sc:assessmentId a owl:ObjectProperty ;
 
 sc:assessmentQuestion a owl:ObjectProperty ;
     rdfs:label "assessmentQuestion" ;
-    rdfs:range sc:AssessmentQuestion ;
+    rdfs:range sc:CareAssessmentQuestion ;
     skos:definition "The set of assessment questions and answers." ;
     skos:inScheme sc:assessments-and-plans .
 
@@ -475,12 +475,6 @@ sc:careComponent a owl:ObjectProperty ;
     rdfs:label "careComponent" ;
     rdfs:range sc:CareComponent ;
     skos:definition "Components of the care package." ;
-    skos:inScheme sc:assessments-and-plans .
-
-sc:category a owl:ObjectProperty ;
-    rdfs:label "category" ;
-    rdfs:range sc:question-category ;
-    skos:definition "The domain/category of the question." ;
     skos:inScheme sc:assessments-and-plans .
 
 sc:childId a owl:DatatypeProperty ;
@@ -581,6 +575,19 @@ sc:directPayment a owl:DatatypeProperty ;
     skos:definition "Flag whether this component is paid via direct payment." ;
     skos:inScheme sc:assessments-and-plans .
 
+sc:endDateTime a owl:DatatypeProperty ;
+    rdfs:label "endDateTime" ;
+    rdfs:range xsd:dateTime ;
+    skos:definition "The end of the activity, episode or event (or the last date it was performed), as an ISO 8601 date-time." ;
+    skos:inScheme sc:common .
+
+sc:episodeOutcome a owl:ObjectProperty ;
+    rdfs:label "episodeOutcome" ;
+    dcterms:title "outcome" ;
+    rdfs:range sc:episode-outcome ;
+    skos:definition "Outcome of the episode for the subject." ;
+    skos:inScheme sc:safeguarding .
+
 sc:episodeType a owl:ObjectProperty ;
     rdfs:label "episodeType" ;
     dcterms:title "type" ;
@@ -613,11 +620,11 @@ sc:fosterCareSuitability a owl:ObjectProperty ;
     skos:definition "Suitability of foster care for this child, as judged by the social worker." ;
     skos:inScheme sc:placements .
 
-sc:frequency a owl:DatatypeProperty ;
+sc:frequency a owl:ObjectProperty ;
     rdfs:label "frequency" ;
-    rdfs:range xsd:string ;
-    skos:definition "The frequency the component of the plan is performed, expressed using FHIR Timing or similar." ;
-    skos:inScheme sc:assessments-and-plans .
+    rdfs:range sc:Any ;
+    skos:definition "How frequently the activity, episode or event recurs, expressed as a [FHIR Timing](https://build.fhir.org/datatypes.html#Timing) datatype. This model does not define or validate its structure; the value is an arbitrary JSON object conforming to FHIR Timing." ;
+    skos:inScheme sc:common .
 
 sc:genderCode a owl:ObjectProperty ;
     rdfs:label "genderCode" ;
@@ -771,6 +778,12 @@ sc:organisationType a owl:ObjectProperty ;
     skos:definition "Code(s) for the kind of organisation." ;
     skos:inScheme sc:safeguarding .
 
+sc:outcome a owl:ObjectProperty ;
+    rdfs:label "outcome" ;
+    rdfs:range sc:care-act-outcome ;
+    skos:definition "Care Act outcome that this care component is aiming to help the subject person achieve." ;
+    skos:inScheme sc:assessments-and-plans .
+
 sc:personId a owl:ObjectProperty ;
     rdfs:label "personId" ;
     rdfs:range sc:Identifier ;
@@ -889,14 +902,14 @@ sc:qualityAssurance a owl:ObjectProperty ;
 sc:questionId a owl:DatatypeProperty ;
     rdfs:label "questionId" ;
     rdfs:range xsd:string ;
-    skos:definition "An ID for the question. For statutory questions, this should conform to the dictionary of statutory question IDs; for personalised, non statutory questions, this can be anything or left blank." ;
-    skos:inScheme sc:assessments-and-plans .
+    skos:definition "An ID for the question. Standards may define a dictionary of IDs for statutory or well-known questions; for personalised, local questions, this can be anything or left blank." ;
+    skos:inScheme sc:common .
 
 sc:questionText a owl:DatatypeProperty ;
     rdfs:label "questionText" ;
     rdfs:range xsd:string ;
-    skos:definition "The exact wording of the question as it appears on the local authority's form." ;
-    skos:inScheme sc:assessments-and-plans .
+    skos:definition "The exact wording of the question as it appears on the form." ;
+    skos:inScheme sc:common .
 
 sc:referralDate a owl:DatatypeProperty ;
     rdfs:label "referralDate" ;
@@ -919,8 +932,8 @@ sc:relationship a owl:ObjectProperty ;
 sc:required a owl:DatatypeProperty ;
     rdfs:label "required" ;
     rdfs:range xsd:boolean ;
-    skos:definition "Whether this question was mandatory on the local authority’s assessment. Should always be True for statutory fields." ;
-    skos:inScheme sc:assessments-and-plans .
+    skos:definition "Whether this question was mandatory on the form." ;
+    skos:inScheme sc:common .
 
 sc:residentialCareSuitability a owl:ObjectProperty ;
     rdfs:label "residentialCareSuitability" ;
@@ -1012,13 +1025,6 @@ sc:role a owl:DatatypeProperty ;
     skos:definition "Text describing the professional's occupational role." ;
     skos:inScheme sc:safeguarding .
 
-sc:serviceFrequency a owl:ObjectProperty ;
-    rdfs:label "serviceFrequency" ;
-    dcterms:title "frequency" ;
-    rdfs:range sc:Any ;
-    skos:definition "The frequency of the episode or life event, expressed as a [FHIR Timing](https://build.fhir.org/datatypes.html#Timing) datatype. This standard does not define or validate its structure; the value is an arbitrary JSON object conforming to FHIR Timing." ;
-    skos:inScheme sc:safeguarding .
-
 sc:serviceType a owl:ObjectProperty ;
     rdfs:label "serviceType" ;
     dcterms:title "type" ;
@@ -1056,6 +1062,12 @@ sc:specificCommunicationRequirement a owl:ObjectProperty ;
     skos:definition "Specific communication or language requirement (ESOL, BSL, Makaton, Other, None). Multi-valued: a placement may have several." ;
     skos:inScheme sc:placements .
 
+sc:startDateTime a owl:DatatypeProperty ;
+    rdfs:label "startDateTime" ;
+    rdfs:range xsd:dateTime ;
+    skos:definition "The start of the activity, episode or event (or the first date it was scheduled to be performed), as an ISO 8601 date-time." ;
+    skos:inScheme sc:common .
+
 sc:supportedAccommodationSuitability a owl:ObjectProperty ;
     rdfs:label "supportedAccommodationSuitability" ;
     rdfs:range sc:suitability-level ;
@@ -1070,13 +1082,13 @@ sc:system a owl:DatatypeProperty ;
 
 sc:time a owl:ObjectProperty ;
     rdfs:label "time" ;
-    rdfs:range sc:CareTiming ;
+    rdfs:range sc:Timing ;
     skos:definition "The schedule and timing information of this component of the plan." ;
     skos:inScheme sc:assessments-and-plans .
 
 sc:timeInformation a owl:ObjectProperty ;
     rdfs:label "timeInformation" ;
-    rdfs:range sc:TimeInformation ;
+    rdfs:range sc:Timing ;
     skos:definition "Details about the timing of the episode or life event." ;
     skos:inScheme sc:safeguarding .
 
@@ -1091,6 +1103,13 @@ sc:value a owl:DatatypeProperty ;
     rdfs:range xsd:string ;
     skos:definition "The identifier value, unique within the issuing system." ;
     skos:inScheme sc:common .
+
+sc:workingStatus a owl:DatatypeProperty ;
+    rdfs:label "workingStatus" ;
+    dcterms:title "status" ;
+    rdfs:range xsd:boolean ;
+    skos:definition "The professional's current working status." ;
+    skos:inScheme sc:safeguarding .
 
 xsd:nonNegativeInteger a rdfs:Datatype ;
     owl:equivalentClass [ owl:intersectionOf ( xsd:integer [ a rdfs:Datatype ;
@@ -1203,9 +1222,9 @@ sc:AssessmentQuestion a owl:Class ;
         [ a owl:Restriction ;
             owl:cardinality 1 ;
             owl:onProperty sc:category ] ;
-    skos:definition "A generic Question-and-Answer model used to represent both statutory Care Act questions and local, personalised fields." ;
+    skos:definition "A generic Question-and-Answer model used to represent both statutory and local, personalised questions." ;
     skos:exactMatch sc:AssessmentQuestion ;
-    skos:inScheme sc:assessments-and-plans .
+    skos:inScheme sc:common .
 
 sc:CareActivity a owl:Class ;
     rdfs:label "CareActivity" ;
@@ -1234,6 +1253,19 @@ sc:CareActor a owl:Class ;
     skos:exactMatch sc:CareActor ;
     skos:inScheme sc:assessments-and-plans .
 
+sc:CareAssessmentQuestion a owl:Class ;
+    rdfs:label "CareAssessmentQuestion" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom sc:question-category ;
+            owl:onProperty sc:category ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty sc:category ],
+        sc:AssessmentQuestion ;
+    skos:definition "A generic Question-and-Answer model used to represent both statutory Care Act questions and local, personalised fields." ;
+    skos:exactMatch sc:CareAssessmentQuestion ;
+    skos:inScheme sc:assessments-and-plans .
+
 sc:CareComponent a owl:Class ;
     rdfs:label "CareComponent" ;
     rdfs:subClassOf [ a owl:Restriction ;
@@ -1247,21 +1279,6 @@ sc:CareComponent a owl:Class ;
             owl:onProperty sc:time ] ;
     skos:definition "A specific component of a Care Plan, capturing who does what, when, and to achieve which outcomes." ;
     skos:exactMatch sc:CareComponent ;
-    skos:inScheme sc:assessments-and-plans .
-
-sc:CareTiming a owl:Class ;
-    rdfs:label "CareTiming" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:cardinality 1 ;
-            owl:onProperty sc:startDateTime ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty sc:endDateTime ],
-        [ a owl:Restriction ;
-            owl:cardinality 1 ;
-            owl:onProperty sc:frequency ] ;
-    skos:definition "The schedule and timing information of a care component." ;
-    skos:exactMatch sc:CareTiming ;
     skos:inScheme sc:assessments-and-plans .
 
 sc:Communication a owl:Class ;
@@ -1487,21 +1504,6 @@ sc:SubjectPerson a owl:Class ;
             owl:onProperty sc:involvement ] ;
     skos:definition "A typed reference to a Person involved in a service episode or life event." ;
     skos:exactMatch sc:SubjectPerson ;
-    skos:inScheme sc:safeguarding .
-
-sc:TimeInformation a owl:Class ;
-    rdfs:label "TimeInformation" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty sc:serviceFrequency ],
-        [ a owl:Restriction ;
-            owl:cardinality 1 ;
-            owl:onProperty sc:startDateTime ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty sc:endDateTime ] ;
-    skos:definition "Details about the timing of a service episode or life event, including when it started and ended and how frequently it recurs." ;
-    skos:exactMatch sc:TimeInformation ;
     skos:inScheme sc:safeguarding .
 
 sc:accuracyIndicator a owl:DatatypeProperty ;
@@ -1818,12 +1820,6 @@ sc:educationWeeklyCost a owl:DatatypeProperty ;
     dcterms:title "Non-eligible needs identified" ;
     rdfs:subClassOf sc:care-act-eligibility-status ;
     skos:definition "Needs have been identified, but they are not eligible for funding under the Care Act 2014." .
-
-sc:endDateTime a owl:DatatypeProperty ;
-    rdfs:label "endDateTime" ;
-    rdfs:range xsd:dateTime ;
-    skos:definition "The last date the component of the plan was performed before cancellation." ;
-    skos:inScheme sc:assessments-and-plans .
 
 sc:entityName a owl:DatatypeProperty ;
     rdfs:label "entityName" ;
@@ -3051,12 +3047,6 @@ sc:otherWeeklyCost a owl:DatatypeProperty ;
     skos:definition "Any weekly placement costs that do not clearly fall within the core, additional-support or education categories." ;
     skos:inScheme sc:placements .
 
-sc:outcome a owl:ObjectProperty ;
-    rdfs:label "outcome" ;
-    rdfs:range sc:care-act-outcome ;
-    skos:definition "Care Act outcome that this care component is aiming to help the subject person achieve." ;
-    skos:inScheme sc:assessments-and-plans .
-
 <https://ontology.socialcaredata.io/person-relationship-code#ADOPTF> a owl:Class ;
     rdfs:label "ADOPTF" ;
     dcterms:title "Adoptive father" ;
@@ -3857,7 +3847,7 @@ sc:postcode a owl:DatatypeProperty ;
 
 <https://ontology.socialcaredata.io/presence-status#Yes> a owl:Class ;
     rdfs:label "True" ;
-    dcterms:title "True" ;
+    dcterms:title "Yes" ;
     rdfs:subClassOf sc:presence-status ;
     skos:definition "Affirmative." .
 
@@ -4294,10 +4284,10 @@ sc:relatedServiceRef a owl:ObjectProperty ;
     rdfs:subClassOf sc:service-delivery ;
     skos:definition "Unpaid carer support: Support involving the person cared-for" .
 
-sc:startDateTime a owl:DatatypeProperty ;
-    rdfs:label "startDateTime" ;
-    rdfs:range xsd:dateTime ;
-    skos:definition "The first date the component of the plan was (scheduled to be) performed." ;
+sc:status a owl:ObjectProperty ;
+    rdfs:label "status" ;
+    rdfs:range sc:care-document-status ;
+    skos:definition "Status of the document. Lifted from FHIR CarePlan status." ;
     skos:inScheme sc:assessments-and-plans .
 
 <https://ontology.socialcaredata.io/statutory-question-id#CA-CARINGOTHERS-01> a owl:Class ;
@@ -4475,7 +4465,7 @@ sc:totalWeeklyCost a owl:DatatypeProperty ;
 
 <https://ontology.socialcaredata.io/uasc-status#Yes> a owl:Class ;
     rdfs:label "True" ;
-    dcterms:title "True" ;
+    dcterms:title "Yes" ;
     rdfs:subClassOf sc:uasc-status ;
     skos:definition "The child is an unaccompanied asylum-seeking child." .
 
@@ -4578,6 +4568,21 @@ sc:PartialDate a owl:Class ;
     skos:exactMatch sc:PartialDate ;
     skos:inScheme sc:person .
 
+sc:Timing a owl:Class ;
+    rdfs:label "Timing" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty sc:startDateTime ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty sc:endDateTime ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty sc:frequency ] ;
+    skos:definition "The schedule and timing information of an activity, episode or event: when it started and ended and how frequently it recurs." ;
+    skos:exactMatch sc:Timing ;
+    skos:inScheme sc:common .
+
 sc:care-act-eligibility-status a owl:Class ;
     rdfs:label "CareActEligibilityStatus" ;
     dcterms:title "Care Act Eligibility Status" ;
@@ -4587,6 +4592,12 @@ sc:care-act-eligibility-status a owl:Class ;
     linkml:permissible_values <https://ontology.socialcaredata.io/eligibility-status#eligible-needs-identified>,
         <https://ontology.socialcaredata.io/eligibility-status#no-needs-identified>,
         <https://ontology.socialcaredata.io/eligibility-status#non-eligible-needs-identified> .
+
+sc:category a owl:DatatypeProperty ;
+    rdfs:label "category" ;
+    rdfs:range xsd:string ;
+    skos:definition "The domain/category of the question." ;
+    skos:inScheme sc:common .
 
 sc:measurement-unit a owl:Class ;
     rdfs:label "MeasurementUnit" ;
@@ -4605,12 +4616,6 @@ sc:measurement-unit a owl:Class ;
     rdfs:subClassOf sc:observation-type ;
     skos:definition "Observed risk associated with the individual",
         "The individual lives with pets that may pose danger to others." .
-
-sc:status a owl:ObjectProperty ;
-    rdfs:label "status" ;
-    rdfs:range sc:care-document-status ;
-    skos:definition "Status of the document. Lifted from FHIR CarePlan status." ;
-    skos:inScheme sc:assessments-and-plans .
 
 sc:Contact a owl:Class ;
     rdfs:label "Contact" ;
@@ -4772,7 +4777,7 @@ sc:answer-type a owl:Class ;
     dcterms:title "Answer Type" ;
     owl:unionOf ( <https://ontology.socialcaredata.io/answer-type#String> <https://ontology.socialcaredata.io/answer-type#Boolean> <https://ontology.socialcaredata.io/answer-type#Date> <https://ontology.socialcaredata.io/answer-type#Number> <https://ontology.socialcaredata.io/answer-type#Enum> ) ;
     skos:definition "Indicates how the answer to a question should be parsed and represented." ;
-    skos:inScheme sc:assessments-and-plans ;
+    skos:inScheme sc:common ;
     linkml:permissible_values <https://ontology.socialcaredata.io/answer-type#Boolean>,
         <https://ontology.socialcaredata.io/answer-type#Date>,
         <https://ontology.socialcaredata.io/answer-type#Enum>,

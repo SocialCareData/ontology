@@ -57,7 +57,7 @@
           "required": true
         },
         {
-          "@type": "AssessmentQuestion",
+          "@type": "CareAssessmentQuestion",
           "questionId": "STAT-FINANCE-01",
           "category": "Finance",
           "questionText": "What is the client’s (potential) funding status?",
@@ -68,7 +68,7 @@
           "required": true
         },
         {
-          "@type": "AssessmentQuestion",
+          "@type": "CareAssessmentQuestion",
           "questionId": "CA-NUTRITION-01",
           "category": "CA.nutrition",
           "questionText": "Care act: Managing and maintaining nutrition. Does the person currently achieve this outcome?",
@@ -79,7 +79,7 @@
           "required": true
         },
         {
-          "@type": "AssessmentQuestion",
+          "@type": "CareAssessmentQuestion",
           "questionId": "CA-ELIGIBILITY-01",
           "category": "Eligibility",
           "questionText": "Have eligible needs been identified, according to the Care Act 2014?",

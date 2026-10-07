@@ -82,12 +82,6 @@ sg:text a owl:DatatypeProperty ;
     skos:definition "A finding that cannot be represented as an Observation or Measurement." ;
     skos:inScheme sg:safeguarding .
 
-sg:Any a owl:Class ;
-    rdfs:label "Any" ;
-    skos:definition "An open value whose structure is defined and validated elsewhere, not by this standard. Serialised as an arbitrary JSON object." ;
-    skos:exactMatch linkml:Any ;
-    skos:inScheme sg:safeguarding .
-
 sg:LifeEvent a owl:Class ;
     rdfs:label "LifeEvent" ;
     rdfs:subClassOf [ a owl:Restriction ;
@@ -130,9 +124,6 @@ sg:Organisation a owl:Class ;
 sg:Professional a owl:Class ;
     rdfs:label "Professional" ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty sg:status ],
-        [ a owl:Restriction ;
             owl:cardinality 1 ;
             owl:onProperty sg:contactSingle ],
         [ a owl:Restriction ;
@@ -141,6 +132,9 @@ sg:Professional a owl:Class ;
         [ a owl:Restriction ;
             owl:minCardinality 1 ;
             owl:onProperty sg:sgIdentifier ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty sg:workingStatus ],
         [ a owl:Restriction ;
             owl:cardinality 1 ;
             owl:onProperty sg:professionalName ] ;
@@ -175,14 +169,14 @@ sg:Service a owl:Class ;
 sg:ServiceEpisode a owl:Class ;
     rdfs:label "ServiceEpisode" ;
     rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty sg:episodeOutcome ],
+        [ a owl:Restriction ;
             owl:minCardinality 1 ;
             owl:onProperty sg:relatedServiceRef ],
         [ a owl:Restriction ;
             owl:minCardinality 1 ;
             owl:onProperty sg:episodeType ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty sg:outcome ],
         [ a owl:Restriction ;
             owl:minCardinality 1 ;
             owl:onProperty sg:sgIdentifier ],
@@ -212,10 +206,11 @@ sg:costFrequency a owl:ObjectProperty ;
     skos:definition "The frequency at which the unit cost occurs." ;
     skos:inScheme sg:safeguarding .
 
-sg:endDateTime a owl:DatatypeProperty ;
-    rdfs:label "endDateTime" ;
-    rdfs:range xsd:dateTime ;
-    skos:definition "The end of the episode or life event, as an ISO 8601 date-time." ;
+sg:episodeOutcome a owl:ObjectProperty ;
+    rdfs:label "episodeOutcome" ;
+    dct:title "outcome" ;
+    rdfs:range sg:episode-outcome ;
+    skos:definition "Outcome of the episode for the subject." ;
     skos:inScheme sg:safeguarding .
 
 sg:episodeType a owl:ObjectProperty ;
@@ -287,12 +282,6 @@ sg:organisationType a owl:ObjectProperty ;
     skos:definition "Code(s) for the kind of organisation." ;
     skos:inScheme sg:safeguarding .
 
-sg:outcome a owl:ObjectProperty ;
-    rdfs:label "outcome" ;
-    rdfs:range sg:episode-outcome ;
-    skos:definition "Outcome of the episode for the subject." ;
-    skos:inScheme sg:safeguarding .
-
 sg:person a owl:ObjectProperty ;
     rdfs:label "person" ;
     rdfs:range sg:Identifier ;
@@ -318,13 +307,6 @@ sg:role a owl:DatatypeProperty ;
     skos:definition "Text describing the professional's occupational role." ;
     skos:inScheme sg:safeguarding .
 
-sg:serviceFrequency a owl:ObjectProperty ;
-    rdfs:label "serviceFrequency" ;
-    dct:title "frequency" ;
-    rdfs:range sg:Any ;
-    skos:definition "The frequency of the episode or life event, expressed as a [FHIR Timing](https://build.fhir.org/datatypes.html#Timing) datatype. This standard does not define or validate its structure; the value is an arbitrary JSON object conforming to FHIR Timing." ;
-    skos:inScheme sg:safeguarding .
-
 sg:serviceType a owl:ObjectProperty ;
     rdfs:label "serviceType" ;
     dct:title "type" ;
@@ -332,22 +314,17 @@ sg:serviceType a owl:ObjectProperty ;
     skos:definition "Code(s) for the kind of service." ;
     skos:inScheme sg:safeguarding .
 
-sg:startDateTime a owl:DatatypeProperty ;
-    rdfs:label "startDateTime" ;
-    rdfs:range xsd:dateTime ;
-    skos:definition "The start of the episode or life event, as an ISO 8601 date-time." ;
-    skos:inScheme sg:safeguarding .
-
-sg:status a owl:DatatypeProperty ;
-    rdfs:label "status" ;
-    rdfs:range xsd:boolean ;
-    skos:definition "The professional's current working status." ;
-    skos:inScheme sg:safeguarding .
-
 sg:timeInformation a owl:ObjectProperty ;
     rdfs:label "timeInformation" ;
-    rdfs:range sg:TimeInformation ;
+    rdfs:range sg:Timing ;
     skos:definition "Details about the timing of the episode or life event." ;
+    skos:inScheme sg:safeguarding .
+
+sg:workingStatus a owl:DatatypeProperty ;
+    rdfs:label "workingStatus" ;
+    dct:title "status" ;
+    rdfs:range xsd:boolean ;
+    skos:definition "The professional's current working status." ;
     skos:inScheme sg:safeguarding .
 
 sg:Finding a owl:Class ;
@@ -408,21 +385,6 @@ sg:SubjectPerson a owl:Class ;
             owl:onProperty sg:involvement ] ;
     skos:definition "A typed reference to a Person involved in a service episode or life event." ;
     skos:exactMatch sg:SubjectPerson ;
-    skos:inScheme sg:safeguarding .
-
-sg:TimeInformation a owl:Class ;
-    rdfs:label "TimeInformation" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty sg:serviceFrequency ],
-        [ a owl:Restriction ;
-            owl:cardinality 1 ;
-            owl:onProperty sg:startDateTime ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty sg:endDateTime ] ;
-    skos:definition "Details about the timing of a service episode or life event, including when it started and ended and how frequently it recurs." ;
-    skos:exactMatch sg:TimeInformation ;
     skos:inScheme sg:safeguarding .
 
 sg:active a owl:DatatypeProperty ;
@@ -1885,8 +1847,7 @@ sg:safeguarding a owl:Ontology ;
     dct:title "Safeguarding Standard Data Model" ;
     pav:version "1.0.0" ;
     owl:imports sg:common ;
-    skos:definition """A LinkML data model for the Safeguarding Standard: a common data model for recording the services, professionals, organisations, service episodes and life events involved in safeguarding and promoting the wellbeing of a person, to support multi-agency information sharing (MAIS).
-The model is organised around five top-level entities - Organisation, Service, Professional, ServiceEpisode and LifeEvent - and the shared objects that link them together (Identifier, Name, Address, Contact). The shared objects are defined once by the common module and imported from common.yaml, so this schema reuses their ontology IRIs (Identifier, Name, Address, Contact) rather than redefining them. Coded fields draw their values from the controlled vocabularies (enums) declared below.""" .
+    skos:definition "A LinkML data model for the Safeguarding Standard: a common data model for recording the services, professionals, organisations, service episodes and life events involved in safeguarding and promoting the wellbeing of a person, to support multi-agency information sharing (MAIS)." .
 
 sg:observation-type a owl:Class ;
     rdfs:label "ObservationType" ;

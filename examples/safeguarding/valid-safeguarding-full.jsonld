@@ -103,7 +103,7 @@
       ],
       "timeInformation": [
         {
-          "@type": "TimeInformation",
+          "@type": "Timing",
           "startDateTime": "2026-05-01T09:30:00Z",
           "endDateTime": "2026-05-01T11:00:00Z",
           "frequency": {
@@ -136,7 +136,7 @@
           "measurement": [
             {
               "@type": "Measurement",
-              "value": 12,
+              "value": "12",
               "unit": "count",
               "type": "Authorised Absences"
             }
@@ -171,7 +171,7 @@
         { "@type": "Identifier", "value": "SVC-001", "system": "https://example.org/Id/service" }
       ],
       "timeInformation": [
-        { "@type": "TimeInformation", "startDateTime": "2026-05-01T09:30:00Z" }
+        { "@type": "Timing", "startDateTime": "2026-05-01T09:30:00Z" }
       ],
       "location": ["Anytown town centre"]
     }

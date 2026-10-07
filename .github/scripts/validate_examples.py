@@ -23,6 +23,7 @@ def shapes_for(example_dir: Path) -> Graph:
     profile = parts[1] if len(parts) > 1 else "standard"
     std_dir = ROOT / standard
     main = std_dir / f"{standard}-{profile}-shape.ttl"
+    print(f"Using main shape file: {main.relative_to(ROOT)}")
     if not main.is_file():
         raise FileNotFoundError(f"no shape file {main.relative_to(ROOT)}")
     graph = Graph()
