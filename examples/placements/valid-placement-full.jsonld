@@ -80,7 +80,8 @@
     "siblingsPlacedTogether": 1,
     "placementType": "Residential",
     "placementStartDate": "2024-03-21",
-    "placementSource": "Block contract"
+    "placementSource": "Block contract",
+    "costIncludesAdditionalPackages": true
   },
 
   "qualityAssurance": {
