@@ -53,7 +53,7 @@
   "actualPlacement": {
     "@id": "ex:ABCD2012-001/actual",
     "@type": "ActualPlacement",
-    "totalWeeklyCost":              4500.00,
+    "totalWeeklyCost":              "4500.00",
     "costIncludesAdditionalPackages": true,
     "placementLocation": "N18",
     "isLocationPreferred": true,

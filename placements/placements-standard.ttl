@@ -82,6 +82,12 @@ pl:costDate a owl:DatatypeProperty ;
     skos:definition "Date when placement cost data was captured on the Case Management System." ;
     skos:inScheme pl:placements .
 
+pl:costIncludesAdditionalPackages a owl:DatatypeProperty ;
+    rdfs:label "costIncludesAdditionalPackages" ;
+    rdfs:range xsd:boolean ;
+    skos:definition "Indicates whether the total weekly cost includes charges for support or services beyond the core placement fee, such as additional staffing (e.g. 2:1 or waking night cover), therapeutic or clinical input, education provision, or other bespoke support agreed for the child." ;
+    skos:inScheme pl:placements .
+
 pl:costOfficerName a owl:DatatypeProperty ;
     rdfs:label "costOfficerName" ;
     rdfs:range xsd:string ;
@@ -351,49 +357,16 @@ pl:ActualPlacement a owl:Class ;
             owl:allValuesFrom [ a rdfs:Datatype ;
                     owl:intersectionOf ( xsd:decimal [ a rdfs:Datatype ;
                                 owl:onDatatype xsd:integer ;
-                                owl:withRestrictions ( [ xsd:minInclusive 0 ] ) ] ) ] ;
-            owl:onProperty pl:additionalSupportWeeklyCost ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty pl:additionalSupportWeeklyCost ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom [ a rdfs:Datatype ;
-                    owl:intersectionOf ( xsd:decimal [ a rdfs:Datatype ;
-                                owl:onDatatype xsd:integer ;
-                                owl:withRestrictions ( [ xsd:minInclusive 0 ] ) ] ) ] ;
-            owl:onProperty pl:otherWeeklyCost ],
-        [ a owl:Restriction ;
-            owl:cardinality 1 ;
-            owl:onProperty pl:nonPreferredLocationReason ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom [ a rdfs:Datatype ;
-                    owl:intersectionOf ( xsd:decimal [ a rdfs:Datatype ;
-                                owl:onDatatype xsd:integer ;
                                 owl:withRestrictions ( [ xsd:minInclusive 100 ] ) ] [ a rdfs:Datatype ;
                                 owl:onDatatype xsd:integer ;
                                 owl:withRestrictions ( [ xsd:maxInclusive 100000 ] ) ] ) ] ;
             owl:onProperty pl:totalWeeklyCost ],
         [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty pl:educationWeeklyCost ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom [ a rdfs:Datatype ;
-                    owl:intersectionOf ( xsd:decimal [ a rdfs:Datatype ;
-                                owl:onDatatype xsd:integer ;
-                                owl:withRestrictions ( [ xsd:minInclusive 0 ] ) ] ) ] ;
-            owl:onProperty pl:educationWeeklyCost ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty pl:otherWeeklyCost ],
+            owl:cardinality 1 ;
+            owl:onProperty pl:nonPreferredLocationReason ],
         [ a owl:Restriction ;
             owl:cardinality 1 ;
             owl:onProperty pl:providerURN ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom [ a rdfs:Datatype ;
-                    owl:intersectionOf ( xsd:decimal [ a rdfs:Datatype ;
-                                owl:onDatatype xsd:integer ;
-                                owl:withRestrictions ( [ xsd:minInclusive 0 ] ) ] ) ] ;
-            owl:onProperty pl:coreWeeklyCost ],
         [ a owl:Restriction ;
             owl:cardinality 1 ;
             owl:onProperty pl:totalWeeklyCost ],
@@ -404,8 +377,8 @@ pl:ActualPlacement a owl:Class ;
             owl:cardinality 1 ;
             owl:onProperty pl:placementLocation ],
         [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty pl:coreWeeklyCost ],
+            owl:cardinality 1 ;
+            owl:onProperty pl:costIncludesAdditionalPackages ],
         [ a owl:Restriction ;
             owl:cardinality 1 ;
             owl:onProperty pl:placementStartDate ],
@@ -427,7 +400,7 @@ pl:ActualPlacement a owl:Class ;
         [ a owl:Restriction ;
             owl:cardinality 1 ;
             owl:onProperty pl:siblingsPlacedTogether ] ;
-    skos:definition "The placement actually arranged for the child, including weekly cost (with optional breakdown), location, provider URN, sibling co-placement and educational continuity. Optional - a Placement may not (yet) have one." ;
+    skos:definition "The placement actually arranged for the child, including weekly cost, location, provider URN, sibling co-placement and educational continuity. Optional - a Placement may not (yet) have one." ;
     skos:exactMatch pl:ActualPlacement ;
     skos:inScheme pl:placements .
 
@@ -554,15 +527,6 @@ pl:RiskAssessment a owl:Class ;
     skos:exactMatch pl:RiskAssessment ;
     skos:inScheme pl:placements .
 
-pl:additionalSupportWeeklyCost a owl:DatatypeProperty ;
-    rdfs:label "additionalSupportWeeklyCost" ;
-    rdfs:range [ a rdfs:Datatype ;
-            owl:intersectionOf ( xsd:decimal [ a rdfs:Datatype ;
-                        owl:onDatatype xsd:integer ;
-                        owl:withRestrictions ( [ xsd:minInclusive 0 ] ) ] ) ] ;
-    skos:definition "Total weekly additional-support cost: costs incurred over and above the core cost to meet the specific needs of the child." ;
-    skos:inScheme pl:placements .
-
 cn:BSL a owl:Class ;
     rdfs:label "BSL" ;
     dct:title "BSL" ;
@@ -593,15 +557,6 @@ cn:Other a owl:Class ;
     rdfs:subClassOf pl:communication-need ;
     skos:definition "Another communication or language requirement not listed." .
 
-pl:coreWeeklyCost a owl:DatatypeProperty ;
-    rdfs:label "coreWeeklyCost" ;
-    rdfs:range [ a rdfs:Datatype ;
-            owl:intersectionOf ( xsd:decimal [ a rdfs:Datatype ;
-                        owl:onDatatype xsd:integer ;
-                        owl:withRestrictions ( [ xsd:minInclusive 0 ] ) ] ) ] ;
-    skos:definition "Total weekly core cost: the basic price quoted by a provider to deliver the service outlined in their Statement of Purpose, excluding child-specific additional costs." ;
-    skos:inScheme pl:placements .
-
 cln:NotKnown a owl:Class ;
     rdfs:label "Not Known" ;
     dct:title "Not known" ;
@@ -625,15 +580,6 @@ cln:Required a owl:Class ;
     dct:title "Required" ;
     rdfs:subClassOf pl:cultural-need ;
     skos:definition "Specific cultural accommodations are required." .
-
-pl:educationWeeklyCost a owl:DatatypeProperty ;
-    rdfs:label "educationWeeklyCost" ;
-    rdfs:range [ a rdfs:Datatype ;
-            owl:intersectionOf ( xsd:decimal [ a rdfs:Datatype ;
-                        owl:onDatatype xsd:integer ;
-                        owl:withRestrictions ( [ xsd:minInclusive 0 ] ) ] ) ] ;
-    skos:definition "Total weekly education cost: recorded when the placement includes both care and registered education provision." ;
-    skos:inScheme pl:placements .
 
 la:NoPreference a owl:Class ;
     rdfs:label "No preference" ;
@@ -730,15 +676,6 @@ nplr:SafeguardingRequirement a owl:Class ;
     dct:title "Safeguarding requirement" ;
     rdfs:subClassOf pl:non-preferred-location-reason ;
     skos:definition "The placement was not in the preferred location due to a safeguarding requirement." .
-
-pl:otherWeeklyCost a owl:DatatypeProperty ;
-    rdfs:label "otherWeeklyCost" ;
-    rdfs:range [ a rdfs:Datatype ;
-            owl:intersectionOf ( xsd:decimal [ a rdfs:Datatype ;
-                        owl:onDatatype xsd:integer ;
-                        owl:withRestrictions ( [ xsd:minInclusive 0 ] ) ] ) ] ;
-    skos:definition "Any weekly placement costs that do not clearly fall within the core, additional-support or education categories." ;
-    skos:inScheme pl:placements .
 
 pa:No a owl:Class ;
     rdfs:label "False" ;

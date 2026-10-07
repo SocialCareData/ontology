@@ -60,10 +60,8 @@
     "nonPreferredLocationReason": "Not applicable",
     "isEducationContinuous": true,
     "siblingsPlacedTogether": 0,
-    "totalWeeklyCost":             "1800.00",
-    "coreWeeklyCost":              "1500.00",
-    "additionalSupportWeeklyCost":  "350.00",
-    "otherWeeklyCost":              "-50.00",
+    "totalWeeklyCost":             "-1800.00",
+    "costIncludesAdditionalPackages": true,
     "placementSource": "RCC contract"
   },
 
