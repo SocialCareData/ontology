@@ -29,7 +29,7 @@
       "status": "active",
       "assessmentQuestion": [
         {
-          "@type": "AssessmentQuestion",
+          "@type": "CareAssessmentQuestion",
           "category": "Housing",
           "questionText": "Does the person live alone?",
           "answer": ["Yes"],
@@ -84,7 +84,7 @@
             }
           ],
           "time": {
-            "@type": "CareTiming",
+            "@type": "Timing",
             "frequency": "Daily",
             "startDateTime": "2026-08-12T12:00:00Z"
           },
