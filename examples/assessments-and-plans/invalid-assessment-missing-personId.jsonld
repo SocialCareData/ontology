@@ -25,7 +25,7 @@
   "status": "active",
   "assessmentQuestion": [
     {
-      "@type": "AssessmentQuestion",
+      "@type": "CareAssessmentQuestion",
       "questionId": "STAT-HOUSING-01",
       "category": "Housing",
       "questionText": "Does the person live alone?",

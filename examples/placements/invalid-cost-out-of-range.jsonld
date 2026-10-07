@@ -9,7 +9,8 @@
     "@id": "ex:INVALID-004/availability",
     "@type": "PlacementAvailability",
     "placementId": "PLC-INVALID-004",
-    "neededBy": "MoreThanFiveDays"
+    "neededBy": "MoreThanFiveDays",
+    "uascStatus": "No"
   },
 
   "placementRequirements": {
@@ -20,7 +21,8 @@
     "culturalNeeds": "NotRequired",
     "livingCompanions": "NoPreference",
     "pets": "YesCan",
-    "homeAdaptationRequired": false
+    "homeAdaptationRequired": false,
+    "needsAssessmentMethod": "BERRI"
   },
 
   "placementRecommendation": {
@@ -58,7 +60,8 @@
     "nonPreferredLocationReason": "Not applicable",
     "isEducationContinuous": true,
     "siblingsPlacedTogether": 0,
-    "totalWeeklyCost": 50
+    "totalWeeklyCost": "50",
+    "placementSource": "RCC contract"
   },
 
   "qualityAssurance": {

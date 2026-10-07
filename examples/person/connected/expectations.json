@@ -1,0 +1,44 @@
+{
+  "invalid-bad-gender.jsonld": [
+    {
+      "focus": "Person",
+      "path": "genderCode",
+      "constraint": "sh:in"
+    }
+  ],
+  "invalid-bad-postcode.jsonld": [
+    {
+      "focus": "Address",
+      "path": "postcode",
+      "constraint": "sh:pattern"
+    }
+  ],
+  "invalid-missing-name.jsonld": [
+    {
+      "focus": "Person",
+      "path": "name",
+      "constraint": "sh:minCount"
+    }
+  ],
+  "invalid-multiple-contacts.jsonld": [
+    {
+      "focus": "Person",
+      "path": "contact",
+      "constraint": "sh:maxCount"
+    }
+  ],
+  "invalid-multiple-names.jsonld": [
+    {
+      "focus": "Person",
+      "path": "name",
+      "constraint": "sh:maxCount"
+    }
+  ],
+  "invalid-multiple-relatedPersons.jsonld": [
+    {
+      "focus": "Person",
+      "path": "relatedPerson",
+      "constraint": "sh:maxCount"
+    }
+  ]
+}

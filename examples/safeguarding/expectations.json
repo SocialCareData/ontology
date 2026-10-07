@@ -1,0 +1,65 @@
+{
+  "invalid-episode-bad-outcome.jsonld": [
+    {
+      "focus": "ServiceEpisode",
+      "path": "episodeOutcome",
+      "constraint": "sh:in"
+    }
+  ],
+  "invalid-episode-missing-subjectPerson.jsonld": [
+    {
+      "focus": "ServiceEpisode",
+      "path": "subjectPerson",
+      "constraint": "sh:minCount"
+    }
+  ],
+  "invalid-measurement-bad-unit.jsonld": [
+    {
+      "focus": "Measurement",
+      "path": "unit",
+      "constraint": "sh:in"
+    }
+  ],
+  "invalid-organisation-bad-postcode.jsonld": [
+    {
+      "focus": "Address",
+      "path": "postcode",
+      "constraint": "sh:pattern"
+    }
+  ],
+  "invalid-organisation-bad-type.jsonld": [
+    {
+      "focus": "Organisation",
+      "path": "type",
+      "constraint": "sh:in"
+    }
+  ],
+  "invalid-organisation-missing-name.jsonld": [
+    {
+      "focus": "Organisation",
+      "path": "name",
+      "constraint": "sh:minCount"
+    }
+  ],
+  "invalid-organisation-missing-relatedService.jsonld": [
+    {
+      "focus": "Organisation",
+      "path": "relatedService",
+      "constraint": "sh:minCount"
+    }
+  ],
+  "invalid-professional-missing-name.jsonld": [
+    {
+      "focus": "Professional",
+      "path": "name",
+      "constraint": "sh:minCount"
+    }
+  ],
+  "invalid-service-missing-costFrequency.jsonld": [
+    {
+      "focus": "Service",
+      "path": "costFrequency",
+      "constraint": "sh:minCount"
+    }
+  ]
+}

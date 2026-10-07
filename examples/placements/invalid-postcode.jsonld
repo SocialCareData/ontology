@@ -9,7 +9,8 @@
     "@id": "ex:INVALID-003/availability",
     "@type": "PlacementAvailability",
     "placementId": "PLC-INVALID-003",
-    "neededBy": "MoreThanFiveDays"
+    "neededBy": "MoreThanFiveDays",
+    "uascStatus": "No"
   },
 
   "placementRequirements": {
@@ -20,7 +21,8 @@
     "culturalNeeds": "NotRequired",
     "livingCompanions": "NoPreference",
     "pets": "YesCan",
-    "homeAdaptationRequired": false
+    "homeAdaptationRequired": false,
+    "needsAssessmentMethod": "BERRI"
   },
 
   "placementRecommendation": {
@@ -52,13 +54,14 @@
     "@type": "ActualPlacement",
     "placementType": "Foster",
     "placementStartDate": "2024-03-21",
+    "placementSource": "RCC contract",
     "providerURN": "URN-2030",
     "placementLocation": "NOT A POSTCODE",
     "isLocationPreferred": true,
     "nonPreferredLocationReason": "Not applicable",
     "isEducationContinuous": true,
     "siblingsPlacedTogether": 0,
-    "totalWeeklyCost": 1500.00
+    "totalWeeklyCost": "1500.00"
   },
 
   "qualityAssurance": {

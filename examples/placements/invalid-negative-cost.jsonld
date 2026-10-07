@@ -9,7 +9,8 @@
   "placementAvailability": {
     "@id": "ex:INVALID-005/availability",
     "@type": "PlacementAvailability",
-    "neededBy": "MoreThanFiveDays"
+    "neededBy": "MoreThanFiveDays",
+    "uascStatus": "No"
   },
 
   "placementRequirements": {
@@ -20,7 +21,8 @@
     "culturalNeeds": "NotRequired",
     "livingCompanions": "NoPreference",
     "pets": "YesCan",
-    "homeAdaptationRequired": false
+    "homeAdaptationRequired": false,
+    "needsAssessmentMethod": "BERRI"
   },
 
   "placementRecommendation": {
@@ -58,10 +60,11 @@
     "nonPreferredLocationReason": "Not applicable",
     "isEducationContinuous": true,
     "siblingsPlacedTogether": 0,
-    "totalWeeklyCost":             1800.00,
-    "coreWeeklyCost":              1500.00,
-    "additionalSupportWeeklyCost":  350.00,
-    "otherWeeklyCost":              -50.00
+    "totalWeeklyCost":             "1800.00",
+    "coreWeeklyCost":              "1500.00",
+    "additionalSupportWeeklyCost":  "350.00",
+    "otherWeeklyCost":              "-50.00",
+    "placementSource": "RCC contract"
   },
 
   "qualityAssurance": {

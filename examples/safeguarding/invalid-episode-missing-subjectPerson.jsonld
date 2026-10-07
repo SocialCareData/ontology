@@ -11,7 +11,7 @@
     { "@type": "Identifier", "value": "SVC-001", "system": "https://example.org/Id/service" }
   ],
   "timeInformation": [
-    { "@type": "TimeInformation", "startDateTime": "2026-05-01T09:30:00Z" }
+    { "@type": "Timing", "startDateTime": "2026-05-01T09:30:00Z" }
   ],
   "location": ["Anytown Family Centre"]
 }

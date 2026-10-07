@@ -27,8 +27,8 @@ slots.
 - **Conditional "Other ⇒ free-text" rules.** Four fields require a paired
   free-text value when their `Other` concept is selected (`outOfLAReason`,
   `specificCommunicationRequirement`, `culturalNeeds`, `additionalSupport`).
-  These are `rules:` in the schema and are enforced in SHACL via the
-  hand-maintained `placements-base-rules-shape.ttl` (see
+  These are `rules:` in the schema, which `gen-shacl` does not translate, so
+  they are not enforced by the SHACL shape (see
   [`../model-management.md`](../model-management.md#what-gen-shacl-does-not-generate)).
 - **`totalWeeklyCost`** is bounded to £100–£100,000 (`minimum_value` /
   `maximum_value`).

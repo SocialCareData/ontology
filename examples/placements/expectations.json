@@ -1,0 +1,62 @@
+{
+  "invalid-bad-enum.jsonld": [
+    {
+      "focus": "PlacementRequirements",
+      "path": "needsAssessmentMethod",
+      "constraint": "sh:in"
+    },
+    {
+      "focus": "PlacementRequirements",
+      "path": "pets",
+      "constraint": "sh:in"
+    },
+    {
+      "focus": "PlacementRequirements",
+      "path": "specificCommunicationRequirement",
+      "constraint": "sh:in"
+    },
+    {
+      "focus": "RiskAssessment",
+      "path": "riskSelfHarm",
+      "constraint": "sh:in"
+    }
+  ],
+  "invalid-cost-out-of-range.jsonld": [
+    {
+      "focus": "ActualPlacement",
+      "path": "totalWeeklyCost",
+      "constraint": "sh:minInclusive"
+    }
+  ],
+  "invalid-missing-required.jsonld": [
+    {
+      "focus": "Placement",
+      "path": "riskAssessment",
+      "constraint": "sh:minCount"
+    },
+    {
+      "focus": "PlacementAvailability",
+      "path": "uascStatus",
+      "constraint": "sh:minCount"
+    },
+    {
+      "focus": "PlacementRequirements",
+      "path": "needsAssessmentMethod",
+      "constraint": "sh:minCount"
+    }
+  ],
+  "invalid-negative-cost.jsonld": [
+    {
+      "focus": "ActualPlacement",
+      "path": "otherWeeklyCost",
+      "constraint": "sh:minInclusive"
+    }
+  ],
+  "invalid-postcode.jsonld": [
+    {
+      "focus": "ActualPlacement",
+      "path": "placementLocation",
+      "constraint": "sh:pattern"
+    }
+  ]
+}

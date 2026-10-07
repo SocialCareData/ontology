@@ -25,13 +25,13 @@ an ontology (`<name>.ttl`) and, where applicable, a SHACL shape
 | `placements/` | Children's Social Care Placements, current and frozen earlier versions. |
 | `safeguarding/` | Safeguarding — organisations, services, professionals, service episodes, life events. |
 | `assessments-and-plans/` | Care needs assessments and care plans. |
-| `mais/` | The merged umbrella ontology and the release manifest. |
+| `social-care/` | The merged umbrella ontology and the release manifest. |
 | `examples/` | Hand-written JSON-LD records, valid and invalid, for every standard. Not generated; see [`examples/README.md`](examples/README.md). |
 
 ## Which file should I use?
 
 **To understand the vocabulary** — the classes, properties and controlled
-vocabularies — use `mais/mais.ttl`. It is the whole standard merged into one
+vocabularies — use `social-care/social-care.ttl`. It is the whole standard merged into one
 graph, with every module's terms resolved into the flat namespace.
 
 **To validate data**, use the shape for the specific profile you are validating
@@ -45,7 +45,7 @@ against, not the umbrella:
 | A safeguarding record | `safeguarding/safeguarding-standard-shape.ttl` |
 | An assessment or care plan | `assessments-and-plans/assessments-and-plans-standard-shape.ttl` |
 
-`mais/mais-shape.ttl` merges all of the above and takes the **subject-of-care**
+`social-care/social-care-shape.ttl` merges all of the above and takes the **subject-of-care**
 cardinalities for `Person`. Use the profile shape directly if you are validating
 connected people, or `Person` will be over-constrained.
 
@@ -53,14 +53,13 @@ There is deliberately no `person/person-standard-shape.ttl`: the core `Person`
 is permissive by design so the profiles can tighten it, and a shape generated
 from it would accept a person with no identifier, date of birth or address.
 
-Some constraints cannot be expressed in generated SHACL — LinkML `rules:` and
-boolean expressions produce no shapes. Those are hand-maintained in the source
-repository (for example placements' "Other ⇒ free-text required" rules) and are
-**not** published here. Generated shapes alone are necessary but not sufficient.
+The shapes are generated only; there are no hand-maintained shapes. LinkML
+`rules:` and class-level boolean expressions produce no SHACL, so any such
+constraint in a schema is not enforced by these shapes.
 
 ## Versioning
 
-`mais/manifest.yml` pins the module versions that compose a MAIS release:
+`social-care/manifest.yml` pins the module versions that compose a MAIS release:
 
 ```yaml
 mais_version: 2026.1.0
@@ -72,7 +71,7 @@ modules:
 ```
 
 Each module is versioned on its own cadence; a release records a compatible set
-and `mais/mais.ttl` is generated from it.
+and `social-care/social-care.ttl` is generated from it.
 
 Where a module keeps frozen earlier versions, the current one holds the bare
 ontology IRI and the frozen ones are version-qualified, so no two files claim
@@ -87,7 +86,7 @@ the same identity:
 ## JSON-LD contexts
 
 Each module ships the `context.jsonld` that maps JSON-LD data into these IRIs.
-`mais/context.jsonld` composes the module contexts by relative path, so keep the
+`social-care/context.jsonld` composes the module contexts by relative path, so keep the
 directory layout intact if you vendor these files.
 
 ## How this repository is updated
@@ -96,8 +95,8 @@ A GitHub Action in `SocialCareData/standard` regenerates everything whenever the
 LinkML schemas change and opens a pull request here. Generation is
 deterministic, so a pull request appears only when an artifact genuinely
 changed. The sync leaves `examples/` alone; those records are maintained here,
-and [SocialCareData/validator](https://github.com/SocialCareData/validator)
-runs them against the published shapes as its conformance suite.
+and checked against the shapes, with the violations each invalid one must
+produce, on every pull request (see [`examples/README.md`](examples/README.md)).
 
 See [`model-management.md`](model-management.md) for how the schemas are authored
 and what the generators do and do not produce.

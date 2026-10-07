@@ -9,7 +9,8 @@
     "@id": "ex:INVALID-002/availability",
     "@type": "PlacementAvailability",
     "placementId": "PLC-INVALID-002",
-    "neededBy": "Today"
+    "neededBy": "Today",
+    "uascStatus": "No"
   },
 
   "placementRequirements": {
@@ -20,7 +21,8 @@
     "culturalNeeds": "NotRequired",
     "livingCompanions": "NoPreference",
     "pets": "MaybePets",
-    "homeAdaptationRequired": false
+    "homeAdaptationRequired": false,
+    "needsAssessmentMethod": "BERRIxx"
   },
 
   "placementRecommendation": {

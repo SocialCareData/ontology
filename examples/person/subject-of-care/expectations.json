@@ -1,0 +1,86 @@
+{
+  "invalid-bad-accuracy-indicator.jsonld": [
+    {
+      "focus": "PartialDate",
+      "path": "accuracyIndicator",
+      "constraint": "sh:pattern"
+    }
+  ],
+  "invalid-bad-gender.jsonld": [
+    {
+      "focus": "Person",
+      "path": "genderCode",
+      "constraint": "sh:in"
+    }
+  ],
+  "invalid-bad-postcode.jsonld": [
+    {
+      "focus": "Address",
+      "path": "postcode",
+      "constraint": "sh:pattern"
+    }
+  ],
+  "invalid-missing-address.jsonld": [
+    {
+      "focus": "Person",
+      "path": "address",
+      "constraint": "sh:minCount"
+    }
+  ],
+  "invalid-missing-dateOfBirth.jsonld": [
+    {
+      "focus": "Person",
+      "path": "dateOfBirth",
+      "constraint": "sh:minCount"
+    }
+  ],
+  "invalid-missing-ethnicityCode.jsonld": [
+    {
+      "focus": "Person",
+      "path": "ethnicityCode",
+      "constraint": "sh:minCount"
+    }
+  ],
+  "invalid-missing-genderCode.jsonld": [
+    {
+      "focus": "Person",
+      "path": "genderCode",
+      "constraint": "sh:minCount"
+    }
+  ],
+  "invalid-missing-identifier.jsonld": [
+    {
+      "focus": "Person",
+      "path": "identifier",
+      "constraint": "sh:minCount"
+    }
+  ],
+  "invalid-missing-isDeceased.jsonld": [
+    {
+      "focus": "Person",
+      "path": "isDeceased",
+      "constraint": "sh:minCount"
+    }
+  ],
+  "invalid-missing-name.jsonld": [
+    {
+      "focus": "Person",
+      "path": "name",
+      "constraint": "sh:minCount"
+    }
+  ],
+  "invalid-multiple-names.jsonld": [
+    {
+      "focus": "Person",
+      "path": "name",
+      "constraint": "sh:maxCount"
+    }
+  ],
+  "invalid-name-missing-parts.jsonld": [
+    {
+      "focus": "Name",
+      "path": "givenName",
+      "constraint": "sh:minCount"
+    }
+  ]
+}
