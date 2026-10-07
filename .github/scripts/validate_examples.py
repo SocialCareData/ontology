@@ -59,7 +59,7 @@ def main() -> int:
             elif path.name.startswith("invalid-"):
                 expected = False
             else:
-                print(f"::error file={rel}::name must start with valid- or invalid-")
+                print(f"::error file={rel}::{rel}: name must start with valid- or invalid-")
                 failures += 1
                 continue
             checked += 1
@@ -70,7 +70,7 @@ def main() -> int:
                     inference="none",
                 )
             except Exception as e:
-                print(f"::error file={rel}::could not validate: {e}")
+                print(f"::error file={rel}::{rel}: could not validate: {e}")
                 failures += 1
                 continue
             if conforms == expected:
@@ -78,9 +78,12 @@ def main() -> int:
             else:
                 failures += 1
                 want = "conform" if expected else "fail validation"
-                print(f"::error file={rel}::expected to {want}")
+                print(f"FAIL  {rel}")
+                print(f"::error file={rel}::{rel}: expected to {want}")
                 if not conforms:
+                    print(f"::group::Validation report for {rel}")
                     print(report)
+                    print("::endgroup::")
     print(f"\n{checked} examples checked, {failures} problem(s)")
     return 1 if failures else 0
 
