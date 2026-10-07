@@ -200,7 +200,7 @@
     "Organisation": {
       "@id": "sg:Organisation",
       "@context": {
-        "name": "sg:name",
+        "name": "sg:entityName",
         "type": {
           "@id": "sg:organisationType",
           "@type": "@vocab",
@@ -217,7 +217,7 @@
     "Service": {
       "@id": "sg:Service",
       "@context": {
-        "name": "sg:name",
+        "name": "sg:entityName",
         "type": {
           "@id": "sg:serviceType",
           "@type": "@vocab",
