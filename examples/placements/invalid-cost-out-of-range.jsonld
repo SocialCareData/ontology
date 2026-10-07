@@ -61,6 +61,7 @@
     "isEducationContinuous": true,
     "siblingsPlacedTogether": 0,
     "totalWeeklyCost": "50",
+    "costIncludesAdditionalPackages": false,
     "placementSource": "RCC contract"
   },
 

@@ -6,40 +6,74 @@
   "childId": "MINIMAL001",
 
   "placementAvailability": {
+    "@id": "ex:ABCD2012-001/availability",
     "@type": "PlacementAvailability",
     "neededBy": "> 5 days",
+    "siblingCount": 2,
     "uascStatus": "NotApplicable"
   },
 
   "placementRequirements": {
+    "@id": "ex:ABCD2012-001/requirements",
     "@type": "PlacementRequirements",
     "communicationNeeds": "Not Specified",
-    "specificCommunicationRequirement": ["None"],
-    "culturalNeeds": "NotRequired",
-    "livingCompanions": "NoPreference",
-    "pets": "YesCan",
+    "specificCommunicationRequirement": ["ESOL"],
+    "culturalNeeds": "Required",
+    "livingCompanions": "Only With Other younger children",
+    "pets": "No",
+    "additionalSupport": ["TaxisToSchool"],
+    "deprivationOfLiberty": true,
     "needsAssessmentMethod": "OtherFormalisedTool"
   },
 
   "placementRecommendation": {
+    "@id": "ex:ABCD2012-001/recommendation",
     "@type": "PlacementRecommendation",
     "fosterCareSuitability": "Preferred",
-    "residentialCareSuitability": "NotSpecified",
-    "supportedAccommodationSuitability": "NotSpecified"
+    "residentialCareSuitability": "Suitable but not preferred",
+    "supportedAccommodationSuitability": "Unsuitable"
   },
 
   "riskAssessment": {
+    "@id": "ex:ABCD2012-001/risk",
     "@type": "RiskAssessment",
-    "riskSelfHarm":             "NoKnownRisk",
-    "riskCriminalExploitation": "NoKnownRisk",
-    "riskDrugAlcohol":          "NoKnownRisk",
-    "riskEatingDisorder":       "NoKnownRisk",
-    "riskMissing":              "NoKnownRisk",
-    "riskSexualExploitation":   "NoKnownRisk",
-    "riskToOthersPhysical":     "NoKnownRisk",
-    "riskToOthersSexual":       "NoKnownRisk",
-    "riskToOthersFire":         "NoKnownRisk",
-    "riskToOthersAnimals":      "NoKnownRisk",
-    "riskToOthersCriminal":     "NoKnownRisk"
+    "riskSelfHarm":             "Risk Present",
+    "riskCriminalExploitation": "No known risk",
+    "riskDrugAlcohol":          "No known risk",
+    "riskEatingDisorder":       "No known risk",
+    "riskMissing":              "Risk Present",
+    "riskSexualExploitation":   "No known risk",
+    "riskToOthersPhysical":     "No known risk",
+    "riskToOthersSexual":       "No known risk",
+    "riskToOthersFire":         "No known risk",
+    "riskToOthersAnimals":      "No known risk",
+    "riskToOthersCriminal":     "No known risk"
+  },
+
+  "actualPlacement": {
+    "@id": "ex:ABCD2012-001/actual",
+    "@type": "ActualPlacement",
+    "totalWeeklyCost":              4500.00,
+    "costIncludesAdditionalPackages": true,
+    "placementLocation": "N18",
+    "isLocationPreferred": true,
+    "nonPreferredLocationReason": "Not applicable",
+    "isEducationContinuous": false,
+    "providerURN": "ABCD10293002",
+    "siblingsPlacedTogether": 1,
+    "placementType": "Residential",
+    "placementStartDate": "2024-03-21",
+    "placementSource": "Block contract"
+  },
+
+  "qualityAssurance": {
+    "@id": "ex:ABCD2012-001/qa",
+    "@type": "QualityAssurance",
+    "referralOfficerName": "Alex Brown",
+    "referralDate":  "2024-02-12",
+    "placementOfficerName": "Beth Green",
+    "placementDateAdmin": "2024-03-21",
+    "costOfficerName": "Casey White",
+    "costDate":      "2024-03-25"
   }
 }

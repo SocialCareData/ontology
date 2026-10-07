@@ -61,7 +61,8 @@
     "nonPreferredLocationReason": "Not applicable",
     "isEducationContinuous": true,
     "siblingsPlacedTogether": 0,
-    "totalWeeklyCost": "1500.00"
+    "totalWeeklyCost": "1500.00",
+    "costIncludesAdditionalPackages": false
   },
 
   "qualityAssurance": {
