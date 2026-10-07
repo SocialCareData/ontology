@@ -45,7 +45,7 @@ are run from the module's own directory:
 cd safeguarding && gen-owl --no-mergeimports -im ../imports.json safeguarding-standard.yaml
 
 # the whole merged MAIS ontology
-cd social-care && gen-owl --mergeimports -im ../imports.json social-care.yaml > social-care.ttl
+cd mais && gen-owl --mergeimports -im ../imports.json mais.yaml > social-care-mais.ttl
 ```
 
 The `{% schema_table %}` generator finds this map by walking up from the schema's
@@ -178,11 +178,26 @@ published one, compare the graphs, not the bytes.
 - class-level `rules:` (if/then `preconditions`/`postconditions`), and
 - class-level boolean expressions (`none_of` / `any_of` / `all_of`).
 
-These are honoured by `linkml-validate` and the Python/Pydantic artifacts, but
-they produce **no** SHACL, and there are no hand-maintained shapes to make up
-for it. The generated shape is the only shape for each schema, so a constraint
-that must be checked by SHACL has to be expressible as slots, cardinalities,
-ranges, patterns or enums.
+These remain the semantic source of truth (honoured by `linkml-validate` and the
+Python/Pydantic artifacts), but they produce **no** SHACL. To enforce such a
+constraint in SHACL, hand-maintain the equivalent shape in a separate
+`*-rules-shape.ttl` and load it *alongside* the generated shape — the validator
+accepts a list of shape files per profile (see below).
+
+Placements does this for its four "Other ⇒ free-text required" rules in
+[`placements/placements-base-rules-shape.ttl`](placements/placements-base-rules-shape.ttl),
+e.g.:
+
+```turtle
+pl:CulturalNeedsOtherCheckShape a sh:NodeShape ;
+    sh:targetClass pl:PlacementRequirements ;
+    sh:not [
+        sh:property [ sh:path pl:culturalNeeds ; sh:hasValue cln:Other ] ;
+        sh:property [ sh:path pl:culturalNeedsOther ; sh:maxCount 0 ]
+    ] .
+```
+
+Keep the rules-shape in sync with the schema's `rules:` blocks by hand.
 
 > **`@type: @vocab` in `context.jsonld`.** For a controlled-vocabulary property
 > to be validated at all, its JSON-LD context entry must serialise the value to
@@ -213,24 +228,9 @@ same top-level `imports.json` as every other cross-module import.
 The JSON-LD examples live in `examples/` of
 [SocialCareData/ontology](https://github.com/SocialCareData/ontology), beside the
 shapes they exercise; the sync from this repository leaves that folder alone.
-They are checked there, with no dependency on the validator, by
-`.github/scripts/validate_examples.py` ([pySHACL](https://github.com/RDFLib/pySHACL))
-on every pull request:
-
-```bash
-pip install pyshacl
-python .github/scripts/validate_examples.py            # check
-python .github/scripts/validate_examples.py --update   # regenerate expectations.json
-```
-
-`valid-*.jsonld` must conform and `invalid-*.jsonld` must not. Each folder's
-`expectations.json` also pins the violations every invalid record must produce,
-so after a schema change that moves them, run `--update` and review the diff.
-See the ontology repository's `examples/README.md` for details.
-
-To validate your own data, use
-[SocialCareData/validator](https://github.com/SocialCareData/validator), which
-fetches the published shapes and contexts by URL:
+The validator that checks them lives in
+[SocialCareData/validator](https://github.com/SocialCareData/validator). This
+repository keeps the LinkML schemas the shapes are generated from.
 
 ```bash
 npx @socialcaredata/validator -p placements yourdata.jsonld
@@ -238,3 +238,16 @@ npx @socialcaredata/validator profiles          # what it can check against
 ```
 
 There is also a browser version at <https://socialcaredata.github.io/validator/>.
+
+The validator fetches shapes and contexts by URL from
+[SocialCareData/ontology](https://github.com/SocialCareData/ontology) rather than
+bundling copies, so it always checks against the published artifacts. Files named
+`valid-*.jsonld` must conform and `invalid-*.jsonld` must not; that suite runs in
+the validator's own CI, on every change and nightly against the latest shapes.
+
+A profile may load **several** shape files (the generated shape plus any
+hand-maintained `*-rules-shape.ttl`); they are merged before validation. The
+rules shapes are published to the ontology repository by `copy_aux` in
+`build_ontology.py` precisely so the validator can fetch them. To add a standard
+or profile, see the validator's
+[contributing guide](https://github.com/SocialCareData/validator/blob/main/docs/contributing.md).

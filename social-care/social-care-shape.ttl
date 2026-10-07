@@ -6,7 +6,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 sc:ActualPlacementShape a sh:NodeShape ;
-    rdfs:comment "The placement actually arranged for the child, including weekly cost (with optional breakdown), location, provider URN, sibling co-placement and educational continuity. Optional - a Placement may not (yet) have one." ;
+    rdfs:comment "The placement actually arranged for the child, including weekly cost, location, provider URN, sibling co-placement and educational continuity. Optional - a Placement may not (yet) have one." ;
     sh:closed false ;
     sh:ignoredProperties ( rdf:type ) ;
     sh:property [ sh:description "How the placement was sourced." ;
@@ -22,20 +22,13 @@ sc:ActualPlacementShape a sh:NodeShape ;
             sh:nodeKind sh:Literal ;
             sh:order 7 ;
             sh:path sc:isEducationContinuous ],
-        [ sh:datatype xsd:decimal ;
-            sh:description "Total weekly core cost: the basic price quoted by a provider to deliver the service outlined in their Statement of Purpose, excluding child-specific additional costs." ;
+        [ sh:datatype xsd:boolean ;
+            sh:description "Indicates whether the total weekly cost includes charges for support or services beyond the core placement fee, such as additional staffing (e.g. 2:1 or waking night cover), therapeutic or clinical input, education provision, or other bespoke support agreed for the child." ;
             sh:maxCount 1 ;
-            sh:minInclusive 0 ;
+            sh:minCount 1 ;
             sh:nodeKind sh:Literal ;
             sh:order 10 ;
-            sh:path sc:coreWeeklyCost ],
-        [ sh:datatype xsd:decimal ;
-            sh:description "Total weekly additional-support cost: costs incurred over and above the core cost to meet the specific needs of the child." ;
-            sh:maxCount 1 ;
-            sh:minInclusive 0 ;
-            sh:nodeKind sh:Literal ;
-            sh:order 11 ;
-            sh:path sc:additionalSupportWeeklyCost ],
+            sh:path sc:costIncludesAdditionalPackages ],
         [ sh:datatype xsd:boolean ;
             sh:description "Whether the actual placement location was a preferred location." ;
             sh:maxCount 1 ;
@@ -49,13 +42,6 @@ sc:ActualPlacementShape a sh:NodeShape ;
             sh:minCount 1 ;
             sh:order 0 ;
             sh:path sc:placementType ],
-        [ sh:datatype xsd:decimal ;
-            sh:description "Any weekly placement costs that do not clearly fall within the core, additional-support or education categories." ;
-            sh:maxCount 1 ;
-            sh:minInclusive 0 ;
-            sh:nodeKind sh:Literal ;
-            sh:order 13 ;
-            sh:path sc:otherWeeklyCost ],
         [ sh:datatype xsd:date ;
             sh:description "The date the placement started." ;
             sh:maxCount 1 ;
@@ -63,13 +49,6 @@ sc:ActualPlacementShape a sh:NodeShape ;
             sh:nodeKind sh:Literal ;
             sh:order 1 ;
             sh:path sc:placementStartDate ],
-        [ sh:datatype xsd:decimal ;
-            sh:description "Total weekly education cost: recorded when the placement includes both care and registered education provision." ;
-            sh:maxCount 1 ;
-            sh:minInclusive 0 ;
-            sh:nodeKind sh:Literal ;
-            sh:order 12 ;
-            sh:path sc:educationWeeklyCost ],
         [ sh:description "The reason the placement was not found in the preferred location. Use 'Not applicable' when the placement was in the preferred location." ;
             sh:in ( <https://ontology.socialcaredata.io/non-preferred-location-reason#CYPParentalPreference> <https://ontology.socialcaredata.io/non-preferred-location-reason#SafeguardingRequirement> <https://ontology.socialcaredata.io/non-preferred-location-reason#ProvisionWithinDistanceNotAvailable> <https://ontology.socialcaredata.io/non-preferred-location-reason#ProvisionWithinDistanceDoesNotExist> <https://ontology.socialcaredata.io/non-preferred-location-reason#CarerMovingOutOfArea> <https://ontology.socialcaredata.io/non-preferred-location-reason#LegalReasons> <https://ontology.socialcaredata.io/non-preferred-location-reason#NotApplicable> ) ;
             sh:maxCount 1 ;
