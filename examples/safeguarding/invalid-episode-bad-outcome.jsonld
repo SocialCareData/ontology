@@ -6,7 +6,7 @@
   "identifier": [
     { "@type": "Identifier", "value": "EP-2026-0002", "system": "https://example.org/Id/episode" }
   ],
-  "type": ["cin-plan"],
+  "type": ["plan.cin-plan"],
   "subjectPerson": [
     {
       "@type": "SubjectPerson",
