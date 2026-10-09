@@ -1774,75 +1774,135 @@ sc:entityName a owl:DatatypeProperty ;
     skos:definition "The official name of the organisation or service." ;
     skos:inScheme sc:safeguarding .
 
+<https://ontology.socialcaredata.io/episode-code#Admin> a owl:Class ;
+    rdfs:label "provision.admin" ;
+    dcterms:title "Admin" ;
+    rdfs:subClassOf sc:episode-code ;
+    skos:definition "Case management, paperwork, coordination, and other administrative support." .
+
 <https://ontology.socialcaredata.io/episode-code#AdultSafeguarding> a owl:Class ;
-    rdfs:label "adult-safeguarding" ;
-    dcterms:title "Adult Safeguarding" ;
+    rdfs:label "assessment.adult-safeguarding" ;
+    dcterms:title "Adult Safeguarding Enquiry" ;
     rdfs:subClassOf sc:episode-code ;
     skos:definition "Adult Safeguarding Enquiry (Section 42)" .
 
+<https://ontology.socialcaredata.io/episode-code#Assessment> a owl:Class ;
+    rdfs:label "assessment" ;
+    dcterms:title "Assessment and Enquiry" ;
+    rdfs:subClassOf sc:episode-code ;
+    skos:definition "Enquiry, discovery, assessment, evaluation, triage, or review." .
+
 <https://ontology.socialcaredata.io/episode-code#CamhsPlan> a owl:Class ;
-    rdfs:label "CAMHS-plan" ;
+    rdfs:label "plan.CAMHS-plan" ;
     dcterms:title "CAMHS Plan" ;
     rdfs:subClassOf sc:episode-code ;
-    skos:definition "Children and Adolescent mental health services care plan" .
+    skos:definition "Children and Adolescent Mental Health Services (CAMHS) care plan" .
 
 <https://ontology.socialcaredata.io/episode-code#CareActAssessment> a owl:Class ;
-    rdfs:label "care-act-assessment" ;
+    rdfs:label "assessment.care-act-assessment" ;
     dcterms:title "Care Act Assessment" ;
     rdfs:subClassOf sc:episode-code ;
     skos:definition "Care Act Assessment" .
 
-<https://ontology.socialcaredata.io/episode-code#CareLeaver> a owl:Class ;
-    rdfs:label "care-leaver" ;
-    dcterms:title "Care Leaver" ;
-    rdfs:subClassOf sc:episode-code ;
-    skos:definition "Care Leaver Support" .
-
 <https://ontology.socialcaredata.io/episode-code#CarePlan> a owl:Class ;
-    rdfs:label "care-plan" ;
+    rdfs:label "plan.care-plan" ;
     dcterms:title "Care Plan" ;
     rdfs:subClassOf sc:episode-code ;
     skos:definition "Care Plan" .
 
 <https://ontology.socialcaredata.io/episode-code#ChildLookedAfter> a owl:Class ;
-    rdfs:label "child-looked-after" ;
+    rdfs:label "plan.child-looked-after" ;
     dcterms:title "Child Looked After" ;
     rdfs:subClassOf sc:episode-code ;
     skos:definition "Child in LA care" .
 
 <https://ontology.socialcaredata.io/episode-code#CinPlan> a owl:Class ;
-    rdfs:label "cin-plan" ;
+    rdfs:label "plan.cin-plan" ;
     dcterms:title "CIN Plan" ;
     rdfs:subClassOf sc:episode-code ;
     skos:definition "Child in Need (CIN) Plan" .
 
 <https://ontology.socialcaredata.io/episode-code#CpPlan> a owl:Class ;
-    rdfs:label "cp-plan" ;
+    rdfs:label "plan.cp-plan" ;
     dcterms:title "CP Plan" ;
     rdfs:subClassOf sc:episode-code ;
     skos:definition "Child Protection (CP) Plan" .
 
+<https://ontology.socialcaredata.io/episode-code#DirectProvision> a owl:Class ;
+    rdfs:label "provision.direct-provision" ;
+    dcterms:title "Direct Provision of Care" ;
+    rdfs:subClassOf sc:episode-code ;
+    skos:definition "Hands-on care activities with the subject in the room." .
+
 <https://ontology.socialcaredata.io/episode-code#EarlyHelp> a owl:Class ;
-    rdfs:label "early-help" ;
-    dcterms:title "Early Help" ;
+    rdfs:label "assessment.early-help" ;
+    dcterms:title "Early Help Assessment" ;
     rdfs:subClassOf sc:episode-code ;
     skos:definition "Early Help Assessment / Intervention" .
 
 <https://ontology.socialcaredata.io/episode-code#Ehcp> a owl:Class ;
-    rdfs:label "ehcp" ;
+    rdfs:label "plan.ehcp" ;
     dcterms:title "EHCP" ;
     rdfs:subClassOf sc:episode-code ;
     skos:definition "Education, Health, and Care plan" .
 
+<https://ontology.socialcaredata.io/episode-code#FaceToFaceContact> a owl:Class ;
+    rdfs:label "provision.face-to-face-contact" ;
+    dcterms:title "Face-to-Face Contact" ;
+    rdfs:subClassOf sc:episode-code ;
+    skos:definition "Meetings, home visits, or one-to-one professional sessions with the subject." .
+
 <https://ontology.socialcaredata.io/episode-code#FamilyCourtOrder> a owl:Class ;
-    rdfs:label "family-court-order" ;
+    rdfs:label "plan.family-court-order" ;
     dcterms:title "Family Court Order" ;
     rdfs:subClassOf sc:episode-code ;
-    skos:definition "Any order made by family court" .
+    skos:definition "An order made by family court (Care Order, Residence Order, or an interim Order)." .
+
+<https://ontology.socialcaredata.io/episode-code#IndirectProvision> a owl:Class ;
+    rdfs:label "provision.indirect-provision" ;
+    dcterms:title "Indirect Provision of Care" ;
+    rdfs:subClassOf sc:episode-code ;
+    skos:definition "Hands-off care support without face-to-face contact." .
+
+<https://ontology.socialcaredata.io/episode-code#Miscellaneous> a owl:Class ;
+    rdfs:label "provision.miscellaneous" ;
+    dcterms:title "Miscellaneous" ;
+    rdfs:subClassOf sc:episode-code ;
+    skos:definition "Other care provision activities not covered elsewhere." .
+
+<https://ontology.socialcaredata.io/episode-code#OtherAssessment> a owl:Class ;
+    rdfs:label "assessment.other-assessment" ;
+    dcterms:title "Other Assessment" ;
+    rdfs:subClassOf sc:episode-code ;
+    skos:definition "Any other enquiry, discovery, assessment, evaluation, triage, or review." .
+
+<https://ontology.socialcaredata.io/episode-code#OtherPlan> a owl:Class ;
+    rdfs:label "plan.other-plan" ;
+    dcterms:title "Other Plan" ;
+    rdfs:subClassOf sc:episode-code ;
+    skos:definition "Any other plan, order, or commission" .
+
+<https://ontology.socialcaredata.io/episode-code#Plan> a owl:Class ;
+    rdfs:label "plan" ;
+    dcterms:title "Plan and Order" ;
+    rdfs:subClassOf sc:episode-code ;
+    skos:definition "Creation of a plan, definition of statutory responsibilities (via a court order), or commission of services." .
+
+<https://ontology.socialcaredata.io/episode-code#Provision> a owl:Class ;
+    rdfs:label "provision" ;
+    dcterms:title "Provision and Contact" ;
+    rdfs:subClassOf sc:episode-code ;
+    skos:definition "Operation and delivery of services." .
+
+<https://ontology.socialcaredata.io/episode-code#RemoteContact> a owl:Class ;
+    rdfs:label "provision.remote-contact" ;
+    dcterms:title "Remote Contact" ;
+    rdfs:subClassOf sc:episode-code ;
+    skos:definition "Virtual or telephone-based contact with the subject." .
 
 <https://ontology.socialcaredata.io/episode-code#Section47> a owl:Class ;
-    rdfs:label "section-47" ;
-    dcterms:title "Section 47" ;
+    rdfs:label "assessment.section-47" ;
+    dcterms:title "Section 47 Enquiry" ;
     rdfs:subClassOf sc:episode-code ;
     skos:definition "Section 47 Enquiry" .
 
@@ -4906,25 +4966,6 @@ sc:service-cost-frequency a owl:Class ;
         <https://ontology.socialcaredata.io/service-cost-frequency#Quarterly>,
         <https://ontology.socialcaredata.io/service-cost-frequency#Weekly> .
 
-sc:episode-code a owl:Class ;
-    rdfs:label "EpisodeCode" ;
-    dcterms:title "Episode Code" ;
-    owl:unionOf ( <https://ontology.socialcaredata.io/episode-code#EarlyHelp> <https://ontology.socialcaredata.io/episode-code#Ehcp> <https://ontology.socialcaredata.io/episode-code#FamilyCourtOrder> <https://ontology.socialcaredata.io/episode-code#CinPlan> <https://ontology.socialcaredata.io/episode-code#CpPlan> <https://ontology.socialcaredata.io/episode-code#CamhsPlan> <https://ontology.socialcaredata.io/episode-code#Section47> <https://ontology.socialcaredata.io/episode-code#CareLeaver> <https://ontology.socialcaredata.io/episode-code#ChildLookedAfter> <https://ontology.socialcaredata.io/episode-code#AdultSafeguarding> <https://ontology.socialcaredata.io/episode-code#CareActAssessment> <https://ontology.socialcaredata.io/episode-code#CarePlan> ) ;
-    skos:definition "Codes to indicate the type of service episode." ;
-    skos:inScheme sc:safeguarding ;
-    linkml:permissible_values <https://ontology.socialcaredata.io/episode-code#AdultSafeguarding>,
-        <https://ontology.socialcaredata.io/episode-code#CamhsPlan>,
-        <https://ontology.socialcaredata.io/episode-code#CareActAssessment>,
-        <https://ontology.socialcaredata.io/episode-code#CareLeaver>,
-        <https://ontology.socialcaredata.io/episode-code#CarePlan>,
-        <https://ontology.socialcaredata.io/episode-code#ChildLookedAfter>,
-        <https://ontology.socialcaredata.io/episode-code#CinPlan>,
-        <https://ontology.socialcaredata.io/episode-code#CpPlan>,
-        <https://ontology.socialcaredata.io/episode-code#EarlyHelp>,
-        <https://ontology.socialcaredata.io/episode-code#Ehcp>,
-        <https://ontology.socialcaredata.io/episode-code#FamilyCourtOrder>,
-        <https://ontology.socialcaredata.io/episode-code#Section47> .
-
 sc:risk-level a owl:Class ;
     rdfs:label "RiskLevel" ;
     dcterms:title "Risk Level" ;
@@ -5041,6 +5082,35 @@ sc:ethnicity-code a owl:Class ;
         <https://ontology.socialcaredata.io/ethnicity-code#WhiteIrish>,
         <https://ontology.socialcaredata.io/ethnicity-code#WhiteOther>,
         <https://ontology.socialcaredata.io/ethnicity-code#WhiteRoma> .
+
+sc:episode-code a owl:Class ;
+    rdfs:label "EpisodeCode" ;
+    dcterms:title "Episode Code" ;
+    owl:unionOf ( <https://ontology.socialcaredata.io/episode-code#Assessment> <https://ontology.socialcaredata.io/episode-code#EarlyHelp> <https://ontology.socialcaredata.io/episode-code#Section47> <https://ontology.socialcaredata.io/episode-code#AdultSafeguarding> <https://ontology.socialcaredata.io/episode-code#CareActAssessment> <https://ontology.socialcaredata.io/episode-code#OtherAssessment> <https://ontology.socialcaredata.io/episode-code#Plan> <https://ontology.socialcaredata.io/episode-code#Ehcp> <https://ontology.socialcaredata.io/episode-code#FamilyCourtOrder> <https://ontology.socialcaredata.io/episode-code#CinPlan> <https://ontology.socialcaredata.io/episode-code#CpPlan> <https://ontology.socialcaredata.io/episode-code#CamhsPlan> <https://ontology.socialcaredata.io/episode-code#ChildLookedAfter> <https://ontology.socialcaredata.io/episode-code#CarePlan> <https://ontology.socialcaredata.io/episode-code#OtherPlan> <https://ontology.socialcaredata.io/episode-code#Provision> <https://ontology.socialcaredata.io/episode-code#FaceToFaceContact> <https://ontology.socialcaredata.io/episode-code#RemoteContact> <https://ontology.socialcaredata.io/episode-code#DirectProvision> <https://ontology.socialcaredata.io/episode-code#IndirectProvision> <https://ontology.socialcaredata.io/episode-code#Admin> <https://ontology.socialcaredata.io/episode-code#Miscellaneous> ) ;
+    skos:definition "Codes to indicate the type of service episode." ;
+    skos:inScheme sc:safeguarding ;
+    linkml:permissible_values <https://ontology.socialcaredata.io/episode-code#Admin>,
+        <https://ontology.socialcaredata.io/episode-code#AdultSafeguarding>,
+        <https://ontology.socialcaredata.io/episode-code#Assessment>,
+        <https://ontology.socialcaredata.io/episode-code#CamhsPlan>,
+        <https://ontology.socialcaredata.io/episode-code#CareActAssessment>,
+        <https://ontology.socialcaredata.io/episode-code#CarePlan>,
+        <https://ontology.socialcaredata.io/episode-code#ChildLookedAfter>,
+        <https://ontology.socialcaredata.io/episode-code#CinPlan>,
+        <https://ontology.socialcaredata.io/episode-code#CpPlan>,
+        <https://ontology.socialcaredata.io/episode-code#DirectProvision>,
+        <https://ontology.socialcaredata.io/episode-code#EarlyHelp>,
+        <https://ontology.socialcaredata.io/episode-code#Ehcp>,
+        <https://ontology.socialcaredata.io/episode-code#FaceToFaceContact>,
+        <https://ontology.socialcaredata.io/episode-code#FamilyCourtOrder>,
+        <https://ontology.socialcaredata.io/episode-code#IndirectProvision>,
+        <https://ontology.socialcaredata.io/episode-code#Miscellaneous>,
+        <https://ontology.socialcaredata.io/episode-code#OtherAssessment>,
+        <https://ontology.socialcaredata.io/episode-code#OtherPlan>,
+        <https://ontology.socialcaredata.io/episode-code#Plan>,
+        <https://ontology.socialcaredata.io/episode-code#Provision>,
+        <https://ontology.socialcaredata.io/episode-code#RemoteContact>,
+        <https://ontology.socialcaredata.io/episode-code#Section47> .
 
 sc:person a owl:ObjectProperty ;
     rdfs:label "person" ;
