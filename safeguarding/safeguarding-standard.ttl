@@ -407,75 +407,135 @@ sg:entityName a owl:DatatypeProperty ;
     skos:definition "The official name of the organisation or service." ;
     skos:inScheme sg:safeguarding .
 
+epc:Admin a owl:Class ;
+    rdfs:label "provision.admin" ;
+    dct:title "Admin" ;
+    rdfs:subClassOf sg:episode-code ;
+    skos:definition "Case management, paperwork, coordination, and other administrative support." .
+
 epc:AdultSafeguarding a owl:Class ;
-    rdfs:label "adult-safeguarding" ;
-    dct:title "Adult Safeguarding" ;
+    rdfs:label "assessment.adult-safeguarding" ;
+    dct:title "Adult Safeguarding Enquiry" ;
     rdfs:subClassOf sg:episode-code ;
     skos:definition "Adult Safeguarding Enquiry (Section 42)" .
 
+epc:Assessment a owl:Class ;
+    rdfs:label "assessment" ;
+    dct:title "Assessment and Enquiry" ;
+    rdfs:subClassOf sg:episode-code ;
+    skos:definition "Enquiry, discovery, assessment, evaluation, triage, or review." .
+
 epc:CamhsPlan a owl:Class ;
-    rdfs:label "CAMHS-plan" ;
+    rdfs:label "plan.CAMHS-plan" ;
     dct:title "CAMHS Plan" ;
     rdfs:subClassOf sg:episode-code ;
-    skos:definition "Children and Adolescent mental health services care plan" .
+    skos:definition "Children and Adolescent Mental Health Services (CAMHS) care plan" .
 
 epc:CareActAssessment a owl:Class ;
-    rdfs:label "care-act-assessment" ;
+    rdfs:label "assessment.care-act-assessment" ;
     dct:title "Care Act Assessment" ;
     rdfs:subClassOf sg:episode-code ;
     skos:definition "Care Act Assessment" .
 
-epc:CareLeaver a owl:Class ;
-    rdfs:label "care-leaver" ;
-    dct:title "Care Leaver" ;
-    rdfs:subClassOf sg:episode-code ;
-    skos:definition "Care Leaver Support" .
-
 epc:CarePlan a owl:Class ;
-    rdfs:label "care-plan" ;
+    rdfs:label "plan.care-plan" ;
     dct:title "Care Plan" ;
     rdfs:subClassOf sg:episode-code ;
     skos:definition "Care Plan" .
 
 epc:ChildLookedAfter a owl:Class ;
-    rdfs:label "child-looked-after" ;
+    rdfs:label "plan.child-looked-after" ;
     dct:title "Child Looked After" ;
     rdfs:subClassOf sg:episode-code ;
     skos:definition "Child in LA care" .
 
 epc:CinPlan a owl:Class ;
-    rdfs:label "cin-plan" ;
+    rdfs:label "plan.cin-plan" ;
     dct:title "CIN Plan" ;
     rdfs:subClassOf sg:episode-code ;
     skos:definition "Child in Need (CIN) Plan" .
 
 epc:CpPlan a owl:Class ;
-    rdfs:label "cp-plan" ;
+    rdfs:label "plan.cp-plan" ;
     dct:title "CP Plan" ;
     rdfs:subClassOf sg:episode-code ;
     skos:definition "Child Protection (CP) Plan" .
 
+epc:DirectProvision a owl:Class ;
+    rdfs:label "provision.direct-provision" ;
+    dct:title "Direct Provision of Care" ;
+    rdfs:subClassOf sg:episode-code ;
+    skos:definition "Hands-on care activities with the subject in the room." .
+
 epc:EarlyHelp a owl:Class ;
-    rdfs:label "early-help" ;
-    dct:title "Early Help" ;
+    rdfs:label "assessment.early-help" ;
+    dct:title "Early Help Assessment" ;
     rdfs:subClassOf sg:episode-code ;
     skos:definition "Early Help Assessment / Intervention" .
 
 epc:Ehcp a owl:Class ;
-    rdfs:label "ehcp" ;
+    rdfs:label "plan.ehcp" ;
     dct:title "EHCP" ;
     rdfs:subClassOf sg:episode-code ;
     skos:definition "Education, Health, and Care plan" .
 
+epc:FaceToFaceContact a owl:Class ;
+    rdfs:label "provision.face-to-face-contact" ;
+    dct:title "Face-to-Face Contact" ;
+    rdfs:subClassOf sg:episode-code ;
+    skos:definition "Meetings, home visits, or one-to-one professional sessions with the subject." .
+
 epc:FamilyCourtOrder a owl:Class ;
-    rdfs:label "family-court-order" ;
+    rdfs:label "plan.family-court-order" ;
     dct:title "Family Court Order" ;
     rdfs:subClassOf sg:episode-code ;
-    skos:definition "Any order made by family court" .
+    skos:definition "An order made by family court (Care Order, Residence Order, or an interim Order)." .
+
+epc:IndirectProvision a owl:Class ;
+    rdfs:label "provision.indirect-provision" ;
+    dct:title "Indirect Provision of Care" ;
+    rdfs:subClassOf sg:episode-code ;
+    skos:definition "Hands-off care support without face-to-face contact." .
+
+epc:Miscellaneous a owl:Class ;
+    rdfs:label "provision.miscellaneous" ;
+    dct:title "Miscellaneous" ;
+    rdfs:subClassOf sg:episode-code ;
+    skos:definition "Other care provision activities not covered elsewhere." .
+
+epc:OtherAssessment a owl:Class ;
+    rdfs:label "assessment.other-assessment" ;
+    dct:title "Other Assessment" ;
+    rdfs:subClassOf sg:episode-code ;
+    skos:definition "Any other enquiry, discovery, assessment, evaluation, triage, or review." .
+
+epc:OtherPlan a owl:Class ;
+    rdfs:label "plan.other-plan" ;
+    dct:title "Other Plan" ;
+    rdfs:subClassOf sg:episode-code ;
+    skos:definition "Any other plan, order, or commission" .
+
+epc:Plan a owl:Class ;
+    rdfs:label "plan" ;
+    dct:title "Plan and Order" ;
+    rdfs:subClassOf sg:episode-code ;
+    skos:definition "Creation of a plan, definition of statutory responsibilities (via a court order), or commission of services." .
+
+epc:Provision a owl:Class ;
+    rdfs:label "provision" ;
+    dct:title "Provision and Contact" ;
+    rdfs:subClassOf sg:episode-code ;
+    skos:definition "Operation and delivery of services." .
+
+epc:RemoteContact a owl:Class ;
+    rdfs:label "provision.remote-contact" ;
+    dct:title "Remote Contact" ;
+    rdfs:subClassOf sg:episode-code ;
+    skos:definition "Virtual or telephone-based contact with the subject." .
 
 epc:Section47 a owl:Class ;
-    rdfs:label "section-47" ;
-    dct:title "Section 47" ;
+    rdfs:label "assessment.section-47" ;
+    dct:title "Section 47 Enquiry" ;
     rdfs:subClassOf sg:episode-code ;
     skos:definition "Section 47 Enquiry" .
 
@@ -1758,25 +1818,6 @@ sg:service-cost-frequency a owl:Class ;
         scf:Quarterly,
         scf:Weekly .
 
-sg:episode-code a owl:Class ;
-    rdfs:label "EpisodeCode" ;
-    dct:title "Episode Code" ;
-    owl:unionOf ( epc:EarlyHelp epc:Ehcp epc:FamilyCourtOrder epc:CinPlan epc:CpPlan epc:CamhsPlan epc:Section47 epc:CareLeaver epc:ChildLookedAfter epc:AdultSafeguarding epc:CareActAssessment epc:CarePlan ) ;
-    skos:definition "Codes to indicate the type of service episode." ;
-    skos:inScheme sg:safeguarding ;
-    linkml:permissible_values epc:AdultSafeguarding,
-        epc:CamhsPlan,
-        epc:CareActAssessment,
-        epc:CareLeaver,
-        epc:CarePlan,
-        epc:ChildLookedAfter,
-        epc:CinPlan,
-        epc:CpPlan,
-        epc:EarlyHelp,
-        epc:Ehcp,
-        epc:FamilyCourtOrder,
-        epc:Section47 .
-
 sg:episode-outcome a owl:Class ;
     rdfs:label "EpisodeOutcome" ;
     dct:title "Episode Outcome" ;
@@ -1799,6 +1840,35 @@ sg:episode-outcome a owl:Class ;
         eo:NfaPlanned,
         eo:Planning,
         eo:Reablement .
+
+sg:episode-code a owl:Class ;
+    rdfs:label "EpisodeCode" ;
+    dct:title "Episode Code" ;
+    owl:unionOf ( epc:Assessment epc:EarlyHelp epc:Section47 epc:AdultSafeguarding epc:CareActAssessment epc:OtherAssessment epc:Plan epc:Ehcp epc:FamilyCourtOrder epc:CinPlan epc:CpPlan epc:CamhsPlan epc:ChildLookedAfter epc:CarePlan epc:OtherPlan epc:Provision epc:FaceToFaceContact epc:RemoteContact epc:DirectProvision epc:IndirectProvision epc:Admin epc:Miscellaneous ) ;
+    skos:definition "Codes to indicate the type of service episode." ;
+    skos:inScheme sg:safeguarding ;
+    linkml:permissible_values epc:Admin,
+        epc:AdultSafeguarding,
+        epc:Assessment,
+        epc:CamhsPlan,
+        epc:CareActAssessment,
+        epc:CarePlan,
+        epc:ChildLookedAfter,
+        epc:CinPlan,
+        epc:CpPlan,
+        epc:DirectProvision,
+        epc:EarlyHelp,
+        epc:Ehcp,
+        epc:FaceToFaceContact,
+        epc:FamilyCourtOrder,
+        epc:IndirectProvision,
+        epc:Miscellaneous,
+        epc:OtherAssessment,
+        epc:OtherPlan,
+        epc:Plan,
+        epc:Provision,
+        epc:RemoteContact,
+        epc:Section47 .
 
 sg:service-code a owl:Class ;
     rdfs:label "ServiceCode" ;

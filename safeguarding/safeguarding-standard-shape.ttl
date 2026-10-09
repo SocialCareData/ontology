@@ -451,7 +451,7 @@ sg:ServiceEpisodeShape a sh:NodeShape ;
     sh:closed false ;
     sh:ignoredProperties ( rdf:type ) ;
     sh:property [ sh:description "Code(s) for the type of service episode." ;
-            sh:in ( epc:EarlyHelp epc:Ehcp epc:FamilyCourtOrder epc:CinPlan epc:CpPlan epc:CamhsPlan epc:Section47 epc:CareLeaver epc:ChildLookedAfter epc:AdultSafeguarding epc:CareActAssessment epc:CarePlan ) ;
+            sh:in ( epc:Assessment epc:EarlyHelp epc:Section47 epc:AdultSafeguarding epc:CareActAssessment epc:OtherAssessment epc:Plan epc:Ehcp epc:FamilyCourtOrder epc:CinPlan epc:CpPlan epc:CamhsPlan epc:ChildLookedAfter epc:CarePlan epc:OtherPlan epc:Provision epc:FaceToFaceContact epc:RemoteContact epc:DirectProvision epc:IndirectProvision epc:Admin epc:Miscellaneous ) ;
             sh:minCount 1 ;
             sh:name "type" ;
             sh:order 1 ;

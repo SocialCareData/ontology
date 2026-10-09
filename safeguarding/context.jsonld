@@ -280,16 +280,26 @@
           "@container": "@set",
           "@context": {
             "@vocab": "https://ontology.socialcaredata.io/episode-code#",
-            "early-help": "epc:EarlyHelp",
-            "ehcp": "epc:Ehcp",
-            "family-court-order": "epc:FamilyCourtOrder",
-            "cin-plan": "epc:CinPlan",
-            "cp-plan": "epc:CpPlan",
-            "CAMHS-plan": "epc:CamhsPlan",
-            "section-47": "epc:Section47",
-            "care-leaver": "epc:CareLeaver",
-            "child-looked-after": "epc:ChildLookedAfter",
-            "adult-safeguarding": "epc:AdultSafeguarding"
+            "assessment": "epc:Assessment",
+            "assessment.early-help": "epc:EarlyHelp",
+            "assessment.section-47": "epc:Section47",
+            "assessment.adult-safeguarding": "epc:AdultSafeguarding",
+            "assessment.care-act-assessment": "epc:CareActAssessment",
+            "plan": "epc:Plan",
+            "plan.ehcp": "epc:Ehcp",
+            "plan.family-court-order": "epc:FamilyCourtOrder",
+            "plan.cin-plan": "epc:CinPlan",
+            "plan.cp-plan": "epc:CpPlan",
+            "plan.CAMHS-plan": "epc:CamhsPlan",
+            "plan.child-looked-after": "epc:ChildLookedAfter",
+            "plan.care-plan": "epc:CarePlan",
+            "provision": "epc:Provision",
+            "provision.face-to-face-contact": "epc:FaceToFaceContact",
+            "provision.remote-contact": "epc:RemoteContact",
+            "provision.direct-provision": "epc:DirectProvision",
+            "provision.indirect-provision": "epc:IndirectProvision",
+            "provision.admin": "epc:Admin",
+            "provision.miscellaneous": "epc:Miscellaneous"
           }
         }
       }
