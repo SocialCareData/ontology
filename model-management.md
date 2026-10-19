@@ -1,98 +1,58 @@
-# Managing the data models — LinkML & SHACL validation
+# Data models
 
-Every data standard under `src/_data/model/<standard>/` is defined as a
-[LinkML](https://linkml.io/) schema, which is the **authoritative source** for
-that model. From one YAML file the SHACL shapes, OWL/RDF, JSON Schema, Pydantic
-classes and documentation are all *generated*.
+Each data standard is a [LinkML](https://linkml.io/) schema under
+`src/_data/model/<module>/`. The LinkML YAML is the **single source of truth**.
+The OWL ontologies and SHACL shapes are generated from it automatically and
+published to [SocialCareData/ontology](https://github.com/SocialCareData/ontology);
+they are not kept in this repository.
 
-> ⚠️ **Do not edit the generated artifacts** (`*-shape.ttl`, `*.ttl` ontology,
-> JSON Schema, docs). Edit the LinkML `*.yaml` and regenerate — any manual edits
-> to generated files are overwritten.
+| Repository | Holds |
+| --- | --- |
+| this one | LinkML schemas, JSON-LD contexts, JSON-LD examples, release manifest |
+| [SocialCareData/ontology](https://github.com/SocialCareData/ontology) | generated OWL (`*.ttl`) and SHACL (`*-shape.ttl`) |
+| [SocialCareData/validator](https://github.com/SocialCareData/validator) | the validator that checks data against those shapes |
 
-This guide covers the LinkML → SHACL workflow that is common to **all** models.
-Each model's own `README.md` describes only what is specific to that model
-(its classes, profiles, cardinalities).
+Each module's own `README.md` covers what is specific to that module.
 
-## Module layout and the single MAIS ontology
+## Layout
 
-The models are authored as **independently-versioned modules** — one folder each
-under `src/_data/model/` — that compose into one **Social Care MAIS** ontology:
-
-- `common/` — shared building blocks (`Identifier`, `Name`, `Address`, `Contact`
-  and their vocabularies), depended on by the domain modules.
-- `person/`, `placements/`, `safeguarding/`, `assessments-and-plans/` — the
-  domain standards; each imports `common` for the shared objects.
-- `social-care/social-care.yaml` — the **umbrella** schema. It has no terms of its own; it
-  `imports` every module so the merged ontology can be generated from one file.
-  `social-care/manifest.yml` pins the module versions that make up a release.
-
-Everything lives under a **single flat namespace**,
-`https://ontology.socialcaredata.io/`, so a term keeps the same IRI whether used
-in a module or in the merged ontology. Same-named slots across modules therefore
-share one IRI — keep genuinely different fields distinctly named (e.g.
-`specialCommunicationNeeds`, `measurementValue`). A field that really is the
-same in several modules (e.g. `Timing`'s `startDateTime`) belongs in the common
-module rather than being defined in each.
-
-Cross-module imports use each module's ontology id (e.g.
-`https://ontology.socialcaredata.io/common`) and are resolved to local files by
-the single top-level `imports.json`. **Importmap paths are resolved relative to
-the importing file**, so they are written `../<module>/<file>` and generators
-are run from the module's own directory:
-
-```bash
-# a module (references common via the shared importmap)
-cd safeguarding && gen-owl --no-mergeimports -im ../imports.json safeguarding-standard.yaml
-
-# the whole merged MAIS ontology
-cd mais && gen-owl --mergeimports -im ../imports.json mais.yaml > social-care-mais.ttl
+```text
+src/_data/model/
+├── common/                 shared objects: Identifier, Name, Address, Contact
+├── person/                 domain modules, each importing common
+├── placements/
+├── safeguarding/
+├── assessments-and-plans/
+├── examples/               valid and invalid JSON-LD records, one folder per module (and profile)
+├── social-care.yaml        umbrella schema: imports every module, no terms of its own
+├── manifest.yaml           module versions that make up an ontology release
+├── context.jsonld          all module JSON-LD contexts combined
+└── imports.json            maps module IRIs to local files for the LinkML tools
 ```
 
-The `{% schema_table %}` generator finds this map by walking up from the schema's
-own directory to the repository root, so a module never needs its own copy. A
-module *may* still place an `imports.json` beside its schemas to override
-individual ids — entries nearer the schema win, and the rest of the shared map
-still applies — but `gen-owl` / `gen-shacl` see only the one map passed to `-im`,
-so keep the top-level map authoritative. An import that resolves to no file is an
-error in both tools rather than a silent skip.
+Modules are versioned independently, but every term lives in one flat namespace,
+`https://ns.socialcaredata.io/`. A slot name therefore means the same thing in
+every module: give genuinely different fields distinct names, and move fields
+that really are shared into `common`. CI checks this on every pull request.
 
-## Prerequisites
+## LinkML basics
 
-```bash
-pip install linkml   # provides gen-shacl, gen-owl, gen-json-schema, gen-doc, …
-```
+See the [LinkML documentation](https://linkml.io/linkml/) for details. In short:
 
-LinkML needs Python ≥ 3.11 with the `_lzma` stdlib module (some pyenv builds of
-3.13/3.14 ship without it — use a 3.11 interpreter if `gen-shacl` fails to
-import `_lzma`).
-
-## Anatomy of a LinkML model
-
-| Element | Purpose | Becomes (in SHACL) |
+| LinkML | Purpose | Becomes in SHACL |
 | --- | --- | --- |
-| **classes** | entities (a root class + sub-entities) | one `NodeShape` per class (`--suffix Shape` → `pl:PlacementShape`) |
-| **slots** | properties | `sh:property` blocks (`sh:minCount`/`sh:maxCount` from `required`/`multivalued`, `sh:pattern`, `sh:minInclusive`/`sh:maxInclusive` from `minimum_value`/`maximum_value`) |
+| **classes** | entities | a `NodeShape` per class |
+| **slots** | properties | `sh:property` (cardinality from `required` / `multivalued`) |
 | **enums** | controlled vocabularies | `sh:in ( … )` of concept IRIs |
-| **types** | custom datatypes | `sh:datatype` (e.g. `nonNegativeInteger` → `xsd:nonNegativeInteger`) |
-| **mixins** | a block of slots shared by several classes | the inherited `sh:property` blocks, repeated in each class's own `NodeShape` |
+| **types** | custom datatypes | `sh:datatype` |
+| **mixins** | slots shared by several classes | the inherited `sh:property` blocks |
 
-- **Object references** (e.g. `placementAvailability`, `actualPlacement`) are
-  modelled as **class-ranged slots** → `sh:class` + `sh:nodeKind sh:BlankNodeOrIRI`.
-- **URI-valued** scalars use `range: uri` → `sh:nodeKind sh:IRI` (needed when the
-  value is an `@id` node rather than a literal).
-- **Mixins** avoid repeating a shared block of slots on every class that carries
-  it (assessments-and-plans does this with `FoundationalInformation`). The
-  generators resolve them, and so does `{% schema_table %}`, which lists a class's
-  inherited slots before its own. One caveat: do **not** narrow an inherited slot
-  with `slot_usage` unless the class also declares that slot itself, or the
-  `slot_usage` block repeats `range:` — `gen-owl` otherwise derives an induced
-  slot that falls back to `default_range` and emits an `owl:allValuesFrom
-  xsd:string` axiom contradicting the slot's real range.
+A slot whose `range` is a class references another object; `range: uri` holds an IRI.
 
-### Controlled vocabularies: code, label, meaning
+### Controlled vocabularies
 
-Model an enum so each permissible value carries the three things a vocabulary
-needs — its data **code**, a human **label**, and the concept **IRI**:
+Each permissible value carries a **code** (the key, used in data), a **label**
+(`title`) and a concept **IRI** (`meaning`, which is what SHACL checks):
 
 ```yaml
 enums:
@@ -105,149 +65,103 @@ enums:
         description: Placement is needed within five days.
 ```
 
-- The **key** is the value's code (the SKOS-style *notation*). Quote it when it
-  contains spaces or is bool-like (`"No"`, `"Within 5 days"`, `"-8"`).
-- `meaning` (not the key) is what `gen-shacl` puts in `sh:in`, so renaming keys
-  never changes the generated shape.
-- The schema-table docs render these as a `Code | Label | Definition` table
-  (see `src/assets/js/schema-table/`).
+Quote keys that contain spaces or look like booleans or numbers (`"No"`, `"-8"`).
+In `context.jsonld`, map vocabulary properties with `"@type": "@vocab"` so their
+values expand to the concept IRI and can be validated.
 
-## Regenerating downstream artifacts
+### Pattern messages
 
-> **Normally you don't.** The published `.ttl` artifacts are built by
-> [`build_ontology.py`](../../assets/scripts/build_ontology.py) and synced to
-> [SocialCareData/ontology](https://github.com/SocialCareData/ontology) by the
-> `Sync ontology` workflow. Run the script rather than the raw commands, so you
-> get the same bytes CI does:
->
-> ```bash
-> pip install -r src/assets/scripts/requirements.txt
-> python src/assets/scripts/build_ontology.py --out build/ontology
-> ```
->
-> The commands below are what that script runs, for when you need to inspect a
-> single schema by hand.
+A failed `pattern` is hard to explain from the regex alone. Give the slot an
+`sh:message` annotation saying what a valid value looks like, and the validator
+shows it under the error:
 
-Run from the model's directory. Using placements as the example:
+```yaml
+prefixes:
+  sh: http://www.w3.org/ns/shacl#
+
+slots:
+  postcode:
+    pattern: "^[A-Z]{1,2}[0-9][0-9A-Z]? ?[0-9][A-Z]{2}$"
+    annotations:
+      sh:message: "Use a UK postcode in upper case, with an optional space - for example `AB1 2CD`."
+```
+
+Write a whole sentence; `` `code` `` and `**bold**` are rendered. The message
+lands on the slot's property shape, so other SHACL tools show it for any failure
+on that slot, not only the pattern. Keep `:` out of the text: LinkML reads such
+a value as a CURIE, and gen-shacl fails with "does not look like a valid URI".
+
+### Profiles
+
+When one class needs different cardinalities in different contexts, a **core**
+schema defines everything once and **profile** schemas import it and redefine the
+root class. Person does this; see [person/README.md](person/README.md).
+
+## Generating the ontology and shapes
+
+**Automatically.** On every push to `main` that changes the models, the
+`Sync ontology` workflow runs
+[`build_ontology.py`](../../assets/scripts/build_ontology.py) and opens a pull
+request on [SocialCareData/ontology](https://github.com/SocialCareData/ontology)
+with:
+
+- `<module>/<schema>.ttl` (OWL) and `<module>/<schema>-shape.ttl` (SHACL) for every schema;
+- `social-care.ttl` at the root, which `owl:imports` each module at the version
+  pinned in `manifest.yaml`;
+- `social-care-shape.ttl` at the root, with every module's shapes merged into one file.
+
+To cut a release, update the module versions and `ontology_version` in
+`manifest.yaml`. `social-care.yaml` declares no version: the build gives it
+`ontology_version`.
+
+**Manually.** Requires Python ≥ 3.11. To reproduce the published output:
 
 ```bash
-# SHACL — one shape per class
-gen-shacl --non-closed --suffix Shape -im ../imports.json placements-standard.yaml > placements-standard-shape.ttl
+pip install -r src/assets/scripts/requirements.txt
+python src/assets/scripts/build_ontology.py --out build/ontology
+```
 
-# OWL / RDF, JSON Schema, docs, Pydantic, …
+To inspect a single schema, run the generators from its module directory.
+`-im ../imports.json` resolves cross-module imports to the local files:
+
+```bash
+cd src/_data/model/placements
+gen-shacl --non-closed --suffix Shape --include-annotations -im ../imports.json placements-standard.yaml > placements-standard-shape.ttl
 gen-owl --no-mergeimports --ontology-uri-suffix '' --consolidate-cardinality-axioms --skip-vacuous-min-zero-cardinality-axioms --skip-vacuous-local-range-axioms -im ../imports.json placements-standard.yaml > placements-standard.ttl
-gen-json-schema -im ../imports.json placements-standard.yaml
-gen-doc -im ../imports.json placements-standard.yaml
 ```
 
-`--non-closed` produces open shapes and `--suffix Shape` names them
-`…Shape` — both keep the output aligned with any hand-written shapes.
-`-im ../imports.json` resolves each cross-module import (e.g.
-`https://ontology.socialcaredata.io/common`) to its local file; the path is
-`../` because the single importmap sits one level above the module directories.
-`gen-shacl` keeps `--include-imports` (the default) so the shared-object shapes
-are emitted and validate the nested objects; `gen-owl` uses `--no-mergeimports`
-so the imported module's classes are referenced via `owl:imports` rather than
-copied in.
+### What gen-shacl does not generate
 
-`--ontology-uri-suffix ''` is **not** optional. Left off, `gen-owl` appends its
-default `.owl.ttl`, so a schema declaring
-`id: https://ontology.socialcaredata.io/placements` publishes itself as
-`…/placements.owl.ttl` and is not dereferenceable at its own IRI. (The older
-artifacts under `src/assets/model/` predate this and still carry the bug.) Where
-several files share one `id` — placements keeps frozen v1 and v0.1 alongside the
-current schema — the build gives the frozen ones a version-qualified suffix
-(`--ontology-uri-suffix /1.0.0`) so no two published files claim the same
-`owl:Ontology` IRI.
+`gen-shacl` ignores class-level `rules:` and `any_of` / `all_of` / `none_of`.
+These still apply when validating with LinkML, but to enforce them in SHACL write
+the equivalent shape by hand in a `*-rules-shape.ttl` and load it alongside the
+generated shape.
 
-### The output is not byte-reproducible on its own
+## Validation
 
-Two identical `gen-owl` or `gen-shacl` runs emit **isomorphic but differently
-ordered** Turtle — rdflib's blank-node labelling varies per process, and
-`PYTHONHASHSEED` does not affect it. Published directly, that would open a large
-and meaningless pull request on every sync. `build_ontology.py` therefore
-canonicalises every file (RDFC-1.0 blank-node relabelling, then re-serialise)
-before writing it, and CI re-runs the whole build and diffs the two trees to
-keep the guarantee honest. If you compare a hand-run artifact against a
-published one, compare the graphs, not the bytes.
+The [examples](https://github.com/SocialCareData/standard/tree/main/src/_data/model/examples)
+are organised as `examples/<module>[/<profile>]/`. `valid-*.jsonld` must conform
+and `invalid-*.jsonld` must not, and each folder's `expectations.json` pins the
+violations every invalid record must produce. CI checks them on every pull
+request, against shapes built from that commit's schemas:
 
-## What `gen-shacl` does NOT generate
-
-`gen-shacl` (verified with LinkML 1.11.1) **ignores conditional logic**:
-
-- class-level `rules:` (if/then `preconditions`/`postconditions`), and
-- class-level boolean expressions (`none_of` / `any_of` / `all_of`).
-
-These remain the semantic source of truth (honoured by `linkml-validate` and the
-Python/Pydantic artifacts), but they produce **no** SHACL. To enforce such a
-constraint in SHACL, hand-maintain the equivalent shape in a separate
-`*-rules-shape.ttl` and load it *alongside* the generated shape — the validator
-accepts a list of shape files per profile (see below).
-
-Placements does this for its four "Other ⇒ free-text required" rules in
-[`placements/placements-base-rules-shape.ttl`](placements/placements-base-rules-shape.ttl),
-e.g.:
-
-```turtle
-pl:CulturalNeedsOtherCheckShape a sh:NodeShape ;
-    sh:targetClass pl:PlacementRequirements ;
-    sh:not [
-        sh:property [ sh:path pl:culturalNeeds ; sh:hasValue cln:Other ] ;
-        sh:property [ sh:path pl:culturalNeedsOther ; sh:maxCount 0 ]
-    ] .
+```bash
+pip install -r src/assets/scripts/requirements.txt
+python src/assets/scripts/validate_examples.py            # check
+python src/assets/scripts/validate_examples.py --update   # rewrite expectations.json, then review the diff
 ```
 
-Keep the rules-shape in sync with the schema's `rules:` blocks by hand.
-
-> **`@type: @vocab` in `context.jsonld`.** For a controlled-vocabulary property
-> to be validated at all, its JSON-LD context entry must serialise the value to
-> the concept IRI. Use `"@type": "@vocab"` (with the enum's `@vocab` base), not
-> `"@type": "@id"` — the latter drops the value entirely.
-
-## One model, several shapes (profiles)
-
-When cardinalities differ by context (e.g. the same class is stricter in one
-scenario than another), split the model into a **shared core** plus **profile**
-schemas that `import` it and redefine the root class:
-
-- the core defines the sub-entities, slots and vocabularies once;
-- each profile fully redefines the root class with its own cardinalities
-  (LinkML *replaces* an imported class rather than merging it, so list all its
-  slots);
-- generate SHACL from **each profile file separately** — every profile emits its
-  own root-class shape plus the identical shared sub-entity shapes.
-
-The Person model uses this (`person-standard.yaml` core +
-`person-subject-of-care.yaml` / `person-connected.yaml`); see
-[`person/README.md`](person/README.md). The profiles import the core by its
-ontology id (`https://ontology.socialcaredata.io/person`), resolved through the
-same top-level `imports.json` as every other cross-module import.
-
-## Validating the examples
-
-The JSON-LD examples live in `examples/` of
-[SocialCareData/ontology](https://github.com/SocialCareData/ontology), beside the
-shapes they exercise; the sync from this repository leaves that folder alone.
-The validator that checks them lives in
-[SocialCareData/validator](https://github.com/SocialCareData/validator). This
-repository keeps the LinkML schemas the shapes are generated from.
+To validate your own data, use the
+[validator](https://github.com/SocialCareData/validator):
 
 ```bash
 npx @socialcaredata/validator -p placements yourdata.jsonld
-npx @socialcaredata/validator profiles          # what it can check against
+npx @socialcaredata/validator profiles   # list the available profiles
 ```
 
-There is also a browser version at <https://socialcaredata.github.io/validator/>.
-
-The validator fetches shapes and contexts by URL from
-[SocialCareData/ontology](https://github.com/SocialCareData/ontology) rather than
-bundling copies, so it always checks against the published artifacts. Files named
-`valid-*.jsonld` must conform and `invalid-*.jsonld` must not; that suite runs in
-the validator's own CI, on every change and nightly against the latest shapes.
-
-A profile may load **several** shape files (the generated shape plus any
-hand-maintained `*-rules-shape.ttl`); they are merged before validation. The
-rules shapes are published to the ontology repository by `copy_aux` in
-`build_ontology.py` precisely so the validator can fetch them. To add a standard
-or profile, see the validator's
+Or use the browser version at <https://socialcaredata.github.io/validator/>.
+The validator fetches shapes and contexts from
+[SocialCareData/ontology](https://github.com/SocialCareData/ontology), so it always
+checks against the published artifacts, and offers the `valid-*` examples from
+this repository. To add a standard or profile, see the validator's
 [contributing guide](https://github.com/SocialCareData/validator/blob/main/docs/contributing.md).

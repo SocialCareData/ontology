@@ -1,21 +1,21 @@
 @prefix dct: <http://purl.org/dc/terms/> .
-@prefix eo: <https://ontology.socialcaredata.io/episode-outcome#> .
-@prefix epc: <https://ontology.socialcaredata.io/episode-code#> .
-@prefix evc: <https://ontology.socialcaredata.io/event-code#> .
+@prefix eo: <https://ns.socialcaredata.io/episode-outcome#> .
+@prefix epc: <https://ns.socialcaredata.io/episode-code#> .
+@prefix evc: <https://ns.socialcaredata.io/event-code#> .
 @prefix linkml: <https://w3id.org/linkml/> .
-@prefix mt: <https://ontology.socialcaredata.io/measurement-type#> .
-@prefix mu: <https://ontology.socialcaredata.io/measurement-unit#> .
-@prefix oc: <https://ontology.socialcaredata.io/organisation-code#> .
-@prefix ot: <https://ontology.socialcaredata.io/observation-type#> .
+@prefix mt: <https://ns.socialcaredata.io/measurement-type#> .
+@prefix mu: <https://ns.socialcaredata.io/measurement-unit#> .
+@prefix oc: <https://ns.socialcaredata.io/organisation-code#> .
+@prefix ot: <https://ns.socialcaredata.io/observation-type#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix pav: <http://purl.org/pav/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix scf: <https://ontology.socialcaredata.io/service-cost-frequency#> .
-@prefix sd: <https://ontology.socialcaredata.io/service-delivery#> .
-@prefix sg: <https://ontology.socialcaredata.io/> .
+@prefix scf: <https://ns.socialcaredata.io/service-cost-frequency#> .
+@prefix sd: <https://ns.socialcaredata.io/service-delivery#> .
+@prefix sg: <https://ns.socialcaredata.io/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
-@prefix svc: <https://ontology.socialcaredata.io/service-code#> .
+@prefix svc: <https://ns.socialcaredata.io/service-code#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 sg:alias a owl:DatatypeProperty ;
@@ -86,13 +86,13 @@ sg:LifeEvent a owl:Class ;
     rdfs:label "LifeEvent" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:minCardinality 1 ;
+            owl:onProperty sg:subjectPerson ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
             owl:onProperty sg:eventType ],
         [ a owl:Restriction ;
             owl:minCardinality 1 ;
-            owl:onProperty sg:sgIdentifier ],
-        [ a owl:Restriction ;
-            owl:minCardinality 1 ;
-            owl:onProperty sg:subjectPerson ] ;
+            owl:onProperty sg:sgIdentifier ] ;
     skos:definition "A significant, time-bound occurrence in an individual's life that may have implications for their safety, wellbeing or development - for example attendance at A&E, a child being reported as missing, or an exclusion from school. Life events are not inherently positive or negative but can signal levels of risk, vulnerability or changing need." ;
     skos:exactMatch sg:LifeEvent ;
     skos:inScheme sg:safeguarding .
@@ -107,16 +107,16 @@ sg:Organisation a owl:Class ;
             owl:onProperty sg:active ],
         [ a owl:Restriction ;
             owl:minCardinality 1 ;
-            owl:onProperty sg:relatedServiceRef ],
+            owl:onProperty sg:contactMulti ],
         [ a owl:Restriction ;
             owl:minCardinality 1 ;
             owl:onProperty sg:sgIdentifier ],
         [ a owl:Restriction ;
-            owl:cardinality 1 ;
-            owl:onProperty sg:entityName ],
-        [ a owl:Restriction ;
             owl:minCardinality 1 ;
-            owl:onProperty sg:contactMulti ] ;
+            owl:onProperty sg:relatedServiceRef ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty sg:entityName ] ;
     skos:definition "An organisation involved in the safeguarding or wellbeing of a person - for example a local authority, an NHS trust, a school, or an education authority. Aligns with the FHIR Organization resource." ;
     skos:exactMatch sg:Organisation ;
     skos:inScheme sg:safeguarding .
@@ -124,6 +124,9 @@ sg:Organisation a owl:Class ;
 sg:Professional a owl:Class ;
     rdfs:label "Professional" ;
     rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty sg:workingStatus ],
+        [ a owl:Restriction ;
             owl:cardinality 1 ;
             owl:onProperty sg:contactSingle ],
         [ a owl:Restriction ;
@@ -132,9 +135,6 @@ sg:Professional a owl:Class ;
         [ a owl:Restriction ;
             owl:minCardinality 1 ;
             owl:onProperty sg:sgIdentifier ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty sg:workingStatus ],
         [ a owl:Restriction ;
             owl:cardinality 1 ;
             owl:onProperty sg:professionalName ] ;
@@ -145,23 +145,23 @@ sg:Professional a owl:Class ;
 sg:Service a owl:Class ;
     rdfs:label "Service" ;
     rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty sg:serviceType ],
+        [ a owl:Restriction ;
             owl:maxCardinality 1 ;
             owl:onProperty sg:active ],
         [ a owl:Restriction ;
-            owl:cardinality 1 ;
-            owl:onProperty sg:costFrequency ],
+            owl:minCardinality 1 ;
+            owl:onProperty sg:contactMulti ],
         [ a owl:Restriction ;
             owl:minCardinality 1 ;
             owl:onProperty sg:sgIdentifier ],
         [ a owl:Restriction ;
             owl:cardinality 1 ;
-            owl:onProperty sg:entityName ],
+            owl:onProperty sg:costFrequency ],
         [ a owl:Restriction ;
-            owl:minCardinality 1 ;
-            owl:onProperty sg:serviceType ],
-        [ a owl:Restriction ;
-            owl:minCardinality 1 ;
-            owl:onProperty sg:contactMulti ] ;
+            owl:cardinality 1 ;
+            owl:onProperty sg:entityName ] ;
     skos:definition "A service involved in the safeguarding or wellbeing of a person - the specific intervention or package of support delivered by one or more organisations (e.g. local authority social care, an emergency department, a general practice, or a school)." ;
     skos:exactMatch sg:Service ;
     skos:inScheme sg:safeguarding .
@@ -169,17 +169,11 @@ sg:Service a owl:Class ;
 sg:ServiceEpisode a owl:Class ;
     rdfs:label "ServiceEpisode" ;
     rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty sg:subjectPerson ],
+        [ a owl:Restriction ;
             owl:maxCardinality 1 ;
             owl:onProperty sg:episodeOutcome ],
-        [ a owl:Restriction ;
-            owl:minCardinality 1 ;
-            owl:onProperty sg:relatedServiceRef ],
-        [ a owl:Restriction ;
-            owl:minCardinality 1 ;
-            owl:onProperty sg:episodeType ],
-        [ a owl:Restriction ;
-            owl:minCardinality 1 ;
-            owl:onProperty sg:sgIdentifier ],
         [ a owl:Restriction ;
             owl:minCardinality 1 ;
             owl:onProperty sg:location ],
@@ -188,7 +182,13 @@ sg:ServiceEpisode a owl:Class ;
             owl:onProperty sg:timeInformation ],
         [ a owl:Restriction ;
             owl:minCardinality 1 ;
-            owl:onProperty sg:subjectPerson ] ;
+            owl:onProperty sg:sgIdentifier ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty sg:relatedServiceRef ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty sg:episodeType ] ;
     skos:definition "A bounded period during which an individual receives a defined service, intervention, or package of support from a service or professional. It has a recognisable start and end point, though duration may vary from a single contact to sustained involvement over time." ;
     skos:exactMatch sg:ServiceEpisode ;
     skos:inScheme sg:safeguarding .
@@ -367,10 +367,10 @@ sg:RelatedProfessional a owl:Class ;
     rdfs:label "RelatedProfessional" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:cardinality 1 ;
-            owl:onProperty sg:professional ],
+            owl:onProperty sg:involvement ],
         [ a owl:Restriction ;
             owl:cardinality 1 ;
-            owl:onProperty sg:involvement ] ;
+            owl:onProperty sg:professional ] ;
     skos:definition "A typed reference to a Professional involved in a service episode or life event." ;
     skos:exactMatch sg:RelatedProfessional ;
     skos:inScheme sg:safeguarding .
@@ -379,10 +379,10 @@ sg:SubjectPerson a owl:Class ;
     rdfs:label "SubjectPerson" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:cardinality 1 ;
-            owl:onProperty sg:person ],
+            owl:onProperty sg:involvement ],
         [ a owl:Restriction ;
             owl:cardinality 1 ;
-            owl:onProperty sg:involvement ] ;
+            owl:onProperty sg:person ] ;
     skos:definition "A typed reference to a Person involved in a service episode or life event." ;
     skos:exactMatch sg:SubjectPerson ;
     skos:inScheme sg:safeguarding .

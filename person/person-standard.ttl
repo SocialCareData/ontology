@@ -1,14 +1,15 @@
 @prefix dct: <http://purl.org/dc/terms/> .
-@prefix ec: <https://ontology.socialcaredata.io/ethnicity-code#> .
-@prefix gc: <https://ontology.socialcaredata.io/gender-code#> .
+@prefix ec: <https://ns.socialcaredata.io/ethnicity-code#> .
+@prefix gc: <https://ns.socialcaredata.io/gender-code#> .
 @prefix linkml: <https://w3id.org/linkml/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix p: <https://ontology.socialcaredata.io/> .
+@prefix p: <https://ns.socialcaredata.io/> .
 @prefix pav: <http://purl.org/pav/> .
-@prefix prc: <https://ontology.socialcaredata.io/person-relationship-code#> .
-@prefix psc: <https://ontology.socialcaredata.io/phenotypic-sex-code#> .
+@prefix prc: <https://ns.socialcaredata.io/person-relationship-code#> .
+@prefix psc: <https://ns.socialcaredata.io/phenotypic-sex-code#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
@@ -61,25 +62,25 @@ p:Person a owl:Class ;
             owl:onProperty p:genderCode ],
         [ a owl:Restriction ;
             owl:maxCardinality 1 ;
-            owl:onProperty p:deceasedDate ],
-        [ a owl:Restriction ;
-            owl:cardinality 1 ;
-            owl:onProperty p:name ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
             owl:onProperty p:isDeceased ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty p:ethnicityCode ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty p:sexCode ],
         [ a owl:Restriction ;
             owl:maxCardinality 1 ;
             owl:onProperty p:aboutMe ],
         [ a owl:Restriction ;
             owl:maxCardinality 1 ;
-            owl:onProperty p:dateOfBirth ] ;
+            owl:onProperty p:deceasedDate ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty p:dateOfBirth ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty p:sexCode ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty p:ethnicityCode ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty p:name ] ;
     skos:definition "The top-level record describing an individual. Consolidates the core identity attributes required to distinguish one person from another and to record relationships between individuals. This is the canonical base Person; the two conformance profiles tighten the cardinalities below." ;
     skos:exactMatch p:Person ;
     skos:inScheme p:person .
@@ -193,10 +194,10 @@ p:PersonRelationship a owl:Class ;
     rdfs:label "PersonRelationship" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:minCardinality 1 ;
-            owl:onProperty p:identifier ],
+            owl:onProperty p:relationship ],
         [ a owl:Restriction ;
             owl:minCardinality 1 ;
-            owl:onProperty p:relationship ] ;
+            owl:onProperty p:identifier ] ;
     skos:definition "A typed reference from one person to another. The reference is by Identifier (so the related person may live in a different system) and is qualified by one or more relationship codes." ;
     skos:exactMatch p:PersonRelationship ;
     skos:inScheme p:person .
@@ -208,7 +209,8 @@ p:accuracyIndicator a owl:DatatypeProperty ;
                         owl:onDatatype xsd:string ;
                         owl:withRestrictions ( [ xsd:pattern "^[AEU]{3}$" ] ) ] ) ] ;
     skos:definition "A three-character code in day-month-year order indicating which parts of the date are accurate (A), estimated (E), or unknown (U)." ;
-    skos:inScheme p:person .
+    skos:inScheme p:person ;
+    sh:message "Use three letters, each one A, E or U - for example `AEU`." .
 
 ec:AsianBangladeshi a owl:Class ;
     rdfs:label "1" ;
@@ -1003,9 +1005,6 @@ psc:NotKnown a owl:Class ;
 p:PartialDate a owl:Class ;
     rdfs:label "PartialDate" ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:cardinality 1 ;
-            owl:onProperty p:date ],
-        [ a owl:Restriction ;
             owl:allValuesFrom [ a rdfs:Datatype ;
                     owl:intersectionOf ( xsd:string [ a rdfs:Datatype ;
                                 owl:onDatatype xsd:string ;
@@ -1013,7 +1012,10 @@ p:PartialDate a owl:Class ;
             owl:onProperty p:accuracyIndicator ],
         [ a owl:Restriction ;
             owl:maxCardinality 1 ;
-            owl:onProperty p:accuracyIndicator ] ;
+            owl:onProperty p:accuracyIndicator ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty p:date ] ;
     skos:definition "Container for a date that may not be fully known or precise, extended with an accuracy indicator. Used for dates of birth and dates of death." ;
     skos:exactMatch p:PartialDate ;
     skos:inScheme p:person .

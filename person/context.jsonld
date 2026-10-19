@@ -1,13 +1,13 @@
 {
   "@context": {
-    "p":   "https://ontology.socialcaredata.io/",
-    "nuc": "https://ontology.socialcaredata.io/name-use-code#",
-    "auc": "https://ontology.socialcaredata.io/address-use-code#",
-    "gc":  "https://ontology.socialcaredata.io/gender-code#",
-    "psc": "https://ontology.socialcaredata.io/phenotypic-sex-code#",
-    "ec":  "https://ontology.socialcaredata.io/ethnicity-code#",
-    "dai": "https://ontology.socialcaredata.io/date-accuracy-indicator#",
-    "prc": "https://ontology.socialcaredata.io/person-relationship-code#",
+    "p":   "https://ns.socialcaredata.io/",
+    "nuc": "https://ns.socialcaredata.io/name-use-code#",
+    "auc": "https://ns.socialcaredata.io/address-use-code#",
+    "gc":  "https://ns.socialcaredata.io/gender-code#",
+    "psc": "https://ns.socialcaredata.io/phenotypic-sex-code#",
+    "ec":  "https://ns.socialcaredata.io/ethnicity-code#",
+    "dai": "https://ns.socialcaredata.io/date-accuracy-indicator#",
+    "prc": "https://ns.socialcaredata.io/person-relationship-code#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "ex":  "https://example.org/person/",
 
@@ -20,7 +20,7 @@
           "@id": "p:use",
           "@type": "@vocab",
           "@context": {
-            "@vocab": "https://ontology.socialcaredata.io/name-use-code#",
+            "@vocab": "https://ns.socialcaredata.io/name-use-code#",
             "usual":     "nuc:Usual",
             "official":  "nuc:Official",
             "temp":      "nuc:Temp",
@@ -39,7 +39,7 @@
           "@id": "p:use",
           "@type": "@vocab",
           "@context": {
-            "@vocab": "https://ontology.socialcaredata.io/address-use-code#",
+            "@vocab": "https://ns.socialcaredata.io/address-use-code#",
             "home":    "auc:Home",
             "work":    "auc:Work",
             "temp":    "auc:Temp",
@@ -98,7 +98,7 @@
       "@id": "p:relationship",
       "@type": "@vocab",
       "@container": "@set",
-      "@context": { "@vocab": "https://ontology.socialcaredata.io/person-relationship-code#" }
+      "@context": { "@vocab": "https://ns.socialcaredata.io/person-relationship-code#" }
     },
 
     "date":              { "@id": "p:date", "@type": "xsd:date" },
@@ -108,7 +108,7 @@
       "@id": "p:genderCode",
       "@type": "@vocab",
       "@context": {
-        "@vocab": "https://ontology.socialcaredata.io/gender-code#",
+        "@vocab": "https://ns.socialcaredata.io/gender-code#",
         "1": "gc:Male",
         "2": "gc:Female",
         "9": "gc:Indeterminate",
@@ -119,7 +119,7 @@
       "@id": "p:sexCode",
       "@type": "@vocab",
       "@context": {
-        "@vocab": "https://ontology.socialcaredata.io/phenotypic-sex-code#",
+        "@vocab": "https://ns.socialcaredata.io/phenotypic-sex-code#",
         "1": "psc:Male",
         "2": "psc:Female",
         "9": "psc:Indeterminate",
@@ -130,7 +130,7 @@
       "@id": "p:ethnicityCode",
       "@type": "@vocab",
       "@context": {
-        "@vocab": "https://ontology.socialcaredata.io/ethnicity-code#",
+        "@vocab": "https://ns.socialcaredata.io/ethnicity-code#",
         "1":  "ec:AsianBangladeshi",
         "2":  "ec:AsianChinese",
         "3":  "ec:AsianIndian",

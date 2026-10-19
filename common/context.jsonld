@@ -1,9 +1,9 @@
 {
   "@context": {
-    "sc":  "https://ontology.socialcaredata.io/",
-    "nuc": "https://ontology.socialcaredata.io/name-use-code#",
-    "auc": "https://ontology.socialcaredata.io/address-use-code#",
-    "at":  "https://ontology.socialcaredata.io/answer-type#",
+    "sc":  "https://ns.socialcaredata.io/",
+    "nuc": "https://ns.socialcaredata.io/name-use-code#",
+    "auc": "https://ns.socialcaredata.io/address-use-code#",
+    "at":  "https://ns.socialcaredata.io/answer-type#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
 
     "Identifier": "sc:Identifier",
@@ -16,7 +16,7 @@
           "@id": "sc:use",
           "@type": "@vocab",
           "@context": {
-            "@vocab": "https://ontology.socialcaredata.io/name-use-code#",
+            "@vocab": "https://ns.socialcaredata.io/name-use-code#",
             "usual":     "nuc:Usual",
             "official":  "nuc:Official",
             "temp":      "nuc:Temp",
@@ -35,7 +35,7 @@
           "@id": "sc:use",
           "@type": "@vocab",
           "@context": {
-            "@vocab": "https://ontology.socialcaredata.io/address-use-code#",
+            "@vocab": "https://ns.socialcaredata.io/address-use-code#",
             "home":    "auc:Home",
             "work":    "auc:Work",
             "temp":    "auc:Temp",
@@ -78,7 +78,7 @@
       "@id": "sc:answerType",
       "@type": "@vocab",
       "@context": {
-        "@vocab": "https://ontology.socialcaredata.io/answer-type#",
+        "@vocab": "https://ns.socialcaredata.io/answer-type#",
         "String":  "at:String",
         "Boolean": "at:Boolean",
         "Date":    "at:Date",

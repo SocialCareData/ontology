@@ -1,14 +1,14 @@
 {
   "@context": {
-    "ap":   "https://ontology.socialcaredata.io/",
-    "apc":  "https://ontology.socialcaredata.io/care-outcome-type#",
-    "act":  "https://ontology.socialcaredata.io/care-actor-type#",
-    "at":   "https://ontology.socialcaredata.io/answer-type#",
-    "qc":   "https://ontology.socialcaredata.io/question-category#",
-    "cds":  "https://ontology.socialcaredata.io/care-document-status#",
+    "ap":   "https://ns.socialcaredata.io/",
+    "apc":  "https://ns.socialcaredata.io/care-outcome-type#",
+    "act":  "https://ns.socialcaredata.io/care-actor-type#",
+    "at":   "https://ns.socialcaredata.io/answer-type#",
+    "qc":   "https://ns.socialcaredata.io/question-category#",
+    "cds":  "https://ns.socialcaredata.io/care-document-status#",
     "xsd":  "http://www.w3.org/2001/XMLSchema#",
     "ex":   "https://example.org/assessments-and-plans/",
-    "p": "https://ontology.socialcaredata.io/",
+    "p": "https://ns.socialcaredata.io/",
 
     "CareNeedsAssessment":       "ap:CareNeedsAssessment",
     "CarePlan":                  "ap:CarePlan",
@@ -64,7 +64,7 @@
       "@id": "ap:status",
       "@type": "@vocab",
       "@context": {
-        "@vocab": "https://ontology.socialcaredata.io/care-document-status#",
+        "@vocab": "https://ns.socialcaredata.io/care-document-status#",
         "draft":            "cds:draft",
         "active":           "cds:active",
         "on-hold":          "cds:on-hold",
@@ -80,7 +80,7 @@
       "@id": "ap:category",
       "@type": "@vocab",
       "@context": {
-        "@vocab": "https://ontology.socialcaredata.io/question-category#",
+        "@vocab": "https://ns.socialcaredata.io/question-category#",
         "PersonalContext":             "qc:PersonalContext",
         "Health":                      "qc:Health",
         "Housing":                     "qc:Housing",
@@ -106,7 +106,7 @@
       "@id": "ap:answerType",
       "@type": "@vocab",
       "@context": {
-        "@vocab": "https://ontology.socialcaredata.io/answer-type#",
+        "@vocab": "https://ns.socialcaredata.io/answer-type#",
         "String":  "at:String",
         "Boolean": "at:Boolean",
         "Date":    "at:Date",
@@ -119,7 +119,7 @@
       "@id": "ap:actorType",
       "@type": "@vocab",
       "@context": {
-        "@vocab": "https://ontology.socialcaredata.io/care-actor-type#",
+        "@vocab": "https://ns.socialcaredata.io/care-actor-type#",
         "Self":                  "act:Self",
         "Family":                "act:Family",
         "Friend":                "act:Friend",
@@ -133,7 +133,7 @@
       "@id": "ap:outcome",
       "@type": "@vocab",
       "@context": {
-        "@vocab": "https://ontology.socialcaredata.io/care-outcome-type#",
+        "@vocab": "https://ns.socialcaredata.io/care-outcome-type#",
         "CA-NUTRITION":     "apc:CANutrition",
         "CA-HYGIENE":       "apc:CAHygiene",
         "CA-TOILET":        "apc:CAToilet",

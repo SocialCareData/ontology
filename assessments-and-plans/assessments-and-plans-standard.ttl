@@ -1,18 +1,18 @@
-@prefix act: <https://ontology.socialcaredata.io/care-actor-type#> .
-@prefix ap: <https://ontology.socialcaredata.io/> .
-@prefix apc: <https://ontology.socialcaredata.io/care-outcome-type#> .
-@prefix cds: <https://ontology.socialcaredata.io/care-document-status#> .
+@prefix act: <https://ns.socialcaredata.io/care-actor-type#> .
+@prefix ap: <https://ns.socialcaredata.io/> .
+@prefix apc: <https://ns.socialcaredata.io/care-outcome-type#> .
+@prefix cds: <https://ns.socialcaredata.io/care-document-status#> .
 @prefix dct: <http://purl.org/dc/terms/> .
-@prefix es: <https://ontology.socialcaredata.io/eligibility-status#> .
-@prefix fs: <https://ontology.socialcaredata.io/funding-status#> .
+@prefix es: <https://ns.socialcaredata.io/eligibility-status#> .
+@prefix fs: <https://ns.socialcaredata.io/funding-status#> .
 @prefix linkml: <https://w3id.org/linkml/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix pav: <http://purl.org/pav/> .
-@prefix qc: <https://ontology.socialcaredata.io/question-category#> .
+@prefix qc: <https://ns.socialcaredata.io/question-category#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
-@prefix sq: <https://ontology.socialcaredata.io/statutory-question-id#> .
+@prefix sq: <https://ns.socialcaredata.io/statutory-question-id#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ap:previousId a owl:ObjectProperty ;
@@ -30,14 +30,14 @@ ap:serviceEpisodeId a owl:ObjectProperty ;
 ap:CareNeedsAssessment a owl:Class ;
     rdfs:label "CareNeedsAssessment" ;
     rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty ap:assessmentQuestion ],
+        [ a owl:Restriction ;
             owl:cardinality 1 ;
             owl:onProperty ap:status ],
         [ a owl:Restriction ;
             owl:maxCardinality 1 ;
             owl:onProperty ap:planId ],
-        [ a owl:Restriction ;
-            owl:minCardinality 1 ;
-            owl:onProperty ap:assessmentQuestion ],
         ap:FoundationalInformation ;
     skos:definition "A Care Needs Assessment record, completed when an adult contacts or is referred to a local authority's social services team." ;
     skos:exactMatch ap:CareNeedsAssessment ;
@@ -46,14 +46,14 @@ ap:CareNeedsAssessment a owl:Class ;
 ap:CarePlan a owl:Class ;
     rdfs:label "CarePlan" ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:cardinality 1 ;
-            owl:onProperty ap:status ],
-        [ a owl:Restriction ;
             owl:minCardinality 1 ;
             owl:onProperty ap:careComponent ],
         [ a owl:Restriction ;
             owl:cardinality 1 ;
             owl:onProperty ap:assessmentId ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ap:status ],
         ap:FoundationalInformation ;
     skos:definition "A Care Plan record, created immediately after an assessment if the person is found to be eligible." ;
     skos:exactMatch ap:CarePlan ;
@@ -205,10 +205,10 @@ ap:CareActor a owl:Class ;
     rdfs:label "CareActor" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:cardinality 1 ;
-            owl:onProperty ap:actorId ],
+            owl:onProperty ap:actorType ],
         [ a owl:Restriction ;
             owl:cardinality 1 ;
-            owl:onProperty ap:actorType ] ;
+            owl:onProperty ap:actorId ] ;
     skos:definition "The actor performing a care component." ;
     skos:exactMatch ap:CareActor ;
     skos:inScheme ap:assessments-and-plans .
@@ -610,28 +610,28 @@ ap:FoundationalInformation a owl:Class ;
     rdfs:label "FoundationalInformation" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:cardinality 1 ;
-            owl:onProperty ap:consentToInformationSharing ],
-        [ a owl:Restriction ;
-            owl:cardinality 1 ;
             owl:onProperty ap:professionalId ],
-        [ a owl:Restriction ;
-            owl:minCardinality 1 ;
-            owl:onProperty ap:review ],
-        [ a owl:Restriction ;
-            owl:cardinality 1 ;
-            owl:onProperty ap:apIdentifier ],
-        [ a owl:Restriction ;
-            owl:cardinality 1 ;
-            owl:onProperty ap:dateCompleted ],
         [ a owl:Restriction ;
             owl:cardinality 1 ;
             owl:onProperty ap:personId ],
         [ a owl:Restriction ;
             owl:cardinality 1 ;
-            owl:onProperty ap:capacityToCompleteAssessment ],
+            owl:onProperty ap:apIdentifier ],
         [ a owl:Restriction ;
             owl:cardinality 1 ;
-            owl:onProperty ap:advocateRequired ] ;
+            owl:onProperty ap:consentToInformationSharing ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ap:capacityToCompleteAssessment ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty ap:review ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ap:advocateRequired ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ap:dateCompleted ] ;
     skos:definition "Information that is relevant across both assessments and plans." ;
     skos:exactMatch ap:FoundationalInformation ;
     skos:inScheme ap:assessments-and-plans .

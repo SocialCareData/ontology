@@ -14,11 +14,11 @@ JSON Schema and docs are generated from the YAML.
 | File | Role |
 | --- | --- |
 | `safeguarding-standard.yaml` | **Authoritative source.** Prefixes, the five top-level classes (`Organisation`, `Service`, `Professional`, `ServiceEpisode`, `LifeEvent`), the linking/supporting objects (`SubjectPerson`, `RelatedProfessional`, `Finding`, `Observation`, `Measurement`), every slot, and the controlled vocabularies (enums). The shared objects (`Identifier`, `Name`, `Address`, `Contact`, `Timing`) are **imported** from the common module (see below). |
-| `../imports.json` | Top-level importmap shared by all modules: maps each module id (e.g. `https://ontology.socialcaredata.io/common`) to its local `*.yaml` file, so imports can be written as clean IRIs. |
+| `../imports.json` | Top-level importmap shared by all modules: maps each module id (e.g. `https://ns.socialcaredata.io/common`) to its local `*.yaml` file, so imports can be written as clean IRIs. |
 | `safeguarding-standard-shape.ttl` | *Generated* SHACL — one `NodeShape` per class, including the imported `p:Identifier` / `p:Name` / `p:Address` / `p:Contact` shapes. |
 | `safeguarding-standard.ttl` | *Generated* OWL/RDF ontology. Declares `owl:imports` of the common module and references the shared-object IRIs (`Identifier` …) rather than redefining them. |
 | `context.jsonld` | JSON-LD context used by the examples. Maps friendly keys to the flat ontology predicates (including the shared objects' fields), and each coded value to its concept IRI. |
-| `examples/` | JSON-LD examples. `valid-*.jsonld` must conform; `invalid-*.jsonld` must not. |
+| [`../examples/safeguarding/`](https://github.com/SocialCareData/standard/tree/main/src/_data/model/examples/safeguarding) | JSON-LD examples. `valid-*.jsonld` must conform; `invalid-*.jsonld` must not. |
 
 ## Model shape
 
@@ -83,11 +83,12 @@ Person classes are referenced via `owl:imports` rather than copied in.
 
 ## Validating the examples
 
-The examples live in `examples/` of
-[SocialCareData/ontology](https://github.com/SocialCareData/ontology), beside the
-shapes below, and the validator in
-[SocialCareData/validator](https://github.com/SocialCareData/validator), which
-fetches both from there.
+The examples live in
+[`src/_data/model/examples/safeguarding/`](https://github.com/SocialCareData/standard/tree/main/src/_data/model/examples/safeguarding)
+of SocialCareData/standard and are checked by `validate_examples.py` (see
+[`../model-management.md`](../model-management.md)). The validator in
+[SocialCareData/validator](https://github.com/SocialCareData/validator) fetches
+the published shapes from SocialCareData/ontology.
 
 ```bash
 npx @socialcaredata/validator -p safeguarding yourdata.jsonld

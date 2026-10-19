@@ -1,11 +1,11 @@
 # Social Care MAIS release manifest
 #
-# Pins the module versions that compose a given MAIS ontology release. Each
-# module is versioned independently by its owning team; a MAIS release is cut by
+# Pins the module versions that compose a given Social Care ontology release. Each
+# module is versioned independently by its owning team; a Social Care ontology release is cut by
 # recording a compatible set of module versions here and tagging. The release
 # project consumes this file to generate and publish the merged ontology.
-mais_version: 2026.1.0
-namespace: https://ontology.socialcaredata.io/
+ontology_version: v2026-10-19
+namespace: https://ns.socialcaredata.io/
 modules:
   common: 1.0.0
   person: 1.0.0
