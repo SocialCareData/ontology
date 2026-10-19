@@ -1,10 +1,10 @@
-@prefix at: <https://ontology.socialcaredata.io/answer-type#> .
-@prefix auc: <https://ontology.socialcaredata.io/address-use-code#> .
+@prefix at: <https://ns.socialcaredata.io/answer-type#> .
+@prefix auc: <https://ns.socialcaredata.io/address-use-code#> .
 @prefix linkml: <https://w3id.org/linkml/> .
-@prefix nuc: <https://ontology.socialcaredata.io/name-use-code#> .
+@prefix nuc: <https://ns.socialcaredata.io/name-use-code#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix sc: <https://ontology.socialcaredata.io/> .
+@prefix sc: <https://ns.socialcaredata.io/> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
@@ -53,6 +53,7 @@ sc:AddressShape a sh:NodeShape ;
         [ sh:datatype xsd:string ;
             sh:description "UK postcode in standard format (e.g. AB1 2CD)." ;
             sh:maxCount 1 ;
+            sh:message "Use a UK postcode in upper case, with an optional space - for example `AB1 2CD`."^^xsd:string ;
             sh:minCount 1 ;
             sh:nodeKind sh:Literal ;
             sh:order 3 ;
@@ -91,18 +92,18 @@ sc:AssessmentQuestionShape a sh:NodeShape ;
             sh:order 4 ;
             sh:path sc:answerType ],
         [ sh:datatype xsd:string ;
+            sh:description "The answer to the question." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 3 ;
+            sh:path sc:answer ],
+        [ sh:datatype xsd:string ;
             sh:description "The domain/category of the question." ;
             sh:maxCount 1 ;
             sh:minCount 1 ;
             sh:nodeKind sh:Literal ;
             sh:order 1 ;
-            sh:path sc:category ],
-        [ sh:datatype xsd:string ;
-            sh:description "The answer to the question." ;
-            sh:minCount 1 ;
-            sh:nodeKind sh:Literal ;
-            sh:order 3 ;
-            sh:path sc:answer ] ;
+            sh:path sc:category ] ;
     sh:targetClass sc:AssessmentQuestion .
 
 sc:ContactShape a sh:NodeShape ;
@@ -115,17 +116,17 @@ sc:ContactShape a sh:NodeShape ;
             sh:order 2 ;
             sh:path sc:telephone ],
         [ sh:datatype xsd:string ;
-            sh:description "One or more email addresses." ;
-            sh:nodeKind sh:Literal ;
-            sh:order 1 ;
-            sh:path sc:email ],
-        [ sh:datatype xsd:string ;
             sh:description "Name of the contact type (for example, \"Home\", \"Work\", \"Other\")." ;
             sh:maxCount 1 ;
             sh:name "name" ;
             sh:nodeKind sh:Literal ;
             sh:order 0 ;
-            sh:path sc:contactName ] ;
+            sh:path sc:contactName ],
+        [ sh:datatype xsd:string ;
+            sh:description "One or more email addresses." ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sc:email ] ;
     sh:targetClass sc:Contact .
 
 sc:IdentifierShape a sh:NodeShape ;
@@ -164,17 +165,17 @@ sc:NameShape a sh:NodeShape ;
             sh:order 3 ;
             sh:path sc:use ],
         [ sh:datatype xsd:string ;
-            sh:description "The surname or family name. Multi-valued to support compound or hyphenated family names recorded as separate parts." ;
-            sh:minCount 1 ;
-            sh:nodeKind sh:Literal ;
-            sh:order 0 ;
-            sh:path sc:familyName ],
-        [ sh:datatype xsd:string ;
             sh:description "The first name and any middle names." ;
             sh:minCount 1 ;
             sh:nodeKind sh:Literal ;
             sh:order 1 ;
-            sh:path sc:givenName ] ;
+            sh:path sc:givenName ],
+        [ sh:datatype xsd:string ;
+            sh:description "The surname or family name. Multi-valued to support compound or hyphenated family names recorded as separate parts." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sc:familyName ] ;
     sh:targetClass sc:Name .
 
 sc:TimingShape a sh:NodeShape ;

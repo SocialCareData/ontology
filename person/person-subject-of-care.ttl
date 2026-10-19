@@ -1,6 +1,6 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix p: <https://ontology.socialcaredata.io/> .
+@prefix p: <https://ns.socialcaredata.io/> .
 @prefix pav: <http://purl.org/pav/> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
@@ -15,29 +15,29 @@ p:Person a owl:Class ;
             owl:cardinality 1 ;
             owl:onProperty p:name ],
         [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty p:deceasedDate ],
-        [ a owl:Restriction ;
             owl:cardinality 1 ;
             owl:onProperty p:genderCode ],
-        [ a owl:Restriction ;
-            owl:minCardinality 1 ;
-            owl:onProperty p:identifier ],
-        [ a owl:Restriction ;
-            owl:minCardinality 1 ;
-            owl:onProperty p:address ],
         [ a owl:Restriction ;
             owl:cardinality 1 ;
             owl:onProperty p:isDeceased ],
         [ a owl:Restriction ;
-            owl:cardinality 1 ;
-            owl:onProperty p:ethnicityCode ],
-        [ a owl:Restriction ;
             owl:maxCardinality 1 ;
             owl:onProperty p:aboutMe ],
         [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty p:deceasedDate ],
+        [ a owl:Restriction ;
             owl:cardinality 1 ;
-            owl:onProperty p:dateOfBirth ] ;
+            owl:onProperty p:dateOfBirth ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty p:identifier ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty p:ethnicityCode ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty p:address ] ;
     skos:definition "A person who is the subject of care. Core identity, demographic and contact data required to deliver and coordinate care must be present." ;
     skos:exactMatch p:Person ;
     skos:inScheme p:person-subject-of-care .
