@@ -20,23 +20,26 @@ jobs:
         run: |
           mkdir -p dist
           base_url="https://github.com/${REPO}/releases/download/${TAG}/"
-          find . -path ./.git -prune -o \( -name '*.ttl' -o -name '*.jsonld' \) -print |
+          find . -path './.*' -prune -o \( -name '*.ttl' -o -name '*.jsonld' \) -print |
             while read -r f; do
               rel="${f#./}"
               dir="$(dirname "$rel")"
               name="$(basename "$rel")"
               if [ "$name" = "context.jsonld" ]; then
-                if [ "$dir" = "social-care" ]; then
+                if [ "$dir" = "." ]; then
                   # Default context: rewrite relative links to versioned release URLs
-                  sed -E "s#\"\.\./([^/\"]+)/context\.jsonld\"#\"${base_url}\1-context.jsonld\"#g" "$f" > "dist/context.jsonld"
+                  sed -E "s#\"\./([^/\"]+)/context\.jsonld\"#\"${base_url}\1-context.jsonld\"#g" "$f" > "dist/context.jsonld"
                 else
                   cp "$f" "dist/${dir}-context.jsonld"
                 fi
+              elif [ "$name" = "social-care.ttl" ]; then
+                # Pin owl:imports to the released tag instead of main
+                sed "s#raw.githubusercontent.com/${REPO}/main/#raw.githubusercontent.com/${REPO}/${TAG}/#g" "$f" > "dist/${name}"
               else
                 cp "$f" "dist/${name}"
               fi
             done
-          cp social-care/manifest.yml dist/manifest.yml
+          cp manifest.yaml dist/manifest.yaml
 
       - name: Upload to release
         env:
