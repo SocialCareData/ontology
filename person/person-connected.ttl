@@ -18,7 +18,7 @@ p:Person a owl:Class ;
             owl:maxCardinality 1 ;
             owl:onProperty p:isDeceased ],
         [ a owl:Restriction ;
-            owl:cardinality 1 ;
+            owl:minCardinality 1 ;
             owl:onProperty p:name ],
         [ a owl:Restriction ;
             owl:maxCardinality 1 ;

@@ -13,13 +13,13 @@ p:Person a owl:Class ;
             owl:onProperty p:sexCode ],
         [ a owl:Restriction ;
             owl:cardinality 1 ;
-            owl:onProperty p:name ],
+            owl:onProperty p:isDeceased ],
         [ a owl:Restriction ;
             owl:cardinality 1 ;
             owl:onProperty p:genderCode ],
         [ a owl:Restriction ;
-            owl:cardinality 1 ;
-            owl:onProperty p:isDeceased ],
+            owl:minCardinality 1 ;
+            owl:onProperty p:name ],
         [ a owl:Restriction ;
             owl:maxCardinality 1 ;
             owl:onProperty p:aboutMe ],
