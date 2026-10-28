@@ -79,7 +79,7 @@ p:Person a owl:Class ;
             owl:maxCardinality 1 ;
             owl:onProperty p:ethnicityCode ],
         [ a owl:Restriction ;
-            owl:cardinality 1 ;
+            owl:minCardinality 1 ;
             owl:onProperty p:name ] ;
     skos:definition "The top-level record describing an individual. Consolidates the core identity attributes required to distinguish one person from another and to record relationships between individuals. This is the canonical base Person; the two conformance profiles tighten the cardinalities below." ;
     skos:exactMatch p:Person ;
@@ -142,7 +142,7 @@ p:languageCode a owl:DatatypeProperty ;
 p:name a owl:ObjectProperty ;
     rdfs:label "name" ;
     rdfs:range p:Name ;
-    skos:definition "A name for the person, with a usage indicating its purpose (usual, maiden, nickname, etc.)." ;
+    skos:definition "One or more names for the person, each with a usage indicating its purpose (usual, maiden, nickname, etc.)." ;
     skos:inScheme p:person .
 
 p:proficiencyLevel a owl:DatatypeProperty ;
