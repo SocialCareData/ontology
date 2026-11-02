@@ -11,6 +11,8 @@
 @prefix pav: <http://purl.org/pav/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rr: <https://ns.socialcaredata.io/record-relationship#> .
+@prefix rtc: <https://ns.socialcaredata.io/record-type#> .
 @prefix scf: <https://ns.socialcaredata.io/service-cost-frequency#> .
 @prefix sd: <https://ns.socialcaredata.io/service-delivery#> .
 @prefix sg: <https://ns.socialcaredata.io/> .
@@ -34,6 +36,13 @@ sg:finding a owl:ObjectProperty ;
     rdfs:label "finding" ;
     rdfs:range sg:Finding ;
     skos:definition "Observations or measurements made during the course of the episode." ;
+    skos:inScheme sg:safeguarding .
+
+sg:linkedRecord a owl:ObjectProperty ;
+    rdfs:label "linkedRecord" ;
+    dct:title "linkedRecord" ;
+    rdfs:range sg:LinkedRecord ;
+    skos:definition "Linked records associated with this episode or life event (e.g. referrals, requests, concerns, assessments, plans)." ;
     skos:inScheme sg:safeguarding .
 
 sg:measurement a owl:ObjectProperty ;
@@ -301,6 +310,27 @@ sg:professionalName a owl:ObjectProperty ;
     skos:definition "The professional's name." ;
     skos:inScheme sg:safeguarding .
 
+sg:recordId a owl:ObjectProperty ;
+    rdfs:label "recordId" ;
+    dct:title "recordId" ;
+    rdfs:range sg:Identifier ;
+    skos:definition "The unique identifier of the linked record." ;
+    skos:inScheme sg:safeguarding .
+
+sg:recordRelationship a owl:ObjectProperty ;
+    rdfs:label "recordRelationship" ;
+    dct:title "recordRelationship" ;
+    rdfs:range sg:record-relationship ;
+    skos:definition "The nature of the relationship (e.g. trigger, outcome, context)." ;
+    skos:inScheme sg:safeguarding .
+
+sg:recordType a owl:ObjectProperty ;
+    rdfs:label "recordType" ;
+    dct:title "recordType" ;
+    rdfs:range sg:record-type ;
+    skos:definition "The type of the linked record." ;
+    skos:inScheme sg:safeguarding .
+
 sg:role a owl:DatatypeProperty ;
     rdfs:label "role" ;
     rdfs:range xsd:string ;
@@ -331,6 +361,21 @@ sg:Finding a owl:Class ;
     rdfs:label "Finding" ;
     skos:definition "An observation or measurement made during the course of a service episode about the subject and their circumstances. May be recorded as a structured Observation, a quantitative Measurement, and/or free text." ;
     skos:exactMatch sg:Finding ;
+    skos:inScheme sg:safeguarding .
+
+sg:LinkedRecord a owl:Class ;
+    rdfs:label "LinkedRecord" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty sg:recordRelationship ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty sg:recordId ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty sg:recordType ] ;
+    skos:definition "A reference to an associated external or cross-standard record (such as a referral, service request, quality-of-care concern, care needs assessment, or care plan)." ;
+    skos:exactMatch sg:LinkedRecord ;
     skos:inScheme sg:safeguarding .
 
 sg:Measurement a owl:Class ;
@@ -413,11 +458,23 @@ epc:Admin a owl:Class ;
     rdfs:subClassOf sg:episode-code ;
     skos:definition "Case management, paperwork, coordination, and other administrative support." .
 
+epc:AdultNonStatutoryServices a owl:Class ;
+    rdfs:label "request.adult-non-statutory" ;
+    dct:title "Non-Statutory Services Request (Adult)" ;
+    rdfs:subClassOf sg:episode-code ;
+    skos:definition "Request to non-statutory or community services for an adult." .
+
 epc:AdultSafeguarding a owl:Class ;
     rdfs:label "assessment.adult-safeguarding" ;
     dct:title "Adult Safeguarding Enquiry" ;
     rdfs:subClassOf sg:episode-code ;
     skos:definition "Adult Safeguarding Enquiry (Section 42)" .
+
+epc:AdultStatutoryServices a owl:Class ;
+    rdfs:label "request.adult-statutory" ;
+    dct:title "Statutory Services Request (Adult)" ;
+    rdfs:subClassOf sg:episode-code ;
+    skos:definition "Request to statutory services for an adult (e.g. NHS Continuing Healthcare, statutory advocacy)." .
 
 epc:Assessment a owl:Class ;
     rdfs:label "assessment" ;
@@ -443,11 +500,47 @@ epc:CarePlan a owl:Class ;
     rdfs:subClassOf sg:episode-code ;
     skos:definition "Care Plan" .
 
+epc:ChildCin a owl:Class ;
+    rdfs:label "request.child-cin" ;
+    dct:title "Child in Need Escalation (s17)" ;
+    rdfs:subClassOf sg:episode-code ;
+    skos:definition "Escalation to section 17 Child in Need (CiN) assessment." .
+
+epc:ChildEarlyHelp a owl:Class ;
+    rdfs:label "request.child-early-help" ;
+    dct:title "Early Help Request (Child)" ;
+    rdfs:subClassOf sg:episode-code ;
+    skos:definition "Request to Early Help services for a child." .
+
+epc:ChildEmergency a owl:Class ;
+    rdfs:label "request.child-emergency" ;
+    dct:title "Emergency Protection Request (Child)" ;
+    rdfs:subClassOf sg:episode-code ;
+    skos:definition "Immediate emergency protection request for a child." .
+
 epc:ChildLookedAfter a owl:Class ;
     rdfs:label "plan.child-looked-after" ;
     dct:title "Child Looked After" ;
     rdfs:subClassOf sg:episode-code ;
     skos:definition "Child in LA care" .
+
+epc:ChildNonStatutoryServices a owl:Class ;
+    rdfs:label "request.child-non-statutory" ;
+    dct:title "Non-Statutory Services Request (Child)" ;
+    rdfs:subClassOf sg:episode-code ;
+    skos:definition "Request to non-statutory or community services for a child." .
+
+epc:ChildS47 a owl:Class ;
+    rdfs:label "request.child-s47" ;
+    dct:title "Section 47 Enquiry Escalation" ;
+    rdfs:subClassOf sg:episode-code ;
+    skos:definition "Escalation to section 47 child protection enquiry." .
+
+epc:ChildStatutoryServices a owl:Class ;
+    rdfs:label "request.child-statutory" ;
+    dct:title "Statutory Services Request (Child)" ;
+    rdfs:subClassOf sg:episode-code ;
+    skos:definition "Request to statutory services for a child (e.g. CAMHS, statutory advocacy)." .
 
 epc:CinPlan a owl:Class ;
     rdfs:label "plan.cin-plan" ;
@@ -497,11 +590,23 @@ epc:IndirectProvision a owl:Class ;
     rdfs:subClassOf sg:episode-code ;
     skos:definition "Hands-off care support without face-to-face contact." .
 
+epc:MashReview a owl:Class ;
+    rdfs:label "assessment.MASH-review" ;
+    dct:title "MASH Review" ;
+    rdfs:subClassOf sg:episode-code ;
+    skos:definition "Multi-Agency Safeguarding Hub (MASH) review and triage of incoming referral or concern." .
+
 epc:Miscellaneous a owl:Class ;
     rdfs:label "provision.miscellaneous" ;
     dct:title "Miscellaneous" ;
     rdfs:subClassOf sg:episode-code ;
     skos:definition "Other care provision activities not covered elsewhere." .
+
+epc:Notification a owl:Class ;
+    rdfs:label "request.notification" ;
+    dct:title "Notification or Signposting" ;
+    rdfs:subClassOf sg:episode-code ;
+    skos:definition "Notification or signposting request to partner agency or community service." .
 
 epc:OtherAssessment a owl:Class ;
     rdfs:label "assessment.other-assessment" ;
@@ -527,11 +632,23 @@ epc:Provision a owl:Class ;
     rdfs:subClassOf sg:episode-code ;
     skos:definition "Operation and delivery of services." .
 
+epc:ReferralReview a owl:Class ;
+    rdfs:label "assessment.referral-review" ;
+    dct:title "Referral Review" ;
+    rdfs:subClassOf sg:episode-code ;
+    skos:definition "Review, screening, or triage of an incoming referral by social care." .
+
 epc:RemoteContact a owl:Class ;
     rdfs:label "provision.remote-contact" ;
     dct:title "Remote Contact" ;
     rdfs:subClassOf sg:episode-code ;
     skos:definition "Virtual or telephone-based contact with the subject." .
+
+epc:Request a owl:Class ;
+    rdfs:label "request" ;
+    dct:title "Request and Escalation" ;
+    rdfs:subClassOf sg:episode-code ;
+    skos:definition "Outward request for services, intervention, or statutory escalation." .
 
 epc:Section47 a owl:Class ;
     rdfs:label "assessment.section-47" ;
@@ -629,11 +746,65 @@ eo:Planning a owl:Class ;
     rdfs:subClassOf sg:episode-outcome ;
     skos:definition "Progress to support or service planning" .
 
+eo:QualityOfCareConcern a owl:Class ;
+    rdfs:label "quality-of-care-concern" ;
+    dct:title "Quality of Care Concern" ;
+    rdfs:subClassOf sg:episode-outcome ;
+    skos:definition "Episode concluded or resulted in raising a quality-of-care concern regarding a provider or service." .
+
 eo:Reablement a owl:Class ;
     rdfs:label "reablement" ;
     dct:title "Reablement" ;
     rdfs:subClassOf sg:episode-outcome ;
     skos:definition "Progress to reablement/ST-Max" .
+
+eo:Referral a owl:Class ;
+    rdfs:label "referral" ;
+    dct:title "Referral" ;
+    rdfs:subClassOf sg:episode-outcome ;
+    skos:definition "Episode concluded by making an onward referral to external or partner services." .
+
+eo:Request a owl:Class ;
+    rdfs:label "request" ;
+    dct:title "Request" ;
+    rdfs:subClassOf sg:episode-outcome ;
+    skos:definition "Episode concluded by requesting a specific statutory or non-statutory service." .
+
+evc:AdultCareActAssessmentReferral a owl:Class ;
+    rdfs:label "referral.adult-care-act-assessment" ;
+    dct:title "Care Act Assessment Request (Adult)" ;
+    rdfs:subClassOf sg:event-code ;
+    skos:definition "Request for Care Act needs assessment or review for an adult." .
+
+evc:AdultCrossServiceReferral a owl:Class ;
+    rdfs:label "referral.adult-cross-service" ;
+    dct:title "Cross-Service Concern (Adult)" ;
+    rdfs:subClassOf sg:event-code ;
+    skos:definition "Professional concern about an adult arising from engagement with a child." .
+
+evc:AdultGeneralReferral a owl:Class ;
+    rdfs:label "referral.adult-general" ;
+    dct:title "General Referral (Adult)" ;
+    rdfs:subClassOf sg:event-code ;
+    skos:definition "General referral to adult social care." .
+
+evc:AdultIndependentLivingReferral a owl:Class ;
+    rdfs:label "referral.adult-independent-living" ;
+    dct:title "Independent Living Request (Adult)" ;
+    rdfs:subClassOf sg:event-code ;
+    skos:definition "Request for occupational therapy or home equipment for an adult." .
+
+evc:AdultInfoRequestReferral a owl:Class ;
+    rdfs:label "referral.adult-info-request" ;
+    dct:title "Information Request (Adult)" ;
+    rdfs:subClassOf sg:event-code ;
+    skos:definition "Inward information request regarding an adult." .
+
+evc:AdultSafeguardingReferral a owl:Class ;
+    rdfs:label "referral.adult-safeguarding" ;
+    dct:title "Safeguarding Concern Referral (Adult)" ;
+    rdfs:subClassOf sg:event-code ;
+    skos:definition "Inward safeguarding concern referral regarding an adult." .
 
 evc:AeAttendance a owl:Class ;
     rdfs:label "ae-attendance" ;
@@ -646,6 +817,24 @@ evc:Birth a owl:Class ;
     dct:title "Birth" ;
     rdfs:subClassOf sg:event-code ;
     skos:definition "Birth" .
+
+evc:ChildCrossServiceReferral a owl:Class ;
+    rdfs:label "referral.child-cross-service" ;
+    dct:title "Cross-Service Concern (Child)" ;
+    rdfs:subClassOf sg:event-code ;
+    skos:definition "Professional concern about a child arising from engagement with an adult." .
+
+evc:ChildInfoRequestReferral a owl:Class ;
+    rdfs:label "referral.child-info-request" ;
+    dct:title "Information Request (Child)" ;
+    rdfs:subClassOf sg:event-code ;
+    skos:definition "Inward information request regarding a child." .
+
+evc:ChildSafeguardingReferral a owl:Class ;
+    rdfs:label "referral.child-safeguarding" ;
+    dct:title "Safeguarding Concern Referral (Child)" ;
+    rdfs:subClassOf sg:event-code ;
+    skos:definition "Inward safeguarding concern referral regarding a child." .
 
 evc:Death a owl:Class ;
     rdfs:label "death" ;
@@ -665,11 +854,17 @@ evc:MissingPerson a owl:Class ;
     rdfs:subClassOf sg:event-code ;
     skos:definition "Reported Missing" .
 
+evc:QualityOfCareConcern a owl:Class ;
+    rdfs:label "quality-of-care-concern" ;
+    dct:title "Quality of Care Concern" ;
+    rdfs:subClassOf sg:event-code ;
+    skos:definition "Quality-of-care concern raised about a care provider or service." .
+
 evc:Referral a owl:Class ;
     rdfs:label "referral" ;
     dct:title "Referral" ;
     rdfs:subClassOf sg:event-code ;
-    skos:definition "Referral made to relevant authority" .
+    skos:definition "Referral made to relevant social care authority." .
 
 evc:SafeguardingConcern a owl:Class ;
     rdfs:label "safeguarding-concern" ;
@@ -1385,6 +1580,66 @@ oc:PoliceForce a owl:Class ;
     rdfs:subClassOf sg:organisation-code ;
     skos:definition "Police Force" .
 
+rr:ConcurrentWith a owl:Class ;
+    rdfs:label "concurrentWith" ;
+    dct:title "Concurrent with" ;
+    rdfs:subClassOf sg:record-relationship ;
+    skos:definition "This record is concurrent with the linked record." .
+
+rr:DeescalationOf a owl:Class ;
+    rdfs:label "deescalationOf" ;
+    dct:title "Deescalation of" ;
+    rdfs:subClassOf sg:record-relationship ;
+    skos:definition "This record is a deescalation of the linked record." .
+
+rr:EscalationOf a owl:Class ;
+    rdfs:label "escalationOf" ;
+    dct:title "Escalation of" ;
+    rdfs:subClassOf sg:record-relationship ;
+    skos:definition "This record is an escalation of the linked record." .
+
+rr:FollowupTo a owl:Class ;
+    rdfs:label "followupTo" ;
+    dct:title "Follow up to" ;
+    rdfs:subClassOf sg:record-relationship ;
+    skos:definition "This record is a follow up to the linked record." .
+
+rr:ReactivationOf a owl:Class ;
+    rdfs:label "reactivationOf" ;
+    dct:title "Reactivation of" ;
+    rdfs:subClassOf sg:record-relationship ;
+    skos:definition "This record is a reactivation of the linked record." .
+
+rtc:Assessment a owl:Class ;
+    rdfs:label "assessment" ;
+    dct:title "Care Needs Assessment" ;
+    rdfs:subClassOf sg:record-type ;
+    skos:definition "Care needs assessment record (PUB05)." .
+
+rtc:Plan a owl:Class ;
+    rdfs:label "plan" ;
+    dct:title "Care Plan" ;
+    rdfs:subClassOf sg:record-type ;
+    skos:definition "Care plan or support plan record (PUB05)." .
+
+rtc:QualityOfCareConcern a owl:Class ;
+    rdfs:label "quality-of-care-concern" ;
+    dct:title "Quality of Care Concern" ;
+    rdfs:subClassOf sg:record-type ;
+    skos:definition "Quality-of-care concern raised about a care provider or service (PUB06)." .
+
+rtc:Referral a owl:Class ;
+    rdfs:label "referral" ;
+    dct:title "Referral" ;
+    rdfs:subClassOf sg:record-type ;
+    skos:definition "Inward referral into social services (PUB06)." .
+
+rtc:Request a owl:Class ;
+    rdfs:label "request" ;
+    dct:title "Request" ;
+    rdfs:subClassOf sg:record-type ;
+    skos:definition "Outward request for services (PUB06)." .
+
 sg:relatedServiceRef a owl:ObjectProperty ;
     rdfs:label "relatedServiceRef" ;
     dct:title "relatedService" ;
@@ -1392,11 +1647,29 @@ sg:relatedServiceRef a owl:ObjectProperty ;
     skos:definition "References (by Identifier) to Services associated with the entity." ;
     skos:inScheme sg:safeguarding .
 
+svc:Advocacy a owl:Class ;
+    rdfs:label "advocacy" ;
+    dct:title "Advocacy" ;
+    rdfs:subClassOf sg:service-code ;
+    skos:definition "Advocacy" .
+
 svc:AlternativeProvisionSchool a owl:Class ;
     rdfs:label "alternative-provision-school" ;
     dct:title "Alternative Provision School" ;
     rdfs:subClassOf sg:service-code ;
     skos:definition "Alternative provision school" .
+
+svc:CHC a owl:Class ;
+    rdfs:label "CHC" ;
+    dct:title "NHS CHC" ;
+    rdfs:subClassOf sg:service-code ;
+    skos:definition "NHS CHC" .
+
+svc:CMHT a owl:Class ;
+    rdfs:label "CMHT" ;
+    dct:title "CMHT" ;
+    rdfs:subClassOf sg:service-code ;
+    skos:definition "CMHT" .
 
 svc:Camhs a owl:Class ;
     rdfs:label "CAMHS" ;
@@ -1428,6 +1701,12 @@ svc:CommunitySupportedLiving a owl:Class ;
     rdfs:subClassOf sg:service-code ;
     skos:definition "Community supported living" .
 
+svc:D2A a owl:Class ;
+    rdfs:label "D2A" ;
+    dct:title "D2A" ;
+    rdfs:subClassOf sg:service-code ;
+    skos:definition "D2A" .
+
 svc:DaySupport a owl:Class ;
     rdfs:label "day-support" ;
     dct:title "Day Support" ;
@@ -1439,6 +1718,24 @@ svc:DirectPayment a owl:Class ;
     dct:title "Direct Payment" ;
     rdfs:subClassOf sg:service-code ;
     skos:definition "Direct payment" .
+
+svc:DoLS a owl:Class ;
+    rdfs:label "DoLS" ;
+    dct:title "DoLs" ;
+    rdfs:subClassOf sg:service-code ;
+    skos:definition "DoLs" .
+
+svc:EarlyHelp a owl:Class ;
+    rdfs:label "early-help" ;
+    dct:title "Early Help" ;
+    rdfs:subClassOf sg:service-code ;
+    skos:definition "Early help" .
+
+svc:EducationWelfare a owl:Class ;
+    rdfs:label "education-welfare" ;
+    dct:title "Education Welfare Officer" ;
+    rdfs:subClassOf sg:service-code ;
+    skos:definition "Education welfare officer" .
 
 svc:EmergencySupport a owl:Class ;
     rdfs:label "emergency-support" ;
@@ -1476,11 +1773,23 @@ svc:HighSchool a owl:Class ;
     rdfs:subClassOf sg:service-code ;
     skos:definition "Secondary or High School" .
 
+svc:HomeAdaptations a owl:Class ;
+    rdfs:label "home-adaptations" ;
+    dct:title "Home Adaptations" ;
+    rdfs:subClassOf sg:service-code ;
+    skos:definition "Home adaptations" .
+
 svc:HomeSupportDomiciliary a owl:Class ;
     rdfs:label "home-support-domiciliary" ;
     dct:title "Home Support Domiciliary" ;
     rdfs:subClassOf sg:service-code ;
     skos:definition "Home support or domiciliary care" .
+
+svc:LGA a owl:Class ;
+    rdfs:label "LGA.<LGA Taxonomy Code>" ;
+    dct:title "Local Government Association Service Taxonomy" ;
+    rdfs:subClassOf sg:service-code ;
+    skos:definition "Numeric code from the [Local Government Association Service Taxonomy](https://webservices.esd.org.uk/lists/services)" .
 
 svc:LearningEducationEmployment a owl:Class ;
     rdfs:label "learning-education-employment" ;
@@ -1500,11 +1809,23 @@ svc:LongTermResidentialCare a owl:Class ;
     rdfs:subClassOf sg:service-code ;
     skos:definition "Long term residential care" .
 
+svc:MASH a owl:Class ;
+    rdfs:label "MASH" ;
+    dct:title "MASH / Safeguarding Services" ;
+    rdfs:subClassOf sg:service-code ;
+    skos:definition "MASH / safeguarding services" .
+
 svc:Meals a owl:Class ;
     rdfs:label "meals" ;
     dct:title "Meals" ;
     rdfs:subClassOf sg:service-code ;
     skos:definition "Meals" .
+
+svc:OccupationalTherapy a owl:Class ;
+    rdfs:label "occupational-therapy" ;
+    dct:title "Occupational Therapy" ;
+    rdfs:subClassOf sg:service-code ;
+    skos:definition "Occupational therapy" .
 
 svc:OtherCarerSupport a owl:Class ;
     rdfs:label "other-carer-support" ;
@@ -1542,6 +1863,12 @@ svc:Reablement a owl:Class ;
     rdfs:subClassOf sg:service-code ;
     skos:definition "Reablement" .
 
+svc:S117Aftercare a owl:Class ;
+    rdfs:label "s117-aftercare" ;
+    dct:title "S117 Aftercare" ;
+    rdfs:subClassOf sg:service-code ;
+    skos:definition "S117 aftercare" .
+
 svc:SenHighSchool a owl:Class ;
     rdfs:label "SEN-high-school" ;
     dct:title "SEN High School" ;
@@ -1553,6 +1880,12 @@ svc:SenPrimarySchool a owl:Class ;
     dct:title "SEN Primary School" ;
     rdfs:subClassOf sg:service-code ;
     skos:definition "Primary School with specialist SEN services" .
+
+svc:SensoryTeam a owl:Class ;
+    rdfs:label "sensory-team" ;
+    dct:title "Sensory Teams" ;
+    rdfs:subClassOf sg:service-code ;
+    skos:definition "Sensory teams" .
 
 svc:SharedLives a owl:Class ;
     rdfs:label "shared-lives" ;
@@ -1768,21 +2101,29 @@ sg:sgIdentifier a owl:ObjectProperty ;
     skos:definition "Unique identifiers associated with the entity." ;
     skos:inScheme sg:safeguarding .
 
-sg:event-code a owl:Class ;
-    rdfs:label "EventCode" ;
-    dct:title "Event Code" ;
-    owl:unionOf ( evc:Birth evc:Death evc:AeAttendance evc:SchoolExclusion evc:SchoolSuspension evc:MissingPerson evc:SafeguardingConcern evc:Referral evc:Homeless ) ;
-    skos:definition "Codes to indicate the type of life event." ;
+sg:record-relationship a owl:Class ;
+    rdfs:label "RecordRelationshipCode" ;
+    dct:title "Relationships Between Linked Records" ;
+    owl:unionOf ( rr:EscalationOf rr:DeescalationOf rr:FollowupTo rr:ReactivationOf rr:ConcurrentWith ) ;
+    skos:definition "Relationship types between linked referrals, requests, or concerns." ;
     skos:inScheme sg:safeguarding ;
-    linkml:permissible_values evc:AeAttendance,
-        evc:Birth,
-        evc:Death,
-        evc:Homeless,
-        evc:MissingPerson,
-        evc:Referral,
-        evc:SafeguardingConcern,
-        evc:SchoolExclusion,
-        evc:SchoolSuspension .
+    linkml:permissible_values rr:ConcurrentWith,
+        rr:DeescalationOf,
+        rr:EscalationOf,
+        rr:FollowupTo,
+        rr:ReactivationOf .
+
+sg:record-type a owl:Class ;
+    rdfs:label "RecordTypeCode" ;
+    dct:title "Record Type" ;
+    owl:unionOf ( rtc:Referral rtc:Request rtc:QualityOfCareConcern rtc:Assessment rtc:Plan ) ;
+    skos:definition "Codes to indicate the type of linked record." ;
+    skos:inScheme sg:safeguarding ;
+    linkml:permissible_values rtc:Assessment,
+        rtc:Plan,
+        rtc:QualityOfCareConcern,
+        rtc:Referral,
+        rtc:Request .
 
 sg:service-delivery a owl:Class ;
     rdfs:label "ServiceDelivery" ;
@@ -1821,7 +2162,7 @@ sg:service-cost-frequency a owl:Class ;
 sg:episode-outcome a owl:Class ;
     rdfs:label "EpisodeOutcome" ;
     dct:title "Episode Outcome" ;
-    owl:unionOf ( eo:Reablement eo:Assessment eo:Hospital eo:Continuation eo:Planning eo:NfaPlanned eo:NfaMoved eo:NfaNhsReferral eo:NfaDisregard eo:NfaLocalReferral eo:NfaDeclined eo:NfaInfo eo:NfaDeceased eo:NfaNoOfferOther eo:NfaEndedOther eo:NfaOther ) ;
+    owl:unionOf ( eo:Reablement eo:Assessment eo:Hospital eo:Continuation eo:Planning eo:NfaPlanned eo:NfaMoved eo:NfaNhsReferral eo:NfaDisregard eo:NfaLocalReferral eo:NfaDeclined eo:NfaInfo eo:NfaDeceased eo:NfaNoOfferOther eo:NfaEndedOther eo:NfaOther eo:Referral eo:Request eo:QualityOfCareConcern ) ;
     skos:definition "Codes to indicate the outcome of the episode for the subject. From the Adult Social Care Client Level Data specification." ;
     skos:inScheme sg:safeguarding ;
     linkml:permissible_values eo:Assessment,
@@ -1839,21 +2180,58 @@ sg:episode-outcome a owl:Class ;
         eo:NfaOther,
         eo:NfaPlanned,
         eo:Planning,
-        eo:Reablement .
+        eo:QualityOfCareConcern,
+        eo:Reablement,
+        eo:Referral,
+        eo:Request .
+
+sg:event-code a owl:Class ;
+    rdfs:label "EventCode" ;
+    dct:title "Event Code" ;
+    owl:unionOf ( evc:Birth evc:Death evc:AeAttendance evc:SchoolExclusion evc:SchoolSuspension evc:MissingPerson evc:SafeguardingConcern evc:Referral evc:ChildSafeguardingReferral evc:ChildInfoRequestReferral evc:ChildCrossServiceReferral evc:AdultGeneralReferral evc:AdultSafeguardingReferral evc:AdultIndependentLivingReferral evc:AdultCareActAssessmentReferral evc:AdultInfoRequestReferral evc:AdultCrossServiceReferral evc:QualityOfCareConcern evc:Homeless ) ;
+    skos:definition "Codes to indicate the type of life event." ;
+    skos:inScheme sg:safeguarding ;
+    linkml:permissible_values evc:AdultCareActAssessmentReferral,
+        evc:AdultCrossServiceReferral,
+        evc:AdultGeneralReferral,
+        evc:AdultIndependentLivingReferral,
+        evc:AdultInfoRequestReferral,
+        evc:AdultSafeguardingReferral,
+        evc:AeAttendance,
+        evc:Birth,
+        evc:ChildCrossServiceReferral,
+        evc:ChildInfoRequestReferral,
+        evc:ChildSafeguardingReferral,
+        evc:Death,
+        evc:Homeless,
+        evc:MissingPerson,
+        evc:QualityOfCareConcern,
+        evc:Referral,
+        evc:SafeguardingConcern,
+        evc:SchoolExclusion,
+        evc:SchoolSuspension .
 
 sg:episode-code a owl:Class ;
     rdfs:label "EpisodeCode" ;
     dct:title "Episode Code" ;
-    owl:unionOf ( epc:Assessment epc:EarlyHelp epc:Section47 epc:AdultSafeguarding epc:CareActAssessment epc:OtherAssessment epc:Plan epc:Ehcp epc:FamilyCourtOrder epc:CinPlan epc:CpPlan epc:CamhsPlan epc:ChildLookedAfter epc:CarePlan epc:OtherPlan epc:Provision epc:FaceToFaceContact epc:RemoteContact epc:DirectProvision epc:IndirectProvision epc:Admin epc:Miscellaneous ) ;
+    owl:unionOf ( epc:Assessment epc:EarlyHelp epc:Section47 epc:AdultSafeguarding epc:CareActAssessment epc:OtherAssessment epc:MashReview epc:ReferralReview epc:Plan epc:Ehcp epc:FamilyCourtOrder epc:CinPlan epc:CpPlan epc:CamhsPlan epc:ChildLookedAfter epc:CarePlan epc:OtherPlan epc:Provision epc:FaceToFaceContact epc:RemoteContact epc:DirectProvision epc:IndirectProvision epc:Admin epc:Miscellaneous epc:Request epc:Notification epc:ChildEarlyHelp epc:ChildCin epc:ChildS47 epc:ChildEmergency epc:ChildStatutoryServices epc:ChildNonStatutoryServices epc:AdultStatutoryServices epc:AdultNonStatutoryServices ) ;
     skos:definition "Codes to indicate the type of service episode." ;
     skos:inScheme sg:safeguarding ;
     linkml:permissible_values epc:Admin,
+        epc:AdultNonStatutoryServices,
         epc:AdultSafeguarding,
+        epc:AdultStatutoryServices,
         epc:Assessment,
         epc:CamhsPlan,
         epc:CareActAssessment,
         epc:CarePlan,
+        epc:ChildCin,
+        epc:ChildEarlyHelp,
+        epc:ChildEmergency,
         epc:ChildLookedAfter,
+        epc:ChildNonStatutoryServices,
+        epc:ChildS47,
+        epc:ChildStatutoryServices,
         epc:CinPlan,
         epc:CpPlan,
         epc:DirectProvision,
@@ -1862,47 +2240,64 @@ sg:episode-code a owl:Class ;
         epc:FaceToFaceContact,
         epc:FamilyCourtOrder,
         epc:IndirectProvision,
+        epc:MashReview,
         epc:Miscellaneous,
+        epc:Notification,
         epc:OtherAssessment,
         epc:OtherPlan,
         epc:Plan,
         epc:Provision,
+        epc:ReferralReview,
         epc:RemoteContact,
+        epc:Request,
         epc:Section47 .
 
 sg:service-code a owl:Class ;
     rdfs:label "ServiceCode" ;
     dct:title "Service Code" ;
-    owl:unionOf ( svc:YouthOffending svc:PrimarySchool svc:HighSchool svc:SenPrimarySchool svc:SenHighSchool svc:AlternativeProvisionSchool svc:SocialCare svc:FamilyCourt svc:Camhs svc:Reablement svc:ShortTermNursingCare svc:ShortTermResidentialCare svc:LongTermNursingCare svc:LongTermResidentialCare svc:HomeSupportDomiciliary svc:DaySupport svc:Meals svc:Transport svc:Equipment svc:DirectPayment svc:SharedLives svc:CommunitySupportedLiving svc:ExtraCareHousing svc:SocialWorkerSupport svc:OtherProfessionalSupport svc:LearningEducationEmployment svc:EndOfLifeCare svc:EmergencySupport svc:OtherShortTermSupport svc:OtherLongTermSupport svc:CarerRespite svc:CarerSittingService svc:CarerUniversalServices svc:OtherCarerSupport ) ;
+    owl:unionOf ( svc:YouthOffending svc:PrimarySchool svc:HighSchool svc:SenPrimarySchool svc:SenHighSchool svc:AlternativeProvisionSchool svc:SocialCare svc:FamilyCourt svc:Camhs svc:Reablement svc:ShortTermNursingCare svc:ShortTermResidentialCare svc:LongTermNursingCare svc:LongTermResidentialCare svc:HomeSupportDomiciliary svc:DaySupport svc:Meals svc:Transport svc:Equipment svc:DirectPayment svc:SharedLives svc:CommunitySupportedLiving svc:ExtraCareHousing svc:SocialWorkerSupport svc:OtherProfessionalSupport svc:LearningEducationEmployment svc:EndOfLifeCare svc:EmergencySupport svc:OtherShortTermSupport svc:OtherLongTermSupport svc:CarerRespite svc:CarerSittingService svc:CarerUniversalServices svc:OtherCarerSupport svc:MASH svc:EarlyHelp svc:EducationWelfare svc:HomeAdaptations svc:OccupationalTherapy svc:CHC svc:CMHT svc:S117Aftercare svc:DoLS svc:D2A svc:SensoryTeam svc:Advocacy svc:LGA ) ;
     skos:definition "Codes to indicate the type of service." ;
     skos:inScheme sg:safeguarding ;
-    linkml:permissible_values svc:AlternativeProvisionSchool,
+    linkml:permissible_values svc:Advocacy,
+        svc:AlternativeProvisionSchool,
+        svc:CHC,
+        svc:CMHT,
         svc:Camhs,
         svc:CarerRespite,
         svc:CarerSittingService,
         svc:CarerUniversalServices,
         svc:CommunitySupportedLiving,
+        svc:D2A,
         svc:DaySupport,
         svc:DirectPayment,
+        svc:DoLS,
+        svc:EarlyHelp,
+        svc:EducationWelfare,
         svc:EmergencySupport,
         svc:EndOfLifeCare,
         svc:Equipment,
         svc:ExtraCareHousing,
         svc:FamilyCourt,
         svc:HighSchool,
+        svc:HomeAdaptations,
         svc:HomeSupportDomiciliary,
+        svc:LGA,
         svc:LearningEducationEmployment,
         svc:LongTermNursingCare,
         svc:LongTermResidentialCare,
+        svc:MASH,
         svc:Meals,
+        svc:OccupationalTherapy,
         svc:OtherCarerSupport,
         svc:OtherLongTermSupport,
         svc:OtherProfessionalSupport,
         svc:OtherShortTermSupport,
         svc:PrimarySchool,
         svc:Reablement,
+        svc:S117Aftercare,
         svc:SenHighSchool,
         svc:SenPrimarySchool,
+        svc:SensoryTeam,
         svc:SharedLives,
         svc:ShortTermNursingCare,
         svc:ShortTermResidentialCare,

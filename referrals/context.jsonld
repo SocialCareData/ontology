@@ -1,0 +1,356 @@
+{
+  "@context": {
+    "ref":  "https://ns.socialcaredata.io/",
+    "rt":   "https://ns.socialcaredata.io/referral-type#",
+    "con":  "https://ns.socialcaredata.io/concern#",
+    "rp":   "https://ns.socialcaredata.io/request-purpose#",
+    "rqc":  "https://ns.socialcaredata.io/referral-question-category#",
+    "rr":   "https://ns.socialcaredata.io/record-relationship#",
+    "rft":  "https://ns.socialcaredata.io/referrer-type#",
+    "svc":  "https://ns.socialcaredata.io/service-code#",
+    "prc":  "https://ns.socialcaredata.io/person-relationship-code#",
+    "p":    "https://ns.socialcaredata.io/",
+    "sg":   "https://ns.socialcaredata.io/",
+    "xsd":  "http://www.w3.org/2001/XMLSchema#",
+
+    "Referral":                   "ref:Referral",
+    "Request": {
+      "@id": "ref:Request",
+      "@context": {
+        "subject":   { "@id": "ref:requestSubject",   "@type": "@id" },
+        "referrer":  { "@id": "ref:requestReferrer",  "@type": "@id" },
+        "recipient": { "@id": "ref:requestRecipient", "@type": "@id", "@container": "@set" }
+      }
+    },
+    "QualityOfCareConcern": {
+      "@id": "ref:QualityOfCareConcern",
+      "@context": {
+        "subject":   { "@id": "ref:qocSubject",   "@type": "@id", "@container": "@set" },
+        "referrer":  { "@id": "ref:qocReferrer",  "@type": "@id" },
+        "recipient": { "@id": "ref:qocRecipient", "@type": "@id" }
+      }
+    },
+    "qocConcern":                 "ref:QualityOfCareConcern",
+    "PersonalNetworkMember": {
+      "@id": "ref:PersonalNetworkMember",
+      "@context": {
+        "person":       { "@id": "ref:networkPerson",       "@type": "@id" },
+        "relationship": {
+          "@id": "ref:networkRelationship",
+          "@type": "@vocab",
+          "@context": { "@vocab": "https://ns.socialcaredata.io/person-relationship-code#" }
+        },
+        "description":  "ref:networkDescription"
+      }
+    },
+    "ReferrerDetails": {
+      "@id": "ref:ReferrerDetails",
+      "@context": {
+        "person":                 { "@id": "ref:referrerPerson",           "@type": "@id" },
+        "professional":           { "@id": "ref:referrerProfessional",     "@type": "@id" },
+        "professionalIdentifier": { "@id": "ref:referrerProfessionalId",   "@type": "@id" },
+        "relationship": {
+          "@id": "ref:referrerRelationshipCode",
+          "@type": "@vocab",
+          "@context": { "@vocab": "https://ns.socialcaredata.io/person-relationship-code#" }
+        }
+      }
+    },
+    "ConcernDetail": {
+      "@id": "ref:ConcernDetail",
+      "@context": {
+        "description": "ref:concernDescription"
+      }
+    },
+    "ReferralInvolvement": {
+      "@id": "ref:ReferralInvolvement",
+      "@context": {
+        "description": "ref:involvementDescription"
+      }
+    },
+    "DocumentReference": {
+      "@id": "ref:DocumentReference",
+      "@context": {
+        "title":       "ref:documentTitle",
+        "url":         { "@id": "ref:documentUrl", "@type": "xsd:anyURI" },
+        "mimeType":    "ref:documentMimeType",
+        "description": "ref:documentDescription"
+      }
+    },
+    "LinkedRecord":               "sg:LinkedRecord",
+    "ReferralAssessmentQuestion": "ref:ReferralAssessmentQuestion",
+    "Person":                     "p:Person",
+    "ConnectedPerson":            "p:Person",
+    "Professional":               "sg:Professional",
+    "Identifier":                 "p:Identifier",
+    "Name":                       "p:Name",
+
+    "identifier":                 { "@id": "ref:identifier",                 "@type": "@id" },
+    "refIdentifier":              { "@id": "ref:identifier",                 "@type": "@id" },
+    "dateCompleted":              { "@id": "ref:dateCompleted",              "@type": "xsd:dateTime" },
+    "refDateCompleted":           { "@id": "ref:dateCompleted",              "@type": "xsd:dateTime" },
+    "type": {
+      "@id": "ref:type",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ns.socialcaredata.io/referral-type#",
+        "child.safeguarding":      "rt:ChildSafeguarding",
+        "child.infoRequest":       "rt:ChildInfoRequest",
+        "child.crossService":      "rt:ChildCrossService",
+        "adult.general":           "rt:AdultGeneral",
+        "adult.safeguarding":      "rt:AdultSafeguarding",
+        "adult.independentLiving": "rt:AdultIndependentLiving",
+        "adult.careActAssessment": "rt:AdultCareActAssessment",
+        "adult.infoRequest":       "rt:AdultInfoRequest",
+        "adult.crossService":      "rt:AdultCrossService"
+      }
+    },
+    "referralType": {
+      "@id": "ref:type",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ns.socialcaredata.io/referral-type#",
+        "child.safeguarding":      "rt:ChildSafeguarding",
+        "child.infoRequest":       "rt:ChildInfoRequest",
+        "child.crossService":      "rt:ChildCrossService",
+        "adult.general":           "rt:AdultGeneral",
+        "adult.safeguarding":      "rt:AdultSafeguarding",
+        "adult.independentLiving": "rt:AdultIndependentLiving",
+        "adult.careActAssessment": "rt:AdultCareActAssessment",
+        "adult.infoRequest":       "rt:AdultInfoRequest",
+        "adult.crossService":      "rt:AdultCrossService"
+      }
+    },
+    "subject":                    { "@id": "ref:subject",                    "@type": "@id", "@container": "@set" },
+    "personalNetwork":            { "@id": "ref:personalNetwork",            "@type": "@id", "@container": "@set" },
+    "referrer":                   { "@id": "ref:referrer",                   "@type": "@id" },
+    "concern":                    { "@id": "ref:concern",                    "@type": "@id", "@container": "@set" },
+    "involvement":                { "@id": "ref:referralInvolvement",        "@type": "@id" },
+    "pathway": {
+      "@id": "ref:pathway",
+      "@type": "@vocab",
+      "@container": "@set",
+      "@context": {
+        "@vocab": "https://ns.socialcaredata.io/service-code#",
+        "youth-offending":               "svc:YouthOffending",
+        "primary-school":                "svc:PrimarySchool",
+        "high-school":                   "svc:HighSchool",
+        "SEN-primary-school":            "svc:SenPrimarySchool",
+        "SEN-high-school":               "svc:SenHighSchool",
+        "alternative-provision-school":  "svc:AlternativeProvisionSchool",
+        "social-care":                   "svc:SocialCare",
+        "family-court":                  "svc:FamilyCourt",
+        "CAMHS":                         "svc:Camhs",
+        "reablement":                    "svc:Reablement",
+        "short-term-nursing-care":       "svc:ShortTermNursingCare",
+        "short-term-residential-care":   "svc:ShortTermResidentialCare",
+        "long-term-nursing-care":        "svc:LongTermNursingCare",
+        "long-term-residential-care":    "svc:LongTermResidentialCare",
+        "home-support-domiciliary":      "svc:HomeSupportDomiciliary",
+        "day-support":                   "svc:DaySupport",
+        "meals":                         "svc:Meals",
+        "transport":                     "svc:Transport",
+        "equipment":                     "svc:Equipment",
+        "direct-payment":                "svc:DirectPayment",
+        "shared-lives":                  "svc:SharedLives",
+        "community-supported-living":    "svc:CommunitySupportedLiving",
+        "extra-care-housing":            "svc:ExtraCareHousing",
+        "social-worker-support":         "svc:SocialWorkerSupport",
+        "other-professional-support":    "svc:OtherProfessionalSupport",
+        "learning-education-employment": "svc:LearningEducationEmployment",
+        "end-of-life-care":              "svc:EndOfLifeCare",
+        "emergency-support":             "svc:EmergencySupport",
+        "other-short-term-support":      "svc:OtherShortTermSupport",
+        "other-long-term-support":       "svc:OtherLongTermSupport",
+        "carer-respite":                 "svc:CarerRespite",
+        "carer-sitting-service":         "svc:CarerSittingService",
+        "carer-universal-services":      "svc:CarerUniversalServices",
+        "other-carer-support":           "svc:OtherCarerSupport",
+        "MASH":                          "svc:MASH",
+        "early-help":                    "svc:EarlyHelp",
+        "education-welfare":             "svc:EducationWelfare",
+        "home-adaptations":              "svc:HomeAdaptations",
+        "occupational-therapy":          "svc:OccupationalTherapy",
+        "CHC":                           "svc:CHC",
+        "CMHT":                          "svc:CMHT",
+        "S117-aftercare":                "svc:S117Aftercare",
+        "DoLS":                          "svc:DoLS",
+        "D2A":                           "svc:D2A",
+        "sensory-team":                  "svc:SensoryTeam",
+        "advocacy":                      "svc:Advocacy",
+        "LGA":                           "svc:LGA"
+      }
+    },
+    "recipient":                  { "@id": "ref:recipient",                  "@type": "@id", "@container": "@set" },
+    "purpose": {
+      "@id": "ref:purpose",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ns.socialcaredata.io/request-purpose#",
+        "notification":              "rp:Notification",
+        "child.earlyHelp":           "rp:ChildEarlyHelp",
+        "child.CIN":                 "rp:ChildCIN",
+        "child.cin":                 "rp:ChildCIN",
+        "child.s47":                 "rp:ChildS47",
+        "child.emergency":           "rp:ChildEmergency",
+        "child.statutoryServices":   "rp:ChildStatutoryServices",
+        "child.nonStatutoryServices": "rp:ChildNonStatutoryServices",
+        "adult.statutoryServices":   "rp:AdultStatutoryServices",
+        "adult.nonStatutoryServices": "rp:AdultNonStatutoryServices"
+      }
+    },
+    "assessmentQuestion":         { "@id": "ref:referralAssessmentQuestion", "@type": "@id", "@container": "@set" },
+    "attachment":                 { "@id": "ref:attachment",                 "@type": "@id", "@container": "@set" },
+    "linkedRecord":               { "@id": "sg:linkedRecord",                "@type": "@id", "@container": "@set" },
+
+    "requestSubject":             { "@id": "ref:requestSubject",             "@type": "@id" },
+    "requestReferrer":            { "@id": "ref:requestReferrer",            "@type": "@id" },
+    "requestRecipient":           { "@id": "ref:requestRecipient",           "@type": "@id", "@container": "@set" },
+
+    "qocSubject":                 { "@id": "ref:qocSubject",                 "@type": "@id", "@container": "@set" },
+    "qocReferrer":                { "@id": "ref:qocReferrer",                "@type": "@id" },
+    "qocRecipient":               { "@id": "ref:qocRecipient",               "@type": "@id" },
+
+    "networkPerson":              { "@id": "ref:networkPerson",              "@type": "@id" },
+    "networkRelationship": {
+      "@id": "ref:networkRelationship",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ns.socialcaredata.io/person-relationship-code#"
+      }
+    },
+    "networkDescription":         "ref:networkDescription",
+
+    "referrerPerson":             { "@id": "ref:referrerPerson",             "@type": "@id" },
+    "referrerProfessional":       { "@id": "ref:referrerProfessional",       "@type": "@id" },
+    "referrerProfessionalId":     { "@id": "ref:referrerProfessionalId",     "@type": "@id" },
+    "referrerType": {
+      "@id": "ref:referrerType",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ns.socialcaredata.io/referrer-type#",
+        "Self":               "rft:Self",
+        "FamilyMember":       "rft:FamilyMember",
+        "Professional":       "rft:Professional",
+        "MemberOfThePublic":  "rft:MemberOfThePublic"
+      }
+    },
+    "relationshipCode": {
+      "@id": "ref:referrerRelationshipCode",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ns.socialcaredata.io/person-relationship-code#"
+      }
+    },
+    "referrerRelationshipCode": {
+      "@id": "ref:referrerRelationshipCode",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ns.socialcaredata.io/person-relationship-code#"
+      }
+    },
+    "relationshipDescription":    "ref:relationshipDescription",
+
+    "concernType": {
+      "@id": "ref:concernType",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ns.socialcaredata.io/concern#",
+        "child.physicalAbuse":     "con:ChildPhysicalAbuse",
+        "child.sexualAbuse":       "con:ChildSexualAbuse",
+        "child.emotionalAbuse":    "con:ChildEmotionalAbuse",
+        "child.neglect":           "con:ChildNeglect",
+        "child.exploitation":      "con:ChildExploitation",
+        "child.parentalConcern":   "con:ChildParentalConcern",
+        "child.missingEducation":  "con:ChildMissingEducation",
+        "child.goingMissing":      "con:ChildGoingMissing",
+        "child.contextualRisk":    "con:ChildContextualRisk",
+        "child.other":             "con:ChildOther",
+        "child.Other":             "con:ChildOther",
+        "adult.physicalAbuse":     "con:AdultPhysicalAbuse",
+        "adult.sexualAbuse":       "con:AdultSexualAbuse",
+        "adult.emotionalAbuse":    "con:AdultEmotionalAbuse",
+        "adult.neglect":           "con:AdultNeglect",
+        "adult.financialCoercion": "con:AdultFinancialCoercion",
+        "adult.discrimination":    "con:AdultDiscrimination",
+        "adult.domesticAbuse":     "con:AdultDomesticAbuse",
+        "adult.modernSlavery":     "con:AdultModernSlavery",
+        "adult.selfHarm":          "con:AdultSelfHarm",
+        "adult.substanceAbuse":    "con:AdultSubstanceAbuse",
+        "adult.other":             "con:AdultOther"
+      }
+    },
+    "concernDescription":         "ref:concernDescription",
+
+    "actorType": {
+      "@id": "ref:involvementActorType",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ns.socialcaredata.io/referrer-type#",
+        "Self":               "rft:Self",
+        "FamilyMember":       "rft:FamilyMember",
+        "Professional":       "rft:Professional",
+        "MemberOfThePublic":  "rft:MemberOfThePublic"
+      }
+    },
+    "involvementActorType": {
+      "@id": "ref:involvementActorType",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ns.socialcaredata.io/referrer-type#",
+        "Self":               "rft:Self",
+        "FamilyMember":       "rft:FamilyMember",
+        "Professional":       "rft:Professional",
+        "MemberOfThePublic":  "rft:MemberOfThePublic"
+      }
+    },
+    "actorId":                    { "@id": "ref:involvementActorId",         "@type": "@id", "@container": "@set" },
+    "involvementActorId":         { "@id": "ref:involvementActorId",         "@type": "@id", "@container": "@set" },
+    "involvementDescription":     "ref:involvementDescription",
+
+    "documentId":                 { "@id": "ref:documentId",                 "@type": "@id" },
+    "documentTitle":              "ref:documentTitle",
+    "documentUrl":                { "@id": "ref:documentUrl",                "@type": "xsd:anyURI" },
+    "documentMimeType":           "ref:documentMimeType",
+    "documentDescription":        "ref:documentDescription",
+
+    "questionId":                 "ref:questionId",
+    "questionText":               "ref:questionText",
+    "answer":                     { "@id": "ref:answer",                     "@container": "@set" },
+    "answerType":                 { "@id": "ref:answerType",                 "@type": "@vocab" },
+    "category": {
+      "@id": "ref:questionCategory",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ns.socialcaredata.io/referral-question-category#",
+        "REFERRAL_TYPE_ROUTING":       "rqc:ReferralTypeRouting",
+        "REFERRER_DETAILS":            "rqc:ReferrerDetails",
+        "SUBJECT.CONSENT_CAPACITY":    "rqc:SubjectConsentCapacity",
+        "SUBJECT.DEMOGRAPHICS":        "rqc:SubjectDemographics",
+        "SUBJECT.ASSESSED_STATUS":     "rqc:SubjectAssessedStatus",
+        "CONCERN":                     "rqc:Concern",
+        "RISK_HARM_SAFETY":            "rqc:RiskHarmSafety",
+        "FAMILY_NETWORK":              "rqc:FamilyNetwork",
+        "IMPACT_DAILY_LIFE":           "rqc:ImpactDailyLife",
+        "SUBJECT.VOICE_WISHES":        "rqc:SubjectVoiceWishes",
+        "SUBJECT.SERVICES_NETWORK":    "rqc:SubjectServicesNetwork",
+        "STRENGTHS_POSITIVES":         "rqc:StrengthsPositives",
+        "ACTIONS_TAKEN":               "rqc:ActionsTaken",
+        "REQUESTED_SERVICE":           "rqc:RequestedService",
+        "COMMUNICATION_ACCESSIBILITY": "rqc:CommunicationAccessibility",
+        "ATTACHMENTS":                 "rqc:Attachments",
+        "SUBMISSION_WORKFLOW":         "rqc:SubmissionWorkflow"
+      }
+    },
+
+    "recordId":                   { "@id": "sg:recordId",                    "@type": "@id" },
+    "recordType":                 { "@id": "sg:recordType",                  "@type": "@vocab" },
+    "recordRelationship":         "sg:recordRelationship",
+
+    "value":                      "p:value",
+    "system":                     { "@id": "p:system",                       "@type": "@id" },
+    "name":                       { "@id": "p:name",                         "@type": "@id", "@container": "@set" },
+    "familyName":                 { "@id": "p:familyName",                   "@container": "@set" },
+    "givenName":                  { "@id": "p:givenName",                    "@container": "@set" }
+  }
+}

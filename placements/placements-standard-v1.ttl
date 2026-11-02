@@ -3,7 +3,6 @@
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix la: <https://ns.socialcaredata.io/living-arrangement#> .
 @prefix linkml: <https://w3id.org/linkml/> .
-@prefix olr: <https://ns.socialcaredata.io/outof-la-reason#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix pa: <https://ns.socialcaredata.io/pets-allowance#> .
 @prefix pav: <http://purl.org/pav/> .
@@ -13,7 +12,6 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix rl: <https://ns.socialcaredata.io/risk-level#> .
-@prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix sl: <https://ns.socialcaredata.io/suitability-level#> .
 @prefix st: <https://ns.socialcaredata.io/support-type#> .
@@ -66,13 +64,7 @@ pl:actualPlacement a owl:ObjectProperty ;
 pl:additionalSupport a owl:ObjectProperty ;
     rdfs:label "additionalSupport" ;
     rdfs:range pl:support-type ;
-    skos:definition "Additional support provision required (e.g., additional supervision, therapeutic support, taxis to school). Multi-valued." ;
-    skos:inScheme pl:placements .
-
-pl:additionalSupportOther a owl:DatatypeProperty ;
-    rdfs:label "additionalSupportOther" ;
-    rdfs:range xsd:string ;
-    skos:definition "Free-text description of any additional support not captured by the standard SupportType options. Used when the 'Other' SupportType concept is selected." ;
+    skos:definition "Additional support provision required (e.g., additional supervision, therapeutic support, taxis to school)." ;
     skos:inScheme pl:placements .
 
 pl:childId a owl:DatatypeProperty ;
@@ -99,10 +91,10 @@ pl:costOfficerName a owl:DatatypeProperty ;
     skos:definition "Name of the officer who recorded the placement cost data." ;
     skos:inScheme pl:placements .
 
-pl:culturalNeedsOther a owl:DatatypeProperty ;
-    rdfs:label "culturalNeedsOther" ;
-    rdfs:range xsd:string ;
-    skos:definition "Free-text description of cultural needs not captured by the standard CulturalNeed options. Used when the 'Other' CulturalNeed concept is selected." ;
+pl:culturalNeeds a owl:ObjectProperty ;
+    rdfs:label "culturalNeeds" ;
+    rdfs:range pl:cultural-need ;
+    skos:definition "Whether the placement must accommodate specific cultural needs (e.g., access to places of worship)." ;
     skos:inScheme pl:placements .
 
 pl:deprivationOfLiberty a owl:DatatypeProperty ;
@@ -135,12 +127,6 @@ pl:isLocationPreferred a owl:DatatypeProperty ;
     skos:definition "Whether the actual placement location was a preferred location." ;
     skos:inScheme pl:placements .
 
-pl:isPreferredLocationLocal a owl:DatatypeProperty ;
-    rdfs:label "isPreferredLocationLocal" ;
-    rdfs:range xsd:boolean ;
-    skos:definition "Is the preferred placement location in the same LA as the placing LA?" ;
-    skos:inScheme pl:placements .
-
 pl:livingCompanions a owl:ObjectProperty ;
     rdfs:label "livingCompanions" ;
     rdfs:range pl:living-arrangement ;
@@ -151,12 +137,6 @@ pl:neededBy a owl:ObjectProperty ;
     rdfs:label "neededBy" ;
     rdfs:range pl:placement-urgency ;
     skos:definition "When the child needs to be placed by. Captures urgency rather than an absolute date." ;
-    skos:inScheme pl:placements .
-
-pl:outOfLAReasonOther a owl:DatatypeProperty ;
-    rdfs:label "outOfLAReasonOther" ;
-    rdfs:range xsd:string ;
-    skos:definition "Free-text description of why the preferred placement location is in a different LA when the standard outof-la-reason options do not apply. Used when the 'Other' OutOfLAReason concept is selected." ;
     skos:inScheme pl:placements .
 
 pl:pets a owl:ObjectProperty ;
@@ -183,6 +163,12 @@ pl:placementId a owl:DatatypeProperty ;
     skos:definition "The unique identifier of the placement record within the LA case management system." ;
     skos:inScheme pl:placements .
 
+pl:placementLocation a owl:DatatypeProperty ;
+    rdfs:label "placementLocation" ;
+    rdfs:range xsd:string ;
+    skos:definition "The location of the actual placement." ;
+    skos:inScheme pl:placements .
+
 pl:placementOfficerName a owl:DatatypeProperty ;
     rdfs:label "placementOfficerName" ;
     rdfs:range xsd:string ;
@@ -205,6 +191,12 @@ pl:placementType a owl:ObjectProperty ;
     rdfs:label "placementType" ;
     rdfs:range pl:placement-type ;
     skos:definition "The type of placement the child received." ;
+    skos:inScheme pl:placements .
+
+pl:preferredLocation a owl:DatatypeProperty ;
+    rdfs:label "preferredLocation" ;
+    rdfs:range xsd:string ;
+    skos:definition "Preferred location for the home search." ;
     skos:inScheme pl:placements .
 
 pl:providerURN a owl:DatatypeProperty ;
@@ -333,10 +325,10 @@ pl:siblingsPlacedTogether a owl:DatatypeProperty ;
     skos:definition "How many siblings were actually placed together." ;
     skos:inScheme pl:placements .
 
-pl:specificCommunicationRequirementOther a owl:DatatypeProperty ;
-    rdfs:label "specificCommunicationRequirementOther" ;
-    rdfs:range xsd:string ;
-    skos:definition "Free-text description of communication or language requirements not captured by the standard CommunicationNeed options. Used when the 'Other' CommunicationNeed concept is among the selected values." ;
+pl:specificCommunicationRequirement a owl:ObjectProperty ;
+    rdfs:label "specificCommunicationRequirement" ;
+    rdfs:range pl:communication-need ;
+    skos:definition "Specific communication or language requirement (ESOL, BSL, Makaton, Other, None). Multi-valued: a placement may have several." ;
     skos:inScheme pl:placements .
 
 pl:supportedAccommodationSuitability a owl:ObjectProperty ;
@@ -345,49 +337,23 @@ pl:supportedAccommodationSuitability a owl:ObjectProperty ;
     skos:definition "Suitability of supported accommodation for this child." ;
     skos:inScheme pl:placements .
 
+pl:totalWeeklyCost a owl:DatatypeProperty ;
+    rdfs:label "totalWeeklyCost" ;
+    rdfs:range xsd:integer ;
+    skos:definition "Total weekly fee paid for the placement (actual weekly fee paid)." ;
+    skos:inScheme pl:placements .
+
 xsd:nonNegativeInteger a rdfs:Datatype ;
-    owl:equivalentClass [ owl:intersectionOf ( xsd:integer [ a rdfs:Datatype ;
+    owl:equivalentClass [ a rdfs:Datatype ;
+            owl:intersectionOf ( xsd:integer [ a rdfs:Datatype ;
                         owl:onDatatype xsd:integer ;
                         owl:withRestrictions ( [ xsd:minInclusive 0 ] ) ] ) ] .
 
 pl:ActualPlacement a owl:Class ;
     rdfs:label "ActualPlacement" ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:allValuesFrom [ a rdfs:Datatype ;
-                    owl:intersectionOf ( xsd:decimal [ a rdfs:Datatype ;
-                                owl:onDatatype xsd:integer ;
-                                owl:withRestrictions ( [ xsd:minInclusive 0 ] ) ] ) ] ;
-            owl:onProperty pl:educationWeeklyCost ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty pl:educationWeeklyCost ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty pl:coreWeeklyCost ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty pl:additionalSupportWeeklyCost ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom [ a rdfs:Datatype ;
-                    owl:intersectionOf ( xsd:decimal [ a rdfs:Datatype ;
-                                owl:onDatatype xsd:integer ;
-                                owl:withRestrictions ( [ xsd:minInclusive 0 ] ) ] ) ] ;
-            owl:onProperty pl:additionalSupportWeeklyCost ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom [ a rdfs:Datatype ;
-                    owl:intersectionOf ( xsd:decimal [ a rdfs:Datatype ;
-                                owl:onDatatype xsd:integer ;
-                                owl:withRestrictions ( [ xsd:minInclusive 0 ] ) ] ) ] ;
-            owl:onProperty pl:otherWeeklyCost ],
-        [ a owl:Restriction ;
             owl:cardinality 1 ;
             owl:onProperty pl:siblingsPlacedTogether ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom [ a rdfs:Datatype ;
-                    owl:intersectionOf ( xsd:decimal [ a rdfs:Datatype ;
-                                owl:onDatatype xsd:integer ;
-                                owl:withRestrictions ( [ xsd:minInclusive 0 ] ) ] ) ] ;
-            owl:onProperty pl:coreWeeklyCost ],
         [ a owl:Restriction ;
             owl:cardinality 1 ;
             owl:onProperty pl:placementLocation ],
@@ -398,33 +364,31 @@ pl:ActualPlacement a owl:Class ;
             owl:cardinality 1 ;
             owl:onProperty pl:providerURN ],
         [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty pl:otherWeeklyCost ],
-        [ a owl:Restriction ;
             owl:cardinality 1 ;
             owl:onProperty pl:isEducationContinuous ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom [ a rdfs:Datatype ;
-                    owl:intersectionOf ( xsd:decimal [ a rdfs:Datatype ;
-                                owl:onDatatype xsd:integer ;
-                                owl:withRestrictions ( [ xsd:minInclusive 100 ] ) ] [ a rdfs:Datatype ;
-                                owl:onDatatype xsd:integer ;
-                                owl:withRestrictions ( [ xsd:maxInclusive 100000 ] ) ] ) ] ;
-            owl:onProperty pl:totalWeeklyCost ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom [ a rdfs:Datatype ;
-                    owl:intersectionOf ( xsd:string [ a rdfs:Datatype ;
-                                owl:onDatatype xsd:string ;
-                                owl:withRestrictions ( [ xsd:pattern "^[A-Z]{1,2}[0-9][0-9A-Z]?$" ] ) ] ) ] ;
-            owl:onProperty pl:placementLocation ],
         [ a owl:Restriction ;
             owl:cardinality 1 ;
             owl:onProperty pl:isLocationPreferred ],
         [ a owl:Restriction ;
             owl:cardinality 1 ;
             owl:onProperty pl:totalWeeklyCost ] ;
-    skos:definition "The placement actually arranged for the child, including weekly cost (with optional breakdown), location, provider URN, sibling co-placement and educational continuity. Optional - a Placement may not (yet) have one." ;
+    skos:definition "The placement actually arranged for the child, including total weekly cost, location, provider URN, sibling co-placement and educational continuity. Optional - a Placement may not (yet) have one." ;
     skos:exactMatch pl:ActualPlacement ;
+    skos:inScheme pl:placements .
+
+pl:PlacementAvailability a owl:Class ;
+    rdfs:label "PlacementAvailability" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty pl:preferredLocation ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty pl:siblingCount ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty pl:neededBy ] ;
+    skos:definition "The referral request details: how urgently the child needs to be placed, how many siblings should be placed together, and the preferred location for the home search." ;
+    skos:exactMatch pl:PlacementAvailability ;
     skos:inScheme pl:placements .
 
 pl:PlacementRecommendation a owl:Class ;
@@ -440,6 +404,36 @@ pl:PlacementRecommendation a owl:Class ;
             owl:onProperty pl:residentialCareSuitability ] ;
     skos:definition "The social worker's recommendation of which categories of placement (foster, residential, supported accommodation) are preferred, suitable but not preferred, unsuitable, or unspecified." ;
     skos:exactMatch pl:PlacementRecommendation ;
+    skos:inScheme pl:placements .
+
+pl:PlacementRequirements a owl:Class ;
+    rdfs:label "PlacementRequirements" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:livingCompanions ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty pl:deprivationOfLiberty ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:homeAdaptationRequired ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty pl:additionalSupport ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty pl:specificCommunicationRequirement ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:communicationNeeds ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:culturalNeeds ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty pl:pets ] ;
+    skos:definition "The child's needs that the placement must accommodate: communication, cultural, living companions, pets, additional support, deprivation of liberty and home adaptation." ;
+    skos:exactMatch pl:PlacementRequirements ;
     skos:inScheme pl:placements .
 
 pl:QualityAssurance a owl:Class ;
@@ -511,15 +505,6 @@ pl:RiskAssessment a owl:Class ;
     skos:exactMatch pl:RiskAssessment ;
     skos:inScheme pl:placements .
 
-pl:additionalSupportWeeklyCost a owl:DatatypeProperty ;
-    rdfs:label "additionalSupportWeeklyCost" ;
-    rdfs:range [ a rdfs:Datatype ;
-            owl:intersectionOf ( xsd:decimal [ a rdfs:Datatype ;
-                        owl:onDatatype xsd:integer ;
-                        owl:withRestrictions ( [ xsd:minInclusive 0 ] ) ] ) ] ;
-    skos:definition "Total weekly additional-support cost: costs incurred over and above the core cost to meet the specific needs of the child." ;
-    skos:inScheme pl:placements .
-
 cn:BSL a owl:Class ;
     rdfs:label "BSL" ;
     dct:title "BSL" ;
@@ -548,16 +533,7 @@ cn:Other a owl:Class ;
     rdfs:label "Other" ;
     dct:title "Other" ;
     rdfs:subClassOf pl:communication-need ;
-    skos:definition "Another communication or language requirement not listed. When this concept is selected, supply the details via the paired pl:specificCommunicationRequirementOther free-text property on PlacementRequirements." .
-
-pl:coreWeeklyCost a owl:DatatypeProperty ;
-    rdfs:label "coreWeeklyCost" ;
-    rdfs:range [ a rdfs:Datatype ;
-            owl:intersectionOf ( xsd:decimal [ a rdfs:Datatype ;
-                        owl:onDatatype xsd:integer ;
-                        owl:withRestrictions ( [ xsd:minInclusive 0 ] ) ] ) ] ;
-    skos:definition "Total weekly core cost: the basic price quoted by a provider to deliver the service outlined in their Statement of Purpose, excluding child-specific additional costs." ;
-    skos:inScheme pl:placements .
+    skos:definition "Another communication or language requirement not listed." .
 
 cln:NotKnown a owl:Class ;
     rdfs:label "Not Known" ;
@@ -575,28 +551,13 @@ cln:Other a owl:Class ;
     rdfs:label "Other" ;
     dct:title "Other" ;
     rdfs:subClassOf pl:cultural-need ;
-    skos:definition "Other cultural needs apply. When this concept is selected, supply the details via the paired pl:culturalNeedsOther free-text property on PlacementRequirements." .
+    skos:definition "Other cultural needs apply." .
 
 cln:Required a owl:Class ;
     rdfs:label "Required" ;
     dct:title "Required" ;
     rdfs:subClassOf pl:cultural-need ;
     skos:definition "Specific cultural accommodations are required." .
-
-pl:culturalNeeds a owl:ObjectProperty ;
-    rdfs:label "culturalNeeds" ;
-    rdfs:range pl:cultural-need ;
-    skos:definition "Whether the placement must accommodate specific cultural needs (e.g., access to places of worship)." ;
-    skos:inScheme pl:placements .
-
-pl:educationWeeklyCost a owl:DatatypeProperty ;
-    rdfs:label "educationWeeklyCost" ;
-    rdfs:range [ a rdfs:Datatype ;
-            owl:intersectionOf ( xsd:decimal [ a rdfs:Datatype ;
-                        owl:onDatatype xsd:integer ;
-                        owl:withRestrictions ( [ xsd:minInclusive 0 ] ) ] ) ] ;
-    skos:definition "Total weekly education cost: recorded when the placement includes both care and registered education provision." ;
-    skos:inScheme pl:placements .
 
 la:NoPreference a owl:Class ;
     rdfs:label "No preference" ;
@@ -627,45 +588,6 @@ la:WithOtherChildren a owl:Class ;
     dct:title "With other children recommended" ;
     rdfs:subClassOf pl:living-arrangement ;
     skos:definition "Living with other children is recommended." .
-
-pl:otherWeeklyCost a owl:DatatypeProperty ;
-    rdfs:label "otherWeeklyCost" ;
-    rdfs:range [ a rdfs:Datatype ;
-            owl:intersectionOf ( xsd:decimal [ a rdfs:Datatype ;
-                        owl:onDatatype xsd:integer ;
-                        owl:withRestrictions ( [ xsd:minInclusive 0 ] ) ] ) ] ;
-    skos:definition "Any weekly placement costs that do not clearly fall within the core, additional-support or education categories." ;
-    skos:inScheme pl:placements .
-
-pl:outOfLAReason a owl:ObjectProperty ;
-    rdfs:label "outOfLAReason" ;
-    rdfs:range pl:outof-la-reason ;
-    skos:definition "If preferred placement location is in a different LA than the placing LA, why is this?" ;
-    skos:inScheme pl:placements .
-
-olr:BailConditions a owl:Class ;
-    rdfs:label "Bail conditions" ;
-    dct:title "Bail conditions" ;
-    rdfs:subClassOf pl:outof-la-reason ;
-    skos:definition "Placement is sought outside the placing LA because of bail conditions." .
-
-olr:CourtOrder a owl:Class ;
-    rdfs:label "Court order" ;
-    dct:title "Court order" ;
-    rdfs:subClassOf pl:outof-la-reason ;
-    skos:definition "Placement is sought outside the placing LA because of a court order." .
-
-olr:OutOfLAReasonOther a owl:Class ;
-    rdfs:label "Other" ;
-    dct:title "Other" ;
-    rdfs:subClassOf pl:outof-la-reason ;
-    skos:definition "Another reason not listed. When this concept is selected, supply the details via the paired pl:outOfLAReasonOther free-text property on PlacementAvailability." .
-
-olr:SafeguardingConcerns a owl:Class ;
-    rdfs:label "Safeguarding concerns" ;
-    dct:title "Safeguarding concerns" ;
-    rdfs:subClassOf pl:outof-la-reason ;
-    skos:definition "Placement is sought outside the placing LA due to safeguarding concerns." .
 
 pa:No a owl:Class ;
     rdfs:label "False" ;
@@ -727,16 +649,6 @@ pu:WithinFiveDays a owl:Class ;
     rdfs:subClassOf pl:placement-urgency ;
     skos:definition "Placement is needed within five days." .
 
-pl:placementLocation a owl:DatatypeProperty ;
-    rdfs:label "placementLocation" ;
-    rdfs:range [ a rdfs:Datatype ;
-            owl:intersectionOf ( xsd:string [ a rdfs:Datatype ;
-                        owl:onDatatype xsd:string ;
-                        owl:withRestrictions ( [ xsd:pattern "^[A-Z]{1,2}[0-9][0-9A-Z]?$" ] ) ] ) ] ;
-    skos:definition "First 3-4 characters of the postcode (UK outward code) for the actual placement location." ;
-    skos:inScheme pl:placements ;
-    sh:message "Use the first part of a UK postcode (the outward code) in upper case - for example `AB1`." .
-
 yns:No a owl:Class ;
     rdfs:label "False" ;
     dct:title "No" ;
@@ -766,12 +678,6 @@ rl:RiskPresent a owl:Class ;
     dct:title "Risk present" ;
     rdfs:subClassOf pl:risk-level ;
     skos:definition "A risk is known to be present." .
-
-pl:specificCommunicationRequirement a owl:ObjectProperty ;
-    rdfs:label "specificCommunicationRequirement" ;
-    rdfs:range pl:communication-need ;
-    skos:definition "Specific communication or language requirement (ESOL, BSL, Makaton, Other, None). Multi-valued: a placement may have several." ;
-    skos:inScheme pl:placements .
 
 sl:NotSpecified a owl:Class ;
     rdfs:label "Not specified" ;
@@ -813,7 +719,7 @@ st:Other a owl:Class ;
     rdfs:label "Other" ;
     dct:title "Other" ;
     rdfs:subClassOf pl:support-type ;
-    skos:definition "Other additional support is required. When this concept is selected, supply the details via the paired pl:additionalSupportOther free-text property on PlacementRequirements." .
+    skos:definition "Other additional support is required (please specify)." .
 
 st:TaxisToSchool a owl:Class ;
     rdfs:label "Taxis to school" ;
@@ -832,35 +738,6 @@ st:WorkerForRespite a owl:Class ;
     dct:title "A worker for respite" ;
     rdfs:subClassOf pl:support-type ;
     skos:definition "A worker is required to provide respite." .
-
-pl:totalWeeklyCost a owl:DatatypeProperty ;
-    rdfs:label "totalWeeklyCost" ;
-    rdfs:range [ a rdfs:Datatype ;
-            owl:intersectionOf ( xsd:decimal [ a rdfs:Datatype ;
-                        owl:onDatatype xsd:integer ;
-                        owl:withRestrictions ( [ xsd:minInclusive 100 ] ) ] [ a rdfs:Datatype ;
-                        owl:onDatatype xsd:integer ;
-                        owl:withRestrictions ( [ xsd:maxInclusive 100000 ] ) ] ) ] ;
-    skos:definition "Total weekly fee paid for the placement, excluding VAT. Expected to be between £100 and £100,000." ;
-    skos:inScheme pl:placements .
-
-pl:PlacementAvailability a owl:Class ;
-    rdfs:label "PlacementAvailability" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty pl:siblingCount ],
-        [ a owl:Restriction ;
-            owl:cardinality 1 ;
-            owl:onProperty pl:isPreferredLocationLocal ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty pl:outOfLAReason ],
-        [ a owl:Restriction ;
-            owl:cardinality 1 ;
-            owl:onProperty pl:neededBy ] ;
-    skos:definition "The referral request details: how urgently the child needs to be placed, how many siblings should be placed together, whether the preferred location is local, and (if out of area) why." ;
-    skos:exactMatch pl:PlacementAvailability ;
-    skos:inScheme pl:placements .
 
 pl:placement-type a owl:Class ;
     rdfs:label "PlacementType" ;
@@ -892,33 +769,6 @@ pl:presence-status a owl:Class ;
         yns:NotSpecified,
         yns:Yes .
 
-pl:PlacementRequirements a owl:Class ;
-    rdfs:label "PlacementRequirements" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty pl:homeAdaptationRequired ],
-        [ a owl:Restriction ;
-            owl:cardinality 1 ;
-            owl:onProperty pl:livingCompanions ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty pl:deprivationOfLiberty ],
-        [ a owl:Restriction ;
-            owl:minCardinality 1 ;
-            owl:onProperty pl:specificCommunicationRequirement ],
-        [ a owl:Restriction ;
-            owl:cardinality 1 ;
-            owl:onProperty pl:communicationNeeds ],
-        [ a owl:Restriction ;
-            owl:cardinality 1 ;
-            owl:onProperty pl:culturalNeeds ],
-        [ a owl:Restriction ;
-            owl:cardinality 1 ;
-            owl:onProperty pl:pets ] ;
-    skos:definition "The child's needs that the placement must accommodate: communication, cultural, living companions, pets, additional support, deprivation of liberty and home adaptation." ;
-    skos:exactMatch pl:PlacementRequirements ;
-    skos:inScheme pl:placements .
-
 pl:cultural-need a owl:Class ;
     rdfs:label "CulturalNeed" ;
     dct:title "Cultural Need" ;
@@ -929,17 +779,6 @@ pl:cultural-need a owl:Class ;
         cln:NotRequired,
         cln:Other,
         cln:Required .
-
-pl:outof-la-reason a owl:Class ;
-    rdfs:label "OutOfLAReason" ;
-    dct:title "Out of LA Reason" ;
-    owl:unionOf ( olr:SafeguardingConcerns olr:BailConditions olr:CourtOrder olr:OutOfLAReasonOther ) ;
-    skos:definition "Controlled vocabulary describing the reason the preferred placement location is in a different LA." ;
-    skos:inScheme pl:placements ;
-    linkml:permissible_values olr:BailConditions,
-        olr:CourtOrder,
-        olr:OutOfLAReasonOther,
-        olr:SafeguardingConcerns .
 
 pl:pets-allowance a owl:Class ;
     rdfs:label "PetsAllowance" ;
@@ -1008,32 +847,4 @@ pl:risk-level a owl:Class ;
     skos:inScheme pl:placements ;
     linkml:permissible_values rl:NoKnownRisk,
         rl:RiskPresent .
-
-[] rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty pl:specificCommunicationRequirementOther ;
-            owl:someValuesFrom xsd:string ] ;
-    owl:intersectionOf ( [ a owl:Restriction ;
-                owl:onProperty pl:specificCommunicationRequirement ;
-                owl:someValuesFrom xsd:string ] pl:PlacementRequirements ) .
-
-[] rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty pl:culturalNeedsOther ;
-            owl:someValuesFrom xsd:string ] ;
-    owl:intersectionOf ( [ a owl:Restriction ;
-                owl:onProperty pl:culturalNeeds ;
-                owl:someValuesFrom xsd:string ] pl:PlacementRequirements ) .
-
-[] rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty pl:additionalSupportOther ;
-            owl:someValuesFrom xsd:string ] ;
-    owl:intersectionOf ( [ a owl:Restriction ;
-                owl:onProperty pl:additionalSupport ;
-                owl:someValuesFrom xsd:string ] pl:PlacementRequirements ) .
-
-[] rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty pl:outOfLAReasonOther ;
-            owl:someValuesFrom xsd:string ] ;
-    owl:intersectionOf ( [ a owl:Restriction ;
-                owl:onProperty pl:outOfLAReason ;
-                owl:someValuesFrom xsd:string ] pl:PlacementAvailability ) .
 

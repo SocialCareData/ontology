@@ -7,6 +7,8 @@
 @prefix oc: <https://ns.socialcaredata.io/organisation-code#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rr: <https://ns.socialcaredata.io/record-relationship#> .
+@prefix rtc: <https://ns.socialcaredata.io/record-type#> .
 @prefix scf: <https://ns.socialcaredata.io/service-cost-frequency#> .
 @prefix sd: <https://ns.socialcaredata.io/service-delivery#> .
 @prefix sg: <https://ns.socialcaredata.io/> .
@@ -192,7 +194,7 @@ sg:LifeEventShape a sh:NodeShape ;
             sh:order 0 ;
             sh:path sg:identifier ],
         [ sh:description "Code(s) for the type of life event." ;
-            sh:in ( evc:Birth evc:Death evc:AeAttendance evc:SchoolExclusion evc:SchoolSuspension evc:MissingPerson evc:SafeguardingConcern evc:Referral evc:Homeless ) ;
+            sh:in ( evc:Birth evc:Death evc:AeAttendance evc:SchoolExclusion evc:SchoolSuspension evc:MissingPerson evc:SafeguardingConcern evc:Referral evc:ChildSafeguardingReferral evc:ChildInfoRequestReferral evc:ChildCrossServiceReferral evc:AdultGeneralReferral evc:AdultSafeguardingReferral evc:AdultIndependentLivingReferral evc:AdultCareActAssessmentReferral evc:AdultInfoRequestReferral evc:AdultCrossServiceReferral evc:QualityOfCareConcern evc:Homeless ) ;
             sh:minCount 1 ;
             sh:name "type" ;
             sh:order 1 ;
@@ -214,6 +216,12 @@ sg:LifeEventShape a sh:NodeShape ;
             sh:nodeKind sh:BlankNodeOrIRI ;
             sh:order 2 ;
             sh:path sg:subjectPerson ],
+        [ sh:class sg:LinkedRecord ;
+            sh:description "Linked records associated with this episode or life event (e.g. referrals, requests, concerns, assessments, plans)." ;
+            sh:name "linkedRecord" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 7 ;
+            sh:path sg:linkedRecord ],
         [ sh:class sg:RelatedProfessional ;
             sh:description "References to the Professional(s) involved, qualified by involvement." ;
             sh:name "relatedProfessional" ;
@@ -221,6 +229,33 @@ sg:LifeEventShape a sh:NodeShape ;
             sh:order 3 ;
             sh:path sg:relatedProfessional ] ;
     sh:targetClass sg:LifeEvent .
+
+sg:LinkedRecordShape a sh:NodeShape ;
+    rdfs:comment "A reference to an associated external or cross-standard record (such as a referral, service request, quality-of-care concern, care needs assessment, or care plan)." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The nature of the relationship (e.g. trigger, outcome, context)." ;
+            sh:in ( rr:EscalationOf rr:DeescalationOf rr:FollowupTo rr:ReactivationOf rr:ConcurrentWith ) ;
+            sh:maxCount 1 ;
+            sh:name "recordRelationship" ;
+            sh:order 2 ;
+            sh:path sg:recordRelationship ],
+        [ sh:description "The type of the linked record." ;
+            sh:in ( rtc:Referral rtc:Request rtc:QualityOfCareConcern rtc:Assessment rtc:Plan ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "recordType" ;
+            sh:order 1 ;
+            sh:path sg:recordType ],
+        [ sh:class sg:Identifier ;
+            sh:description "The unique identifier of the linked record." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "recordId" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path sg:recordId ] ;
+    sh:targetClass sg:LinkedRecord .
 
 sg:MeasurementShape a sh:NodeShape ;
     rdfs:comment "A quantitative measurement of something related to the subject or their circumstances (for example \"Authorised Absences\" or \"Referrals\")." ;
@@ -452,7 +487,7 @@ sg:ServiceEpisodeShape a sh:NodeShape ;
     sh:closed false ;
     sh:ignoredProperties ( rdf:type ) ;
     sh:property [ sh:description "Code(s) for the type of service episode." ;
-            sh:in ( epc:Assessment epc:EarlyHelp epc:Section47 epc:AdultSafeguarding epc:CareActAssessment epc:OtherAssessment epc:Plan epc:Ehcp epc:FamilyCourtOrder epc:CinPlan epc:CpPlan epc:CamhsPlan epc:ChildLookedAfter epc:CarePlan epc:OtherPlan epc:Provision epc:FaceToFaceContact epc:RemoteContact epc:DirectProvision epc:IndirectProvision epc:Admin epc:Miscellaneous ) ;
+            sh:in ( epc:Assessment epc:EarlyHelp epc:Section47 epc:AdultSafeguarding epc:CareActAssessment epc:OtherAssessment epc:MashReview epc:ReferralReview epc:Plan epc:Ehcp epc:FamilyCourtOrder epc:CinPlan epc:CpPlan epc:CamhsPlan epc:ChildLookedAfter epc:CarePlan epc:OtherPlan epc:Provision epc:FaceToFaceContact epc:RemoteContact epc:DirectProvision epc:IndirectProvision epc:Admin epc:Miscellaneous epc:Request epc:Notification epc:ChildEarlyHelp epc:ChildCin epc:ChildS47 epc:ChildEmergency epc:ChildStatutoryServices epc:ChildNonStatutoryServices epc:AdultStatutoryServices epc:AdultNonStatutoryServices ) ;
             sh:minCount 1 ;
             sh:name "type" ;
             sh:order 1 ;
@@ -471,7 +506,7 @@ sg:ServiceEpisodeShape a sh:NodeShape ;
             sh:order 6 ;
             sh:path sg:location ],
         [ sh:description "Outcome of the episode for the subject." ;
-            sh:in ( eo:Reablement eo:Assessment eo:Hospital eo:Continuation eo:Planning eo:NfaPlanned eo:NfaMoved eo:NfaNhsReferral eo:NfaDisregard eo:NfaLocalReferral eo:NfaDeclined eo:NfaInfo eo:NfaDeceased eo:NfaNoOfferOther eo:NfaEndedOther eo:NfaOther ) ;
+            sh:in ( eo:Reablement eo:Assessment eo:Hospital eo:Continuation eo:Planning eo:NfaPlanned eo:NfaMoved eo:NfaNhsReferral eo:NfaDisregard eo:NfaLocalReferral eo:NfaDeclined eo:NfaInfo eo:NfaDeceased eo:NfaNoOfferOther eo:NfaEndedOther eo:NfaOther eo:Referral eo:Request eo:QualityOfCareConcern ) ;
             sh:maxCount 1 ;
             sh:name "outcome" ;
             sh:order 8 ;
@@ -500,6 +535,12 @@ sg:ServiceEpisodeShape a sh:NodeShape ;
             sh:nodeKind sh:BlankNodeOrIRI ;
             sh:order 4 ;
             sh:path sg:relatedService ],
+        [ sh:class sg:LinkedRecord ;
+            sh:description "Linked records associated with this episode or life event (e.g. referrals, requests, concerns, assessments, plans)." ;
+            sh:name "linkedRecord" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 9 ;
+            sh:path sg:linkedRecord ],
         [ sh:class sg:RelatedProfessional ;
             sh:description "References to the Professional(s) involved, qualified by involvement." ;
             sh:name "relatedProfessional" ;
@@ -528,7 +569,7 @@ sg:ServiceShape a sh:NodeShape ;
             sh:order 4 ;
             sh:path sg:active ],
         [ sh:description "Code(s) for the kind of service." ;
-            sh:in ( svc:YouthOffending svc:PrimarySchool svc:HighSchool svc:SenPrimarySchool svc:SenHighSchool svc:AlternativeProvisionSchool svc:SocialCare svc:FamilyCourt svc:Camhs svc:Reablement svc:ShortTermNursingCare svc:ShortTermResidentialCare svc:LongTermNursingCare svc:LongTermResidentialCare svc:HomeSupportDomiciliary svc:DaySupport svc:Meals svc:Transport svc:Equipment svc:DirectPayment svc:SharedLives svc:CommunitySupportedLiving svc:ExtraCareHousing svc:SocialWorkerSupport svc:OtherProfessionalSupport svc:LearningEducationEmployment svc:EndOfLifeCare svc:EmergencySupport svc:OtherShortTermSupport svc:OtherLongTermSupport svc:CarerRespite svc:CarerSittingService svc:CarerUniversalServices svc:OtherCarerSupport ) ;
+            sh:in ( svc:YouthOffending svc:PrimarySchool svc:HighSchool svc:SenPrimarySchool svc:SenHighSchool svc:AlternativeProvisionSchool svc:SocialCare svc:FamilyCourt svc:Camhs svc:Reablement svc:ShortTermNursingCare svc:ShortTermResidentialCare svc:LongTermNursingCare svc:LongTermResidentialCare svc:HomeSupportDomiciliary svc:DaySupport svc:Meals svc:Transport svc:Equipment svc:DirectPayment svc:SharedLives svc:CommunitySupportedLiving svc:ExtraCareHousing svc:SocialWorkerSupport svc:OtherProfessionalSupport svc:LearningEducationEmployment svc:EndOfLifeCare svc:EmergencySupport svc:OtherShortTermSupport svc:OtherLongTermSupport svc:CarerRespite svc:CarerSittingService svc:CarerUniversalServices svc:OtherCarerSupport svc:MASH svc:EarlyHelp svc:EducationWelfare svc:HomeAdaptations svc:OccupationalTherapy svc:CHC svc:CMHT svc:S117Aftercare svc:DoLS svc:D2A svc:SensoryTeam svc:Advocacy svc:LGA ) ;
             sh:minCount 1 ;
             sh:name "type" ;
             sh:order 3 ;

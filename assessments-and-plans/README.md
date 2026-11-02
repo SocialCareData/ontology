@@ -125,4 +125,4 @@ the published shapes from SocialCareData/ontology.
 npx @socialcaredata/validator -p assessments-and-plans yourdata.jsonld
 ```
 
-Or in a browser: <https://socialcaredata.github.io/validator/>
+Or in a browser: <https://standard.socialcaredata.io/validator>
