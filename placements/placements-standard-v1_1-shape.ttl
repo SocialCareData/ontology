@@ -1,6 +1,7 @@
 @prefix cln: <https://ns.socialcaredata.io/cultural-need#> .
 @prefix cn: <https://ns.socialcaredata.io/communication-need#> .
 @prefix la: <https://ns.socialcaredata.io/living-arrangement#> .
+@prefix olr: <https://ns.socialcaredata.io/outof-la-reason#> .
 @prefix pa: <https://ns.socialcaredata.io/pets-allowance#> .
 @prefix pl: <https://ns.socialcaredata.io/> .
 @prefix pt: <https://ns.socialcaredata.io/placement-type#> .
@@ -15,10 +16,17 @@
 @prefix yns: <https://ns.socialcaredata.io/presence-status#> .
 
 pl:ActualPlacementShape a sh:NodeShape ;
-    rdfs:comment "The placement actually arranged for the child, including total weekly cost, location, provider URN, sibling co-placement and educational continuity. Optional - a Placement may not (yet) have one." ;
+    rdfs:comment "The placement actually arranged for the child, including weekly cost (with optional breakdown), location, provider URN, sibling co-placement and educational continuity. Optional - a Placement may not (yet) have one." ;
     sh:closed false ;
     sh:ignoredProperties ( rdf:type ) ;
-    sh:property [ sh:datatype xsd:boolean ;
+    sh:property [ sh:datatype xsd:decimal ;
+            sh:description "Any weekly placement costs that do not clearly fall within the core, additional-support or education categories." ;
+            sh:maxCount 1 ;
+            sh:minInclusive 0 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 10 ;
+            sh:path pl:otherWeeklyCost ],
+        [ sh:datatype xsd:boolean ;
             sh:description "Whether the child's education was continuous (i.e., not disrupted) as a result of this placement." ;
             sh:maxCount 1 ;
             sh:minCount 1 ;
@@ -31,20 +39,20 @@ pl:ActualPlacementShape a sh:NodeShape ;
             sh:minCount 1 ;
             sh:order 0 ;
             sh:path pl:placementType ],
-        [ sh:datatype xsd:integer ;
-            sh:description "Total weekly fee paid for the placement (actual weekly fee paid)." ;
+        [ sh:datatype xsd:decimal ;
+            sh:description "Total weekly additional-support cost: costs incurred over and above the core cost to meet the specific needs of the child." ;
             sh:maxCount 1 ;
-            sh:minCount 1 ;
+            sh:minInclusive 0 ;
             sh:nodeKind sh:Literal ;
-            sh:order 6 ;
-            sh:path pl:totalWeeklyCost ],
-        [ sh:datatype xsd:string ;
-            sh:description "The location of the actual placement." ;
+            sh:order 8 ;
+            sh:path pl:additionalSupportWeeklyCost ],
+        [ sh:datatype xsd:decimal ;
+            sh:description "Total weekly core cost: the basic price quoted by a provider to deliver the service outlined in their Statement of Purpose, excluding child-specific additional costs." ;
             sh:maxCount 1 ;
-            sh:minCount 1 ;
+            sh:minInclusive 0 ;
             sh:nodeKind sh:Literal ;
-            sh:order 2 ;
-            sh:path pl:placementLocation ],
+            sh:order 7 ;
+            sh:path pl:coreWeeklyCost ],
         [ sh:datatype xsd:string ;
             sh:description "Provider Unique Reference Number, linked to Ofsted registration. Allows the placement to be linked to Ofsted data about the provider." ;
             sh:maxCount 1 ;
@@ -52,6 +60,15 @@ pl:ActualPlacementShape a sh:NodeShape ;
             sh:nodeKind sh:Literal ;
             sh:order 1 ;
             sh:path pl:providerURN ],
+        [ sh:datatype xsd:string ;
+            sh:description "First 3-4 characters of the postcode (UK outward code) for the actual placement location." ;
+            sh:maxCount 1 ;
+            sh:message "Use the first part of a UK postcode (the outward code) in upper case - for example `AB1`."^^xsd:string ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path pl:placementLocation ;
+            sh:pattern "^[A-Z]{1,2}[0-9][0-9A-Z]?$" ],
         [ sh:datatype xsd:boolean ;
             sh:description "Whether the actual placement location was a preferred location." ;
             sh:maxCount 1 ;
@@ -59,36 +76,64 @@ pl:ActualPlacementShape a sh:NodeShape ;
             sh:nodeKind sh:Literal ;
             sh:order 3 ;
             sh:path pl:isLocationPreferred ],
+        [ sh:datatype xsd:decimal ;
+            sh:description "Total weekly fee paid for the placement, excluding VAT. Expected to be between £100 and £100,000." ;
+            sh:maxCount 1 ;
+            sh:maxInclusive 100000 ;
+            sh:minCount 1 ;
+            sh:minInclusive 100 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 6 ;
+            sh:path pl:totalWeeklyCost ],
         [ sh:datatype xsd:nonNegativeInteger ;
             sh:description "How many siblings were actually placed together." ;
             sh:maxCount 1 ;
             sh:minCount 1 ;
             sh:nodeKind sh:Literal ;
             sh:order 5 ;
-            sh:path pl:siblingsPlacedTogether ] ;
+            sh:path pl:siblingsPlacedTogether ],
+        [ sh:datatype xsd:decimal ;
+            sh:description "Total weekly education cost: recorded when the placement includes both care and registered education provision." ;
+            sh:maxCount 1 ;
+            sh:minInclusive 0 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 9 ;
+            sh:path pl:educationWeeklyCost ] ;
     sh:targetClass pl:ActualPlacement .
 
 pl:PlacementAvailabilityShape a sh:NodeShape ;
-    rdfs:comment "The referral request details: how urgently the child needs to be placed, how many siblings should be placed together, and the preferred location for the home search." ;
+    rdfs:comment "The referral request details: how urgently the child needs to be placed, how many siblings should be placed together, whether the preferred location is local, and (if out of area) why." ;
     sh:closed false ;
     sh:ignoredProperties ( rdf:type ) ;
-    sh:property [ sh:description "When the child needs to be placed by. Captures urgency rather than an absolute date." ;
-            sh:in ( pu:Today pu:WithinFiveDays pu:MoreThanFiveDays ) ;
+    sh:property [ sh:datatype xsd:boolean ;
+            sh:description "Is the preferred placement location in the same LA as the placing LA?" ;
             sh:maxCount 1 ;
-            sh:order 0 ;
-            sh:path pl:neededBy ],
-        [ sh:datatype xsd:string ;
-            sh:description "Preferred location for the home search." ;
-            sh:maxCount 1 ;
+            sh:minCount 1 ;
             sh:nodeKind sh:Literal ;
             sh:order 2 ;
-            sh:path pl:preferredLocation ],
+            sh:path pl:isPreferredLocationLocal ],
+        [ sh:datatype xsd:string ;
+            sh:description "Free-text description of why the preferred placement location is in a different LA when the standard outof-la-reason options do not apply. Used when the 'Other' OutOfLAReason concept is selected." ;
+            sh:nodeKind sh:Literal ;
+            sh:order 4 ;
+            sh:path pl:outOfLAReasonOther ],
+        [ sh:description "If preferred placement location is in a different LA than the placing LA, why is this?" ;
+            sh:in ( olr:SafeguardingConcerns olr:BailConditions olr:CourtOrder olr:OutOfLAReasonOther ) ;
+            sh:maxCount 1 ;
+            sh:order 3 ;
+            sh:path pl:outOfLAReason ],
         [ sh:datatype xsd:nonNegativeInteger ;
             sh:description "How many siblings the child should ideally be placed with according to the care plan. 0 if the child has no siblings or is not to be placed with siblings." ;
             sh:maxCount 1 ;
             sh:nodeKind sh:Literal ;
             sh:order 1 ;
-            sh:path pl:siblingCount ] ;
+            sh:path pl:siblingCount ],
+        [ sh:description "When the child needs to be placed by. Captures urgency rather than an absolute date." ;
+            sh:in ( pu:Today pu:WithinFiveDays pu:MoreThanFiveDays ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:order 0 ;
+            sh:path pl:neededBy ] ;
     sh:targetClass pl:PlacementAvailability .
 
 pl:PlacementRecommendationShape a sh:NodeShape ;
@@ -119,23 +164,28 @@ pl:PlacementRequirementsShape a sh:NodeShape ;
     rdfs:comment "The child's needs that the placement must accommodate: communication, cultural, living companions, pets, additional support, deprivation of liberty and home adaptation." ;
     sh:closed false ;
     sh:ignoredProperties ( rdf:type ) ;
-    sh:property [ sh:datatype xsd:boolean ;
+    sh:property [ sh:description "Additional support provision required (e.g., additional supervision, therapeutic support, taxis to school). Multi-valued." ;
+            sh:in ( st:AdditionalSupervision st:TherapeuticSupport st:WorkerForRespite st:TaxisToSchool st:NotApplicable st:Other ) ;
+            sh:order 5 ;
+            sh:path pl:additionalSupport ],
+        [ sh:datatype xsd:boolean ;
             sh:description "Whether the child has a Deprivation of Liberty Order (DOL)." ;
             sh:maxCount 1 ;
             sh:nodeKind sh:Literal ;
-            sh:order 7 ;
+            sh:order 10 ;
             sh:path pl:deprivationOfLiberty ],
-        [ sh:description "Additional support provision required (e.g., additional supervision, therapeutic support, taxis to school)." ;
-            sh:in ( st:AdditionalSupervision st:TherapeuticSupport st:WorkerForRespite st:TaxisToSchool st:NotApplicable st:Other ) ;
-            sh:maxCount 1 ;
-            sh:order 5 ;
-            sh:path pl:additionalSupport ],
         [ sh:description "Whether the child can or must live in a home with pets/animals." ;
             sh:in ( pa:YesMust pa:YesCan pa:No pa:NotKnown ) ;
             sh:maxCount 1 ;
             sh:minCount 1 ;
             sh:order 4 ;
             sh:path pl:pets ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Whether adaptations to the home are required to accommodate the child's needs." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 9 ;
+            sh:path pl:homeAdaptationRequired ],
         [ sh:description "Whether the child has any communication, language or learning needs." ;
             sh:in ( yns:Yes yns:No yns:NotSpecified ) ;
             sh:maxCount 1 ;
@@ -159,13 +209,21 @@ pl:PlacementRequirementsShape a sh:NodeShape ;
             sh:minCount 1 ;
             sh:order 1 ;
             sh:path pl:specificCommunicationRequirement ],
-        [ sh:datatype xsd:boolean ;
-            sh:description "Whether adaptations to the home are required to accommodate the child's needs." ;
-            sh:maxCount 1 ;
-            sh:minCount 1 ;
+        [ sh:datatype xsd:string ;
+            sh:description "Free-text description of any additional support not captured by the standard SupportType options. Used when the 'Other' SupportType concept is selected." ;
             sh:nodeKind sh:Literal ;
             sh:order 6 ;
-            sh:path pl:homeAdaptationRequired ] ;
+            sh:path pl:additionalSupportOther ],
+        [ sh:datatype xsd:string ;
+            sh:description "Free-text description of cultural needs not captured by the standard CulturalNeed options. Used when the 'Other' CulturalNeed concept is selected." ;
+            sh:nodeKind sh:Literal ;
+            sh:order 7 ;
+            sh:path pl:culturalNeedsOther ],
+        [ sh:datatype xsd:string ;
+            sh:description "Free-text description of communication or language requirements not captured by the standard CommunicationNeed options. Used when the 'Other' CommunicationNeed concept is among the selected values." ;
+            sh:nodeKind sh:Literal ;
+            sh:order 8 ;
+            sh:path pl:specificCommunicationRequirementOther ] ;
     sh:targetClass pl:PlacementRequirements .
 
 pl:PlacementShape a sh:NodeShape ;

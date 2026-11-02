@@ -321,6 +321,12 @@ p:PersonShape a sh:NodeShape ;
             sh:nodeKind sh:BlankNodeOrIRI ;
             sh:order 0 ;
             sh:path p:identifier ],
+        [ sh:class p:Name ;
+            sh:description "Subject-of-care Person must have at least one Name." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 1 ;
+            sh:path p:name ],
         [ sh:class p:PartialDate ;
             sh:description "Subject-of-care Person must have exactly one dateOfBirth." ;
             sh:maxCount 1 ;
@@ -328,13 +334,6 @@ p:PersonShape a sh:NodeShape ;
             sh:nodeKind sh:BlankNodeOrIRI ;
             sh:order 2 ;
             sh:path p:dateOfBirth ],
-        [ sh:class p:Name ;
-            sh:description "Subject-of-care Person must have exactly one Name." ;
-            sh:maxCount 1 ;
-            sh:minCount 1 ;
-            sh:nodeKind sh:BlankNodeOrIRI ;
-            sh:order 1 ;
-            sh:path p:name ],
         [ sh:class p:PartialDate ;
             sh:description "The person's date of death, with an optional accuracy indicator. isDeceased may be true without a known date." ;
             sh:maxCount 1 ;

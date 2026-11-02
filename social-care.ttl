@@ -14,6 +14,7 @@ sc:social-care a owl:Ontology ;
         <https://raw.githubusercontent.com/SocialCareData/ontology/main/common/common.ttl>,
         <https://raw.githubusercontent.com/SocialCareData/ontology/main/person/person-subject-of-care.ttl>,
         <https://raw.githubusercontent.com/SocialCareData/ontology/main/placements/placements-standard.ttl>,
+        <https://raw.githubusercontent.com/SocialCareData/ontology/main/referrals/referrals-standard.ttl>,
         <https://raw.githubusercontent.com/SocialCareData/ontology/main/safeguarding/safeguarding-standard.ttl> ;
     skos:definition """The Social Care ontology. It has no classes or slots of its own; it composes the independently-versioned modules - common, person, placements, safeguarding, and assessments-and-plans - into a single ontology under one flat namespace (https://ns.socialcaredata.io/).
 Each module is authored and versioned on its own cadence; a MAIS release pins a compatible set of module versions (see manifest.yaml) and is generated from this file.""" .

@@ -1,0 +1,858 @@
+@prefix con: <https://ns.socialcaredata.io/concern#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix linkml: <https://w3id.org/linkml/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pav: <http://purl.org/pav/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ref: <https://ns.socialcaredata.io/> .
+@prefix rft: <https://ns.socialcaredata.io/referrer-type#> .
+@prefix rp: <https://ns.socialcaredata.io/request-purpose#> .
+@prefix rqc: <https://ns.socialcaredata.io/referral-question-category#> .
+@prefix rt: <https://ns.socialcaredata.io/referral-type#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ref:attachment a owl:ObjectProperty ;
+    rdfs:label "attachment" ;
+    dct:title "attachment" ;
+    rdfs:range ref:DocumentReference ;
+    skos:definition "Attachments and reference to documents." ;
+    skos:inScheme ref:referrals .
+
+ref:involvementActorId a owl:ObjectProperty ;
+    rdfs:label "involvementActorId" ;
+    dct:title "actorId" ;
+    rdfs:range ref:Identifier ;
+    skos:definition "Identifier(s) of the professional or actor involved." ;
+    skos:inScheme ref:referrals .
+
+ref:pathway a owl:ObjectProperty ;
+    rdfs:label "pathway" ;
+    dct:title "pathway" ;
+    rdfs:range ref:service-code ;
+    skos:definition "What kind of support pathway do you think this referral should initiate?" ;
+    skos:inScheme ref:referrals .
+
+ref:personalNetwork a owl:ObjectProperty ;
+    rdfs:label "personalNetwork" ;
+    dct:title "personalNetwork" ;
+    rdfs:range ref:PersonalNetworkMember ;
+    skos:definition "Who is in the person's family, household, or personal network?" ;
+    skos:inScheme ref:referrals .
+
+ref:qocSubject a owl:ObjectProperty ;
+    rdfs:label "qocSubject" ;
+    dct:title "subject" ;
+    rdfs:range ref:Person ;
+    skos:definition "Who is the person? (Optional for anonymisation)." ;
+    skos:inScheme ref:referrals .
+
+ref:refAssessmentQuestion a owl:ObjectProperty ;
+    rdfs:label "refAssessmentQuestion" ;
+    dct:title "assessmentQuestion" ;
+    rdfs:range ref:ReferralAssessmentQuestion ;
+    skos:definition "Atypical, locally configured questions." ;
+    skos:inScheme ref:referrals .
+
+ref:QualityOfCareConcern a owl:Class ;
+    rdfs:label "QualityOfCareConcern" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ref:qocRecipient ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:refDateCompleted ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty ref:concern ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:refIdentifier ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:qocReferrer ] ;
+    skos:definition "Quality-of-care concern raised about a care provider or service." ;
+    skos:exactMatch ref:QualityOfCareConcern ;
+    skos:inScheme ref:referrals .
+
+ref:Referral a owl:Class ;
+    rdfs:label "Referral" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ref:referralType ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:refInvolvement ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:refDateCompleted ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty ref:refRecipient ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty ref:concern ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:refIdentifier ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ref:refReferrer ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty ref:refSubject ] ;
+    skos:definition "Inward, person-centric, point-of-entry referral into social services." ;
+    skos:exactMatch ref:Referral ;
+    skos:inScheme ref:referrals .
+
+ref:Request a owl:Class ;
+    rdfs:label "Request" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ref:requestSubject ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ref:purpose ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:refDateCompleted ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:refIdentifier ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ref:requestReferrer ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty ref:requestRecipient ] ;
+    skos:definition "Outward request for services for an existing subject of care." ;
+    skos:exactMatch ref:Request ;
+    skos:inScheme ref:referrals .
+
+ref:concernDescription a owl:DatatypeProperty ;
+    rdfs:label "concernDescription" ;
+    dct:title "description" ;
+    rdfs:range xsd:string ;
+    skos:definition "Free text description of concern." ;
+    skos:inScheme ref:referrals .
+
+ref:concernType a owl:ObjectProperty ;
+    rdfs:label "concernType" ;
+    dct:title "concernType" ;
+    rdfs:range ref:concern-code ;
+    skos:definition "The code identifying the concern." ;
+    skos:inScheme ref:referrals .
+
+ref:documentDescription a owl:DatatypeProperty ;
+    rdfs:label "documentDescription" ;
+    dct:title "description" ;
+    rdfs:range xsd:string ;
+    skos:definition "Text description of the document." ;
+    skos:inScheme ref:referrals .
+
+ref:documentId a owl:ObjectProperty ;
+    rdfs:label "documentId" ;
+    dct:title "documentId" ;
+    rdfs:range ref:Identifier ;
+    skos:definition "Unique identifier for the document." ;
+    skos:inScheme ref:referrals .
+
+ref:documentMimeType a owl:DatatypeProperty ;
+    rdfs:label "documentMimeType" ;
+    dct:title "mimeType" ;
+    rdfs:range xsd:string ;
+    skos:definition "Media type / MIME type of the document." ;
+    skos:inScheme ref:referrals .
+
+ref:documentTitle a owl:DatatypeProperty ;
+    rdfs:label "documentTitle" ;
+    dct:title "title" ;
+    rdfs:range xsd:string ;
+    skos:definition "Title or display name of the document." ;
+    skos:inScheme ref:referrals .
+
+ref:documentUrl a owl:DatatypeProperty ;
+    rdfs:label "documentUrl" ;
+    dct:title "url" ;
+    rdfs:range xsd:anyURI ;
+    skos:definition "Web address or storage URI where the document can be retrieved." ;
+    skos:inScheme ref:referrals .
+
+ref:involvementActorType a owl:ObjectProperty ;
+    rdfs:label "involvementActorType" ;
+    dct:title "actorType" ;
+    rdfs:range ref:referrer-type ;
+    skos:definition "Category of the actor involved (e.g. Self, Professional)." ;
+    skos:inScheme ref:referrals .
+
+ref:involvementDescription a owl:DatatypeProperty ;
+    rdfs:label "involvementDescription" ;
+    dct:title "description" ;
+    rdfs:range xsd:string ;
+    skos:definition "Free text description of involvement." ;
+    skos:inScheme ref:referrals .
+
+ref:networkDescription a owl:DatatypeProperty ;
+    rdfs:label "networkDescription" ;
+    dct:title "description" ;
+    rdfs:range xsd:string ;
+    skos:definition "Text description of the personal network relationship." ;
+    skos:inScheme ref:referrals .
+
+ref:networkPerson a owl:ObjectProperty ;
+    rdfs:label "networkPerson" ;
+    dct:title "person" ;
+    rdfs:range ref:Person ;
+    skos:definition "Person in the personal network." ;
+    skos:inScheme ref:referrals .
+
+ref:networkRelationship a owl:ObjectProperty ;
+    rdfs:label "networkRelationship" ;
+    dct:title "relationship" ;
+    rdfs:range ref:person-relationship-code ;
+    skos:definition "Relationship to the subject." ;
+    skos:inScheme ref:referrals .
+
+ref:purpose a owl:ObjectProperty ;
+    rdfs:label "purpose" ;
+    dct:title "purpose" ;
+    rdfs:range ref:request-purpose ;
+    skos:definition "What is the request?" ;
+    skos:inScheme ref:referrals .
+
+ref:qocRecipient a owl:ObjectProperty ;
+    rdfs:label "qocRecipient" ;
+    dct:title "recipient" ;
+    rdfs:range ref:Identifier ;
+    skos:definition "What service is involved? (Organisation / Service identifier)." ;
+    skos:inScheme ref:referrals .
+
+ref:qocReferrer a owl:ObjectProperty ;
+    rdfs:label "qocReferrer" ;
+    dct:title "referrer" ;
+    rdfs:range ref:ReferrerDetails ;
+    skos:definition "Who is the referrer? (Optional for anonymisation)." ;
+    skos:inScheme ref:referrals .
+
+ref:refInvolvement a owl:ObjectProperty ;
+    rdfs:label "refInvolvement" ;
+    dct:title "involvement" ;
+    rdfs:range ref:ReferralInvolvement ;
+    skos:definition "What have you or others done so far?" ;
+    skos:inScheme ref:referrals .
+
+ref:refRecipient a owl:ObjectProperty ;
+    rdfs:label "refRecipient" ;
+    dct:title "recipient" ;
+    rdfs:range ref:Identifier ;
+    skos:definition "Who was this referral sent to?" ;
+    skos:inScheme ref:referrals .
+
+ref:refReferrer a owl:ObjectProperty ;
+    rdfs:label "refReferrer" ;
+    dct:title "referrer" ;
+    rdfs:range ref:ReferrerDetails ;
+    skos:definition "Who is the referrer?" ;
+    skos:inScheme ref:referrals .
+
+ref:refSubject a owl:ObjectProperty ;
+    rdfs:label "refSubject" ;
+    dct:title "subject" ;
+    rdfs:range ref:Person ;
+    skos:definition "Who is the person?" ;
+    skos:inScheme ref:referrals .
+
+ref:referralType a owl:ObjectProperty ;
+    rdfs:label "referralType" ;
+    dct:title "type" ;
+    rdfs:range ref:referral-type ;
+    skos:definition "Type of referral." ;
+    skos:inScheme ref:referrals .
+
+ref:referrerPerson a owl:ObjectProperty ;
+    rdfs:label "referrerPerson" ;
+    dct:title "person" ;
+    rdfs:range ref:Person ;
+    skos:definition "The person referring, when a non-professional." ;
+    skos:inScheme ref:referrals .
+
+ref:referrerProfessional a owl:ObjectProperty ;
+    rdfs:label "referrerProfessional" ;
+    dct:title "professional" ;
+    rdfs:range ref:Professional ;
+    skos:definition "Professional object for the referrer." ;
+    skos:inScheme ref:referrals .
+
+ref:referrerProfessionalId a owl:ObjectProperty ;
+    rdfs:label "referrerProfessionalId" ;
+    dct:title "professionalId" ;
+    rdfs:range ref:Identifier ;
+    skos:definition "Lightweight identifier reference for a professional referrer." ;
+    skos:inScheme ref:referrals .
+
+ref:referrerRelationshipCode a owl:ObjectProperty ;
+    rdfs:label "referrerRelationshipCode" ;
+    dct:title "relationship" ;
+    rdfs:range ref:person-relationship-code ;
+    skos:definition "Relationship code of the referrer to the subject." ;
+    skos:inScheme ref:referrals .
+
+ref:referrerType a owl:ObjectProperty ;
+    rdfs:label "referrerType" ;
+    dct:title "referrerType" ;
+    rdfs:range ref:referrer-type ;
+    skos:definition "The type of referrer." ;
+    skos:inScheme ref:referrals .
+
+ref:relationshipDescription a owl:DatatypeProperty ;
+    rdfs:label "relationshipDescription" ;
+    dct:title "relationshipDescription" ;
+    rdfs:range xsd:string ;
+    skos:definition "Relationship description of referrer." ;
+    skos:inScheme ref:referrals .
+
+ref:requestRecipient a owl:ObjectProperty ;
+    rdfs:label "requestRecipient" ;
+    dct:title "recipient" ;
+    rdfs:range ref:Identifier ;
+    skos:definition "What service is requested? (Organisation / Service identifier)." ;
+    skos:inScheme ref:referrals .
+
+ref:requestReferrer a owl:ObjectProperty ;
+    rdfs:label "requestReferrer" ;
+    dct:title "referrer" ;
+    rdfs:range ref:Identifier ;
+    skos:definition "Who is the referrer? (Identifier object)." ;
+    skos:inScheme ref:referrals .
+
+ref:requestSubject a owl:ObjectProperty ;
+    rdfs:label "requestSubject" ;
+    dct:title "subject" ;
+    rdfs:range ref:Identifier ;
+    skos:definition "Who is the person? (Person identifier)." ;
+    skos:inScheme ref:referrals .
+
+ref:ConcernDetail a owl:Class ;
+    rdfs:label "ConcernDetail" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ref:concernType ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:concernDescription ] ;
+    skos:definition "Identified concern and optional descriptive details." ;
+    skos:exactMatch ref:ConcernDetail ;
+    skos:inScheme ref:referrals .
+
+ref:DocumentReference a owl:Class ;
+    rdfs:label "DocumentReference" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:documentTitle ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:documentUrl ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:documentId ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:documentMimeType ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:documentDescription ] ;
+    skos:definition "Reference to an attached document or evidence supporting the referral or request." ;
+    skos:exactMatch ref:DocumentReference ;
+    skos:inScheme ref:referrals .
+
+ref:PersonalNetworkMember a owl:Class ;
+    rdfs:label "PersonalNetworkMember" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ref:networkPerson ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:networkDescription ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ref:networkRelationship ] ;
+    skos:definition "Person in the subject's family, household, or broader personal support network (non-professionals only)." ;
+    skos:exactMatch ref:PersonalNetworkMember ;
+    skos:inScheme ref:referrals .
+
+ref:ReferralAssessmentQuestion a owl:Class ;
+    rdfs:label "ReferralAssessmentQuestion" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom ref:referral-question-category ;
+            owl:onProperty ref:category ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ref:category ],
+        ref:AssessmentQuestion ;
+    skos:definition "A generic Question-and-Answer model used to represent atypical, locally configured questions." ;
+    skos:exactMatch ref:ReferralAssessmentQuestion ;
+    skos:inScheme ref:referrals .
+
+ref:ReferralInvolvement a owl:Class ;
+    rdfs:label "ReferralInvolvement" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:involvementActorType ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:involvementDescription ] ;
+    skos:definition "Actions taken so far and parties involved." ;
+    skos:exactMatch ref:ReferralInvolvement ;
+    skos:inScheme ref:referrals .
+
+ref:concern a owl:ObjectProperty ;
+    rdfs:label "concern" ;
+    dct:title "concern" ;
+    rdfs:range ref:ConcernDetail ;
+    skos:definition "What is the concern?" ;
+    skos:inScheme ref:referrals .
+
+con:AdultDiscrimination a owl:Class ;
+    rdfs:label "adult.discrimination" ;
+    dct:title "Discrimination" ;
+    rdfs:subClassOf ref:concern-code .
+
+con:AdultDomesticAbuse a owl:Class ;
+    rdfs:label "adult.domesticAbuse" ;
+    dct:title "Domestic abuse" ;
+    rdfs:subClassOf ref:concern-code .
+
+con:AdultEmotionalAbuse a owl:Class ;
+    rdfs:label "adult.emotionalAbuse" ;
+    dct:title "Emotional abuse" ;
+    rdfs:subClassOf ref:concern-code .
+
+con:AdultFinancialCoercion a owl:Class ;
+    rdfs:label "adult.financialCoercion" ;
+    dct:title "Financial coercion" ;
+    rdfs:subClassOf ref:concern-code .
+
+con:AdultModernSlavery a owl:Class ;
+    rdfs:label "adult.modernSlavery" ;
+    dct:title "Modern slavery" ;
+    rdfs:subClassOf ref:concern-code .
+
+con:AdultNeglect a owl:Class ;
+    rdfs:label "adult.neglect" ;
+    dct:title "Neglect or acts of omission" ;
+    rdfs:subClassOf ref:concern-code .
+
+con:AdultOther a owl:Class ;
+    rdfs:label "adult.other" ;
+    dct:title "Other" ;
+    rdfs:subClassOf ref:concern-code .
+
+con:AdultPhysicalAbuse a owl:Class ;
+    rdfs:label "adult.physicalAbuse" ;
+    dct:title "Physical abuse" ;
+    rdfs:subClassOf ref:concern-code .
+
+con:AdultSelfHarm a owl:Class ;
+    rdfs:label "adult.selfHarm" ;
+    dct:title "Self-neglect or self-harm" ;
+    rdfs:subClassOf ref:concern-code .
+
+con:AdultSexualAbuse a owl:Class ;
+    rdfs:label "adult.sexualAbuse" ;
+    dct:title "Sexual abuse" ;
+    rdfs:subClassOf ref:concern-code .
+
+con:AdultSubstanceAbuse a owl:Class ;
+    rdfs:label "adult.substanceAbuse" ;
+    dct:title "Substance abuse" ;
+    rdfs:subClassOf ref:concern-code .
+
+con:ChildContextualRisk a owl:Class ;
+    rdfs:label "child.contextualRisk" ;
+    dct:title "Contextual risk" ;
+    rdfs:subClassOf ref:concern-code .
+
+con:ChildEmotionalAbuse a owl:Class ;
+    rdfs:label "child.emotionalAbuse" ;
+    dct:title "Emotional abuse" ;
+    rdfs:subClassOf ref:concern-code .
+
+con:ChildExploitation a owl:Class ;
+    rdfs:label "child.exploitation" ;
+    dct:title "Exploitation" ;
+    rdfs:subClassOf ref:concern-code .
+
+con:ChildGoingMissing a owl:Class ;
+    rdfs:label "child.goingMissing" ;
+    dct:title "Going missing" ;
+    rdfs:subClassOf ref:concern-code .
+
+con:ChildMissingEducation a owl:Class ;
+    rdfs:label "child.missingEducation" ;
+    dct:title "Missing education" ;
+    rdfs:subClassOf ref:concern-code .
+
+con:ChildNeglect a owl:Class ;
+    rdfs:label "child.neglect" ;
+    dct:title "Neglect" ;
+    rdfs:subClassOf ref:concern-code .
+
+con:ChildOther a owl:Class ;
+    rdfs:label "child.Other" ;
+    dct:title "Other" ;
+    rdfs:subClassOf ref:concern-code .
+
+con:ChildParentalConcern a owl:Class ;
+    rdfs:label "child.parentalConcern" ;
+    dct:title "Parental mental health or substance abuse issues" ;
+    rdfs:subClassOf ref:concern-code .
+
+con:ChildPhysicalAbuse a owl:Class ;
+    rdfs:label "child.physicalAbuse" ;
+    dct:title "Physical abuse" ;
+    rdfs:subClassOf ref:concern-code .
+
+con:ChildSexualAbuse a owl:Class ;
+    rdfs:label "child.sexualAbuse" ;
+    dct:title "Sexual abuse" ;
+    rdfs:subClassOf ref:concern-code .
+
+rqc:ActionsTaken a owl:Class ;
+    rdfs:label "ACTIONS_TAKEN" ;
+    dct:title "Actions already taken" ;
+    rdfs:subClassOf ref:referral-question-category .
+
+rqc:Attachments a owl:Class ;
+    rdfs:label "ATTACHMENTS" ;
+    dct:title "Attachments, evidence, and provenance" ;
+    rdfs:subClassOf ref:referral-question-category .
+
+rqc:CommunicationAccessibility a owl:Class ;
+    rdfs:label "COMMUNICATION_ACCESSIBILITY" ;
+    dct:title "Communication, accessibility, and adjustments" ;
+    rdfs:subClassOf ref:referral-question-category .
+
+rqc:Concern a owl:Class ;
+    rdfs:label "CONCERN" ;
+    dct:title "Concern and reason for referral" ;
+    rdfs:subClassOf ref:referral-question-category .
+
+rqc:FamilyNetwork a owl:Class ;
+    rdfs:label "FAMILY_NETWORK" ;
+    dct:title "Family, household, and support network" ;
+    rdfs:subClassOf ref:referral-question-category .
+
+rqc:ImpactDailyLife a owl:Class ;
+    rdfs:label "IMPACT_DAILY_LIFE" ;
+    dct:title "Impact, needs, and daily life" ;
+    rdfs:subClassOf ref:referral-question-category .
+
+rqc:ReferralTypeRouting a owl:Class ;
+    rdfs:label "REFERRAL_TYPE_ROUTING" ;
+    dct:title "Referral type and routing" ;
+    rdfs:subClassOf ref:referral-question-category .
+
+rqc:ReferrerDetails a owl:Class ;
+    rdfs:label "REFERRER_DETAILS" ;
+    dct:title "Referrer details" ;
+    rdfs:subClassOf ref:referral-question-category .
+
+rqc:RequestedService a owl:Class ;
+    rdfs:label "REQUESTED_SERVICE" ;
+    dct:title "Requested service, response required, and next steps" ;
+    rdfs:subClassOf ref:referral-question-category .
+
+rqc:RiskHarmSafety a owl:Class ;
+    rdfs:label "RISK_HARM_SAFETY" ;
+    dct:title "Risk, harm, and immediate safety" ;
+    rdfs:subClassOf ref:referral-question-category .
+
+rqc:StrengthsPositives a owl:Class ;
+    rdfs:label "STRENGTHS_POSITIVES" ;
+    dct:title "Strengths, protective factors, and what is working well / signs of safety" ;
+    rdfs:subClassOf ref:referral-question-category .
+
+rqc:SubjectAssessedStatus a owl:Class ;
+    rdfs:label "SUBJECT.ASSESSED_STATUS" ;
+    dct:title "Person being referred (assessed status)" ;
+    rdfs:subClassOf ref:referral-question-category .
+
+rqc:SubjectConsentCapacity a owl:Class ;
+    rdfs:label "SUBJECT.CONSENT_CAPACITY" ;
+    dct:title "Person being referred (consent, awareness, capacity, authority)" ;
+    rdfs:subClassOf ref:referral-question-category .
+
+rqc:SubjectDemographics a owl:Class ;
+    rdfs:label "SUBJECT.DEMOGRAPHICS" ;
+    dct:title "Person being referred (demographics)" ;
+    rdfs:subClassOf ref:referral-question-category .
+
+rqc:SubjectServicesNetwork a owl:Class ;
+    rdfs:label "SUBJECT.SERVICES_NETWORK" ;
+    dct:title "Current services, previous support and professional network" ;
+    rdfs:subClassOf ref:referral-question-category .
+
+rqc:SubjectVoiceWishes a owl:Class ;
+    rdfs:label "SUBJECT.VOICE_WISHES" ;
+    dct:title "Subject's voice, wishes, and desired outcomes" ;
+    rdfs:subClassOf ref:referral-question-category .
+
+rqc:SubmissionWorkflow a owl:Class ;
+    rdfs:label "SUBMISSION_WORKFLOW" ;
+    dct:title "Submission and receiving-service workflow" ;
+    rdfs:subClassOf ref:referral-question-category .
+
+rt:AdultCareActAssessment a owl:Class ;
+    rdfs:label "adult.careActAssessment" ;
+    dct:title "Request for care needs assessment or review" ;
+    rdfs:subClassOf ref:referral-type .
+
+rt:AdultCrossService a owl:Class ;
+    rdfs:label "adult.crossService" ;
+    dct:title "Professional concern about an adult from engagement with a child" ;
+    rdfs:subClassOf ref:referral-type .
+
+rt:AdultGeneral a owl:Class ;
+    rdfs:label "adult.general" ;
+    dct:title "General referral to social care" ;
+    rdfs:subClassOf ref:referral-type .
+
+rt:AdultIndependentLiving a owl:Class ;
+    rdfs:label "adult.independentLiving" ;
+    dct:title "Request for occupational therapy or home equipment" ;
+    rdfs:subClassOf ref:referral-type .
+
+rt:AdultInfoRequest a owl:Class ;
+    rdfs:label "adult.infoRequest" ;
+    dct:title "Information request" ;
+    rdfs:subClassOf ref:referral-type .
+
+rt:AdultSafeguarding a owl:Class ;
+    rdfs:label "adult.safeguarding" ;
+    dct:title "Safeguarding concern" ;
+    rdfs:subClassOf ref:referral-type .
+
+rt:ChildCrossService a owl:Class ;
+    rdfs:label "child.crossService" ;
+    dct:title "Professional concern about a child from engagement with an adult" ;
+    rdfs:subClassOf ref:referral-type .
+
+rt:ChildInfoRequest a owl:Class ;
+    rdfs:label "child.infoRequest" ;
+    dct:title "Information request" ;
+    rdfs:subClassOf ref:referral-type .
+
+rt:ChildSafeguarding a owl:Class ;
+    rdfs:label "child.safeguarding" ;
+    dct:title "Safeguarding concern" ;
+    rdfs:subClassOf ref:referral-type .
+
+rft:FamilyMember a owl:Class ;
+    rdfs:label "FamilyMember" ;
+    dct:title "Family member" ;
+    rdfs:subClassOf ref:referrer-type .
+
+rft:MemberOfThePublic a owl:Class ;
+    rdfs:label "MemberOfThePublic" ;
+    dct:title "Member of the public" ;
+    rdfs:subClassOf ref:referrer-type .
+
+rft:Professional a owl:Class ;
+    rdfs:label "Professional" ;
+    dct:title "Professional" ;
+    rdfs:subClassOf ref:referrer-type .
+
+rft:Self a owl:Class ;
+    rdfs:label "Self" ;
+    dct:title "Self" ;
+    rdfs:subClassOf ref:referrer-type .
+
+rp:AdultNonStatutoryServices a owl:Class ;
+    rdfs:label "adult.nonStatutoryServices" ;
+    dct:title "Request to non-statutory services" ;
+    rdfs:subClassOf ref:request-purpose .
+
+rp:AdultStatutoryServices a owl:Class ;
+    rdfs:label "adult.statutoryServices" ;
+    dct:title "Request to statutory services (like NHS CHC or advocacy)" ;
+    rdfs:subClassOf ref:request-purpose .
+
+rp:ChildCIN a owl:Class ;
+    rdfs:label "child.CIN" ;
+    dct:title "Escalation to s17 CiN assessment" ;
+    rdfs:subClassOf ref:request-purpose .
+
+rp:ChildEarlyHelp a owl:Class ;
+    rdfs:label "child.earlyHelp" ;
+    dct:title "Request to Early Help services" ;
+    rdfs:subClassOf ref:request-purpose .
+
+rp:ChildEmergency a owl:Class ;
+    rdfs:label "child.emergency" ;
+    dct:title "Immediate emergency protection" ;
+    rdfs:subClassOf ref:request-purpose .
+
+rp:ChildNonStatutoryServices a owl:Class ;
+    rdfs:label "child.nonStatutoryServices" ;
+    dct:title "Request to non-statutory services" ;
+    rdfs:subClassOf ref:request-purpose .
+
+rp:ChildS47 a owl:Class ;
+    rdfs:label "child.s47" ;
+    dct:title "Escalation to s47 enquiry" ;
+    rdfs:subClassOf ref:request-purpose .
+
+rp:ChildStatutoryServices a owl:Class ;
+    rdfs:label "child.statutoryServices" ;
+    dct:title "Request to statutory services (like CAMHS or advocacy)" ;
+    rdfs:subClassOf ref:request-purpose .
+
+rp:Notification a owl:Class ;
+    rdfs:label "notification" ;
+    dct:title "Notification or signposting" ;
+    rdfs:subClassOf ref:request-purpose .
+
+ref:ReferrerDetails a owl:Class ;
+    rdfs:label "ReferrerDetails" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:referrerPerson ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ref:referrerType ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:relationshipDescription ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:referrerRelationshipCode ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:referrerProfessional ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:referrerProfessionalId ] ;
+    skos:definition "Details of the referrer initiating the referral or concern." ;
+    skos:exactMatch ref:ReferrerDetails ;
+    skos:inScheme ref:referrals .
+
+ref:refDateCompleted a owl:DatatypeProperty ;
+    rdfs:label "refDateCompleted" ;
+    dct:title "dateCompleted" ;
+    rdfs:range xsd:dateTime ;
+    skos:definition "Date completed." ;
+    skos:inScheme ref:referrals .
+
+ref:refIdentifier a owl:ObjectProperty ;
+    rdfs:label "refIdentifier" ;
+    dct:title "identifier" ;
+    rdfs:range ref:Identifier ;
+    skos:definition "Identifier for this referral, request, or concern." ;
+    skos:inScheme ref:referrals .
+
+ref:referrer-type a owl:Class ;
+    rdfs:label "ReferrerTypeCode" ;
+    dct:title "Referrer Types" ;
+    owl:unionOf ( rft:Self rft:FamilyMember rft:Professional rft:MemberOfThePublic ) ;
+    skos:definition "Nature of the referrer's relationship to the subject or process." ;
+    skos:inScheme ref:referrals ;
+    linkml:permissible_values rft:FamilyMember,
+        rft:MemberOfThePublic,
+        rft:Professional,
+        rft:Self .
+
+ref:referral-type a owl:Class ;
+    rdfs:label "ReferralTypeCode" ;
+    dct:title "Referral Types" ;
+    owl:unionOf ( rt:ChildSafeguarding rt:ChildInfoRequest rt:ChildCrossService rt:AdultGeneral rt:AdultSafeguarding rt:AdultIndependentLiving rt:AdultCareActAssessment rt:AdultInfoRequest rt:AdultCrossService ) ;
+    skos:definition "Codes representing the type of inward referral." ;
+    skos:inScheme ref:referrals ;
+    linkml:permissible_values rt:AdultCareActAssessment,
+        rt:AdultCrossService,
+        rt:AdultGeneral,
+        rt:AdultIndependentLiving,
+        rt:AdultInfoRequest,
+        rt:AdultSafeguarding,
+        rt:ChildCrossService,
+        rt:ChildInfoRequest,
+        rt:ChildSafeguarding .
+
+ref:request-purpose a owl:Class ;
+    rdfs:label "RequestPurposeCode" ;
+    dct:title "Request Purposes" ;
+    owl:unionOf ( rp:Notification rp:ChildEarlyHelp rp:ChildCIN rp:ChildS47 rp:ChildEmergency rp:ChildStatutoryServices rp:ChildNonStatutoryServices rp:AdultStatutoryServices rp:AdultNonStatutoryServices ) ;
+    skos:definition "Codes indicating the purpose of an outward request for services." ;
+    skos:inScheme ref:referrals ;
+    linkml:permissible_values rp:AdultNonStatutoryServices,
+        rp:AdultStatutoryServices,
+        rp:ChildCIN,
+        rp:ChildEarlyHelp,
+        rp:ChildEmergency,
+        rp:ChildNonStatutoryServices,
+        rp:ChildS47,
+        rp:ChildStatutoryServices,
+        rp:Notification .
+
+ref:referral-question-category a owl:Class ;
+    rdfs:label "ReferralQuestionCategory" ;
+    dct:title "Question Categories" ;
+    owl:unionOf ( rqc:ReferralTypeRouting rqc:ReferrerDetails rqc:SubjectConsentCapacity rqc:SubjectDemographics rqc:SubjectAssessedStatus rqc:Concern rqc:RiskHarmSafety rqc:FamilyNetwork rqc:ImpactDailyLife rqc:SubjectVoiceWishes rqc:SubjectServicesNetwork rqc:StrengthsPositives rqc:ActionsTaken rqc:RequestedService rqc:CommunicationAccessibility rqc:Attachments rqc:SubmissionWorkflow ) ;
+    skos:definition "Categories for atypical, locally-configured questions." ;
+    skos:inScheme ref:referrals ;
+    linkml:permissible_values rqc:ActionsTaken,
+        rqc:Attachments,
+        rqc:CommunicationAccessibility,
+        rqc:Concern,
+        rqc:FamilyNetwork,
+        rqc:ImpactDailyLife,
+        rqc:ReferralTypeRouting,
+        rqc:ReferrerDetails,
+        rqc:RequestedService,
+        rqc:RiskHarmSafety,
+        rqc:StrengthsPositives,
+        rqc:SubjectAssessedStatus,
+        rqc:SubjectConsentCapacity,
+        rqc:SubjectDemographics,
+        rqc:SubjectServicesNetwork,
+        rqc:SubjectVoiceWishes,
+        rqc:SubmissionWorkflow .
+
+ref:concern-code a owl:Class ;
+    rdfs:label "ConcernCode" ;
+    dct:title "Concerns" ;
+    owl:unionOf ( con:ChildPhysicalAbuse con:ChildSexualAbuse con:ChildEmotionalAbuse con:ChildNeglect con:ChildExploitation con:ChildParentalConcern con:ChildMissingEducation con:ChildGoingMissing con:ChildContextualRisk con:ChildOther con:AdultPhysicalAbuse con:AdultSexualAbuse con:AdultEmotionalAbuse con:AdultNeglect con:AdultFinancialCoercion con:AdultDiscrimination con:AdultDomesticAbuse con:AdultModernSlavery con:AdultSelfHarm con:AdultSubstanceAbuse con:AdultOther ) ;
+    skos:definition "Codes representing the nature of concerns in referrals and quality-of-care reports." ;
+    skos:inScheme ref:referrals ;
+    linkml:permissible_values con:AdultDiscrimination,
+        con:AdultDomesticAbuse,
+        con:AdultEmotionalAbuse,
+        con:AdultFinancialCoercion,
+        con:AdultModernSlavery,
+        con:AdultNeglect,
+        con:AdultOther,
+        con:AdultPhysicalAbuse,
+        con:AdultSelfHarm,
+        con:AdultSexualAbuse,
+        con:AdultSubstanceAbuse,
+        con:ChildContextualRisk,
+        con:ChildEmotionalAbuse,
+        con:ChildExploitation,
+        con:ChildGoingMissing,
+        con:ChildMissingEducation,
+        con:ChildNeglect,
+        con:ChildOther,
+        con:ChildParentalConcern,
+        con:ChildPhysicalAbuse,
+        con:ChildSexualAbuse .
+
+ref:referrals a owl:Ontology ;
+    rdfs:label "referrals" ;
+    dct:license "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" ;
+    dct:title "Referrals and Requests Standard Data Model" ;
+    pav:version "1.0.0" ;
+    owl:imports ref:common,
+        ref:person,
+        ref:safeguarding ;
+    skos:definition "A LinkML data model for the Referrals and Requests Standard (PUB06): establishing a common, extensible referral and request data standard that acts as a reusable transfer-of-care message pattern across Children's and Adult Social Care." .
+

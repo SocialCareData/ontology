@@ -12,6 +12,7 @@ modules:
   placements: 2.0.0
   safeguarding: 1.0.0
   assessments-and-plans: 1.0.0
+  referrals: 1.0.0
 profiles:
   person-subject-of-care: 1.0.0
   person-connected: 1.0.0

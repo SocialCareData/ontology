@@ -33,7 +33,7 @@ a **profile** file (never the core), so `Person` carries a concrete cardinality.
 | Property | Subject of care | Connected |
 | --- | --- | --- |
 | `identifier` | 1..* | 0..* |
-| `name` | 1..1 | 1..1 |
+| `name` | 1..* | 1..* |
 | `dateOfBirth` | 1..1 | 0..1 |
 | `isDeceased` | 1..1 | 0..1 |
 | `deceasedDate` | 0..1 | 0..1 |

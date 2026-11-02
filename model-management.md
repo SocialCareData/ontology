@@ -10,7 +10,6 @@ they are not kept in this repository.
 | --- | --- |
 | this one | LinkML schemas, JSON-LD contexts, JSON-LD examples, release manifest |
 | [SocialCareData/ontology](https://github.com/SocialCareData/ontology) | generated OWL (`*.ttl`) and SHACL (`*-shape.ttl`) |
-| [SocialCareData/validator](https://github.com/SocialCareData/validator) | the validator that checks data against those shapes |
 
 Each module's own `README.md` covers what is specific to that module.
 
@@ -159,9 +158,9 @@ npx @socialcaredata/validator -p placements yourdata.jsonld
 npx @socialcaredata/validator profiles   # list the available profiles
 ```
 
-Or use the browser version at <https://socialcaredata.github.io/validator/>.
-The validator fetches shapes and contexts from
+Or use the browser version at <https://standard.socialcaredata.io/validator>.
+It fetches shapes and contexts from
 [SocialCareData/ontology](https://github.com/SocialCareData/ontology), so it always
 checks against the published artifacts, and offers the `valid-*` examples from
-this repository. To add a standard or profile, see the validator's
-[contributing guide](https://github.com/SocialCareData/validator/blob/main/docs/contributing.md).
+this repository. To add a standard or profile to the browser version, add it to
+[`src/_data/validator.yml`](https://github.com/SocialCareData/standard/blob/main/src/_data/validator.yml).

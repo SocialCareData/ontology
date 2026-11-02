@@ -10,6 +10,7 @@
     "evc": "https://ns.socialcaredata.io/event-code#",
     "mt": "https://ns.socialcaredata.io/measurement-type#",
     "mu": "https://ns.socialcaredata.io/measurement-unit#",
+    "rtc": "https://ns.socialcaredata.io/record-type#",
     "p": "https://ns.socialcaredata.io/",
     "nuc": "https://ns.socialcaredata.io/name-use-code#",
     "auc": "https://ns.socialcaredata.io/address-use-code#",
@@ -135,9 +136,34 @@
         "NFA-deceased": "eo:NfaDeceased",
         "NFA-no-offer-other": "eo:NfaNoOfferOther",
         "NFA-ended-other": "eo:NfaEndedOther",
-        "NFA-other": "eo:NfaOther"
+        "NFA-other": "eo:NfaOther",
+        "referral": "eo:Referral",
+        "request": "eo:Request",
+        "quality-of-care-concern": "eo:QualityOfCareConcern"
       }
     },
+    "linkedRecord": {
+      "@id": "sg:linkedRecord",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "recordId": {
+      "@id": "sg:recordId",
+      "@type": "@id"
+    },
+    "recordType": {
+      "@id": "sg:recordType",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ns.socialcaredata.io/record-type#",
+        "referral": "rtc:Referral",
+        "request": "rtc:Request",
+        "quality-of-care-concern": "rtc:QualityOfCareConcern",
+        "assessment": "rtc:Assessment",
+        "plan": "rtc:Plan"
+      }
+    },
+    "recordRelationship": "sg:recordRelationship",
     "person": {
       "@id": "sg:person",
       "@type": "@id"
@@ -285,6 +311,8 @@
             "assessment.section-47": "epc:Section47",
             "assessment.adult-safeguarding": "epc:AdultSafeguarding",
             "assessment.care-act-assessment": "epc:CareActAssessment",
+            "assessment.MASH-review": "epc:MashReview",
+            "assessment.referral-review": "epc:ReferralReview",
             "plan": "epc:Plan",
             "plan.ehcp": "epc:Ehcp",
             "plan.family-court-order": "epc:FamilyCourtOrder",
@@ -299,7 +327,17 @@
             "provision.direct-provision": "epc:DirectProvision",
             "provision.indirect-provision": "epc:IndirectProvision",
             "provision.admin": "epc:Admin",
-            "provision.miscellaneous": "epc:Miscellaneous"
+            "provision.miscellaneous": "epc:Miscellaneous",
+            "request": "epc:Request",
+            "request.notification": "epc:Notification",
+            "request.child-early-help": "epc:ChildEarlyHelp",
+            "request.child-cin": "epc:ChildCin",
+            "request.child-s47": "epc:ChildS47",
+            "request.child-emergency": "epc:ChildEmergency",
+            "request.child-statutory": "epc:ChildStatutoryServices",
+            "request.child-non-statutory": "epc:ChildNonStatutoryServices",
+            "request.adult-statutory": "epc:AdultStatutoryServices",
+            "request.adult-non-statutory": "epc:AdultNonStatutoryServices"
           }
         }
       }
@@ -321,11 +359,22 @@
             "missing-person": "evc:MissingPerson",
             "safeguarding-concern": "evc:SafeguardingConcern",
             "referral": "evc:Referral",
+            "referral.child-safeguarding": "evc:ChildSafeguardingReferral",
+            "referral.child-info-request": "evc:ChildInfoRequestReferral",
+            "referral.child-cross-service": "evc:ChildCrossServiceReferral",
+            "referral.adult-general": "evc:AdultGeneralReferral",
+            "referral.adult-safeguarding": "evc:AdultSafeguardingReferral",
+            "referral.adult-independent-living": "evc:AdultIndependentLivingReferral",
+            "referral.adult-care-act-assessment": "evc:AdultCareActAssessmentReferral",
+            "referral.adult-info-request": "evc:AdultInfoRequestReferral",
+            "referral.adult-cross-service": "evc:AdultCrossServiceReferral",
+            "quality-of-care-concern": "evc:QualityOfCareConcern",
             "homeless": "evc:Homeless"
           }
         }
       }
     },
+    "LinkedRecord": "sg:LinkedRecord",
     "SubjectPerson": "sg:SubjectPerson",
     "RelatedProfessional": "sg:RelatedProfessional",
     "Timing": {
