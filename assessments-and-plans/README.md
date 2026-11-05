@@ -117,12 +117,12 @@ Person classes are referenced via `owl:imports` rather than copied in.
 The examples live in
 [`src/_data/model/examples/assessments-and-plans/`](https://github.com/SocialCareData/standard/tree/main/src/_data/model/examples/assessments-and-plans)
 of SocialCareData/standard and are checked by `validate_examples.py` (see
-[`../model-management.md`](../model-management.md)). The validator in
-[SocialCareData/validator](https://github.com/SocialCareData/validator) fetches
-the published shapes from SocialCareData/ontology.
+[`../model-management.md`](../model-management.md)). To check your own data, run
+[@theodi/data-standard-validator](https://www.npmjs.com/package/@theodi/data-standard-validator) against
+the published shape in SocialCareData/ontology.
 
 ```bash
-npx @socialcaredata/validator -p assessments-and-plans yourdata.jsonld
+npx @theodi/data-standard-validator -s https://raw.githubusercontent.com/SocialCareData/ontology/main/assessments-and-plans/assessments-and-plans-standard-shape.ttl yourdata.jsonld
 ```
 
 Or in a browser: <https://standard.socialcaredata.io/validator>
