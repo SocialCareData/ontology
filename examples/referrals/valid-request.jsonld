@@ -1,0 +1,29 @@
+{
+  "@context": "../../../_data/model/referrals/context.jsonld",
+  "@id": "https://example.org/requests/REQ-2026-001",
+  "@type": "Request",
+  "identifier": {
+    "@type": "Identifier",
+    "value": "REQ-2026-001",
+    "system": "https://example.org/requests"
+  },
+  "subject": {
+    "@type": "Identifier",
+    "value": "PER-2026-999",
+    "system": "https://example.org/people"
+  },
+  "referrer": {
+    "@type": "Identifier",
+    "value": "PROF-001",
+    "system": "https://example.org/professionals"
+  },
+  "recipient": [
+    {
+      "@type": "Identifier",
+      "value": "CAMHS-01",
+      "system": "https://example.org/services"
+    }
+  ],
+  "purpose": "child.statutoryServices",
+  "dateCompleted": "2026-10-14T10:15:00Z"
+}

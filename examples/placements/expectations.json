@@ -1,0 +1,97 @@
+{
+  "invalid-bad-boolean.csv": [
+    {
+      "row": 1,
+      "column": "dol",
+      "code": "bad-format"
+    },
+    {
+      "row": 1,
+      "column": "education_continuity",
+      "code": "bad-format"
+    }
+  ],
+  "invalid-bad-enum.jsonld": [
+    {
+      "focus": "PlacementRequirements",
+      "path": "needsAssessmentMethod",
+      "constraint": "sh:in"
+    },
+    {
+      "focus": "PlacementRequirements",
+      "path": "pets",
+      "constraint": "sh:in"
+    },
+    {
+      "focus": "PlacementRequirements",
+      "path": "specificCommunicationRequirement",
+      "constraint": "sh:in"
+    },
+    {
+      "focus": "RiskAssessment",
+      "path": "riskSelfHarm",
+      "constraint": "sh:in"
+    }
+  ],
+  "invalid-bad-label.csv": [
+    {
+      "row": 1,
+      "column": "can_child_live_with_pets",
+      "code": "value-not-allowed"
+    },
+    {
+      "row": 1,
+      "column": "cultural_needs",
+      "code": "value-not-allowed"
+    }
+  ],
+  "invalid-cost-out-of-range.jsonld": [
+    {
+      "focus": "ActualPlacement",
+      "path": "totalWeeklyCost",
+      "constraint": "sh:minInclusive"
+    }
+  ],
+  "invalid-missing-column.csv": [
+    {
+      "row": 0,
+      "code": "csv-column-missing"
+    },
+    {
+      "row": 1,
+      "column": "placement_type",
+      "code": "required-field-missing"
+    }
+  ],
+  "invalid-missing-required.jsonld": [
+    {
+      "focus": "Placement",
+      "path": "riskAssessment",
+      "constraint": "sh:minCount"
+    },
+    {
+      "focus": "PlacementAvailability",
+      "path": "uascStatus",
+      "constraint": "sh:minCount"
+    },
+    {
+      "focus": "PlacementRequirements",
+      "path": "needsAssessmentMethod",
+      "constraint": "sh:minCount"
+    }
+  ],
+  "invalid-negative-cost.jsonld": [
+    {
+      "focus": "ActualPlacement",
+      "path": "totalWeeklyCost",
+      "constraint": "sh:minInclusive"
+    }
+  ],
+  "invalid-postcode.jsonld": [
+    {
+      "focus": "ActualPlacement",
+      "path": "placementLocation",
+      "constraint": "sh:pattern"
+    }
+  ]
+}

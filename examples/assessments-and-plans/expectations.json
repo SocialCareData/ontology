@@ -1,0 +1,9 @@
+{
+  "invalid-assessment-missing-personId.jsonld": [
+    {
+      "focus": "CareNeedsAssessment",
+      "path": "personId",
+      "constraint": "sh:minCount"
+    }
+  ]
+}
