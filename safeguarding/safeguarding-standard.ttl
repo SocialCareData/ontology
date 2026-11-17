@@ -1867,6 +1867,7 @@ svc:S117Aftercare a owl:Class ;
     rdfs:label "s117-aftercare" ;
     dct:title "S117 Aftercare" ;
     rdfs:subClassOf sg:service-code ;
+    skos:altLabel "S117-aftercare" ;
     skos:definition "S117 aftercare" .
 
 svc:SenHighSchool a owl:Class ;

@@ -5,7 +5,7 @@
 @prefix sc: <https://ns.socialcaredata.io/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
-sc:social-care a owl:Ontology ;
+sc: a owl:Ontology ;
     rdfs:label "social-care-ontology" ;
     dcterms:license "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" ;
     dcterms:title "Social Care Ontology" ;
