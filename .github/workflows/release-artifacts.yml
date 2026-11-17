@@ -20,7 +20,8 @@ jobs:
         run: |
           mkdir -p dist
           base_url="https://github.com/${REPO}/releases/download/${TAG}/"
-          find . -path './.*' -prune -o \( -name '*.ttl' -o -name '*.jsonld' \) -print |
+          # Examples are not release artifacts
+          find . \( -path './.*' -o -path './examples' \) -prune -o \( -name '*.ttl' -o -name '*.jsonld' -o -name 'csv-metadata.json' \) -print |
             while read -r f; do
               rel="${f#./}"
               dir="$(dirname "$rel")"
@@ -32,6 +33,13 @@ jobs:
                 else
                   cp "$f" "dist/${dir}-context.jsonld"
                 fi
+              elif [ "$name" = "csv-metadata.json" ]; then
+                # CSVW metadata sits beside a module's context; name it after the module
+                if [ "$dir" = "." ]; then
+                  cp "$f" "dist/csv-metadata.json"
+                else
+                  cp "$f" "dist/${dir}-csv-metadata.json"
+                fi
               elif [ "$name" = "social-care.ttl" ]; then
                 # Pin owl:imports to the released tag instead of main
                 sed "s#raw.githubusercontent.com/${REPO}/main/#raw.githubusercontent.com/${REPO}/${TAG}/#g" "$f" > "dist/${name}"
@@ -39,7 +47,6 @@ jobs:
                 cp "$f" "dist/${name}"
               fi
             done
-          cp manifest.yaml dist/manifest.yaml
 
       - name: Upload to release
         env:
