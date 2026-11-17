@@ -1,33 +1,10 @@
 {
   "@context": {
-    "sc":  "https://ns.socialcaredata.io/",
-    "nuc": "https://ns.socialcaredata.io/name-use-code#",
+    "sc": "https://ns.socialcaredata.io/",
     "auc": "https://ns.socialcaredata.io/address-use-code#",
-    "at":  "https://ns.socialcaredata.io/answer-type#",
+    "nuc": "https://ns.socialcaredata.io/name-use-code#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
-
-    "Identifier": "sc:Identifier",
-    "AssessmentQuestion": "sc:AssessmentQuestion",
-    "Timing": "sc:Timing",
-    "Name": {
-      "@id": "sc:Name",
-      "@context": {
-        "use": {
-          "@id": "sc:use",
-          "@type": "@vocab",
-          "@context": {
-            "@vocab": "https://ns.socialcaredata.io/name-use-code#",
-            "usual":     "nuc:Usual",
-            "official":  "nuc:Official",
-            "temp":      "nuc:Temp",
-            "nickname":  "nuc:Nickname",
-            "anonymous": "nuc:Anonymous",
-            "old":       "nuc:Old",
-            "maiden":    "nuc:Maiden"
-          }
-        }
-      }
-    },
+    "ex": "https://example.org/common/",
     "Address": {
       "@id": "sc:Address",
       "@context": {
@@ -36,59 +13,135 @@
           "@type": "@vocab",
           "@context": {
             "@vocab": "https://ns.socialcaredata.io/address-use-code#",
-            "home":    "auc:Home",
-            "work":    "auc:Work",
-            "temp":    "auc:Temp",
-            "old":     "auc:Old",
-            "billing": "auc:Billing"
+            "Temporary": "auc:Temp",
+            "billing": "auc:Billing",
+            "home": "auc:Home",
+            "old": "auc:Old",
+            "temp": "auc:Temp",
+            "work": "auc:Work"
           }
         }
       }
     },
-    "Contact": {
-      "@id": "sc:Contact",
+    "AssessmentQuestion": "sc:AssessmentQuestion",
+    "Contact": "sc:Contact",
+    "Identifier": "sc:Identifier",
+    "Name": {
+      "@id": "sc:Name",
       "@context": {
-        "name": "sc:contactName"
+        "use": {
+          "@id": "sc:use",
+          "@type": "@vocab",
+          "@context": {
+            "@vocab": "https://ns.socialcaredata.io/name-use-code#",
+            "Maiden name": "nuc:Maiden",
+            "Official name": "nuc:Official",
+            "Old name": "nuc:Old",
+            "Temporary name": "nuc:Temp",
+            "Usual name": "nuc:Usual",
+            "anonymous": "nuc:Anonymous",
+            "maiden": "nuc:Maiden",
+            "nickname": "nuc:Nickname",
+            "official": "nuc:Official",
+            "old": "nuc:Old",
+            "temp": "nuc:Temp",
+            "usual": "nuc:Usual"
+          }
+        }
       }
     },
-
-    "value":         "sc:value",
-    "system":        { "@id": "sc:system", "@type": "@id" },
-
-    "familyName":    { "@id": "sc:familyName", "@container": "@set" },
-    "givenName":     { "@id": "sc:givenName",  "@container": "@set" },
-    "preferredName": "sc:preferredName",
-
-    "line1":    "sc:line1",
-    "line2":    "sc:line2",
-    "city":     "sc:city",
-    "postcode": "sc:postcode",
-    "UPRN":     "sc:UPRN",
-    "USRN":     "sc:USRN",
-
-    "email":     { "@id": "sc:email",     "@container": "@set" },
-    "telephone": { "@id": "sc:telephone", "@container": "@set" },
-
-    "questionId":   "sc:questionId",
-    "category":     "sc:category",
-    "questionText": "sc:questionText",
-    "answer":       { "@id": "sc:answer",   "@container": "@set" },
-    "required":     { "@id": "sc:required", "@type": "xsd:boolean" },
+    "Timing": "sc:Timing",
+    "UPRN": "sc:UPRN",
+    "USRN": "sc:USRN",
+    "addressUse": {
+      "@id": "sc:use",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ns.socialcaredata.io/address-use-code#",
+        "Temporary": "auc:Temp",
+        "billing": "auc:Billing",
+        "home": "auc:Home",
+        "old": "auc:Old",
+        "temp": "auc:Temp",
+        "work": "auc:Work"
+      }
+    },
+    "answer": {
+      "@id": "sc:answer",
+      "@container": "@set"
+    },
     "answerType": {
       "@id": "sc:answerType",
       "@type": "@vocab",
       "@context": {
-        "@vocab": "https://ns.socialcaredata.io/answer-type#",
-        "String":  "at:String",
-        "Boolean": "at:Boolean",
-        "Date":    "at:Date",
-        "Number":  "at:Number",
-        "Enum":    "at:Enum"
+        "@vocab": "https://ns.socialcaredata.io/answer-type#"
       }
     },
-
-    "frequency":     "sc:frequency",
-    "startDateTime": { "@id": "sc:startDateTime", "@type": "xsd:dateTime" },
-    "endDateTime":   { "@id": "sc:endDateTime",   "@type": "xsd:dateTime" }
+    "category": "sc:category",
+    "city": "sc:city",
+    "contactName": "sc:contactName",
+    "email": {
+      "@id": "sc:email",
+      "@container": "@set"
+    },
+    "endDateTime": {
+      "@id": "sc:endDateTime",
+      "@type": "xsd:dateTime"
+    },
+    "familyName": {
+      "@id": "sc:familyName",
+      "@container": "@set"
+    },
+    "frequency": {
+      "@id": "sc:frequency",
+      "@type": "@json"
+    },
+    "givenName": {
+      "@id": "sc:givenName",
+      "@container": "@set"
+    },
+    "line1": "sc:line1",
+    "line2": "sc:line2",
+    "name": "sc:contactName",
+    "nameUse": {
+      "@id": "sc:use",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ns.socialcaredata.io/name-use-code#",
+        "Maiden name": "nuc:Maiden",
+        "Official name": "nuc:Official",
+        "Old name": "nuc:Old",
+        "Temporary name": "nuc:Temp",
+        "Usual name": "nuc:Usual",
+        "anonymous": "nuc:Anonymous",
+        "maiden": "nuc:Maiden",
+        "nickname": "nuc:Nickname",
+        "official": "nuc:Official",
+        "old": "nuc:Old",
+        "temp": "nuc:Temp",
+        "usual": "nuc:Usual"
+      }
+    },
+    "postcode": "sc:postcode",
+    "preferredName": "sc:preferredName",
+    "questionId": "sc:questionId",
+    "questionText": "sc:questionText",
+    "required": {
+      "@id": "sc:required",
+      "@type": "xsd:boolean"
+    },
+    "startDateTime": {
+      "@id": "sc:startDateTime",
+      "@type": "xsd:dateTime"
+    },
+    "system": {
+      "@id": "sc:system",
+      "@type": "@id"
+    },
+    "telephone": {
+      "@id": "sc:telephone",
+      "@container": "@set"
+    },
+    "value": "sc:value"
   }
 }

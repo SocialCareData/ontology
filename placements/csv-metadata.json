@@ -1,0 +1,1050 @@
+{
+  "@context": [
+    "http://www.w3.org/ns/csvw",
+    {
+      "@language": "en"
+    }
+  ],
+  "rdfs:comment": "Generated from placements/placements-standard.yaml by src/assets/scripts/build_csvw.py in SocialCareData/standard. Do not edit.",
+  "dc:title": "Children's Social Care Placements Data Model - CSV",
+  "dc:source": "https://ns.socialcaredata.io/placements",
+  "dialect": {
+    "header": true,
+    "headerRowCount": 1,
+    "trim": true
+  },
+  "https://theodi.github.io/data-standard-validator/ns#headerMatch": "first-line",
+  "tableSchema": {
+    "aboutUrl": "#row-{_row}",
+    "columns": [
+      {
+        "name": "childId",
+        "titles": "child_ID",
+        "propertyUrl": "https://ns.socialcaredata.io/childId",
+        "datatype": "string"
+      },
+      {
+        "name": "neededBy",
+        "titles": "when_placement_is_needed_by",
+        "aboutUrl": "#row-{_row}/placementAvailability",
+        "propertyUrl": "https://ns.socialcaredata.io/neededBy",
+        "https://theodi.github.io/data-standard-validator/ns#valueMap": [
+          {
+            "@id": "https://ns.socialcaredata.io/placement-urgency#Today",
+            "skos:prefLabel": "Today"
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/placement-urgency#WithinFiveDays",
+            "skos:prefLabel": "< 5 days",
+            "skos:altLabel": [
+              "Within 5 days",
+              "WithinFiveDays"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/placement-urgency#MoreThanFiveDays",
+            "skos:prefLabel": "> 5 days",
+            "skos:altLabel": [
+              "More than 5 days",
+              "MoreThanFiveDays"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "siblingCount",
+        "titles": "number_of_siblings_to_place_with",
+        "aboutUrl": "#row-{_row}/placementAvailability",
+        "propertyUrl": "https://ns.socialcaredata.io/siblingCount",
+        "datatype": "nonNegativeInteger"
+      },
+      {
+        "name": "uascStatus",
+        "titles": "uasc",
+        "aboutUrl": "#row-{_row}/placementAvailability",
+        "propertyUrl": "https://ns.socialcaredata.io/uascStatus",
+        "https://theodi.github.io/data-standard-validator/ns#valueMap": [
+          {
+            "@id": "https://ns.socialcaredata.io/uasc-status#Yes",
+            "skos:prefLabel": "True",
+            "skos:altLabel": [
+              "Yes"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/uasc-status#No",
+            "skos:prefLabel": "False",
+            "skos:altLabel": [
+              "No"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/uasc-status#NotApplicable",
+            "skos:prefLabel": "Not Applicable",
+            "skos:altLabel": [
+              "NotApplicable"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "communicationNeeds",
+        "titles": "communication_language_learning_needs",
+        "aboutUrl": "#row-{_row}/placementRequirements",
+        "propertyUrl": "https://ns.socialcaredata.io/communicationNeeds",
+        "https://theodi.github.io/data-standard-validator/ns#valueMap": [
+          {
+            "@id": "https://ns.socialcaredata.io/presence-status#Yes",
+            "skos:prefLabel": "True",
+            "skos:altLabel": [
+              "Yes"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/presence-status#No",
+            "skos:prefLabel": "False",
+            "skos:altLabel": [
+              "No"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/presence-status#NotSpecified",
+            "skos:prefLabel": "Not specified",
+            "skos:altLabel": [
+              "Not Specified",
+              "NotSpecified"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "specificCommunicationRequirement",
+        "titles": "specific_communication_and_language_requirements",
+        "aboutUrl": "#row-{_row}/placementRequirements",
+        "propertyUrl": "https://ns.socialcaredata.io/specificCommunicationRequirement",
+        "https://theodi.github.io/data-standard-validator/ns#valueMap": [
+          {
+            "@id": "https://ns.socialcaredata.io/communication-need#ESOL",
+            "skos:prefLabel": "ESOL"
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/communication-need#BSL",
+            "skos:prefLabel": "BSL"
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/communication-need#Makaton",
+            "skos:prefLabel": "Makaton"
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/communication-need#Other",
+            "skos:prefLabel": "Other"
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/communication-need#None",
+            "skos:prefLabel": "N/A",
+            "skos:altLabel": [
+              "None"
+            ]
+          }
+        ],
+        "separator": ","
+      },
+      {
+        "name": "culturalNeeds",
+        "titles": "cultural_needs",
+        "aboutUrl": "#row-{_row}/placementRequirements",
+        "propertyUrl": "https://ns.socialcaredata.io/culturalNeeds",
+        "https://theodi.github.io/data-standard-validator/ns#valueMap": [
+          {
+            "@id": "https://ns.socialcaredata.io/cultural-need#Required",
+            "skos:prefLabel": "Required"
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/cultural-need#NotRequired",
+            "skos:prefLabel": "Not Required",
+            "skos:altLabel": [
+              "Not required",
+              "NotRequired"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/cultural-need#NotKnown",
+            "skos:prefLabel": "Not Known",
+            "skos:altLabel": [
+              "Not known",
+              "NotKnown"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/cultural-need#Other",
+            "skos:prefLabel": "Other"
+          }
+        ]
+      },
+      {
+        "name": "livingCompanions",
+        "titles": "who_can_the_child_be_cared_for_alongside",
+        "aboutUrl": "#row-{_row}/placementRequirements",
+        "propertyUrl": "https://ns.socialcaredata.io/livingCompanions",
+        "https://theodi.github.io/data-standard-validator/ns#valueMap": [
+          {
+            "@id": "https://ns.socialcaredata.io/living-arrangement#SoloPlacement",
+            "skos:prefLabel": "Solo placement recommended",
+            "skos:altLabel": [
+              "SoloPlacement"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/living-arrangement#WithOtherChildren",
+            "skos:prefLabel": "With other children recommended",
+            "skos:altLabel": [
+              "With Other children recommended",
+              "WithOtherChildren"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/living-arrangement#OnlyWithOlderChildren",
+            "skos:prefLabel": "Only with other older children",
+            "skos:altLabel": [
+              "Only With Other older children",
+              "OnlyWithOlderChildren"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/living-arrangement#OnlyWithYoungerChildren",
+            "skos:prefLabel": "Only with other younger children",
+            "skos:altLabel": [
+              "Only With Other younger children",
+              "OnlyWithYoungerChildren"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/living-arrangement#NoPreference",
+            "skos:prefLabel": "No preference",
+            "skos:altLabel": [
+              "NoPreference"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "pets",
+        "titles": "can_child_live_with_pets",
+        "aboutUrl": "#row-{_row}/placementRequirements",
+        "propertyUrl": "https://ns.socialcaredata.io/pets",
+        "https://theodi.github.io/data-standard-validator/ns#valueMap": [
+          {
+            "@id": "https://ns.socialcaredata.io/pets-allowance#YesMust",
+            "skos:prefLabel": "Yes-must",
+            "skos:altLabel": [
+              "Yes - must",
+              "YesMust"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/pets-allowance#YesCan",
+            "skos:prefLabel": "Yes-can",
+            "skos:altLabel": [
+              "Yes - can",
+              "YesCan"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/pets-allowance#No",
+            "skos:prefLabel": "False",
+            "skos:altLabel": [
+              "No"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/pets-allowance#NotKnown",
+            "skos:prefLabel": "Not known",
+            "skos:altLabel": [
+              "NotKnown"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "additionalSupport",
+        "titles": "additional_support",
+        "aboutUrl": "#row-{_row}/placementRequirements",
+        "propertyUrl": "https://ns.socialcaredata.io/additionalSupport",
+        "https://theodi.github.io/data-standard-validator/ns#valueMap": [
+          {
+            "@id": "https://ns.socialcaredata.io/support-type#AdditionalSupervision",
+            "skos:prefLabel": "Additional supervision",
+            "skos:altLabel": [
+              "AdditionalSupervision"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/support-type#TherapeuticSupport",
+            "skos:prefLabel": "Therapeutic support",
+            "skos:altLabel": [
+              "TherapeuticSupport"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/support-type#WorkerForRespite",
+            "skos:prefLabel": "A worker for respite",
+            "skos:altLabel": [
+              "WorkerForRespite"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/support-type#TaxisToSchool",
+            "skos:prefLabel": "Taxis to school",
+            "skos:altLabel": [
+              "TaxisToSchool"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/support-type#NotApplicable",
+            "skos:prefLabel": "N/A",
+            "skos:altLabel": [
+              "NA",
+              "Not applicable",
+              "NotApplicable"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/support-type#Other",
+            "skos:prefLabel": "Other"
+          }
+        ],
+        "separator": ","
+      },
+      {
+        "name": "homeAdaptationRequired",
+        "titles": "adaptation_to_the_home",
+        "aboutUrl": "#row-{_row}/placementRequirements",
+        "propertyUrl": "https://ns.socialcaredata.io/homeAdaptationRequired",
+        "datatype": {
+          "base": "boolean",
+          "format": "Yes|No"
+        }
+      },
+      {
+        "name": "deprivationOfLiberty",
+        "titles": "dol",
+        "aboutUrl": "#row-{_row}/placementRequirements",
+        "propertyUrl": "https://ns.socialcaredata.io/deprivationOfLiberty",
+        "datatype": {
+          "base": "boolean",
+          "format": "Yes|No"
+        }
+      },
+      {
+        "name": "needsAssessmentMethod",
+        "titles": "needs_assessment",
+        "aboutUrl": "#row-{_row}/placementRequirements",
+        "propertyUrl": "https://ns.socialcaredata.io/needsAssessmentMethod",
+        "https://theodi.github.io/data-standard-validator/ns#valueMap": [
+          {
+            "@id": "https://ns.socialcaredata.io/needs-assessment-method#BERRI",
+            "skos:prefLabel": "BERRI"
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/needs-assessment-method#CANS",
+            "skos:prefLabel": "CANS"
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/needs-assessment-method#OtherFormalisedTool",
+            "skos:prefLabel": "Other formalised tool",
+            "skos:altLabel": [
+              "Other formalised need assessment tool",
+              "OtherFormalisedTool"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/needs-assessment-method#OtherSocialWorkerAssessment",
+            "skos:prefLabel": "Other social worker assessment",
+            "skos:altLabel": [
+              "OtherSocialWorkerAssessment"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "fosterCareSuitability",
+        "titles": "foster_care_suitability",
+        "aboutUrl": "#row-{_row}/placementRecommendation",
+        "propertyUrl": "https://ns.socialcaredata.io/fosterCareSuitability",
+        "https://theodi.github.io/data-standard-validator/ns#valueMap": [
+          {
+            "@id": "https://ns.socialcaredata.io/suitability-level#Preferred",
+            "skos:prefLabel": "Preferred"
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/suitability-level#SuitableButNotPreferred",
+            "skos:prefLabel": "Suitable but not preferred",
+            "skos:altLabel": [
+              "SuitableButNotPreferred"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/suitability-level#Unsuitable",
+            "skos:prefLabel": "Unsuitable"
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/suitability-level#NotSpecified",
+            "skos:prefLabel": "Not specified",
+            "skos:altLabel": [
+              "NotSpecified"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "residentialCareSuitability",
+        "titles": "residential_care_suitability",
+        "aboutUrl": "#row-{_row}/placementRecommendation",
+        "propertyUrl": "https://ns.socialcaredata.io/residentialCareSuitability",
+        "https://theodi.github.io/data-standard-validator/ns#valueMap": [
+          {
+            "@id": "https://ns.socialcaredata.io/suitability-level#Preferred",
+            "skos:prefLabel": "Preferred"
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/suitability-level#SuitableButNotPreferred",
+            "skos:prefLabel": "Suitable but not preferred",
+            "skos:altLabel": [
+              "SuitableButNotPreferred"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/suitability-level#Unsuitable",
+            "skos:prefLabel": "Unsuitable"
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/suitability-level#NotSpecified",
+            "skos:prefLabel": "Not specified",
+            "skos:altLabel": [
+              "NotSpecified"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "supportedAccommodationSuitability",
+        "titles": "supported_accommodation_suitability",
+        "aboutUrl": "#row-{_row}/placementRecommendation",
+        "propertyUrl": "https://ns.socialcaredata.io/supportedAccommodationSuitability",
+        "https://theodi.github.io/data-standard-validator/ns#valueMap": [
+          {
+            "@id": "https://ns.socialcaredata.io/suitability-level#Preferred",
+            "skos:prefLabel": "Preferred"
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/suitability-level#SuitableButNotPreferred",
+            "skos:prefLabel": "Suitable but not preferred",
+            "skos:altLabel": [
+              "SuitableButNotPreferred"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/suitability-level#Unsuitable",
+            "skos:prefLabel": "Unsuitable"
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/suitability-level#NotSpecified",
+            "skos:prefLabel": "Not specified",
+            "skos:altLabel": [
+              "NotSpecified"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "riskSelfHarm",
+        "titles": "risk_to_child_self_harm",
+        "aboutUrl": "#row-{_row}/riskAssessment",
+        "propertyUrl": "https://ns.socialcaredata.io/riskSelfHarm",
+        "https://theodi.github.io/data-standard-validator/ns#valueMap": [
+          {
+            "@id": "https://ns.socialcaredata.io/risk-level#NoKnownRisk",
+            "skos:prefLabel": "No known risk",
+            "skos:altLabel": [
+              "NoKnownRisk"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/risk-level#RiskPresent",
+            "skos:prefLabel": "Risk present",
+            "skos:altLabel": [
+              "Risk Present",
+              "RiskPresent"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "riskCriminalExploitation",
+        "titles": "risk_to_child_criminal_exploitation",
+        "aboutUrl": "#row-{_row}/riskAssessment",
+        "propertyUrl": "https://ns.socialcaredata.io/riskCriminalExploitation",
+        "https://theodi.github.io/data-standard-validator/ns#valueMap": [
+          {
+            "@id": "https://ns.socialcaredata.io/risk-level#NoKnownRisk",
+            "skos:prefLabel": "No known risk",
+            "skos:altLabel": [
+              "NoKnownRisk"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/risk-level#RiskPresent",
+            "skos:prefLabel": "Risk present",
+            "skos:altLabel": [
+              "Risk Present",
+              "RiskPresent"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "riskDrugAlcohol",
+        "titles": "risk_to_child_drug_and_alcohol_use",
+        "aboutUrl": "#row-{_row}/riskAssessment",
+        "propertyUrl": "https://ns.socialcaredata.io/riskDrugAlcohol",
+        "https://theodi.github.io/data-standard-validator/ns#valueMap": [
+          {
+            "@id": "https://ns.socialcaredata.io/risk-level#NoKnownRisk",
+            "skos:prefLabel": "No known risk",
+            "skos:altLabel": [
+              "NoKnownRisk"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/risk-level#RiskPresent",
+            "skos:prefLabel": "Risk present",
+            "skos:altLabel": [
+              "Risk Present",
+              "RiskPresent"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "riskEatingDisorder",
+        "titles": "risk_to_child_eating_disorder",
+        "aboutUrl": "#row-{_row}/riskAssessment",
+        "propertyUrl": "https://ns.socialcaredata.io/riskEatingDisorder",
+        "https://theodi.github.io/data-standard-validator/ns#valueMap": [
+          {
+            "@id": "https://ns.socialcaredata.io/risk-level#NoKnownRisk",
+            "skos:prefLabel": "No known risk",
+            "skos:altLabel": [
+              "NoKnownRisk"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/risk-level#RiskPresent",
+            "skos:prefLabel": "Risk present",
+            "skos:altLabel": [
+              "Risk Present",
+              "RiskPresent"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "riskMissing",
+        "titles": "risk_to_child_going_missing",
+        "aboutUrl": "#row-{_row}/riskAssessment",
+        "propertyUrl": "https://ns.socialcaredata.io/riskMissing",
+        "https://theodi.github.io/data-standard-validator/ns#valueMap": [
+          {
+            "@id": "https://ns.socialcaredata.io/risk-level#NoKnownRisk",
+            "skos:prefLabel": "No known risk",
+            "skos:altLabel": [
+              "NoKnownRisk"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/risk-level#RiskPresent",
+            "skos:prefLabel": "Risk present",
+            "skos:altLabel": [
+              "Risk Present",
+              "RiskPresent"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "riskSexualExploitation",
+        "titles": "risk_to_child_sexual_exploitation",
+        "aboutUrl": "#row-{_row}/riskAssessment",
+        "propertyUrl": "https://ns.socialcaredata.io/riskSexualExploitation",
+        "https://theodi.github.io/data-standard-validator/ns#valueMap": [
+          {
+            "@id": "https://ns.socialcaredata.io/risk-level#NoKnownRisk",
+            "skos:prefLabel": "No known risk",
+            "skos:altLabel": [
+              "NoKnownRisk"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/risk-level#RiskPresent",
+            "skos:prefLabel": "Risk present",
+            "skos:altLabel": [
+              "Risk Present",
+              "RiskPresent"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "riskToOthersPhysical",
+        "titles": "risk_to_others_physical_harm",
+        "aboutUrl": "#row-{_row}/riskAssessment",
+        "propertyUrl": "https://ns.socialcaredata.io/riskToOthersPhysical",
+        "https://theodi.github.io/data-standard-validator/ns#valueMap": [
+          {
+            "@id": "https://ns.socialcaredata.io/risk-level#NoKnownRisk",
+            "skos:prefLabel": "No known risk",
+            "skos:altLabel": [
+              "NoKnownRisk"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/risk-level#RiskPresent",
+            "skos:prefLabel": "Risk present",
+            "skos:altLabel": [
+              "Risk Present",
+              "RiskPresent"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "riskToOthersSexual",
+        "titles": "risk_to_others_sexual_harm",
+        "aboutUrl": "#row-{_row}/riskAssessment",
+        "propertyUrl": "https://ns.socialcaredata.io/riskToOthersSexual",
+        "https://theodi.github.io/data-standard-validator/ns#valueMap": [
+          {
+            "@id": "https://ns.socialcaredata.io/risk-level#NoKnownRisk",
+            "skos:prefLabel": "No known risk",
+            "skos:altLabel": [
+              "NoKnownRisk"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/risk-level#RiskPresent",
+            "skos:prefLabel": "Risk present",
+            "skos:altLabel": [
+              "Risk Present",
+              "RiskPresent"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "riskToOthersFire",
+        "titles": "risk_to_others_fire_setting",
+        "aboutUrl": "#row-{_row}/riskAssessment",
+        "propertyUrl": "https://ns.socialcaredata.io/riskToOthersFire",
+        "https://theodi.github.io/data-standard-validator/ns#valueMap": [
+          {
+            "@id": "https://ns.socialcaredata.io/risk-level#NoKnownRisk",
+            "skos:prefLabel": "No known risk",
+            "skos:altLabel": [
+              "NoKnownRisk"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/risk-level#RiskPresent",
+            "skos:prefLabel": "Risk present",
+            "skos:altLabel": [
+              "Risk Present",
+              "RiskPresent"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "riskToOthersAnimals",
+        "titles": "risk_to_others_harm_to_animals",
+        "aboutUrl": "#row-{_row}/riskAssessment",
+        "propertyUrl": "https://ns.socialcaredata.io/riskToOthersAnimals",
+        "https://theodi.github.io/data-standard-validator/ns#valueMap": [
+          {
+            "@id": "https://ns.socialcaredata.io/risk-level#NoKnownRisk",
+            "skos:prefLabel": "No known risk",
+            "skos:altLabel": [
+              "NoKnownRisk"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/risk-level#RiskPresent",
+            "skos:prefLabel": "Risk present",
+            "skos:altLabel": [
+              "Risk Present",
+              "RiskPresent"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "riskToOthersCriminal",
+        "titles": "risk_to_others_criminal_exploitation",
+        "aboutUrl": "#row-{_row}/riskAssessment",
+        "propertyUrl": "https://ns.socialcaredata.io/riskToOthersCriminal",
+        "https://theodi.github.io/data-standard-validator/ns#valueMap": [
+          {
+            "@id": "https://ns.socialcaredata.io/risk-level#NoKnownRisk",
+            "skos:prefLabel": "No known risk",
+            "skos:altLabel": [
+              "NoKnownRisk"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/risk-level#RiskPresent",
+            "skos:prefLabel": "Risk present",
+            "skos:altLabel": [
+              "Risk Present",
+              "RiskPresent"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "referralDate",
+        "titles": "date_entry_referral",
+        "aboutUrl": "#row-{_row}/qualityAssurance",
+        "propertyUrl": "https://ns.socialcaredata.io/referralDate",
+        "datatype": "date"
+      },
+      {
+        "name": "placementDateAdmin",
+        "titles": "date_entry_placement_admin",
+        "aboutUrl": "#row-{_row}/qualityAssurance",
+        "propertyUrl": "https://ns.socialcaredata.io/placementDateAdmin",
+        "datatype": "date"
+      },
+      {
+        "name": "placementOfficerName",
+        "titles": "name_of_officer_placement",
+        "aboutUrl": "#row-{_row}/qualityAssurance",
+        "propertyUrl": "https://ns.socialcaredata.io/placementOfficerName",
+        "datatype": "string"
+      },
+      {
+        "name": "costDate",
+        "titles": "date_entry_placement_cost",
+        "aboutUrl": "#row-{_row}/qualityAssurance",
+        "propertyUrl": "https://ns.socialcaredata.io/costDate",
+        "datatype": "date"
+      },
+      {
+        "name": "referralOfficerName",
+        "titles": "name_of_officer_referral",
+        "aboutUrl": "#row-{_row}/qualityAssurance",
+        "propertyUrl": "https://ns.socialcaredata.io/referralOfficerName",
+        "datatype": "string"
+      },
+      {
+        "name": "costOfficerName",
+        "titles": "name_of_officer_placement_cost",
+        "aboutUrl": "#row-{_row}/qualityAssurance",
+        "propertyUrl": "https://ns.socialcaredata.io/costOfficerName",
+        "datatype": "string"
+      },
+      {
+        "name": "placementType",
+        "titles": "placement_type",
+        "aboutUrl": "#row-{_row}/actualPlacement",
+        "propertyUrl": "https://ns.socialcaredata.io/placementType",
+        "https://theodi.github.io/data-standard-validator/ns#valueMap": [
+          {
+            "@id": "https://ns.socialcaredata.io/placement-type#Foster",
+            "skos:prefLabel": "Foster"
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/placement-type#Residential",
+            "skos:prefLabel": "Residential"
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/placement-type#SupportedAccommodation",
+            "skos:prefLabel": "Supported Accommodation",
+            "skos:altLabel": [
+              "SupportedAccommodation"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "placementStartDate",
+        "titles": "placement_start_date",
+        "aboutUrl": "#row-{_row}/actualPlacement",
+        "propertyUrl": "https://ns.socialcaredata.io/placementStartDate",
+        "datatype": "date"
+      },
+      {
+        "name": "placementSource",
+        "titles": "placement_sourced",
+        "aboutUrl": "#row-{_row}/actualPlacement",
+        "propertyUrl": "https://ns.socialcaredata.io/placementSource",
+        "https://theodi.github.io/data-standard-validator/ns#valueMap": [
+          {
+            "@id": "https://ns.socialcaredata.io/placement-source#RCCContract",
+            "skos:prefLabel": "RCC contract",
+            "skos:altLabel": [
+              "RCCContract"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/placement-source#OtherRegionalContract",
+            "skos:prefLabel": "Other regional contract",
+            "skos:altLabel": [
+              "OtherRegionalContract"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/placement-source#DirectAwardOffFramework",
+            "skos:prefLabel": "Direct award off framework",
+            "skos:altLabel": [
+              "Direct award / Off framework",
+              "DirectAwardOffFramework"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/placement-source#LocalContractOrFramework",
+            "skos:prefLabel": "Local contract or framework",
+            "skos:altLabel": [
+              "LocalContractOrFramework"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/placement-source#BlockContract",
+            "skos:prefLabel": "Block contract",
+            "skos:altLabel": [
+              "BlockContract"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/placement-source#Remand",
+            "skos:prefLabel": "Remand"
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/placement-source#SecureWelfareHub",
+            "skos:prefLabel": "Secure Welfare Hub",
+            "skos:altLabel": [
+              "SecureWelfareHub"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "providerURN",
+        "titles": "provider_URN",
+        "aboutUrl": "#row-{_row}/actualPlacement",
+        "propertyUrl": "https://ns.socialcaredata.io/providerURN",
+        "datatype": "string"
+      },
+      {
+        "name": "placementLocation",
+        "titles": "placement_location",
+        "aboutUrl": "#row-{_row}/actualPlacement",
+        "propertyUrl": "https://ns.socialcaredata.io/placementLocation",
+        "datatype": "string"
+      },
+      {
+        "name": "isLocationPreferred",
+        "titles": "preferrability_of_placement_location",
+        "aboutUrl": "#row-{_row}/actualPlacement",
+        "propertyUrl": "https://ns.socialcaredata.io/isLocationPreferred",
+        "datatype": {
+          "base": "boolean",
+          "format": "Yes|No"
+        }
+      },
+      {
+        "name": "nonPreferredLocationReason",
+        "titles": "isLocationPreferred",
+        "aboutUrl": "#row-{_row}/actualPlacement",
+        "propertyUrl": "https://ns.socialcaredata.io/nonPreferredLocationReason",
+        "https://theodi.github.io/data-standard-validator/ns#valueMap": [
+          {
+            "@id": "https://ns.socialcaredata.io/non-preferred-location-reason#CYPParentalPreference",
+            "skos:prefLabel": "CYP or parental preference",
+            "skos:altLabel": [
+              "CYP/parental preference",
+              "CYPParentalPreference"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/non-preferred-location-reason#SafeguardingRequirement",
+            "skos:prefLabel": "Safeguarding requirement",
+            "skos:altLabel": [
+              "SafeguardingRequirement"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/non-preferred-location-reason#ProvisionWithinDistanceNotAvailable",
+            "skos:prefLabel": "Provision within distance exists but is not available",
+            "skos:altLabel": [
+              "ProvisionWithinDistanceNotAvailable"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/non-preferred-location-reason#ProvisionWithinDistanceDoesNotExist",
+            "skos:prefLabel": "Provision within distance does not exist",
+            "skos:altLabel": [
+              "ProvisionWithinDistanceDoesNotExist"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/non-preferred-location-reason#CarerMovingOutOfArea",
+            "skos:prefLabel": "Carer moving out of area",
+            "skos:altLabel": [
+              "CarerMovingOutOfArea"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/non-preferred-location-reason#LegalReasons",
+            "skos:prefLabel": "Legal reasons",
+            "skos:altLabel": [
+              "LegalReasons"
+            ]
+          },
+          {
+            "@id": "https://ns.socialcaredata.io/non-preferred-location-reason#NotApplicable",
+            "skos:prefLabel": "Not applicable",
+            "skos:altLabel": [
+              "NotApplicable"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "isEducationContinuous",
+        "titles": "education_continuity",
+        "aboutUrl": "#row-{_row}/actualPlacement",
+        "propertyUrl": "https://ns.socialcaredata.io/isEducationContinuous",
+        "datatype": {
+          "base": "boolean",
+          "format": "No|Yes"
+        }
+      },
+      {
+        "name": "siblingsPlacedTogether",
+        "titles": "how_many_siblings_were_placed_together",
+        "aboutUrl": "#row-{_row}/actualPlacement",
+        "propertyUrl": "https://ns.socialcaredata.io/siblingsPlacedTogether",
+        "datatype": "nonNegativeInteger"
+      },
+      {
+        "name": "totalWeeklyCost",
+        "titles": "total_weekly_cost",
+        "aboutUrl": "#row-{_row}/actualPlacement",
+        "propertyUrl": "https://ns.socialcaredata.io/totalWeeklyCost",
+        "datatype": {
+          "base": "decimal",
+          "format": {
+            "groupChar": ","
+          }
+        }
+      },
+      {
+        "name": "costIncludesAdditionalPackages",
+        "titles": "total_weekly_cost_additions",
+        "aboutUrl": "#row-{_row}/actualPlacement",
+        "propertyUrl": "https://ns.socialcaredata.io/costIncludesAdditionalPackages",
+        "datatype": {
+          "base": "boolean",
+          "format": "Yes|No"
+        }
+      },
+      {
+        "name": "type_row",
+        "virtual": true,
+        "propertyUrl": "rdf:type",
+        "valueUrl": "https://ns.socialcaredata.io/Placement"
+      },
+      {
+        "name": "link_placementAvailability",
+        "virtual": true,
+        "propertyUrl": "https://ns.socialcaredata.io/placementAvailability",
+        "valueUrl": "#row-{_row}/placementAvailability"
+      },
+      {
+        "name": "type_placementAvailability",
+        "virtual": true,
+        "aboutUrl": "#row-{_row}/placementAvailability",
+        "propertyUrl": "rdf:type",
+        "valueUrl": "https://ns.socialcaredata.io/PlacementAvailability"
+      },
+      {
+        "name": "link_placementRequirements",
+        "virtual": true,
+        "propertyUrl": "https://ns.socialcaredata.io/placementRequirements",
+        "valueUrl": "#row-{_row}/placementRequirements"
+      },
+      {
+        "name": "type_placementRequirements",
+        "virtual": true,
+        "aboutUrl": "#row-{_row}/placementRequirements",
+        "propertyUrl": "rdf:type",
+        "valueUrl": "https://ns.socialcaredata.io/PlacementRequirements"
+      },
+      {
+        "name": "link_placementRecommendation",
+        "virtual": true,
+        "propertyUrl": "https://ns.socialcaredata.io/placementRecommendation",
+        "valueUrl": "#row-{_row}/placementRecommendation"
+      },
+      {
+        "name": "type_placementRecommendation",
+        "virtual": true,
+        "aboutUrl": "#row-{_row}/placementRecommendation",
+        "propertyUrl": "rdf:type",
+        "valueUrl": "https://ns.socialcaredata.io/PlacementRecommendation"
+      },
+      {
+        "name": "link_riskAssessment",
+        "virtual": true,
+        "propertyUrl": "https://ns.socialcaredata.io/riskAssessment",
+        "valueUrl": "#row-{_row}/riskAssessment"
+      },
+      {
+        "name": "type_riskAssessment",
+        "virtual": true,
+        "aboutUrl": "#row-{_row}/riskAssessment",
+        "propertyUrl": "rdf:type",
+        "valueUrl": "https://ns.socialcaredata.io/RiskAssessment"
+      },
+      {
+        "name": "link_qualityAssurance",
+        "virtual": true,
+        "propertyUrl": "https://ns.socialcaredata.io/qualityAssurance",
+        "valueUrl": "#row-{_row}/qualityAssurance",
+        "https://theodi.github.io/data-standard-validator/ns#skipIfNodeEmpty": true
+      },
+      {
+        "name": "type_qualityAssurance",
+        "virtual": true,
+        "aboutUrl": "#row-{_row}/qualityAssurance",
+        "propertyUrl": "rdf:type",
+        "valueUrl": "https://ns.socialcaredata.io/QualityAssurance",
+        "https://theodi.github.io/data-standard-validator/ns#skipIfNodeEmpty": true
+      },
+      {
+        "name": "link_actualPlacement",
+        "virtual": true,
+        "propertyUrl": "https://ns.socialcaredata.io/actualPlacement",
+        "valueUrl": "#row-{_row}/actualPlacement",
+        "https://theodi.github.io/data-standard-validator/ns#skipIfNodeEmpty": true
+      },
+      {
+        "name": "type_actualPlacement",
+        "virtual": true,
+        "aboutUrl": "#row-{_row}/actualPlacement",
+        "propertyUrl": "rdf:type",
+        "valueUrl": "https://ns.socialcaredata.io/ActualPlacement",
+        "https://theodi.github.io/data-standard-validator/ns#skipIfNodeEmpty": true
+      }
+    ]
+  }
+}

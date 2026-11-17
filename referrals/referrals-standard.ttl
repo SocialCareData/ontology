@@ -501,7 +501,8 @@ con:ChildNeglect a owl:Class ;
 con:ChildOther a owl:Class ;
     rdfs:label "child.Other" ;
     dct:title "Other" ;
-    rdfs:subClassOf ref:concern-code .
+    rdfs:subClassOf ref:concern-code ;
+    skos:altLabel "child.other" .
 
 con:ChildParentalConcern a owl:Class ;
     rdfs:label "child.parentalConcern" ;
@@ -681,7 +682,8 @@ rp:AdultStatutoryServices a owl:Class ;
 rp:ChildCIN a owl:Class ;
     rdfs:label "child.CIN" ;
     dct:title "Escalation to s17 CiN assessment" ;
-    rdfs:subClassOf ref:request-purpose .
+    rdfs:subClassOf ref:request-purpose ;
+    skos:altLabel "child.cin" .
 
 rp:ChildEarlyHelp a owl:Class ;
     rdfs:label "child.earlyHelp" ;

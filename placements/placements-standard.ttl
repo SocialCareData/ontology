@@ -592,12 +592,14 @@ la:OnlyWithOlderChildren a owl:Class ;
     rdfs:label "Only with other older children" ;
     dct:title "Only with other older children" ;
     rdfs:subClassOf pl:living-arrangement ;
+    skos:altLabel "Only With Other older children" ;
     skos:definition "The child should only live with other children who are older." .
 
 la:OnlyWithYoungerChildren a owl:Class ;
     rdfs:label "Only with other younger children" ;
     dct:title "Only with other younger children" ;
     rdfs:subClassOf pl:living-arrangement ;
+    skos:altLabel "Only With Other younger children" ;
     skos:definition "The child should only live with other children who are younger." .
 
 la:SoloPlacement a owl:Class ;
@@ -610,6 +612,7 @@ la:WithOtherChildren a owl:Class ;
     rdfs:label "With other children recommended" ;
     dct:title "With other children recommended" ;
     rdfs:subClassOf pl:living-arrangement ;
+    skos:altLabel "With Other children recommended" ;
     skos:definition "Living with other children is recommended." .
 
 nam:BERRI a owl:Class ;
@@ -628,6 +631,7 @@ nam:OtherFormalisedTool a owl:Class ;
     rdfs:label "Other formalised tool" ;
     dct:title "Other formalised tool" ;
     rdfs:subClassOf pl:needs-assessment-method ;
+    skos:altLabel "Other formalised need assessment tool" ;
     skos:definition "Needs assessed using another formalised needs-assessment tool." .
 
 nam:OtherSocialWorkerAssessment a owl:Class ;
@@ -800,6 +804,7 @@ yns:NotSpecified a owl:Class ;
     rdfs:label "Not specified" ;
     dct:title "Not specified" ;
     rdfs:subClassOf pl:presence-status ;
+    skos:altLabel "Not Specified" ;
     skos:definition "Not specified." .
 
 yns:Yes a owl:Class ;
@@ -818,6 +823,7 @@ rl:RiskPresent a owl:Class ;
     rdfs:label "Risk present" ;
     dct:title "Risk present" ;
     rdfs:subClassOf pl:risk-level ;
+    skos:altLabel "Risk Present" ;
     skos:definition "A risk is known to be present." .
 
 sl:NotSpecified a owl:Class ;

@@ -1,37 +1,14 @@
 {
   "@context": {
-    "p":   "https://ns.socialcaredata.io/",
-    "nuc": "https://ns.socialcaredata.io/name-use-code#",
+    "p": "https://ns.socialcaredata.io/",
     "auc": "https://ns.socialcaredata.io/address-use-code#",
-    "gc":  "https://ns.socialcaredata.io/gender-code#",
-    "psc": "https://ns.socialcaredata.io/phenotypic-sex-code#",
-    "ec":  "https://ns.socialcaredata.io/ethnicity-code#",
-    "dai": "https://ns.socialcaredata.io/date-accuracy-indicator#",
+    "ec": "https://ns.socialcaredata.io/ethnicity-code#",
+    "gc": "https://ns.socialcaredata.io/gender-code#",
+    "nuc": "https://ns.socialcaredata.io/name-use-code#",
     "prc": "https://ns.socialcaredata.io/person-relationship-code#",
+    "psc": "https://ns.socialcaredata.io/phenotypic-sex-code#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
-    "ex":  "https://example.org/person/",
-
-    "Person":             "p:Person",
-    "Identifier":         "p:Identifier",
-    "Name": {
-      "@id": "p:Name",
-      "@context": {
-        "use": {
-          "@id": "p:use",
-          "@type": "@vocab",
-          "@context": {
-            "@vocab": "https://ns.socialcaredata.io/name-use-code#",
-            "usual":     "nuc:Usual",
-            "official":  "nuc:Official",
-            "temp":      "nuc:Temp",
-            "nickname":  "nuc:Nickname",
-            "anonymous": "nuc:Anonymous",
-            "old":       "nuc:Old",
-            "maiden":    "nuc:Maiden"
-          }
-        }
-      }
-    },
+    "ex": "https://example.org/person/",
     "Address": {
       "@id": "p:Address",
       "@context": {
@@ -40,106 +17,152 @@
           "@type": "@vocab",
           "@context": {
             "@vocab": "https://ns.socialcaredata.io/address-use-code#",
-            "home":    "auc:Home",
-            "work":    "auc:Work",
-            "temp":    "auc:Temp",
-            "old":     "auc:Old",
-            "billing": "auc:Billing"
+            "Temporary": "auc:Temp",
+            "billing": "auc:Billing",
+            "home": "auc:Home",
+            "old": "auc:Old",
+            "temp": "auc:Temp",
+            "work": "auc:Work"
           }
         }
       }
     },
+    "AssessmentQuestion": "p:AssessmentQuestion",
+    "Communication": "p:Communication",
     "Contact": {
       "@id": "p:Contact",
       "@context": {
         "name": "p:contactName"
       }
     },
-    "PersonRelationship": "p:PersonRelationship",
-    "PartialDate":        "p:PartialDate",
-    "Communication":      "p:Communication",
-    "Language":           "p:Language",
-
-    "identifier":                    { "@id": "p:identifier",                   "@type": "@id", "@container": "@set" },
-    "name":                          { "@id": "p:name",                         "@type": "@id", "@container": "@set" },
-    "dateOfBirth":                   { "@id": "p:dateOfBirth",                  "@type": "@id" },
-    "isDeceased":                    { "@id": "p:isDeceased",                   "@type": "xsd:boolean" },
-    "deceasedDate":                  { "@id": "p:deceasedDate",                 "@type": "@id" },
-    "address":                       { "@id": "p:address",                      "@type": "@id", "@container": "@set" },
-    "contact":                       { "@id": "p:contact",                      "@type": "@id", "@container": "@set" },
-    "relatedPerson":                 { "@id": "p:relatedPerson",                "@type": "@id", "@container": "@set" },
-    "primaryContactProfessional":    { "@id": "p:primaryContactProfessional",   "@type": "@id", "@container": "@set" },
-    "matchedPersonRef":              { "@id": "p:matchedPersonRef",             "@type": "@id", "@container": "@set" },
-    "aboutMe":                       { "@id": "p:aboutMe",                      "@type": "@id" },
-    "communication":                 { "@id": "p:communication",                "@type": "@id", "@container": "@set" },
-    "specialCommunicationNeeds":     "p:specialCommunicationNeeds",
-    "language":                      { "@id": "p:language",                     "@type": "@id", "@container": "@set" },
-    "languageCode":                  "p:languageCode",
-    "proficiencyLevel":              "p:proficiencyLevel",
-
-    "value":             "p:value",
-    "system":            { "@id": "p:system", "@type": "@id" },
-
-    "familyName":        { "@id": "p:familyName",    "@container": "@set" },
-    "givenName":         { "@id": "p:givenName",     "@container": "@set" },
-    "preferredName":     "p:preferredName",
-
-    "line1":    "p:line1",
-    "line2":    "p:line2",
-    "city":     "p:city",
-    "postcode": "p:postcode",
-    "UPRN":     "p:UPRN",
-    "USRN":     "p:USRN",
-
-    "email":     { "@id": "p:email",     "@container": "@set" },
-    "telephone": { "@id": "p:telephone", "@container": "@set" },
-
-    "relationship": {
-      "@id": "p:relationship",
-      "@type": "@vocab",
-      "@container": "@set",
-      "@context": { "@vocab": "https://ns.socialcaredata.io/person-relationship-code#" }
+    "Identifier": "p:Identifier",
+    "Language": "p:Language",
+    "Name": {
+      "@id": "p:Name",
+      "@context": {
+        "use": {
+          "@id": "p:use",
+          "@type": "@vocab",
+          "@context": {
+            "@vocab": "https://ns.socialcaredata.io/name-use-code#",
+            "Maiden name": "nuc:Maiden",
+            "Official name": "nuc:Official",
+            "Old name": "nuc:Old",
+            "Temporary name": "nuc:Temp",
+            "Usual name": "nuc:Usual",
+            "anonymous": "nuc:Anonymous",
+            "maiden": "nuc:Maiden",
+            "nickname": "nuc:Nickname",
+            "official": "nuc:Official",
+            "old": "nuc:Old",
+            "temp": "nuc:Temp",
+            "usual": "nuc:Usual"
+          }
+        }
+      }
     },
-
-    "date":              { "@id": "p:date", "@type": "xsd:date" },
+    "PartialDate": "p:PartialDate",
+    "Person": {
+      "@id": "p:Person",
+      "@context": {
+        "identifier": {
+          "@id": "p:identifier",
+          "@type": "@id",
+          "@container": "@set"
+        },
+        "name": {
+          "@id": "p:name",
+          "@type": "@id",
+          "@container": "@set"
+        }
+      }
+    },
+    "PersonRelationship": {
+      "@id": "p:PersonRelationship",
+      "@context": {
+        "identifier": {
+          "@id": "p:identifier",
+          "@type": "@id"
+        }
+      }
+    },
+    "Timing": "p:Timing",
+    "UPRN": "p:UPRN",
+    "USRN": "p:USRN",
+    "aboutMe": {
+      "@id": "p:aboutMe",
+      "@type": "@id"
+    },
     "accuracyIndicator": "p:accuracyIndicator",
-
-    "genderCode": {
-      "@id": "p:genderCode",
+    "address": {
+      "@id": "p:address",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "addressUse": {
+      "@id": "p:use",
       "@type": "@vocab",
       "@context": {
-        "@vocab": "https://ns.socialcaredata.io/gender-code#",
-        "1": "gc:Male",
-        "2": "gc:Female",
-        "9": "gc:Indeterminate",
-        "X": "gc:NotKnown"
+        "@vocab": "https://ns.socialcaredata.io/address-use-code#",
+        "Temporary": "auc:Temp",
+        "billing": "auc:Billing",
+        "home": "auc:Home",
+        "old": "auc:Old",
+        "temp": "auc:Temp",
+        "work": "auc:Work"
       }
     },
-    "sexCode": {
-      "@id": "p:sexCode",
+    "answer": {
+      "@id": "p:answer",
+      "@container": "@set"
+    },
+    "answerType": {
+      "@id": "p:answerType",
       "@type": "@vocab",
       "@context": {
-        "@vocab": "https://ns.socialcaredata.io/phenotypic-sex-code#",
-        "1": "psc:Male",
-        "2": "psc:Female",
-        "9": "psc:Indeterminate",
-        "X": "psc:NotKnown"
+        "@vocab": "https://ns.socialcaredata.io/answer-type#"
       }
+    },
+    "category": "p:category",
+    "city": "p:city",
+    "communication": {
+      "@id": "p:communication",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "contact": {
+      "@id": "p:contact",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "contactName": "p:contactName",
+    "date": {
+      "@id": "p:date",
+      "@type": "xsd:date"
+    },
+    "dateOfBirth": {
+      "@id": "p:dateOfBirth",
+      "@type": "@id"
+    },
+    "deceasedDate": {
+      "@id": "p:deceasedDate",
+      "@type": "@id"
+    },
+    "email": {
+      "@id": "p:email",
+      "@container": "@set"
+    },
+    "endDateTime": {
+      "@id": "p:endDateTime",
+      "@type": "xsd:dateTime"
     },
     "ethnicityCode": {
       "@id": "p:ethnicityCode",
       "@type": "@vocab",
       "@context": {
         "@vocab": "https://ns.socialcaredata.io/ethnicity-code#",
-        "1":  "ec:AsianBangladeshi",
-        "2":  "ec:AsianChinese",
-        "3":  "ec:AsianIndian",
-        "4":  "ec:AsianPakistani",
-        "5":  "ec:AsianOther",
-        "6":  "ec:BlackAfrican",
-        "7":  "ec:BlackCaribbean",
-        "8":  "ec:BlackOther",
-        "9":  "ec:MixedWhiteAsian",
+        "-8": "ec:DoesNotApply",
+        "1": "ec:AsianBangladeshi",
         "10": "ec:MixedWhiteBlackAfrican",
         "11": "ec:MixedWhiteBlackCaribbean",
         "12": "ec:MixedOther",
@@ -150,8 +173,235 @@
         "17": "ec:WhiteOther",
         "18": "ec:OtherArab",
         "19": "ec:OtherAny",
-        "-8": "ec:DoesNotApply"
+        "2": "ec:AsianChinese",
+        "3": "ec:AsianIndian",
+        "4": "ec:AsianPakistani",
+        "5": "ec:AsianOther",
+        "6": "ec:BlackAfrican",
+        "7": "ec:BlackCaribbean",
+        "8": "ec:BlackOther",
+        "9": "ec:MixedWhiteAsian",
+        "Does not apply (Students and schoolchildren living away during term-time)": "ec:DoesNotApply"
       }
-    }
+    },
+    "familyName": {
+      "@id": "p:familyName",
+      "@container": "@set"
+    },
+    "frequency": {
+      "@id": "p:frequency",
+      "@type": "@json"
+    },
+    "genderCode": {
+      "@id": "p:genderCode",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ns.socialcaredata.io/gender-code#",
+        "1": "gc:Male",
+        "2": "gc:Female",
+        "9": "gc:Indeterminate",
+        "Not Known": "gc:NotKnown",
+        "X": "gc:NotKnown"
+      }
+    },
+    "givenName": {
+      "@id": "p:givenName",
+      "@container": "@set"
+    },
+    "isDeceased": {
+      "@id": "p:isDeceased",
+      "@type": "xsd:boolean"
+    },
+    "language": {
+      "@id": "p:language",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "languageCode": "p:languageCode",
+    "line1": "p:line1",
+    "line2": "p:line2",
+    "matchedPersonRef": {
+      "@id": "p:matchedPersonRef",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "nameUse": {
+      "@id": "p:use",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ns.socialcaredata.io/name-use-code#",
+        "Maiden name": "nuc:Maiden",
+        "Official name": "nuc:Official",
+        "Old name": "nuc:Old",
+        "Temporary name": "nuc:Temp",
+        "Usual name": "nuc:Usual",
+        "anonymous": "nuc:Anonymous",
+        "maiden": "nuc:Maiden",
+        "nickname": "nuc:Nickname",
+        "official": "nuc:Official",
+        "old": "nuc:Old",
+        "temp": "nuc:Temp",
+        "usual": "nuc:Usual"
+      }
+    },
+    "postcode": "p:postcode",
+    "preferredName": "p:preferredName",
+    "primaryContactProfessional": {
+      "@id": "p:primaryContactProfessional",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "proficiencyLevel": "p:proficiencyLevel",
+    "questionId": "p:questionId",
+    "questionText": "p:questionText",
+    "relatedPerson": {
+      "@id": "p:relatedPerson",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "relationship": {
+      "@id": "p:relationship",
+      "@type": "@vocab",
+      "@container": "@set",
+      "@context": {
+        "@vocab": "https://ns.socialcaredata.io/person-relationship-code#",
+        "Adopted child": "prc:CHLDADOPT",
+        "Adopted daughter": "prc:DAUADOPT",
+        "Adopted son": "prc:SONADOPT",
+        "Adoptive father": "prc:ADOPTF",
+        "Adoptive mother": "prc:ADOPTM",
+        "Adoptive parent": "prc:ADOPTP",
+        "Aunt": "prc:AUNT",
+        "Brother": "prc:BRO",
+        "Brother-in-law": "prc:BROINLAW",
+        "Child": "prc:CHILD",
+        "Child-in-law": "prc:CHLDINLAW",
+        "Cousin": "prc:COUSN",
+        "Daughter": "prc:DAUC",
+        "Daughter-in-law": "prc:DAUINLAW",
+        "Domestic partner": "prc:DOMPART",
+        "Extended family member": "prc:EXT",
+        "Family member": "prc:FAMMEMB",
+        "Father": "prc:FTH",
+        "Father-in-law": "prc:FTHINLAW",
+        "Former spouse": "prc:FMRSPS",
+        "Foster child": "prc:CHLDFOST",
+        "Foster daughter": "prc:DAUFOST",
+        "Foster father": "prc:FTHFOST",
+        "Foster mother": "prc:MTHFOST",
+        "Foster parent": "prc:PRNFOST",
+        "Foster son": "prc:SONFOST",
+        "Fraternal twin": "prc:FTWIN",
+        "Fraternal twin brother": "prc:FTWINBRO",
+        "Fraternal twin sister": "prc:FTWINSIS",
+        "Friend": "prc:FRND",
+        "Gestational mother": "prc:GESTM",
+        "Grandchild": "prc:GRNDCHILD",
+        "Granddaughter": "prc:GRNDDAU",
+        "Grandfather": "prc:GRFTH",
+        "Grandmother": "prc:GRMTH",
+        "Grandparent": "prc:GRPRN",
+        "Grandson": "prc:GRNDSON",
+        "Great-grandfather": "prc:GGRFTH",
+        "Great-grandmother": "prc:GGRMTH",
+        "Great-grandparent": "prc:GGRPRN",
+        "Half-brother": "prc:HBRO",
+        "Half-sibling": "prc:HSIB",
+        "Half-sister": "prc:HSIS",
+        "Husband": "prc:HUSB",
+        "Identical twin": "prc:ITWIN",
+        "Identical twin brother": "prc:ITWINBRO",
+        "Identical twin sister": "prc:ITWINSIS",
+        "In-law": "prc:INLAW",
+        "Maternal aunt": "prc:MAUNT",
+        "Maternal cousin": "prc:MCOUSN",
+        "Maternal grandfather": "prc:MGRFTH",
+        "Maternal grandmother": "prc:MGRMTH",
+        "Maternal grandparent": "prc:MGRPRN",
+        "Maternal great-grandfather": "prc:MGGRFTH",
+        "Maternal great-grandmother": "prc:MGGRMTH",
+        "Maternal great-grandparent": "prc:MGGRPRN",
+        "Maternal uncle": "prc:MUNCLE",
+        "Mother": "prc:MTH",
+        "Mother-in-law": "prc:MTHINLAW",
+        "Natural brother": "prc:NBRO",
+        "Natural child": "prc:NCHILD",
+        "Natural daughter": "prc:DAU",
+        "Natural father": "prc:NFTH",
+        "Natural mother": "prc:NMTH",
+        "Natural parent": "prc:NPRN",
+        "Natural sibling": "prc:NSIB",
+        "Natural sister": "prc:NSIS",
+        "Natural son": "prc:SON",
+        "Neighbour": "prc:NBOR",
+        "Nephew": "prc:NEPHEW",
+        "Niece": "prc:NIECE",
+        "Parent": "prc:PRN",
+        "Parent-in-law": "prc:PRNINLAW",
+        "Paternal aunt": "prc:PAUNT",
+        "Paternal cousin": "prc:PCOUSN",
+        "Paternal grandfather": "prc:PGRFTH",
+        "Paternal grandmother": "prc:PGRMTH",
+        "Paternal grandparent": "prc:PGRPRN",
+        "Paternal great-grandfather": "prc:PGGRFTH",
+        "Paternal great-grandmother": "prc:PGGRMTH",
+        "Paternal great-grandparent": "prc:PGGRPRN",
+        "Paternal uncle": "prc:PUNCLE",
+        "Roommate": "prc:ROOM",
+        "Self": "prc:ONESELF",
+        "Sibling": "prc:SIB",
+        "Sibling-in-law": "prc:SIBINLAW",
+        "Significant other": "prc:SIGOTHR",
+        "Sister": "prc:SIS",
+        "Sister-in-law": "prc:SISINLAW",
+        "Son": "prc:SONC",
+        "Son-in-law": "prc:SONINLAW",
+        "Spouse": "prc:SPS",
+        "Stepbrother": "prc:STPBRO",
+        "Stepchild": "prc:STPCHLD",
+        "Stepdaughter": "prc:STPDAU",
+        "Stepfather": "prc:STPFTH",
+        "Stepmother": "prc:STPMTH",
+        "Stepparent": "prc:STPPRN",
+        "Stepsibling": "prc:STPSIB",
+        "Stepsister": "prc:STPSIS",
+        "Stepson": "prc:STPSON",
+        "Twin": "prc:TWIN",
+        "Twin brother": "prc:TWINBRO",
+        "Twin sister": "prc:TWINSIS",
+        "Uncle": "prc:UNCLE",
+        "Wife": "prc:WIFE"
+      }
+    },
+    "required": {
+      "@id": "p:required",
+      "@type": "xsd:boolean"
+    },
+    "sexCode": {
+      "@id": "p:sexCode",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ns.socialcaredata.io/phenotypic-sex-code#",
+        "1": "psc:Male",
+        "2": "psc:Female",
+        "9": "psc:Indeterminate",
+        "Not Known": "psc:NotKnown",
+        "X": "psc:NotKnown"
+      }
+    },
+    "specialCommunicationNeeds": "p:specialCommunicationNeeds",
+    "startDateTime": {
+      "@id": "p:startDateTime",
+      "@type": "xsd:dateTime"
+    },
+    "system": {
+      "@id": "p:system",
+      "@type": "@id"
+    },
+    "telephone": {
+      "@id": "p:telephone",
+      "@container": "@set"
+    },
+    "value": "p:value"
   }
 }
