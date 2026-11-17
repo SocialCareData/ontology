@@ -5,6 +5,6 @@
     "./placements/context.jsonld",
     "./safeguarding/context.jsonld",
     "./assessments-and-plans/context.jsonld",
-    "../referrals/context.jsonld"
+    "./referrals/context.jsonld"
   ]
 }

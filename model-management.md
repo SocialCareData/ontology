@@ -150,13 +150,17 @@ python src/assets/scripts/validate_examples.py            # check
 python src/assets/scripts/validate_examples.py --update   # rewrite expectations.json, then review the diff
 ```
 
-To validate your own data, use the
-[validator](https://github.com/SocialCareData/validator):
+To validate your own data, use
+[@theodi/data-standard-validator](https://www.npmjs.com/package/@theodi/data-standard-validator) with the
+published shape for the standard:
 
 ```bash
-npx @socialcaredata/validator -p placements yourdata.jsonld
-npx @socialcaredata/validator profiles   # list the available profiles
+npx @theodi/data-standard-validator -s https://raw.githubusercontent.com/SocialCareData/ontology/main/placements/placements-standard-shape.ttl yourdata.jsonld
 ```
+
+The shapes for every standard are published to
+[SocialCareData/ontology](https://github.com/SocialCareData/ontology), as
+`<module>/<module>-standard-shape.ttl`.
 
 Or use the browser version at <https://standard.socialcaredata.io/validator>.
 It fetches shapes and contexts from
