@@ -1,0 +1,191 @@
+"child_ID
+
+Please enter the unique ID used in your Case Management System.","when_placement_is_needed_by
+
+By when does the child need to find a home/ be placed?
+
+Options: Today, <5 days, >5 days","number_of_siblings_to_place_with
+
+With how many of their siblings should the child be placed? 
+
+If child has no siblings, input N/A. If a child does not need to be placed with siblings, input 0.","communication_language_learning_needs
+
+Does the child have any communication, language, or learning needs?
+
+Options: Yes, No, Not Specified
+
+","specific_communication_and_language_requirements
+
+Please slect the child's primary communication, language, or learning requirement from the list. Select 'N/A' if no specific requirements apply.
+
+Options: ESOL, BSL, Makaton, Other, N/A
+","adaptation_to_the_home
+
+Are there any adaptations required to the home to accommodate the child's needs?
+
+Options: Yes, No","cultural_needs
+
+Any specific cultural needs that the home needs to be aware of such as importance of going to religious places or taking part in religious activities?
+ 
+Options: Required, Not Required, Not Known, Other
+
+","who_can_the_child_be_cared_for_alongside
+
+Are there any restrictions on who else can live in the same home? Or, would it help to have them living with other young people? Please select the most appropriate option.
+
+Options : Solo placement recommended, With other children recommended, Only with other older children, Only with other younger children, No preference","can_child_live_with_pets
+
+Can the child live in a home with pets or animals?
+
+Options: Yes-must,Yes-can, No Not known","additional_support
+
+Please select any of the options of additional provision that apply.
+
+Options: Additional supervision, Therapeutic support, A worker for respite, Taxis to school, Other, N/A","dol
+
+Does the child have a Deprivation of Liberty Order (DoL)?
+
+Options: Yes, No","needs_assessment
+
+How was the need assessed?
+
+Options: BERRI, CANS, Other formalised need assessment tool, Other social worker assessment","uasc
+
+Is the child an unaccompanied asylum seeking child?
+
+Options:  Yes, No","foster_care_suitability
+
+Is foster care the most preferred home for the child as deemed by the SW? Please select the most appropriate response. 
+
+Options: Preferred, Suitable but not preferred, Unsuitable, Not specified","residential_care_suitability
+
+Is residential care the most preferred home for the child as deemed by the SW? Please select the most appropriate response.
+
+Options: Preferred , Suitable but not preferred, Unsuitable, Not specified","supported_accommodation_suitability
+
+Is supported home care the most preferred home for the child as deemed by the SW? Please select the most appropriate response. 
+
+
+Options: Preferred , Suitable but not preferred, Unsuitable, Not specified
+","risk_to_child_self_harm
+
+Is the child known to be at risk of self-harm?
+
+Options: No known risk, Risk Present","risk_to_child_criminal_exploitation
+
+Is the child known to be at risk of criminal exploitation?
+
+Options: No known risk, Risk Present","risk_to_child_drug_and_alcohol_use
+
+Is the child known to be at risk of drug and alcohol use?
+
+Options: No known risk, Risk Present","risk_to_child_eating_disorder
+
+Is the child known to be at risk of an eating disorder?
+
+Options: No known risk, Risk Present","risk_to_child_going_missing
+
+Is the child known to be at risk of going missing?
+
+Options: No known risk, Risk Present
+
+","risk_to_child_sexual_exploitation
+
+Risk to child: Sexual exploitation
+
+Is the child known to be at risk of sexual exploitation?
+
+Options: No known risk, Risk Present","risk_to_others_physical_harm
+
+Is there a known a risk of physical harm to others? 
+
+Options: No known risk, Risk Present
+","risk_to_others_sexual_harm
+
+Is there a known risk of sexual harm to others?
+
+Options: No known risk, Risk Present","risk_to_others_fire_setting
+
+Is there a known risk of fire-setting?
+ 
+Options: No known risk, Risk Present","risk_to_others_harm_to_animals
+
+Is there a known risk of harm to animals?
+
+Options: No known risk, Risk Present","risk_to_others_criminal_exploitation
+
+Is there a known risk of criminal exploitation for others in the home?
+
+Options: No known risk, Risk Present","total_weekly_cost
+
+What is the total weekly fee associated with the placement? (excluding VAT)
+
+Costs should be pro-rata to weekly values.
+For no cost, enter £0.
+
+If additional costs are not applicable or not known then all costs should be entered as core cost.","total_weekly_cost_additions
+
+Does this placement cost include additional packages? Options: Yes/No","placement_location
+
+Where was a placement found? 
+
+Enter full placement postcode only.","preferrability_of_placement_location
+
+Was the placement in a preferred location? 
+ 
+Options: Yes, No ","education_continuity
+
+Was child's education disrupted as a result of this placement?
+
+Options: Yes, No, N/A
+
+N/A to be used where child is under compulsary school age. 
+","provider_URN
+
+Provider URN linked to Ofsted registration. 
+
+Where placement is In-house (Fostering or Residential): LA Osted registration number to be used. 
+
+Where placement is unregistered: N/A should be used. ","how_many_siblings_were_placed_together
+
+How many of the child's siblings were placed together with them?
+
+If the child has no siblings: input N/A. 
+
+If the child was placed with no siblings: input 0.","placement_type
+
+Record the type of placement the child received.
+
+Options: Residential, Foster, Supported Accommodation
+
+Kinship placements are NOT INCLUDED in the data collection. ","isLocationPreferred
+
+Reason If placement was not found in the preferred location
+
+Options: CYP/parental preference,  Safeguarding requirement, Provision within distance exists but is not available, Provision within distance does not exist, Carer moving out of area, Legal reasons, Not applicable
+","placement_start_date
+
+Date of agreed placement start date","placement_sourced
+
+How was the placement sourced?
+
+RCC contract
+Other regional contract
+Direct award / Off framework
+Local contract or framework
+Block contract
+Remand
+Secure Welfare Hub","name_of_officer_referral
+
+Name of officer recording information related to the referral.","date_entry_referral
+
+Date of when referral was captured on the Case Management System.","name_of_officer_placement 
+
+Name of officer recording information related to the actual placement .","date_entry_placement_admin
+
+Date of agreed placement start captured on the Case Management System","name_of_officer_placement_cost
+
+Name of officer recording placement cost data.","date_entry_placement_cost
+
+Date when placement cost data was captured on the Case Management System."
+ABCD2012,< 5 days,2,Yes,ESOL,No,Other,Only With other younger children,No,Taxis to school,Maybe,BERRI,Yes,Not specified,Suitable but not preferred,Unsuitable,Risk Present,No known risk,No known risk,No known risk,Risk Present,No known risk,Risk Present,No known risk,No known risk,No known risk,No known risk,4500,No,N18,Yes,Unknown,ABCD10293002,1,Residential,Not applicable,2024-03-21,Block contract,Alex Brown,2024-02-12,Beth Green,2024-03-21,Casey White,2024-03-25

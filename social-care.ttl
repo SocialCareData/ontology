@@ -7,6 +7,14 @@
 
 sc: a owl:Ontology ;
     rdfs:label "social-care-ontology" ;
+    dcterms:hasPart sc:assessments-and-plans,
+        sc:common,
+        sc:person,
+        sc:person-connected,
+        sc:person-subject-of-care,
+        sc:placements,
+        sc:referrals,
+        sc:safeguarding ;
     dcterms:license "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" ;
     dcterms:title "Social Care Ontology" ;
     pav:version "v2026-10-19" ;
@@ -18,4 +26,20 @@ sc: a owl:Ontology ;
         <https://raw.githubusercontent.com/SocialCareData/ontology/main/safeguarding/safeguarding-standard.ttl> ;
     skos:definition """The Social Care ontology. It has no classes or slots of its own; it composes the independently-versioned modules - common, person, placements, safeguarding, and assessments-and-plans - into a single ontology under one flat namespace (https://ns.socialcaredata.io/).
 Each module is authored and versioned on its own cadence; a MAIS release pins a compatible set of module versions (see manifest.yaml) and is generated from this file.""" .
+
+sc:assessments-and-plans pav:version "1.0.0" .
+
+sc:common pav:version "1.0.0" .
+
+sc:person pav:version "1.0.0" .
+
+sc:person-connected pav:version "1.0.0" .
+
+sc:person-subject-of-care pav:version "1.0.0" .
+
+sc:placements pav:version "2.0.0" .
+
+sc:referrals pav:version "1.0.0" .
+
+sc:safeguarding pav:version "1.0.0" .
 

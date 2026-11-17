@@ -1,0 +1,23 @@
+{
+  "@context": "../../../_data/model/referrals/context.jsonld",
+  "@id": "https://example.org/concerns/QOC-2026-001",
+  "@type": "QualityOfCareConcern",
+  "identifier": {
+    "@type": "Identifier",
+    "value": "QOC-2026-001",
+    "system": "https://example.org/concerns"
+  },
+  "recipient": {
+    "@type": "Identifier",
+    "value": "CARE-HOME-01",
+    "system": "https://example.org/providers"
+  },
+  "concern": [
+    {
+      "@type": "ConcernDetail",
+      "concernType": "adult.neglect",
+      "description": "Provider failure to provide basic hydration."
+    }
+  ],
+  "dateCompleted": "2026-10-14T11:00:00Z"
+}

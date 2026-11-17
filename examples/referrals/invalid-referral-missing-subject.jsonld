@@ -1,0 +1,28 @@
+{
+  "@context": "../../../_data/model/referrals/context.jsonld",
+  "@id": "https://example.org/referrals/REF-INVALID-001",
+  "@type": "Referral",
+  "identifier": {
+    "@type": "Identifier",
+    "value": "REF-INVALID-001",
+    "system": "https://example.org/referrals"
+  },
+  "type": "child.safeguarding",
+  "referrer": {
+    "@type": "ReferrerDetails",
+    "referrerType": "Professional"
+  },
+  "concern": [
+    {
+      "@type": "ConcernDetail",
+      "concernType": "child.neglect"
+    }
+  ],
+  "recipient": [
+    {
+      "@type": "Identifier",
+      "value": "ORG-CSC-01",
+      "system": "https://example.org/organisations"
+    }
+  ]
+}
