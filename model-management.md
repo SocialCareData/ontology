@@ -143,55 +143,6 @@ The `@context` written in the example records is not used for validation: both
 `validate_examples.py` and the browser validator replace it with the module
 context.
 
-## CSV metadata
-
-Some standards are also exchanged as a flat CSV whose columns we do not
-control, such as the Placements return. For a module that maps its slots to CSV
-columns, [`build_csvw.py`](../../assets/scripts/build_csvw.py) generates a
-[CSVW](https://www.w3.org/TR/tabular-metadata/) `csv-metadata.json` beside its
-`context.jsonld`. It says how each row becomes the same RDF a JSON-LD record
-would, so a CSV file is checked against the same SHACL shapes. Like the
-contexts, it is generated: change the schema and regenerate, and CI fails a pull
-request whose committed metadata is stale. It is published to
-SocialCareData/ontology with the shapes.
-
-```bash
-# regenerate
-python src/assets/scripts/build_csvw.py
-# what CI runs
-python src/assets/scripts/build_csvw.py --check
-```
-
-The mapping is written as annotations, each named after the CSVW property it
-becomes. The schema declares the `csvw:` and `dsv:` prefixes.
-
-| Annotation | On | Meaning |
-| --- | --- | --- |
-| `csvw:titles: <column>` | slot | The column that holds the slot. A module gets metadata once any slot has one. |
-| `csvw:format` | slot | The cell format, when the default will not do. Booleans default to `"Yes\|No"` (the true value first), so `"No\|Yes"` maps a question that is the negation of the slot. A date takes a pattern such as `"dd/MM/yyyy"`. |
-| `dsv:headerMatch: first-line` | schema | Header cells hold the column name on their first line, followed by help text. |
-| `csvw:null: N/A` | schema | A token meaning "no value". `""` always means no value. A column whose enum has a value written this way keeps it as that value. |
-| `csvw:separator: ","` | schema | Separates the values of a multivalued slot within a cell. |
-| `csvw:titles` | permissible value | Another spelling the CSV uses for the value, for a spelling that cannot be an `alias` because it is not a valid JSON-LD term, such as `N/A`. It is also the label the validator shows for the value. |
-
-How the schema maps to the metadata:
-
-- **Rows and nested objects.** Each row is one record of the `tree_root` class.
-  The objects it links to through class-ranged slots become nodes of that row.
-  An optional object whose columns are all empty is left out, rather than
-  reported as incomplete.
-- **Enum columns.** These accept the code, title, aliases, concept local name and
-  `csvw:titles` of each value, ignoring case and spaces: `<5 days` is
-  `< 5 days`. Prefer adding an `alias` for a spelling the CSV uses, because
-  JSON-LD records then accept it too.
-- **Not copied to the published artifacts.** `build_ontology.py` drops the
-  `csvw:` and `dsv:` annotations from the published OWL and SHACL. They describe
-  the CSV, not the ontology.
-
-The validator reads CSV with this metadata (`--csv-metadata`). See its
-[CSV documentation](https://theodi.github.io/data-standard-validator/csv/) for
-the CSVW it supports.
-
 ## Generating the ontology and shapes
 
 **Automatically.** On every push to `main` that changes the models, the
@@ -245,14 +196,6 @@ pip install -r src/assets/scripts/requirements.txt
 python src/assets/scripts/validate_examples.py            # check
 python src/assets/scripts/validate_examples.py --update   # rewrite expectations.json, then review the diff
 ```
-
-`valid-*.csv` and `invalid-*.csv` follow the same rules. They are read through the
-module's `csv-metadata.json` by the installed `data-standard-validator`
-command. If it is not installed, the script installs the latest release with
-`npm install -g @theodi/data-standard-validator@latest`, so checking the
-examples also needs Node.js 22 or later. CI installs the latest release before
-every run. Their expectations are pinned as the row, column and issue code a
-CSV author sees.
 
 To validate your own data, use
 [@theodi/data-standard-validator](https://www.npmjs.com/package/@theodi/data-standard-validator) with the

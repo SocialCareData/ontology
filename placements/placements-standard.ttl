@@ -631,7 +631,6 @@ nam:OtherFormalisedTool a owl:Class ;
     rdfs:label "Other formalised tool" ;
     dct:title "Other formalised tool" ;
     rdfs:subClassOf pl:needs-assessment-method ;
-    skos:altLabel "Other formalised need assessment tool" ;
     skos:definition "Needs assessed using another formalised needs-assessment tool." .
 
 nam:OtherSocialWorkerAssessment a owl:Class ;

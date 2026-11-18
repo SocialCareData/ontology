@@ -129,7 +129,6 @@
       "@type": "@vocab",
       "@context": {
         "@vocab": "https://ns.socialcaredata.io/needs-assessment-method#",
-        "Other formalised need assessment tool": "nam:OtherFormalisedTool",
         "Other formalised tool": "nam:OtherFormalisedTool",
         "Other social worker assessment": "nam:OtherSocialWorkerAssessment"
       }
