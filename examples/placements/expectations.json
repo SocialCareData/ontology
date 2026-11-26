@@ -87,6 +87,40 @@
       "constraint": "sh:minInclusive"
     }
   ],
+  "invalid-placement.csv": [
+    {
+      "row": 1,
+      "column": "can_child_live_with_pets",
+      "code": "value-not-allowed"
+    },
+    {
+      "row": 1,
+      "column": "placement_start_date",
+      "code": "bad-format"
+    },
+    {
+      "row": 1,
+      "column": "placement_type",
+      "code": "required-field-missing"
+    }
+  ],
+  "invalid-placement.jsonld": [
+    {
+      "focus": "ActualPlacement",
+      "path": "placementStartDate",
+      "constraint": "sh:datatype"
+    },
+    {
+      "focus": "PlacementAvailability",
+      "path": "uascStatus",
+      "constraint": "sh:minCount"
+    },
+    {
+      "focus": "PlacementRequirements",
+      "path": "pets",
+      "constraint": "sh:in"
+    }
+  ],
   "invalid-postcode.jsonld": [
     {
       "focus": "ActualPlacement",

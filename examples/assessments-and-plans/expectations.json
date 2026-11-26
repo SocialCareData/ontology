@@ -5,5 +5,22 @@
       "path": "personId",
       "constraint": "sh:minCount"
     }
+  ],
+  "invalid-assessments-and-plans.jsonld": [
+    {
+      "focus": "CareNeedsAssessment",
+      "path": "consentToInformationSharing",
+      "constraint": "sh:minCount"
+    },
+    {
+      "focus": "CareNeedsAssessment",
+      "path": "status",
+      "constraint": "sh:in"
+    },
+    {
+      "focus": "CarePlan",
+      "path": "dateCompleted",
+      "constraint": "sh:datatype"
+    }
   ]
 }
