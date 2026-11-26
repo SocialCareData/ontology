@@ -6,6 +6,23 @@
       "constraint": "sh:minCount"
     }
   ],
+  "invalid-referral.jsonld": [
+    {
+      "focus": "Referral",
+      "path": "dateCompleted",
+      "constraint": "sh:datatype"
+    },
+    {
+      "focus": "Referral",
+      "path": "recipient",
+      "constraint": "sh:minCount"
+    },
+    {
+      "focus": "ReferrerDetails",
+      "path": "referrerType",
+      "constraint": "sh:in"
+    }
+  ],
   "invalid-request-missing-purpose.jsonld": [
     {
       "focus": "Request",

@@ -75,5 +75,22 @@
       "path": "givenName",
       "constraint": "sh:minCount"
     }
+  ],
+  "invalid-subject-of-care.jsonld": [
+    {
+      "focus": "Address",
+      "path": "postcode",
+      "constraint": "sh:pattern"
+    },
+    {
+      "focus": "Person",
+      "path": "genderCode",
+      "constraint": "sh:in"
+    },
+    {
+      "focus": "Person",
+      "path": "isDeceased",
+      "constraint": "sh:minCount"
+    }
   ]
 }

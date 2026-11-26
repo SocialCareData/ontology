@@ -13,6 +13,23 @@
       "constraint": "sh:pattern"
     }
   ],
+  "invalid-connected.jsonld": [
+    {
+      "focus": "Address",
+      "path": "postcode",
+      "constraint": "sh:pattern"
+    },
+    {
+      "focus": "Person",
+      "path": "genderCode",
+      "constraint": "sh:in"
+    },
+    {
+      "focus": "Person",
+      "path": "name",
+      "constraint": "sh:minCount"
+    }
+  ],
   "invalid-missing-name.jsonld": [
     {
       "focus": "Person",

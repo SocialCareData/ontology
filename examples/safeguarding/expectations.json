@@ -55,6 +55,23 @@
       "constraint": "sh:minCount"
     }
   ],
+  "invalid-safeguarding.jsonld": [
+    {
+      "focus": "Organisation",
+      "path": "type",
+      "constraint": "sh:in"
+    },
+    {
+      "focus": "Service",
+      "path": "costFrequency",
+      "constraint": "sh:minCount"
+    },
+    {
+      "focus": "Timing",
+      "path": "startDateTime",
+      "constraint": "sh:datatype"
+    }
+  ],
   "invalid-service-missing-costFrequency.jsonld": [
     {
       "focus": "Service",
