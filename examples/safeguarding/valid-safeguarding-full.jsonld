@@ -144,7 +144,15 @@
           "text": ["Home environment observed to be stable and supportive."]
         }
       ],
-      "episodeOutcome": "continuation"
+      "episodeOutcome": "continuation",
+      "linkedRecord": [
+        {
+          "@type": "LinkedRecord",
+          "recordId": { "@type": "Identifier", "value": "REQ-2026-001", "system": "https://example.org/Id/request" },
+          "recordType": "request",
+          "recordRelationship": "followupTo"
+        }
+      ]
     },
     {
       "@id": "ex:le-2026-0007",

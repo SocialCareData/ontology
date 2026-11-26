@@ -1,0 +1,28 @@
+{
+  "@context": "../../../_data/model/referrals/context.jsonld",
+  "@id": "https://example.org/concerns/QOC-2026-002",
+  "@type": "QualityOfCareConcern",
+  "referrer": {
+    "@type": "ReferrerDetails",
+    "referrerType": "FamilyMember"
+  },
+  "recipient": [
+    {
+      "@type": "Identifier",
+      "value": "ORG-ASC-01",
+      "system": "https://example.org/organisations"
+    }
+  ],
+  "service": {
+    "@type": "QocService",
+    "description": "The home care agency that visits my dad in the mornings."
+  },
+  "concern": [
+    {
+      "@type": "QocConcernDetail",
+      "concernType": "UNASSIGNED",
+      "description": "Carers have missed three morning visits in the last fortnight, and when they do come they leave after ten minutes."
+    }
+  ],
+  "dateCompleted": "2026-10-16T08:30:00Z"
+}

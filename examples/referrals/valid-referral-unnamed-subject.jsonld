@@ -1,0 +1,50 @@
+{
+  "@context": "../../../_data/model/referrals/context.jsonld",
+  "@id": "https://example.org/referrals/REF-2026-002",
+  "@type": "Referral",
+  "identifier": {
+    "@type": "Identifier",
+    "value": "REF-2026-002",
+    "system": "https://example.org/referrals"
+  },
+  "type": "child.safeguarding",
+  "dateCompleted": "2026-10-15T23:40:00Z",
+  "subject": [
+    {
+      "@type": "IntakePerson",
+      "isAwareOfReferral": false,
+      "address": [
+        {
+          "@type": "Address",
+          "line1": "14 Example Road",
+          "city": "Exampletown",
+          "postcode": "AB1 2CD"
+        }
+      ],
+      "notes": "Child of about 5 or 6 seen at the property while officers attended a reported domestic disturbance. Name not known. The family were not told about the referral, as officers believed it could put the child at greater risk."
+    }
+  ],
+  "referrer": {
+    "@type": "ReferrerDetails",
+    "referrerType": "Professional",
+    "referrerProfessionalId": {
+      "@type": "Identifier",
+      "value": "PC-4471",
+      "system": "https://example.org/police/officers"
+    }
+  },
+  "concern": [
+    {
+      "@type": "ConcernDetail",
+      "concernType": "UNASSIGNED",
+      "description": "Officers attended a reported domestic disturbance. Raised voices and breaking glass heard from the street; a man and a woman at the property were both intoxicated. A young child was in the living room throughout and appeared frightened."
+    }
+  ],
+  "recipient": [
+    {
+      "@type": "Identifier",
+      "value": "ORG-CSC-01",
+      "system": "https://example.org/organisations"
+    }
+  ]
+}

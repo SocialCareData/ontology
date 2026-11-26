@@ -11,12 +11,20 @@
   "dateCompleted": "2026-10-14T09:00:00Z",
   "subject": [
     {
-      "@type": "Person",
+      "@type": "IntakePerson",
+      "isAwareOfReferral": true,
       "name": [
         {
           "@type": "Name",
           "givenName": ["Jane"],
           "familyName": "Doe"
+        }
+      ],
+      "matchedPersonRef": [
+        {
+          "@type": "Identifier",
+          "value": "CMS-PER-004512",
+          "system": "https://example.org/people"
         }
       ]
     }
@@ -25,12 +33,19 @@
     {
       "@type": "PersonalNetworkMember",
       "networkPerson": {
-        "@type": "Person",
+        "@type": "IntakePerson",
+        "isAwareOfReferral": true,
         "name": [
           {
             "@type": "Name",
             "givenName": ["Mary"],
             "familyName": "Smith"
+          }
+        ],
+        "contact": [
+          {
+            "@type": "Contact",
+            "telephone": ["07700 900123"]
           }
         ]
       },
@@ -41,7 +56,7 @@
   "referrer": {
     "@type": "ReferrerDetails",
     "referrerType": "Professional",
-    "referrerProfessionalId": {
+    "professionalId": {
       "@type": "Identifier",
       "value": "PROF-001",
       "system": "https://example.org/professionals"
@@ -59,14 +74,22 @@
     "actorType": "Self",
     "involvementDescription": "Contacted emergency duty team."
   },
-  "pathway": [
-    "early-help"
-  ],
   "recipient": [
     {
       "@type": "Identifier",
       "value": "ORG-CSC-01",
       "system": "https://example.org/organisations"
+    }
+  ],
+  "assessmentQuestion": [
+    {
+      "@type": "ReferralAssessmentQuestion",
+      "questionId": "suggestedPathway",
+      "category": "REQUESTED_SERVICE",
+      "questionText": "What kind of support do you think would help?",
+      "answer": ["early-help"],
+      "answerType": "Enum",
+      "required": false
     }
   ]
 }

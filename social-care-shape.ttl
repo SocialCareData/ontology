@@ -489,18 +489,18 @@ sc:CommunicationShape a sh:NodeShape ;
     sh:targetClass sc:Communication .
 
 sc:ConcernDetailShape a sh:NodeShape ;
-    rdfs:comment "Identified concern and optional descriptive details." ;
+    rdfs:comment "A concern raised in a referral: a keyword type and the referrer's description of it. The type may be left UNASSIGNED in the initial referral (by referrer's choice, or by not presenting them an option in the user-facing form) and assigned at triage." ;
     sh:closed false ;
     sh:ignoredProperties ( rdf:type ) ;
     sh:property [ sh:datatype xsd:string ;
-            sh:description "Free text description of concern." ;
+            sh:description "Free-text description of the concern, in the referrer's own words. When the type is UNASSIGNED, triage by professionals relies on this description." ;
             sh:maxCount 1 ;
             sh:name "description" ;
             sh:nodeKind sh:Literal ;
             sh:order 1 ;
             sh:path sc:concernDescription ],
-        [ sh:description "The code identifying the concern." ;
-            sh:in ( <https://ns.socialcaredata.io/concern#ChildPhysicalAbuse> <https://ns.socialcaredata.io/concern#ChildSexualAbuse> <https://ns.socialcaredata.io/concern#ChildEmotionalAbuse> <https://ns.socialcaredata.io/concern#ChildNeglect> <https://ns.socialcaredata.io/concern#ChildExploitation> <https://ns.socialcaredata.io/concern#ChildParentalConcern> <https://ns.socialcaredata.io/concern#ChildMissingEducation> <https://ns.socialcaredata.io/concern#ChildGoingMissing> <https://ns.socialcaredata.io/concern#ChildContextualRisk> <https://ns.socialcaredata.io/concern#ChildOther> <https://ns.socialcaredata.io/concern#AdultPhysicalAbuse> <https://ns.socialcaredata.io/concern#AdultSexualAbuse> <https://ns.socialcaredata.io/concern#AdultEmotionalAbuse> <https://ns.socialcaredata.io/concern#AdultNeglect> <https://ns.socialcaredata.io/concern#AdultFinancialCoercion> <https://ns.socialcaredata.io/concern#AdultDiscrimination> <https://ns.socialcaredata.io/concern#AdultDomesticAbuse> <https://ns.socialcaredata.io/concern#AdultModernSlavery> <https://ns.socialcaredata.io/concern#AdultSelfHarm> <https://ns.socialcaredata.io/concern#AdultSubstanceAbuse> <https://ns.socialcaredata.io/concern#AdultOther> ) ;
+        [ sh:description "The type of concern, or UNASSIGNED if no type was given when the referral was made. An UNASSIGNED concern is assigned a type at triage." ;
+            sh:in ( <https://ns.socialcaredata.io/concern#Unassigned> <https://ns.socialcaredata.io/concern#ChildPhysicalAbuse> <https://ns.socialcaredata.io/concern#ChildSexualAbuse> <https://ns.socialcaredata.io/concern#ChildEmotionalAbuse> <https://ns.socialcaredata.io/concern#ChildNeglect> <https://ns.socialcaredata.io/concern#ChildExtrafamilialHarm> <https://ns.socialcaredata.io/concern#ChildOther> <https://ns.socialcaredata.io/concern#AdultPhysicalAbuse> <https://ns.socialcaredata.io/concern#AdultDomesticAbuse> <https://ns.socialcaredata.io/concern#AdultSexualAbuse> <https://ns.socialcaredata.io/concern#AdultEmotionalAbuse> <https://ns.socialcaredata.io/concern#AdultFinancialAbuse> <https://ns.socialcaredata.io/concern#AdultModernSlavery> <https://ns.socialcaredata.io/concern#AdultDiscriminatoryAbuse> <https://ns.socialcaredata.io/concern#AdultOrganisationalAbuse> <https://ns.socialcaredata.io/concern#AdultNeglect> <https://ns.socialcaredata.io/concern#AdultSelfNeglect> <https://ns.socialcaredata.io/concern#AdultCareAndSupportNeeds> <https://ns.socialcaredata.io/concern#AdultOther> ) ;
             sh:maxCount 1 ;
             sh:minCount 1 ;
             sh:name "concernType" ;
@@ -678,6 +678,107 @@ sc:IdentifierShape a sh:NodeShape ;
             sh:path sc:system ] ;
     sh:targetClass sc:Identifier .
 
+sc:IntakePersonShape a sh:NodeShape ;
+    rdfs:comment """A person as first recorded when their details enter social care, for example as the subject of a referral. Every Person field is optional, because the referrer may know only some details (only an address, or only a name), and a free-text note can capture an overall account where very little else is known.
+Guidance for implementers: * A record should carry at least one detail, but this is not enforced by the model. * Record how the person can be contacted with the Person contact and address fields. Anything else about contacting them (when or how it is safe to, or what to avoid) belongs in notes. * Where the person is not aware of the referral, record why in notes. * Once the person has been matched to an existing record, such as their record in the case management system, add a reference to it in matchedPersonRef. This is usually done at triage. * Referrals submitted by professionals (like social workers, teachers, and doctors) should generally be held to a higher standard, requiring more data than a referral from, say, a member of the public.""" ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "Subject-of-care Person must have exactly one ethnicityCode (ONS 2021 census 20b)." ;
+            sh:in ( <https://ns.socialcaredata.io/ethnicity-code#AsianBangladeshi> <https://ns.socialcaredata.io/ethnicity-code#AsianChinese> <https://ns.socialcaredata.io/ethnicity-code#AsianIndian> <https://ns.socialcaredata.io/ethnicity-code#AsianPakistani> <https://ns.socialcaredata.io/ethnicity-code#AsianOther> <https://ns.socialcaredata.io/ethnicity-code#BlackAfrican> <https://ns.socialcaredata.io/ethnicity-code#BlackCaribbean> <https://ns.socialcaredata.io/ethnicity-code#BlackOther> <https://ns.socialcaredata.io/ethnicity-code#MixedWhiteAsian> <https://ns.socialcaredata.io/ethnicity-code#MixedWhiteBlackAfrican> <https://ns.socialcaredata.io/ethnicity-code#MixedWhiteBlackCaribbean> <https://ns.socialcaredata.io/ethnicity-code#MixedOther> <https://ns.socialcaredata.io/ethnicity-code#WhiteBritish> <https://ns.socialcaredata.io/ethnicity-code#WhiteIrish> <https://ns.socialcaredata.io/ethnicity-code#WhiteGypsyOrIrishTraveller> <https://ns.socialcaredata.io/ethnicity-code#WhiteRoma> <https://ns.socialcaredata.io/ethnicity-code#WhiteOther> <https://ns.socialcaredata.io/ethnicity-code#OtherArab> <https://ns.socialcaredata.io/ethnicity-code#OtherAny> <https://ns.socialcaredata.io/ethnicity-code#DoesNotApply> ) ;
+            sh:maxCount 1 ;
+            sh:order 11 ;
+            sh:path sc:ethnicityCode ],
+        [ sh:description "Subject-of-care Person must have exactly one genderCode." ;
+            sh:in ( <https://ns.socialcaredata.io/gender-code#Male> <https://ns.socialcaredata.io/gender-code#Female> <https://ns.socialcaredata.io/gender-code#Indeterminate> <https://ns.socialcaredata.io/gender-code#NotKnown> ) ;
+            sh:maxCount 1 ;
+            sh:order 9 ;
+            sh:path sc:genderCode ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Subject-of-care Person must record isDeceased." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 5 ;
+            sh:path sc:isDeceased ],
+        [ sh:class sc:Address ;
+            sh:description "Subject-of-care Person must have at least one Address." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 7 ;
+            sh:path sc:address ],
+        [ sh:class sc:Identifier ;
+            sh:description "References to existing records for this person, such as their record in the local authority's case management system, once they have been matched. This is how a person named in a referral is connected to any prior involvement with care. Most likely to be added at triage, not by the referrer. Unlike identifier, which holds identifiers the referrer gave (eg. an NHS number), it records the outcome of matching." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 14 ;
+            sh:path sc:matchedPersonRef ],
+        [ sh:description "Observed phenotypic sex, where recorded." ;
+            sh:in ( <https://ns.socialcaredata.io/phenotypic-sex-code#Male> <https://ns.socialcaredata.io/phenotypic-sex-code#Female> <https://ns.socialcaredata.io/phenotypic-sex-code#Indeterminate> <https://ns.socialcaredata.io/phenotypic-sex-code#NotKnown> ) ;
+            sh:maxCount 1 ;
+            sh:order 10 ;
+            sh:path sc:sexCode ],
+        [ sh:class sc:Identifier ;
+            sh:description "A reference pointing to the person's self-reported \"About Me\" profile (an in-use standard across health and care allowing individuals to record their wants and needs). Uses the Identifier structure." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 15 ;
+            sh:path sc:aboutMe ],
+        [ sh:datatype xsd:boolean ;
+            sh:description "Does this person know that the referral or concern is being made? This is about awareness of the referral itself, not of the problem it describes, and is not the same as consent. If not, say why in notes." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "isAwareOfReferral" ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path sc:isAwareOfReferral ],
+        [ sh:class sc:Contact ;
+            sh:description "Contact information (multi-valued, optional)." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 8 ;
+            sh:path sc:contact ],
+        [ sh:class sc:Identifier ;
+            sh:description "Subject-of-care Person must have at least one Identifier." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 2 ;
+            sh:path sc:identifier ],
+        [ sh:class sc:Identifier ;
+            sh:description "References to the primary professionals related to this person (e.g. care coordinators or a GP). Until the Professional standard is published, recorded using the Identifier structure (system + value)." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 13 ;
+            sh:path sc:primaryContactProfessional ],
+        [ sh:class sc:Communication ;
+            sh:description "Professional recording of a person's communication requirements and language proficiencies." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 16 ;
+            sh:path sc:communication ],
+        [ sh:class sc:PartialDate ;
+            sh:description "Subject-of-care Person must have exactly one dateOfBirth." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 4 ;
+            sh:path sc:dateOfBirth ],
+        [ sh:class sc:PersonRelationship ;
+            sh:description "Related people (multi-valued, optional)." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 12 ;
+            sh:path sc:relatedPerson ],
+        [ sh:class sc:Name ;
+            sh:description "Subject-of-care Person must have at least one Name." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 3 ;
+            sh:path sc:name ],
+        [ sh:datatype xsd:string ;
+            sh:description "Free-text notes about the person to convey identifying information where little else is known (eg. where they have been seen in the local area). Also the location to record anything about how to contact the person safely, and why they are not aware of the referral, if they are not." ;
+            sh:maxCount 1 ;
+            sh:name "notes" ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sc:intakeNotes ],
+        [ sh:class sc:PartialDate ;
+            sh:description "The person's date of death, with an optional accuracy indicator. isDeceased may be true without a known date." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 6 ;
+            sh:path sc:deceasedDate ] ;
+    sh:targetClass sc:IntakePerson .
+
 sc:LanguageShape a sh:NodeShape ;
     rdfs:comment "A specific language the person is proficient in, including proficiency level." ;
     sh:closed false ;
@@ -737,7 +838,7 @@ sc:LifeEventShape a sh:NodeShape ;
             sh:order 2 ;
             sh:path sc:subjectPerson ],
         [ sh:class sc:LinkedRecord ;
-            sh:description "Linked records associated with this episode or life event (e.g. referrals, requests, concerns, assessments, plans)." ;
+            sh:description "Other records linked to this one, such as related referrals, requests, quality-of-care concerns, responses, assessments or plans." ;
             sh:name "linkedRecord" ;
             sh:nodeKind sh:BlankNodeOrIRI ;
             sh:order 7 ;
@@ -751,17 +852,17 @@ sc:LifeEventShape a sh:NodeShape ;
     sh:targetClass sc:LifeEvent .
 
 sc:LinkedRecordShape a sh:NodeShape ;
-    rdfs:comment "A reference to an associated external or cross-standard record (such as a referral, service request, quality-of-care concern, care needs assessment, or care plan)." ;
+    rdfs:comment "A reference to an associated external or cross-standard record (such as a referral, service request, quality-of-care concern, response, care needs assessment, or care plan)." ;
     sh:closed false ;
     sh:ignoredProperties ( rdf:type ) ;
-    sh:property [ sh:description "The nature of the relationship (e.g. trigger, outcome, context)." ;
+    sh:property [ sh:description "How this record relates to the linked record, for example as an escalation of it or a follow-up to it." ;
             sh:in ( <https://ns.socialcaredata.io/record-relationship#EscalationOf> <https://ns.socialcaredata.io/record-relationship#DeescalationOf> <https://ns.socialcaredata.io/record-relationship#FollowupTo> <https://ns.socialcaredata.io/record-relationship#ReactivationOf> <https://ns.socialcaredata.io/record-relationship#ConcurrentWith> ) ;
             sh:maxCount 1 ;
             sh:name "recordRelationship" ;
             sh:order 2 ;
             sh:path sc:recordRelationship ],
         [ sh:description "The type of the linked record." ;
-            sh:in ( <https://ns.socialcaredata.io/record-type#Referral> <https://ns.socialcaredata.io/record-type#Request> <https://ns.socialcaredata.io/record-type#QualityOfCareConcern> <https://ns.socialcaredata.io/record-type#Assessment> <https://ns.socialcaredata.io/record-type#Plan> ) ;
+            sh:in ( <https://ns.socialcaredata.io/record-type#Referral> <https://ns.socialcaredata.io/record-type#Request> <https://ns.socialcaredata.io/record-type#QualityOfCareConcern> <https://ns.socialcaredata.io/record-type#Response> <https://ns.socialcaredata.io/record-type#Assessment> <https://ns.socialcaredata.io/record-type#Plan> ) ;
             sh:maxCount 1 ;
             sh:minCount 1 ;
             sh:name "recordType" ;
@@ -970,7 +1071,7 @@ sc:PersonRelationshipShape a sh:NodeShape ;
 sc:PersonShape a sh:NodeShape ;
     rdfs:comment "A person who is the subject of care. Core identity, demographic and contact data required to deliver and coordinate care must be present." ;
     sh:closed false ;
-    sh:ignoredProperties ( rdf:type ) ;
+    sh:ignoredProperties ( rdf:type sc:isAwareOfReferral sc:intakeNotes ) ;
     sh:property [ sh:class sc:Identifier ;
             sh:description "References to the primary professionals related to this person (e.g. care coordinators or a GP). Until the Professional standard is published, recorded using the Identifier structure (system + value)." ;
             sh:nodeKind sh:BlankNodeOrIRI ;
@@ -1077,7 +1178,7 @@ sc:PersonalNetworkMemberShape a sh:NodeShape ;
             sh:nodeKind sh:Literal ;
             sh:order 2 ;
             sh:path sc:networkDescription ],
-        [ sh:class sc:Person ;
+        [ sh:class sc:IntakePerson ;
             sh:description "Person in the personal network." ;
             sh:maxCount 1 ;
             sh:minCount 1 ;
@@ -1305,6 +1406,54 @@ sc:ProfessionalShape a sh:NodeShape ;
             sh:path sc:name ] ;
     sh:targetClass sc:Professional .
 
+sc:QocConcernDetailShape a sh:NodeShape ;
+    rdfs:comment "A concern raised about a care provider or service: a keyword type and a description of it. The type may be left UNASSIGNED when the concern is raised (by the choice of the person raising it, or by not presenting them an option in the user-facing form) and assigned at triage." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "Free-text description of the concern, in the words of the person raising it. This is what triage relies on when the type is UNASSIGNED." ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sc:qocConcernDescription ],
+        [ sh:description "The type of concern, or UNASSIGNED if no type was given when the concern was raised. An UNASSIGNED concern is assigned a type at triage." ;
+            sh:in ( <https://ns.socialcaredata.io/qoc-concern#Unassigned> <https://ns.socialcaredata.io/qoc-concern#PersonCentredCare> <https://ns.socialcaredata.io/qoc-concern#DignityAndRespect> <https://ns.socialcaredata.io/qoc-concern#NeedForConsent> <https://ns.socialcaredata.io/qoc-concern#SafeCareAndTreatment> <https://ns.socialcaredata.io/qoc-concern#Safeguarding> <https://ns.socialcaredata.io/qoc-concern#NutritionAndHydration> <https://ns.socialcaredata.io/qoc-concern#PremisesAndEquipment> <https://ns.socialcaredata.io/qoc-concern#Complaints> <https://ns.socialcaredata.io/qoc-concern#GoodGovernance> <https://ns.socialcaredata.io/qoc-concern#Staffing> <https://ns.socialcaredata.io/qoc-concern#FitAndProperPersons> <https://ns.socialcaredata.io/qoc-concern#DutyOfCandour> <https://ns.socialcaredata.io/qoc-concern#Other> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "concernType" ;
+            sh:order 0 ;
+            sh:path sc:qocConcernType ] ;
+    sh:targetClass sc:QocConcernDetail .
+
+sc:QocServiceShape a sh:NodeShape ;
+    rdfs:comment """The care provider or service a quality-of-care concern is about, as far as the person raising the concern can describe it. Every property is optional, because they may not know the service's name or identifier, and the service may not be recorded in the local authority's system. Triage can complete the details and update the record later.
+Guidance for implementers: * A record should carry at least one detail (most likely, the description), but this is not enforced by the model.""" ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class sc:Identifier ;
+            sh:description "Identifier for the service, if known, such as its Care Quality Commission location ID or its identifier in the local authority's system." ;
+            sh:maxCount 1 ;
+            sh:name "identifier" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path sc:identifier ],
+        [ sh:datatype xsd:string ;
+            sh:description "Free-text description of the service (not the concern), in the words of the person raising the concern. For example, \"the carers that visit my dad in the mornings\"." ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path sc:qocServiceDescription ],
+        [ sh:datatype xsd:string ;
+            sh:description "The name of the service, if known." ;
+            sh:maxCount 1 ;
+            sh:name "name" ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path sc:qocServiceName ] ;
+    sh:targetClass sc:QocService .
+
 sc:QualityAssuranceShape a sh:NodeShape ;
     rdfs:comment "Metadata about who recorded each part of the placement record (referral, placement, cost) and when. Supports LA-internal review of data-entry practices; not intended to be shared beyond the recording LA." ;
     sh:closed false ;
@@ -1360,10 +1509,10 @@ sc:QualityOfCareConcernShape a sh:NodeShape ;
             sh:maxCount 1 ;
             sh:name "dateCompleted" ;
             sh:nodeKind sh:Literal ;
-            sh:order 8 ;
+            sh:order 9 ;
             sh:path sc:dateCompleted ],
         [ sh:class sc:Identifier ;
-            sh:description "Identifier for this referral, request, or concern." ;
+            sh:description "Identifier for this referral, request, concern, or response." ;
             sh:maxCount 1 ;
             sh:name "identifier" ;
             sh:nodeKind sh:BlankNodeOrIRI ;
@@ -1373,14 +1522,21 @@ sc:QualityOfCareConcernShape a sh:NodeShape ;
             sh:description "Attachments and reference to documents." ;
             sh:name "attachment" ;
             sh:nodeKind sh:BlankNodeOrIRI ;
-            sh:order 6 ;
+            sh:order 7 ;
             sh:path sc:attachment ],
-        [ sh:class sc:Person ;
+        [ sh:class sc:IntakePerson ;
             sh:description "Who is the person? (Optional for anonymisation)." ;
             sh:name "subject" ;
             sh:nodeKind sh:BlankNodeOrIRI ;
             sh:order 1 ;
             sh:path sc:qocSubject ],
+        [ sh:class sc:Identifier ;
+            sh:description "Who was this concern sent to? Generally the local authority and the Care Quality Commission." ;
+            sh:minCount 1 ;
+            sh:name "recipient" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 3 ;
+            sh:path sc:qocRecipient ],
         [ sh:class sc:ReferrerDetails ;
             sh:description "Who is the referrer? (Optional for anonymisation)." ;
             sh:maxCount 1 ;
@@ -1392,29 +1548,29 @@ sc:QualityOfCareConcernShape a sh:NodeShape ;
             sh:description "Atypical, locally configured questions." ;
             sh:name "assessmentQuestion" ;
             sh:nodeKind sh:BlankNodeOrIRI ;
-            sh:order 5 ;
+            sh:order 6 ;
             sh:path sc:referralAssessmentQuestion ],
-        [ sh:class sc:Identifier ;
-            sh:description "What service is involved? (Organisation / Service identifier)." ;
+        [ sh:class sc:QocService ;
+            sh:description "Which care provider or service is the concern about?" ;
             sh:maxCount 1 ;
             sh:minCount 1 ;
-            sh:name "recipient" ;
+            sh:name "service" ;
             sh:nodeKind sh:BlankNodeOrIRI ;
-            sh:order 3 ;
-            sh:path sc:qocRecipient ],
-        [ sh:class sc:ConcernDetail ;
-            sh:description "What is the concern?" ;
+            sh:order 4 ;
+            sh:path sc:qocService ],
+        [ sh:class sc:LinkedRecord ;
+            sh:description "Other records linked to this one, such as related referrals, requests, quality-of-care concerns, responses, assessments or plans." ;
+            sh:name "linkedRecord" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 8 ;
+            sh:path sc:linkedRecord ],
+        [ sh:class sc:QocConcernDetail ;
+            sh:description "What is the concern? Initially, this may be left UNASSIGNED, to be assigned at triage by professionals." ;
             sh:minCount 1 ;
             sh:name "concern" ;
             sh:nodeKind sh:BlankNodeOrIRI ;
-            sh:order 4 ;
-            sh:path sc:concern ],
-        [ sh:class sc:LinkedRecord ;
-            sh:description "Linked records associated with this episode or life event (e.g. referrals, requests, concerns, assessments, plans)." ;
-            sh:name "linkedRecord" ;
-            sh:nodeKind sh:BlankNodeOrIRI ;
-            sh:order 7 ;
-            sh:path sc:linkedRecord ] ;
+            sh:order 5 ;
+            sh:path sc:qocConcern ] ;
     sh:targetClass sc:QualityOfCareConcern .
 
 sc:ReferralAssessmentQuestionShape a sh:NodeShape ;
@@ -1487,7 +1643,7 @@ sc:ReferralInvolvementShape a sh:NodeShape ;
     sh:targetClass sc:ReferralInvolvement .
 
 sc:ReferralShape a sh:NodeShape ;
-    rdfs:comment "Inward, person-centric, point-of-entry referral into social services." ;
+    rdfs:comment "Inward, person-centric, point-of-entry referral into social services. A referral is not the way to report an emergency: where someone is in immediate danger, the emergency services should be called on 999 first." ;
     sh:closed false ;
     sh:ignoredProperties ( rdf:type ) ;
     sh:property [ sh:datatype xsd:dateTime ;
@@ -1495,52 +1651,54 @@ sc:ReferralShape a sh:NodeShape ;
             sh:maxCount 1 ;
             sh:name "dateCompleted" ;
             sh:nodeKind sh:Literal ;
-            sh:order 12 ;
+            sh:order 11 ;
             sh:path sc:dateCompleted ],
-        [ sh:description "What kind of support pathway do you think this referral should initiate?" ;
-            sh:in ( <https://ns.socialcaredata.io/service-code#YouthOffending> <https://ns.socialcaredata.io/service-code#PrimarySchool> <https://ns.socialcaredata.io/service-code#HighSchool> <https://ns.socialcaredata.io/service-code#SenPrimarySchool> <https://ns.socialcaredata.io/service-code#SenHighSchool> <https://ns.socialcaredata.io/service-code#AlternativeProvisionSchool> <https://ns.socialcaredata.io/service-code#SocialCare> <https://ns.socialcaredata.io/service-code#FamilyCourt> <https://ns.socialcaredata.io/service-code#Camhs> <https://ns.socialcaredata.io/service-code#Reablement> <https://ns.socialcaredata.io/service-code#ShortTermNursingCare> <https://ns.socialcaredata.io/service-code#ShortTermResidentialCare> <https://ns.socialcaredata.io/service-code#LongTermNursingCare> <https://ns.socialcaredata.io/service-code#LongTermResidentialCare> <https://ns.socialcaredata.io/service-code#HomeSupportDomiciliary> <https://ns.socialcaredata.io/service-code#DaySupport> <https://ns.socialcaredata.io/service-code#Meals> <https://ns.socialcaredata.io/service-code#Transport> <https://ns.socialcaredata.io/service-code#Equipment> <https://ns.socialcaredata.io/service-code#DirectPayment> <https://ns.socialcaredata.io/service-code#SharedLives> <https://ns.socialcaredata.io/service-code#CommunitySupportedLiving> <https://ns.socialcaredata.io/service-code#ExtraCareHousing> <https://ns.socialcaredata.io/service-code#SocialWorkerSupport> <https://ns.socialcaredata.io/service-code#OtherProfessionalSupport> <https://ns.socialcaredata.io/service-code#LearningEducationEmployment> <https://ns.socialcaredata.io/service-code#EndOfLifeCare> <https://ns.socialcaredata.io/service-code#EmergencySupport> <https://ns.socialcaredata.io/service-code#OtherShortTermSupport> <https://ns.socialcaredata.io/service-code#OtherLongTermSupport> <https://ns.socialcaredata.io/service-code#CarerRespite> <https://ns.socialcaredata.io/service-code#CarerSittingService> <https://ns.socialcaredata.io/service-code#CarerUniversalServices> <https://ns.socialcaredata.io/service-code#OtherCarerSupport> <https://ns.socialcaredata.io/service-code#MASH> <https://ns.socialcaredata.io/service-code#EarlyHelp> <https://ns.socialcaredata.io/service-code#EducationWelfare> <https://ns.socialcaredata.io/service-code#HomeAdaptations> <https://ns.socialcaredata.io/service-code#OccupationalTherapy> <https://ns.socialcaredata.io/service-code#CHC> <https://ns.socialcaredata.io/service-code#CMHT> <https://ns.socialcaredata.io/service-code#S117Aftercare> <https://ns.socialcaredata.io/service-code#DoLS> <https://ns.socialcaredata.io/service-code#D2A> <https://ns.socialcaredata.io/service-code#SensoryTeam> <https://ns.socialcaredata.io/service-code#Advocacy> <https://ns.socialcaredata.io/service-code#LGA> ) ;
-            sh:name "pathway" ;
-            sh:order 7 ;
-            sh:path sc:pathway ],
-        [ sh:class sc:DocumentReference ;
-            sh:description "Attachments and reference to documents." ;
-            sh:name "attachment" ;
-            sh:nodeKind sh:BlankNodeOrIRI ;
-            sh:order 10 ;
-            sh:path sc:attachment ],
-        [ sh:description "Type of referral." ;
-            sh:in ( <https://ns.socialcaredata.io/referral-type#ChildSafeguarding> <https://ns.socialcaredata.io/referral-type#ChildInfoRequest> <https://ns.socialcaredata.io/referral-type#ChildCrossService> <https://ns.socialcaredata.io/referral-type#AdultGeneral> <https://ns.socialcaredata.io/referral-type#AdultSafeguarding> <https://ns.socialcaredata.io/referral-type#AdultIndependentLiving> <https://ns.socialcaredata.io/referral-type#AdultCareActAssessment> <https://ns.socialcaredata.io/referral-type#AdultInfoRequest> <https://ns.socialcaredata.io/referral-type#AdultCrossService> ) ;
-            sh:maxCount 1 ;
-            sh:minCount 1 ;
-            sh:name "type" ;
-            sh:order 1 ;
-            sh:path sc:type ],
         [ sh:class sc:Identifier ;
-            sh:description "Identifier for this referral, request, or concern." ;
+            sh:description "Identifier for this referral, request, concern, or response." ;
             sh:maxCount 1 ;
             sh:name "identifier" ;
             sh:nodeKind sh:BlankNodeOrIRI ;
             sh:order 0 ;
             sh:path sc:identifier ],
-        [ sh:class sc:PersonalNetworkMember ;
-            sh:description "Who is in the person's family, household, or personal network?" ;
-            sh:name "personalNetwork" ;
+        [ sh:description "Type of referral." ;
+            sh:in ( <https://ns.socialcaredata.io/referral-type#ChildSafeguarding> <https://ns.socialcaredata.io/referral-type#ChildInfoRequest> <https://ns.socialcaredata.io/referral-type#ChildCrossService> <https://ns.socialcaredata.io/referral-type#ChildReturningCareLeaver> <https://ns.socialcaredata.io/referral-type#AdultGeneral> <https://ns.socialcaredata.io/referral-type#AdultSafeguarding> <https://ns.socialcaredata.io/referral-type#AdultIndependentLiving> <https://ns.socialcaredata.io/referral-type#AdultCareActAssessment> <https://ns.socialcaredata.io/referral-type#AdultInfoRequest> <https://ns.socialcaredata.io/referral-type#AdultCrossService> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "type" ;
+            sh:order 1 ;
+            sh:path sc:type ],
+        [ sh:class sc:DocumentReference ;
+            sh:description "Attachments and reference to documents." ;
+            sh:name "attachment" ;
             sh:nodeKind sh:BlankNodeOrIRI ;
-            sh:order 3 ;
-            sh:path sc:personalNetwork ],
-        [ sh:class sc:Person ;
+            sh:order 9 ;
+            sh:path sc:attachment ],
+        [ sh:class sc:IntakePerson ;
             sh:description "Who is the person?" ;
             sh:minCount 1 ;
             sh:name "subject" ;
             sh:nodeKind sh:BlankNodeOrIRI ;
             sh:order 2 ;
             sh:path sc:subject ],
-        [ sh:class sc:ReferralAssessmentQuestion ;
-            sh:description "Atypical, locally configured questions." ;
-            sh:name "assessmentQuestion" ;
+        [ sh:class sc:PersonalNetworkMember ;
+            sh:description "Who is in the person's family, household, or personal network?" ;
+            sh:name "personalNetwork" ;
             sh:nodeKind sh:BlankNodeOrIRI ;
-            sh:order 9 ;
-            sh:path sc:referralAssessmentQuestion ],
+            sh:order 3 ;
+            sh:path sc:personalNetwork ],
+        [ sh:class sc:Identifier ;
+            sh:description "Who was this referral sent to?" ;
+            sh:minCount 1 ;
+            sh:name "recipient" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 7 ;
+            sh:path sc:recipient ],
+        [ sh:class sc:LinkedRecord ;
+            sh:description "Other records linked to this one, such as related referrals, requests, quality-of-care concerns, responses, assessments or plans." ;
+            sh:name "linkedRecord" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 10 ;
+            sh:path sc:linkedRecord ],
         [ sh:class sc:ReferrerDetails ;
             sh:description "Who is the referrer?" ;
             sh:maxCount 1 ;
@@ -1549,19 +1707,12 @@ sc:ReferralShape a sh:NodeShape ;
             sh:nodeKind sh:BlankNodeOrIRI ;
             sh:order 4 ;
             sh:path sc:referrer ],
-        [ sh:class sc:Identifier ;
-            sh:description "Who was this referral sent to?" ;
-            sh:minCount 1 ;
-            sh:name "recipient" ;
+        [ sh:class sc:ReferralAssessmentQuestion ;
+            sh:description "Atypical, locally configured questions." ;
+            sh:name "assessmentQuestion" ;
             sh:nodeKind sh:BlankNodeOrIRI ;
             sh:order 8 ;
-            sh:path sc:recipient ],
-        [ sh:class sc:LinkedRecord ;
-            sh:description "Linked records associated with this episode or life event (e.g. referrals, requests, concerns, assessments, plans)." ;
-            sh:name "linkedRecord" ;
-            sh:nodeKind sh:BlankNodeOrIRI ;
-            sh:order 11 ;
-            sh:path sc:linkedRecord ],
+            sh:path sc:referralAssessmentQuestion ],
         [ sh:class sc:ReferralInvolvement ;
             sh:description "What have you or others done so far?" ;
             sh:maxCount 1 ;
@@ -1570,7 +1721,7 @@ sc:ReferralShape a sh:NodeShape ;
             sh:order 6 ;
             sh:path sc:referralInvolvement ],
         [ sh:class sc:ConcernDetail ;
-            sh:description "What is the concern?" ;
+            sh:description "What is the concern? Initially, this may be left UNASSIGNED, to be assigned at triage by professionals." ;
             sh:minCount 1 ;
             sh:name "concern" ;
             sh:nodeKind sh:BlankNodeOrIRI ;
@@ -1646,17 +1797,10 @@ sc:RelatedProfessionalShape a sh:NodeShape ;
     sh:targetClass sc:RelatedProfessional .
 
 sc:RequestShape a sh:NodeShape ;
-    rdfs:comment "Outward request for services for an existing subject of care." ;
+    rdfs:comment "Outward request for services for a person already known to social care. A request can be the outcome of a Multi-Agency Safeguarding Hub (MASH) decision in children's services or a front-door decision in adult social care. However, it is most commonly any request made from social services to another service (like CAMHS or an advocacy provider), for both children and adults." ;
     sh:closed false ;
     sh:ignoredProperties ( rdf:type ) ;
-    sh:property [ sh:description "What is the request?" ;
-            sh:in ( <https://ns.socialcaredata.io/request-purpose#Notification> <https://ns.socialcaredata.io/request-purpose#ChildEarlyHelp> <https://ns.socialcaredata.io/request-purpose#ChildCIN> <https://ns.socialcaredata.io/request-purpose#ChildS47> <https://ns.socialcaredata.io/request-purpose#ChildEmergency> <https://ns.socialcaredata.io/request-purpose#ChildStatutoryServices> <https://ns.socialcaredata.io/request-purpose#ChildNonStatutoryServices> <https://ns.socialcaredata.io/request-purpose#AdultStatutoryServices> <https://ns.socialcaredata.io/request-purpose#AdultNonStatutoryServices> ) ;
-            sh:maxCount 1 ;
-            sh:minCount 1 ;
-            sh:name "purpose" ;
-            sh:order 4 ;
-            sh:path sc:purpose ],
-        [ sh:datatype xsd:dateTime ;
+    sh:property [ sh:datatype xsd:dateTime ;
             sh:description "Date completed." ;
             sh:maxCount 1 ;
             sh:name "dateCompleted" ;
@@ -1664,12 +1808,19 @@ sc:RequestShape a sh:NodeShape ;
             sh:order 8 ;
             sh:path sc:dateCompleted ],
         [ sh:class sc:Identifier ;
-            sh:description "Identifier for this referral, request, or concern." ;
+            sh:description "Identifier for this referral, request, concern, or response." ;
             sh:maxCount 1 ;
             sh:name "identifier" ;
             sh:nodeKind sh:BlankNodeOrIRI ;
             sh:order 0 ;
             sh:path sc:identifier ],
+        [ sh:description "What kind of request is this? The function this request serves." ;
+            sh:in ( <https://ns.socialcaredata.io/request-purpose#Notification> <https://ns.socialcaredata.io/request-purpose#Service> <https://ns.socialcaredata.io/request-purpose#ChildEarlyHelp> <https://ns.socialcaredata.io/request-purpose#ChildCIN> <https://ns.socialcaredata.io/request-purpose#ChildS47> <https://ns.socialcaredata.io/request-purpose#ChildEmergency> <https://ns.socialcaredata.io/request-purpose#AdultPrevention> <https://ns.socialcaredata.io/request-purpose#AdultNeedsAssessment> <https://ns.socialcaredata.io/request-purpose#AdultS42Enquiry> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "purpose" ;
+            sh:order 4 ;
+            sh:path sc:purpose ],
         [ sh:class sc:DocumentReference ;
             sh:description "Attachments and reference to documents." ;
             sh:name "attachment" ;
@@ -1706,12 +1857,81 @@ sc:RequestShape a sh:NodeShape ;
             sh:order 1 ;
             sh:path sc:requestSubject ],
         [ sh:class sc:LinkedRecord ;
-            sh:description "Linked records associated with this episode or life event (e.g. referrals, requests, concerns, assessments, plans)." ;
+            sh:description "Other records linked to this one, such as related referrals, requests, quality-of-care concerns, responses, assessments or plans." ;
             sh:name "linkedRecord" ;
             sh:nodeKind sh:BlankNodeOrIRI ;
             sh:order 7 ;
             sh:path sc:linkedRecord ] ;
     sh:targetClass sc:Request .
+
+sc:ResponseShape a sh:NodeShape ;
+    rdfs:comment "A record, held in a case management system, that describes a response to a referral, request or quality-of-care concern that has been sent or received. It confirms receipt and gives basic information about its contents. It is not necessarily a message between the parties, it does not capture the full response, and counterparty services that receive referrals, requests and concerns are not obliged to send one. Each response is a separate record of what happened at a point in time, so a referral that is acknowledged and later accepted has two responses." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "The type of record being responded to (referral, request or quality-of-care concern). Helps where the identifier alone is ambiguous." ;
+            sh:in ( <https://ns.socialcaredata.io/record-type#Referral> <https://ns.socialcaredata.io/record-type#Request> <https://ns.socialcaredata.io/record-type#QualityOfCareConcern> <https://ns.socialcaredata.io/record-type#Response> <https://ns.socialcaredata.io/record-type#Assessment> <https://ns.socialcaredata.io/record-type#Plan> ) ;
+            sh:maxCount 1 ;
+            sh:name "respondsToType" ;
+            sh:order 2 ;
+            sh:path sc:respondsToType ],
+        [ sh:class sc:Identifier ;
+            sh:description "Identifier for this referral, request, concern, or response." ;
+            sh:maxCount 1 ;
+            sh:name "identifier" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path sc:identifier ],
+        [ sh:datatype xsd:dateTime ;
+            sh:description "When the response was received by the party it was sent to. For a response the record holder sent, where the time it was received is not known, use the time it was sent." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "dateTimeReceived" ;
+            sh:nodeKind sh:Literal ;
+            sh:order 4 ;
+            sh:path sc:dateTimeReceived ],
+        [ sh:class sc:DocumentReference ;
+            sh:description "Attachments and reference to documents." ;
+            sh:name "attachment" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 7 ;
+            sh:path sc:attachment ],
+        [ sh:datatype xsd:string ;
+            sh:description "Free-text summary of what the responder said." ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:nodeKind sh:Literal ;
+            sh:order 6 ;
+            sh:path sc:responseDescription ],
+        [ sh:class sc:Identifier ;
+            sh:description "The organisation, service or professional that responded. Shows the direction of the response, for example whether a local authority sent it or received it." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "responder" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 3 ;
+            sh:path sc:responder ],
+        [ sh:description "What was the response?" ;
+            sh:in ( <https://ns.socialcaredata.io/response-status#Acknowledged> <https://ns.socialcaredata.io/response-status#InformationRequested> <https://ns.socialcaredata.io/response-status#Accepted> <https://ns.socialcaredata.io/response-status#AcceptedWaitlisted> <https://ns.socialcaredata.io/response-status#Delayed> <https://ns.socialcaredata.io/response-status#Redirected> <https://ns.socialcaredata.io/response-status#Declined> <https://ns.socialcaredata.io/response-status#DeclinedIneligible> <https://ns.socialcaredata.io/response-status#Closed> ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "status" ;
+            sh:order 5 ;
+            sh:path sc:responseStatus ],
+        [ sh:class sc:Identifier ;
+            sh:description "The referral, request or quality-of-care concern being responded to." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "respondsTo" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 1 ;
+            sh:path sc:respondsTo ],
+        [ sh:class sc:LinkedRecord ;
+            sh:description "Other records linked to this one, such as related referrals, requests, quality-of-care concerns, responses, assessments or plans." ;
+            sh:name "linkedRecord" ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 8 ;
+            sh:path sc:linkedRecord ] ;
+    sh:targetClass sc:Response .
 
 sc:ReviewShape a sh:NodeShape ;
     rdfs:comment "Review information associated with an assessment or care plan." ;
@@ -1821,7 +2041,7 @@ sc:ServiceEpisodeShape a sh:NodeShape ;
             sh:order 6 ;
             sh:path sc:location ],
         [ sh:description "Code(s) for the type of service episode." ;
-            sh:in ( <https://ns.socialcaredata.io/episode-code#Assessment> <https://ns.socialcaredata.io/episode-code#EarlyHelp> <https://ns.socialcaredata.io/episode-code#Section47> <https://ns.socialcaredata.io/episode-code#AdultSafeguarding> <https://ns.socialcaredata.io/episode-code#CareActAssessment> <https://ns.socialcaredata.io/episode-code#OtherAssessment> <https://ns.socialcaredata.io/episode-code#MashReview> <https://ns.socialcaredata.io/episode-code#ReferralReview> <https://ns.socialcaredata.io/episode-code#Plan> <https://ns.socialcaredata.io/episode-code#Ehcp> <https://ns.socialcaredata.io/episode-code#FamilyCourtOrder> <https://ns.socialcaredata.io/episode-code#CinPlan> <https://ns.socialcaredata.io/episode-code#CpPlan> <https://ns.socialcaredata.io/episode-code#CamhsPlan> <https://ns.socialcaredata.io/episode-code#ChildLookedAfter> <https://ns.socialcaredata.io/episode-code#CarePlan> <https://ns.socialcaredata.io/episode-code#OtherPlan> <https://ns.socialcaredata.io/episode-code#Provision> <https://ns.socialcaredata.io/episode-code#FaceToFaceContact> <https://ns.socialcaredata.io/episode-code#RemoteContact> <https://ns.socialcaredata.io/episode-code#DirectProvision> <https://ns.socialcaredata.io/episode-code#IndirectProvision> <https://ns.socialcaredata.io/episode-code#Admin> <https://ns.socialcaredata.io/episode-code#Miscellaneous> <https://ns.socialcaredata.io/episode-code#Request> <https://ns.socialcaredata.io/episode-code#Notification> <https://ns.socialcaredata.io/episode-code#ChildEarlyHelp> <https://ns.socialcaredata.io/episode-code#ChildCin> <https://ns.socialcaredata.io/episode-code#ChildS47> <https://ns.socialcaredata.io/episode-code#ChildEmergency> <https://ns.socialcaredata.io/episode-code#ChildStatutoryServices> <https://ns.socialcaredata.io/episode-code#ChildNonStatutoryServices> <https://ns.socialcaredata.io/episode-code#AdultStatutoryServices> <https://ns.socialcaredata.io/episode-code#AdultNonStatutoryServices> ) ;
+            sh:in ( <https://ns.socialcaredata.io/episode-code#Assessment> <https://ns.socialcaredata.io/episode-code#EarlyHelp> <https://ns.socialcaredata.io/episode-code#Section47> <https://ns.socialcaredata.io/episode-code#AdultSafeguarding> <https://ns.socialcaredata.io/episode-code#CareActAssessment> <https://ns.socialcaredata.io/episode-code#OtherAssessment> <https://ns.socialcaredata.io/episode-code#MashReview> <https://ns.socialcaredata.io/episode-code#ReferralReview> <https://ns.socialcaredata.io/episode-code#Plan> <https://ns.socialcaredata.io/episode-code#Ehcp> <https://ns.socialcaredata.io/episode-code#FamilyCourtOrder> <https://ns.socialcaredata.io/episode-code#CinPlan> <https://ns.socialcaredata.io/episode-code#CpPlan> <https://ns.socialcaredata.io/episode-code#CamhsPlan> <https://ns.socialcaredata.io/episode-code#ChildLookedAfter> <https://ns.socialcaredata.io/episode-code#CarePlan> <https://ns.socialcaredata.io/episode-code#OtherPlan> <https://ns.socialcaredata.io/episode-code#Provision> <https://ns.socialcaredata.io/episode-code#FaceToFaceContact> <https://ns.socialcaredata.io/episode-code#RemoteContact> <https://ns.socialcaredata.io/episode-code#DirectProvision> <https://ns.socialcaredata.io/episode-code#IndirectProvision> <https://ns.socialcaredata.io/episode-code#Admin> <https://ns.socialcaredata.io/episode-code#Miscellaneous> <https://ns.socialcaredata.io/episode-code#Request> <https://ns.socialcaredata.io/episode-code#Notification> <https://ns.socialcaredata.io/episode-code#Service> <https://ns.socialcaredata.io/episode-code#ChildEarlyHelp> <https://ns.socialcaredata.io/episode-code#ChildCin> <https://ns.socialcaredata.io/episode-code#ChildS47> <https://ns.socialcaredata.io/episode-code#ChildEmergency> ) ;
             sh:minCount 1 ;
             sh:name "type" ;
             sh:order 1 ;
@@ -1857,7 +2077,7 @@ sc:ServiceEpisodeShape a sh:NodeShape ;
             sh:order 4 ;
             sh:path sc:relatedService ],
         [ sh:class sc:LinkedRecord ;
-            sh:description "Linked records associated with this episode or life event (e.g. referrals, requests, concerns, assessments, plans)." ;
+            sh:description "Other records linked to this one, such as related referrals, requests, quality-of-care concerns, responses, assessments or plans." ;
             sh:name "linkedRecord" ;
             sh:nodeKind sh:BlankNodeOrIRI ;
             sh:order 9 ;
@@ -1890,7 +2110,7 @@ sc:ServiceShape a sh:NodeShape ;
             sh:order 4 ;
             sh:path sc:active ],
         [ sh:description "Code(s) for the kind of service." ;
-            sh:in ( <https://ns.socialcaredata.io/service-code#YouthOffending> <https://ns.socialcaredata.io/service-code#PrimarySchool> <https://ns.socialcaredata.io/service-code#HighSchool> <https://ns.socialcaredata.io/service-code#SenPrimarySchool> <https://ns.socialcaredata.io/service-code#SenHighSchool> <https://ns.socialcaredata.io/service-code#AlternativeProvisionSchool> <https://ns.socialcaredata.io/service-code#SocialCare> <https://ns.socialcaredata.io/service-code#FamilyCourt> <https://ns.socialcaredata.io/service-code#Camhs> <https://ns.socialcaredata.io/service-code#Reablement> <https://ns.socialcaredata.io/service-code#ShortTermNursingCare> <https://ns.socialcaredata.io/service-code#ShortTermResidentialCare> <https://ns.socialcaredata.io/service-code#LongTermNursingCare> <https://ns.socialcaredata.io/service-code#LongTermResidentialCare> <https://ns.socialcaredata.io/service-code#HomeSupportDomiciliary> <https://ns.socialcaredata.io/service-code#DaySupport> <https://ns.socialcaredata.io/service-code#Meals> <https://ns.socialcaredata.io/service-code#Transport> <https://ns.socialcaredata.io/service-code#Equipment> <https://ns.socialcaredata.io/service-code#DirectPayment> <https://ns.socialcaredata.io/service-code#SharedLives> <https://ns.socialcaredata.io/service-code#CommunitySupportedLiving> <https://ns.socialcaredata.io/service-code#ExtraCareHousing> <https://ns.socialcaredata.io/service-code#SocialWorkerSupport> <https://ns.socialcaredata.io/service-code#OtherProfessionalSupport> <https://ns.socialcaredata.io/service-code#LearningEducationEmployment> <https://ns.socialcaredata.io/service-code#EndOfLifeCare> <https://ns.socialcaredata.io/service-code#EmergencySupport> <https://ns.socialcaredata.io/service-code#OtherShortTermSupport> <https://ns.socialcaredata.io/service-code#OtherLongTermSupport> <https://ns.socialcaredata.io/service-code#CarerRespite> <https://ns.socialcaredata.io/service-code#CarerSittingService> <https://ns.socialcaredata.io/service-code#CarerUniversalServices> <https://ns.socialcaredata.io/service-code#OtherCarerSupport> <https://ns.socialcaredata.io/service-code#MASH> <https://ns.socialcaredata.io/service-code#EarlyHelp> <https://ns.socialcaredata.io/service-code#EducationWelfare> <https://ns.socialcaredata.io/service-code#HomeAdaptations> <https://ns.socialcaredata.io/service-code#OccupationalTherapy> <https://ns.socialcaredata.io/service-code#CHC> <https://ns.socialcaredata.io/service-code#CMHT> <https://ns.socialcaredata.io/service-code#S117Aftercare> <https://ns.socialcaredata.io/service-code#DoLS> <https://ns.socialcaredata.io/service-code#D2A> <https://ns.socialcaredata.io/service-code#SensoryTeam> <https://ns.socialcaredata.io/service-code#Advocacy> <https://ns.socialcaredata.io/service-code#LGA> ) ;
+            sh:in ( <https://ns.socialcaredata.io/service-code#YouthOffending> <https://ns.socialcaredata.io/service-code#PrimarySchool> <https://ns.socialcaredata.io/service-code#HighSchool> <https://ns.socialcaredata.io/service-code#SenPrimarySchool> <https://ns.socialcaredata.io/service-code#SenHighSchool> <https://ns.socialcaredata.io/service-code#AlternativeProvisionSchool> <https://ns.socialcaredata.io/service-code#SocialCare> <https://ns.socialcaredata.io/service-code#ChildrensSocialCare> <https://ns.socialcaredata.io/service-code#AdultSocialCare> <https://ns.socialcaredata.io/service-code#FamilyCourt> <https://ns.socialcaredata.io/service-code#Camhs> <https://ns.socialcaredata.io/service-code#Reablement> <https://ns.socialcaredata.io/service-code#ShortTermNursingCare> <https://ns.socialcaredata.io/service-code#ShortTermResidentialCare> <https://ns.socialcaredata.io/service-code#LongTermNursingCare> <https://ns.socialcaredata.io/service-code#LongTermResidentialCare> <https://ns.socialcaredata.io/service-code#HomeSupportDomiciliary> <https://ns.socialcaredata.io/service-code#DaySupport> <https://ns.socialcaredata.io/service-code#Meals> <https://ns.socialcaredata.io/service-code#Transport> <https://ns.socialcaredata.io/service-code#Equipment> <https://ns.socialcaredata.io/service-code#DirectPayment> <https://ns.socialcaredata.io/service-code#SharedLives> <https://ns.socialcaredata.io/service-code#CommunitySupportedLiving> <https://ns.socialcaredata.io/service-code#ExtraCareHousing> <https://ns.socialcaredata.io/service-code#SocialWorkerSupport> <https://ns.socialcaredata.io/service-code#OtherProfessionalSupport> <https://ns.socialcaredata.io/service-code#LearningEducationEmployment> <https://ns.socialcaredata.io/service-code#EndOfLifeCare> <https://ns.socialcaredata.io/service-code#EmergencySupport> <https://ns.socialcaredata.io/service-code#OtherShortTermSupport> <https://ns.socialcaredata.io/service-code#OtherLongTermSupport> <https://ns.socialcaredata.io/service-code#CarerRespite> <https://ns.socialcaredata.io/service-code#CarerSittingService> <https://ns.socialcaredata.io/service-code#CarerUniversalServices> <https://ns.socialcaredata.io/service-code#OtherCarerSupport> <https://ns.socialcaredata.io/service-code#LeavingCare> <https://ns.socialcaredata.io/service-code#MASH> <https://ns.socialcaredata.io/service-code#EarlyHelp> <https://ns.socialcaredata.io/service-code#EducationWelfare> <https://ns.socialcaredata.io/service-code#HomeAdaptations> <https://ns.socialcaredata.io/service-code#OccupationalTherapy> <https://ns.socialcaredata.io/service-code#CHC> <https://ns.socialcaredata.io/service-code#CMHT> <https://ns.socialcaredata.io/service-code#S117Aftercare> <https://ns.socialcaredata.io/service-code#DoLS> <https://ns.socialcaredata.io/service-code#D2A> <https://ns.socialcaredata.io/service-code#SensoryTeam> <https://ns.socialcaredata.io/service-code#Advocacy> <https://ns.socialcaredata.io/service-code#AdultFrontDoor> <https://ns.socialcaredata.io/service-code#AdultSafeguarding> <https://ns.socialcaredata.io/service-code#InformationAndAdvice> <https://ns.socialcaredata.io/service-code#HospitalSocialWork> <https://ns.socialcaredata.io/service-code#Telecare> <https://ns.socialcaredata.io/service-code#AMHP> <https://ns.socialcaredata.io/service-code#EmergencyDutyTeam> <https://ns.socialcaredata.io/service-code#LGA> ) ;
             sh:minCount 1 ;
             sh:name "type" ;
             sh:order 3 ;

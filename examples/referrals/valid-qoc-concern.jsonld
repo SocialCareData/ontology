@@ -7,16 +7,34 @@
     "value": "QOC-2026-001",
     "system": "https://example.org/concerns"
   },
-  "recipient": {
-    "@type": "Identifier",
-    "value": "CARE-HOME-01",
-    "system": "https://example.org/providers"
+  "subject": [
+    {
+      "@type": "IntakePerson",
+      "isAwareOfReferral": false,
+      "notes": "Resident in the ground-floor lounge, seen without water for several hours."
+    }
+  ],
+  "recipient": [
+    {
+      "@type": "Identifier",
+      "value": "ORG-ASC-01",
+      "system": "https://example.org/organisations"
+    }
+  ],
+  "service": {
+    "@type": "QocService",
+    "identifier": {
+      "@type": "Identifier",
+      "value": "1-000000001",
+      "system": "https://www.cqc.org.uk/location"
+    },
+    "name": "Example House Care Home"
   },
   "concern": [
     {
-      "@type": "ConcernDetail",
-      "concernType": "adult.neglect",
-      "description": "Provider failure to provide basic hydration."
+      "@type": "QocConcernDetail",
+      "concernType": "UNASSIGNED",
+      "description": "On three afternoon visits this week, residents in the ground-floor lounge had empty water jugs left out of reach. Staff said they were too short-handed to do regular drinks rounds."
     }
   ],
   "dateCompleted": "2026-10-14T11:00:00Z"

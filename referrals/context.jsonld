@@ -14,10 +14,12 @@
     "oc": "https://ns.socialcaredata.io/organisation-code#",
     "prc": "https://ns.socialcaredata.io/person-relationship-code#",
     "psc": "https://ns.socialcaredata.io/phenotypic-sex-code#",
+    "qcon": "https://ns.socialcaredata.io/qoc-concern#",
     "rft": "https://ns.socialcaredata.io/referrer-type#",
     "rp": "https://ns.socialcaredata.io/request-purpose#",
     "rqc": "https://ns.socialcaredata.io/referral-question-category#",
     "rr": "https://ns.socialcaredata.io/record-relationship#",
+    "rs": "https://ns.socialcaredata.io/response-status#",
     "rt": "https://ns.socialcaredata.io/referral-type#",
     "rtc": "https://ns.socialcaredata.io/record-type#",
     "scf": "https://ns.socialcaredata.io/service-cost-frequency#",
@@ -53,6 +55,44 @@
     "ConcernDetail": {
       "@id": "ref:ConcernDetail",
       "@context": {
+        "concernType": {
+          "@id": "ref:concernType",
+          "@type": "@vocab",
+          "@context": {
+            "@vocab": "https://ns.socialcaredata.io/concern#",
+            "Care and support needs": "con:AdultCareAndSupportNeeds",
+            "Discriminatory abuse": "con:AdultDiscriminatoryAbuse",
+            "Domestic violence or abuse": "con:AdultDomesticAbuse",
+            "Emotional abuse": "con:ChildEmotionalAbuse",
+            "Extra-familial harm": "con:ChildExtrafamilialHarm",
+            "Financial or material abuse": "con:AdultFinancialAbuse",
+            "Modern slavery": "con:AdultModernSlavery",
+            "Neglect": "con:ChildNeglect",
+            "Neglect or acts of omission": "con:AdultNeglect",
+            "Organisational or institutional abuse": "con:AdultOrganisationalAbuse",
+            "Psychological or emotional abuse": "con:AdultEmotionalAbuse",
+            "Self-neglect": "con:AdultSelfNeglect",
+            "UNASSIGNED": "con:Unassigned",
+            "adult.careAndSupportNeeds": "con:AdultCareAndSupportNeeds",
+            "adult.discriminatoryAbuse": "con:AdultDiscriminatoryAbuse",
+            "adult.domesticAbuse": "con:AdultDomesticAbuse",
+            "adult.emotionalAbuse": "con:AdultEmotionalAbuse",
+            "adult.financialAbuse": "con:AdultFinancialAbuse",
+            "adult.modernSlavery": "con:AdultModernSlavery",
+            "adult.neglect": "con:AdultNeglect",
+            "adult.organisationalAbuse": "con:AdultOrganisationalAbuse",
+            "adult.other": "con:AdultOther",
+            "adult.physicalAbuse": "con:AdultPhysicalAbuse",
+            "adult.selfNeglect": "con:AdultSelfNeglect",
+            "adult.sexualAbuse": "con:AdultSexualAbuse",
+            "child.emotionalAbuse": "con:ChildEmotionalAbuse",
+            "child.extrafamilialHarm": "con:ChildExtrafamilialHarm",
+            "child.neglect": "con:ChildNeglect",
+            "child.other": "con:ChildOther",
+            "child.physicalAbuse": "con:ChildPhysicalAbuse",
+            "child.sexualAbuse": "con:ChildSexualAbuse"
+          }
+        },
         "description": "ref:concernDescription"
       }
     },
@@ -73,6 +113,16 @@
       "@id": "ref:Identifier",
       "@context": {
         "value": "ref:value"
+      }
+    },
+    "IntakePerson": {
+      "@id": "ref:IntakePerson",
+      "@context": {
+        "name": {
+          "@id": "ref:name",
+          "@type": "@id",
+          "@container": "@set"
+        }
       }
     },
     "Language": "ref:Language",
@@ -179,6 +229,7 @@
     "Organisation": {
       "@id": "ref:Organisation",
       "@context": {
+        "name": "ref:entityName",
         "type": {
           "@id": "ref:organisationType",
           "@type": "@vocab",
@@ -462,19 +513,79 @@
         "name": {
           "@id": "ref:name",
           "@type": "@id"
+        },
+        "status": {
+          "@id": "ref:workingStatus",
+          "@type": "xsd:boolean"
         }
+      }
+    },
+    "QocConcernDetail": {
+      "@id": "ref:QocConcernDetail",
+      "@context": {
+        "concernType": {
+          "@id": "ref:qocConcernType",
+          "@type": "@vocab",
+          "@context": {
+            "@vocab": "https://ns.socialcaredata.io/qoc-concern#",
+            "Dignity and respect (Regulation 10)": "qcon:DignityAndRespect",
+            "Duty of candour (Regulation 20)": "qcon:DutyOfCandour",
+            "Fit and proper persons employed (Regulation 19)": "qcon:FitAndProperPersons",
+            "Good governance (Regulation 17)": "qcon:GoodGovernance",
+            "Meeting nutritional and hydration needs (Regulation 14)": "qcon:NutritionAndHydration",
+            "Need for consent (Regulation 11)": "qcon:NeedForConsent",
+            "Person-centred care (Regulation 9)": "qcon:PersonCentredCare",
+            "Premises and equipment (Regulation 15)": "qcon:PremisesAndEquipment",
+            "Receiving and acting on complaints (Regulation 16)": "qcon:Complaints",
+            "Safe care and treatment (Regulation 12)": "qcon:SafeCareAndTreatment",
+            "Safeguarding service users from abuse and improper treatment (Regulation 13)": "qcon:Safeguarding",
+            "Staffing (Regulation 18)": "qcon:Staffing",
+            "UNASSIGNED": "qcon:Unassigned",
+            "complaints": "qcon:Complaints",
+            "dignityAndRespect": "qcon:DignityAndRespect",
+            "dutyOfCandour": "qcon:DutyOfCandour",
+            "fitAndProperPersons": "qcon:FitAndProperPersons",
+            "goodGovernance": "qcon:GoodGovernance",
+            "needForConsent": "qcon:NeedForConsent",
+            "nutritionAndHydration": "qcon:NutritionAndHydration",
+            "other": "qcon:Other",
+            "personCentredCare": "qcon:PersonCentredCare",
+            "premisesAndEquipment": "qcon:PremisesAndEquipment",
+            "safeCareAndTreatment": "qcon:SafeCareAndTreatment",
+            "safeguarding": "qcon:Safeguarding",
+            "staffing": "qcon:Staffing"
+          }
+        },
+        "description": "ref:qocConcernDescription"
+      }
+    },
+    "QocService": {
+      "@id": "ref:QocService",
+      "@context": {
+        "description": "ref:qocServiceDescription",
+        "identifier": {
+          "@id": "ref:identifier",
+          "@type": "@id"
+        },
+        "name": "ref:qocServiceName"
       }
     },
     "QualityOfCareConcern": {
       "@id": "ref:QualityOfCareConcern",
       "@context": {
+        "concern": {
+          "@id": "ref:qocConcern",
+          "@type": "@id",
+          "@container": "@set"
+        },
         "identifier": {
           "@id": "ref:identifier",
           "@type": "@id"
         },
         "recipient": {
           "@id": "ref:qocRecipient",
-          "@type": "@id"
+          "@type": "@id",
+          "@container": "@set"
         },
         "referrer": {
           "@id": "ref:qocReferrer",
@@ -490,6 +601,11 @@
     "Referral": {
       "@id": "ref:Referral",
       "@context": {
+        "concern": {
+          "@id": "ref:concern",
+          "@type": "@id",
+          "@container": "@set"
+        },
         "identifier": {
           "@id": "ref:identifier",
           "@type": "@id"
@@ -517,7 +633,8 @@
           "@type": "@vocab",
           "@context": {
             "@vocab": "https://ns.socialcaredata.io/referral-type#",
-            "General referral to social care": "rt:AdultGeneral",
+            "Care leaver returning for support": "rt:ChildReturningCareLeaver",
+            "Contact or request for support": "rt:AdultGeneral",
             "Professional concern about a child from engagement with an adult": "rt:ChildCrossService",
             "Professional concern about an adult from engagement with a child": "rt:AdultCrossService",
             "Request for care needs assessment or review": "rt:AdultCareActAssessment",
@@ -530,6 +647,7 @@
             "adult.safeguarding": "rt:AdultSafeguarding",
             "child.crossService": "rt:ChildCrossService",
             "child.infoRequest": "rt:ChildInfoRequest",
+            "child.returningCareLeaver": "rt:ChildReturningCareLeaver",
             "child.safeguarding": "rt:ChildSafeguarding"
           }
         }
@@ -744,26 +862,62 @@
         }
       }
     },
+    "Response": {
+      "@id": "ref:Response",
+      "@context": {
+        "description": "ref:responseDescription",
+        "identifier": {
+          "@id": "ref:identifier",
+          "@type": "@id"
+        },
+        "status": {
+          "@id": "ref:responseStatus",
+          "@type": "@vocab",
+          "@context": {
+            "@vocab": "https://ns.socialcaredata.io/response-status#",
+            "Accepted, waitlisted": "rs:AcceptedWaitlisted",
+            "Declined, ineligible": "rs:DeclinedIneligible",
+            "Information requested": "rs:InformationRequested",
+            "accepted": "rs:Accepted",
+            "accepted.waitlisted": "rs:AcceptedWaitlisted",
+            "acknowledged": "rs:Acknowledged",
+            "closed": "rs:Closed",
+            "declined": "rs:Declined",
+            "declined.ineligible": "rs:DeclinedIneligible",
+            "delayed": "rs:Delayed",
+            "information-requested": "rs:InformationRequested",
+            "redirected": "rs:Redirected"
+          }
+        }
+      }
+    },
     "Service": {
       "@id": "ref:Service",
       "@context": {
+        "name": "ref:entityName",
         "type": {
           "@id": "ref:serviceType",
           "@type": "@vocab",
           "@container": "@set",
           "@context": {
             "@vocab": "https://ns.socialcaredata.io/service-code#",
+            "AMHP Service": "svc:AMHP",
+            "Adult Safeguarding Team": "svc:AdultSafeguarding",
+            "Adult Social Care": "svc:AdultSocialCare",
+            "Adult Social Care Front Door": "svc:AdultFrontDoor",
             "Alternative Provision School": "svc:AlternativeProvisionSchool",
             "CAMHS": "svc:Camhs",
             "Carer Respite": "svc:CarerRespite",
             "Carer Sitting Service": "svc:CarerSittingService",
             "Carer Universal Services": "svc:CarerUniversalServices",
+            "Children's Social Care": "svc:ChildrensSocialCare",
             "Community Supported Living": "svc:CommunitySupportedLiving",
             "Day Support": "svc:DaySupport",
             "Direct Payment": "svc:DirectPayment",
             "DoLs": "svc:DoLS",
             "Early Help": "svc:EarlyHelp",
             "Education Welfare Officer": "svc:EducationWelfare",
+            "Emergency Duty Team": "svc:EmergencyDutyTeam",
             "Emergency Support": "svc:EmergencySupport",
             "End of Life Care": "svc:EndOfLifeCare",
             "Extra Care Housing": "svc:ExtraCareHousing",
@@ -771,8 +925,11 @@
             "High School": "svc:HighSchool",
             "Home Adaptations": "svc:HomeAdaptations",
             "Home Support Domiciliary": "svc:HomeSupportDomiciliary",
+            "Hospital Social Work Team": "svc:HospitalSocialWork",
+            "Information and Advice": "svc:InformationAndAdvice",
             "LGA.<LGA Taxonomy Code>": "svc:LGA",
             "Learning Education Employment": "svc:LearningEducationEmployment",
+            "Leaving Care Service": "svc:LeavingCare",
             "Local Government Association Service Taxonomy": "svc:LGA",
             "Long Term Nursing Care": "svc:LongTermNursingCare",
             "Long Term Residential Care": "svc:LongTermResidentialCare",
@@ -796,6 +953,8 @@
             "Social Care": "svc:SocialCare",
             "Social Worker Support": "svc:SocialWorkerSupport",
             "Youth Offending": "svc:YouthOffending",
+            "adult-front-door": "svc:AdultFrontDoor",
+            "adult-safeguarding": "svc:AdultSafeguarding",
             "advocacy": "svc:Advocacy",
             "alternative-provision-school": "svc:AlternativeProvisionSchool",
             "carer-respite": "svc:CarerRespite",
@@ -806,6 +965,7 @@
             "direct-payment": "svc:DirectPayment",
             "early-help": "svc:EarlyHelp",
             "education-welfare": "svc:EducationWelfare",
+            "emergency-duty-team": "svc:EmergencyDutyTeam",
             "emergency-support": "svc:EmergencySupport",
             "end-of-life-care": "svc:EndOfLifeCare",
             "equipment": "svc:Equipment",
@@ -814,7 +974,10 @@
             "high-school": "svc:HighSchool",
             "home-adaptations": "svc:HomeAdaptations",
             "home-support-domiciliary": "svc:HomeSupportDomiciliary",
+            "hospital-social-work": "svc:HospitalSocialWork",
+            "information-and-advice": "svc:InformationAndAdvice",
             "learning-education-employment": "svc:LearningEducationEmployment",
+            "leaving-care": "svc:LeavingCare",
             "long-term-nursing-care": "svc:LongTermNursingCare",
             "long-term-residential-care": "svc:LongTermResidentialCare",
             "meals": "svc:Meals",
@@ -831,7 +994,10 @@
             "short-term-nursing-care": "svc:ShortTermNursingCare",
             "short-term-residential-care": "svc:ShortTermResidentialCare",
             "social-care": "svc:SocialCare",
+            "social-care.adults": "svc:AdultSocialCare",
+            "social-care.children": "svc:ChildrensSocialCare",
             "social-worker-support": "svc:SocialWorkerSupport",
+            "telecare": "svc:Telecare",
             "transport": "svc:Transport",
             "youth-offending": "svc:YouthOffending"
           }
@@ -865,8 +1031,6 @@
             "Family Court Order": "epc:FamilyCourtOrder",
             "Indirect Provision of Care": "epc:IndirectProvision",
             "MASH Review": "epc:MashReview",
-            "Non-Statutory Services Request (Adult)": "epc:AdultNonStatutoryServices",
-            "Non-Statutory Services Request (Child)": "epc:ChildNonStatutoryServices",
             "Notification or Signposting": "epc:Notification",
             "Other Assessment": "epc:OtherAssessment",
             "Other Plan": "epc:OtherPlan",
@@ -876,10 +1040,10 @@
             "Remote Contact": "epc:RemoteContact",
             "Request": "epc:Request",
             "Request and Escalation": "epc:Request",
+            "Request to Another Service": "epc:Service",
             "Section 47 Enquiry": "epc:Section47",
             "Section 47 Enquiry Escalation": "epc:ChildS47",
-            "Statutory Services Request (Adult)": "epc:AdultStatutoryServices",
-            "Statutory Services Request (Child)": "epc:ChildStatutoryServices",
+            "Service": "epc:Service",
             "assessment": "epc:Assessment",
             "assessment.MASH-review": "epc:MashReview",
             "assessment.adult-safeguarding": "epc:AdultSafeguarding",
@@ -905,15 +1069,12 @@
             "provision.miscellaneous": "epc:Miscellaneous",
             "provision.remote-contact": "epc:RemoteContact",
             "request": "epc:Request",
-            "request.adult-non-statutory": "epc:AdultNonStatutoryServices",
-            "request.adult-statutory": "epc:AdultStatutoryServices",
             "request.child-cin": "epc:ChildCin",
             "request.child-early-help": "epc:ChildEarlyHelp",
             "request.child-emergency": "epc:ChildEmergency",
-            "request.child-non-statutory": "epc:ChildNonStatutoryServices",
             "request.child-s47": "epc:ChildS47",
-            "request.child-statutory": "epc:ChildStatutoryServices",
-            "request.notification": "epc:Notification"
+            "request.notification": "epc:Notification",
+            "request.service": "epc:Service"
           }
         }
       }
@@ -1003,54 +1164,7 @@
       "@type": "@id",
       "@container": "@set"
     },
-    "concern": {
-      "@id": "ref:concern",
-      "@type": "@id",
-      "@container": "@set"
-    },
     "concernDescription": "ref:concernDescription",
-    "concernType": {
-      "@id": "ref:concernType",
-      "@type": "@vocab",
-      "@context": {
-        "@vocab": "https://ns.socialcaredata.io/concern#",
-        "Contextual risk": "con:ChildContextualRisk",
-        "Discrimination": "con:AdultDiscrimination",
-        "Domestic abuse": "con:AdultDomesticAbuse",
-        "Exploitation": "con:ChildExploitation",
-        "Financial coercion": "con:AdultFinancialCoercion",
-        "Going missing": "con:ChildGoingMissing",
-        "Missing education": "con:ChildMissingEducation",
-        "Modern slavery": "con:AdultModernSlavery",
-        "Neglect": "con:ChildNeglect",
-        "Neglect or acts of omission": "con:AdultNeglect",
-        "Parental mental health or substance abuse issues": "con:ChildParentalConcern",
-        "Self-neglect or self-harm": "con:AdultSelfHarm",
-        "Substance abuse": "con:AdultSubstanceAbuse",
-        "adult.discrimination": "con:AdultDiscrimination",
-        "adult.domesticAbuse": "con:AdultDomesticAbuse",
-        "adult.emotionalAbuse": "con:AdultEmotionalAbuse",
-        "adult.financialCoercion": "con:AdultFinancialCoercion",
-        "adult.modernSlavery": "con:AdultModernSlavery",
-        "adult.neglect": "con:AdultNeglect",
-        "adult.other": "con:AdultOther",
-        "adult.physicalAbuse": "con:AdultPhysicalAbuse",
-        "adult.selfHarm": "con:AdultSelfHarm",
-        "adult.sexualAbuse": "con:AdultSexualAbuse",
-        "adult.substanceAbuse": "con:AdultSubstanceAbuse",
-        "child.Other": "con:ChildOther",
-        "child.contextualRisk": "con:ChildContextualRisk",
-        "child.emotionalAbuse": "con:ChildEmotionalAbuse",
-        "child.exploitation": "con:ChildExploitation",
-        "child.goingMissing": "con:ChildGoingMissing",
-        "child.missingEducation": "con:ChildMissingEducation",
-        "child.neglect": "con:ChildNeglect",
-        "child.other": "con:ChildOther",
-        "child.parentalConcern": "con:ChildParentalConcern",
-        "child.physicalAbuse": "con:ChildPhysicalAbuse",
-        "child.sexualAbuse": "con:ChildSexualAbuse"
-      }
-    },
     "contact": {
       "@id": "ref:contact",
       "@type": "@id",
@@ -1098,6 +1212,10 @@
     "dateOfBirth": {
       "@id": "ref:dateOfBirth",
       "@type": "@id"
+    },
+    "dateTimeReceived": {
+      "@id": "ref:dateTimeReceived",
+      "@type": "xsd:dateTime"
     },
     "deceasedDate": {
       "@id": "ref:deceasedDate",
@@ -1214,8 +1332,6 @@
         "Family Court Order": "epc:FamilyCourtOrder",
         "Indirect Provision of Care": "epc:IndirectProvision",
         "MASH Review": "epc:MashReview",
-        "Non-Statutory Services Request (Adult)": "epc:AdultNonStatutoryServices",
-        "Non-Statutory Services Request (Child)": "epc:ChildNonStatutoryServices",
         "Notification or Signposting": "epc:Notification",
         "Other Assessment": "epc:OtherAssessment",
         "Other Plan": "epc:OtherPlan",
@@ -1225,10 +1341,10 @@
         "Remote Contact": "epc:RemoteContact",
         "Request": "epc:Request",
         "Request and Escalation": "epc:Request",
+        "Request to Another Service": "epc:Service",
         "Section 47 Enquiry": "epc:Section47",
         "Section 47 Enquiry Escalation": "epc:ChildS47",
-        "Statutory Services Request (Adult)": "epc:AdultStatutoryServices",
-        "Statutory Services Request (Child)": "epc:ChildStatutoryServices",
+        "Service": "epc:Service",
         "assessment": "epc:Assessment",
         "assessment.MASH-review": "epc:MashReview",
         "assessment.adult-safeguarding": "epc:AdultSafeguarding",
@@ -1254,15 +1370,12 @@
         "provision.miscellaneous": "epc:Miscellaneous",
         "provision.remote-contact": "epc:RemoteContact",
         "request": "epc:Request",
-        "request.adult-non-statutory": "epc:AdultNonStatutoryServices",
-        "request.adult-statutory": "epc:AdultStatutoryServices",
         "request.child-cin": "epc:ChildCin",
         "request.child-early-help": "epc:ChildEarlyHelp",
         "request.child-emergency": "epc:ChildEmergency",
-        "request.child-non-statutory": "epc:ChildNonStatutoryServices",
         "request.child-s47": "epc:ChildS47",
-        "request.child-statutory": "epc:ChildStatutoryServices",
-        "request.notification": "epc:Notification"
+        "request.notification": "epc:Notification",
+        "request.service": "epc:Service"
       }
     },
     "ethnicityCode": {
@@ -1371,6 +1484,7 @@
       "@type": "@id",
       "@container": "@set"
     },
+    "intakeNotes": "ref:intakeNotes",
     "involvement": "ref:involvement",
     "involvementActorId": {
       "@id": "ref:involvementActorId",
@@ -1388,6 +1502,10 @@
       }
     },
     "involvementDescription": "ref:involvementDescription",
+    "isAwareOfReferral": {
+      "@id": "ref:isAwareOfReferral",
+      "@type": "xsd:boolean"
+    },
     "isDeceased": {
       "@id": "ref:isDeceased",
       "@type": "xsd:boolean"
@@ -1445,7 +1563,6 @@
       "@type": "xsd:decimal"
     },
     "mimeType": "ref:documentMimeType",
-    "name": "ref:entityName",
     "nameUse": {
       "@id": "ref:use",
       "@type": "@vocab",
@@ -1583,6 +1700,7 @@
         "Wife": "prc:WIFE"
       }
     },
+    "notes": "ref:intakeNotes",
     "observation": {
       "@id": "ref:observation",
       "@type": "@id",
@@ -1652,95 +1770,6 @@
         "request": "eo:Request"
       }
     },
-    "pathway": {
-      "@id": "ref:pathway",
-      "@type": "@vocab",
-      "@container": "@set",
-      "@context": {
-        "@vocab": "https://ns.socialcaredata.io/service-code#",
-        "Alternative Provision School": "svc:AlternativeProvisionSchool",
-        "CAMHS": "svc:Camhs",
-        "Carer Respite": "svc:CarerRespite",
-        "Carer Sitting Service": "svc:CarerSittingService",
-        "Carer Universal Services": "svc:CarerUniversalServices",
-        "Community Supported Living": "svc:CommunitySupportedLiving",
-        "Day Support": "svc:DaySupport",
-        "Direct Payment": "svc:DirectPayment",
-        "DoLs": "svc:DoLS",
-        "Early Help": "svc:EarlyHelp",
-        "Education Welfare Officer": "svc:EducationWelfare",
-        "Emergency Support": "svc:EmergencySupport",
-        "End of Life Care": "svc:EndOfLifeCare",
-        "Extra Care Housing": "svc:ExtraCareHousing",
-        "Family Court": "svc:FamilyCourt",
-        "High School": "svc:HighSchool",
-        "Home Adaptations": "svc:HomeAdaptations",
-        "Home Support Domiciliary": "svc:HomeSupportDomiciliary",
-        "LGA.<LGA Taxonomy Code>": "svc:LGA",
-        "Learning Education Employment": "svc:LearningEducationEmployment",
-        "Local Government Association Service Taxonomy": "svc:LGA",
-        "Long Term Nursing Care": "svc:LongTermNursingCare",
-        "Long Term Residential Care": "svc:LongTermResidentialCare",
-        "NHS CHC": "svc:CHC",
-        "Occupational Therapy": "svc:OccupationalTherapy",
-        "Other Carer Support": "svc:OtherCarerSupport",
-        "Other Long Term Support": "svc:OtherLongTermSupport",
-        "Other Professional Support": "svc:OtherProfessionalSupport",
-        "Other Short Term Support": "svc:OtherShortTermSupport",
-        "Primary School": "svc:PrimarySchool",
-        "S117 Aftercare": "svc:S117Aftercare",
-        "S117-aftercare": "svc:S117Aftercare",
-        "SEN High School": "svc:SenHighSchool",
-        "SEN Primary School": "svc:SenPrimarySchool",
-        "SEN-high-school": "svc:SenHighSchool",
-        "SEN-primary-school": "svc:SenPrimarySchool",
-        "Sensory Teams": "svc:SensoryTeam",
-        "Shared Lives": "svc:SharedLives",
-        "Short Term Nursing Care": "svc:ShortTermNursingCare",
-        "Short Term Residential Care": "svc:ShortTermResidentialCare",
-        "Social Care": "svc:SocialCare",
-        "Social Worker Support": "svc:SocialWorkerSupport",
-        "Youth Offending": "svc:YouthOffending",
-        "advocacy": "svc:Advocacy",
-        "alternative-provision-school": "svc:AlternativeProvisionSchool",
-        "carer-respite": "svc:CarerRespite",
-        "carer-sitting-service": "svc:CarerSittingService",
-        "carer-universal-services": "svc:CarerUniversalServices",
-        "community-supported-living": "svc:CommunitySupportedLiving",
-        "day-support": "svc:DaySupport",
-        "direct-payment": "svc:DirectPayment",
-        "early-help": "svc:EarlyHelp",
-        "education-welfare": "svc:EducationWelfare",
-        "emergency-support": "svc:EmergencySupport",
-        "end-of-life-care": "svc:EndOfLifeCare",
-        "equipment": "svc:Equipment",
-        "extra-care-housing": "svc:ExtraCareHousing",
-        "family-court": "svc:FamilyCourt",
-        "high-school": "svc:HighSchool",
-        "home-adaptations": "svc:HomeAdaptations",
-        "home-support-domiciliary": "svc:HomeSupportDomiciliary",
-        "learning-education-employment": "svc:LearningEducationEmployment",
-        "long-term-nursing-care": "svc:LongTermNursingCare",
-        "long-term-residential-care": "svc:LongTermResidentialCare",
-        "meals": "svc:Meals",
-        "occupational-therapy": "svc:OccupationalTherapy",
-        "other-carer-support": "svc:OtherCarerSupport",
-        "other-long-term-support": "svc:OtherLongTermSupport",
-        "other-professional-support": "svc:OtherProfessionalSupport",
-        "other-short-term-support": "svc:OtherShortTermSupport",
-        "primary-school": "svc:PrimarySchool",
-        "reablement": "svc:Reablement",
-        "s117-aftercare": "svc:S117Aftercare",
-        "sensory-team": "svc:SensoryTeam",
-        "shared-lives": "svc:SharedLives",
-        "short-term-nursing-care": "svc:ShortTermNursingCare",
-        "short-term-residential-care": "svc:ShortTermResidentialCare",
-        "social-care": "svc:SocialCare",
-        "social-worker-support": "svc:SocialWorkerSupport",
-        "transport": "svc:Transport",
-        "youth-offending": "svc:YouthOffending"
-      }
-    },
     "personalNetwork": {
       "@id": "ref:personalNetwork",
       "@type": "@id",
@@ -1768,32 +1797,85 @@
       "@context": {
         "@vocab": "https://ns.socialcaredata.io/request-purpose#",
         "Escalation to s17 CiN assessment": "rp:ChildCIN",
+        "Escalation to s42 safeguarding enquiry": "rp:AdultS42Enquiry",
         "Escalation to s47 enquiry": "rp:ChildS47",
         "Immediate emergency protection": "rp:ChildEmergency",
         "Notification or signposting": "rp:Notification",
+        "Request for Care Act needs or carer's assessment": "rp:AdultNeedsAssessment",
+        "Request for prevention or reablement services": "rp:AdultPrevention",
         "Request to Early Help services": "rp:ChildEarlyHelp",
-        "Request to statutory services (like CAMHS or advocacy)": "rp:ChildStatutoryServices",
-        "Request to statutory services (like NHS CHC or advocacy)": "rp:AdultStatutoryServices",
-        "adult.nonStatutoryServices": "rp:AdultNonStatutoryServices",
-        "adult.statutoryServices": "rp:AdultStatutoryServices",
+        "Request to another service": "rp:Service",
+        "Service": "rp:Service",
+        "adult.needsAssessment": "rp:AdultNeedsAssessment",
+        "adult.prevention": "rp:AdultPrevention",
+        "adult.s42Enquiry": "rp:AdultS42Enquiry",
         "child.CIN": "rp:ChildCIN",
         "child.cin": "rp:ChildCIN",
         "child.earlyHelp": "rp:ChildEarlyHelp",
         "child.emergency": "rp:ChildEmergency",
-        "child.nonStatutoryServices": "rp:ChildNonStatutoryServices",
         "child.s47": "rp:ChildS47",
-        "child.statutoryServices": "rp:ChildStatutoryServices",
-        "notification": "rp:Notification"
+        "notification": "rp:Notification",
+        "service": "rp:Service"
+      }
+    },
+    "qocConcern": {
+      "@id": "ref:qocConcern",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "qocConcernDescription": "ref:qocConcernDescription",
+    "qocConcernType": {
+      "@id": "ref:qocConcernType",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ns.socialcaredata.io/qoc-concern#",
+        "Dignity and respect (Regulation 10)": "qcon:DignityAndRespect",
+        "Duty of candour (Regulation 20)": "qcon:DutyOfCandour",
+        "Fit and proper persons employed (Regulation 19)": "qcon:FitAndProperPersons",
+        "Good governance (Regulation 17)": "qcon:GoodGovernance",
+        "Meeting nutritional and hydration needs (Regulation 14)": "qcon:NutritionAndHydration",
+        "Need for consent (Regulation 11)": "qcon:NeedForConsent",
+        "Person-centred care (Regulation 9)": "qcon:PersonCentredCare",
+        "Premises and equipment (Regulation 15)": "qcon:PremisesAndEquipment",
+        "Receiving and acting on complaints (Regulation 16)": "qcon:Complaints",
+        "Safe care and treatment (Regulation 12)": "qcon:SafeCareAndTreatment",
+        "Safeguarding service users from abuse and improper treatment (Regulation 13)": "qcon:Safeguarding",
+        "Staffing (Regulation 18)": "qcon:Staffing",
+        "UNASSIGNED": "qcon:Unassigned",
+        "complaints": "qcon:Complaints",
+        "dignityAndRespect": "qcon:DignityAndRespect",
+        "dutyOfCandour": "qcon:DutyOfCandour",
+        "fitAndProperPersons": "qcon:FitAndProperPersons",
+        "goodGovernance": "qcon:GoodGovernance",
+        "needForConsent": "qcon:NeedForConsent",
+        "nutritionAndHydration": "qcon:NutritionAndHydration",
+        "other": "qcon:Other",
+        "personCentredCare": "qcon:PersonCentredCare",
+        "premisesAndEquipment": "qcon:PremisesAndEquipment",
+        "safeCareAndTreatment": "qcon:SafeCareAndTreatment",
+        "safeguarding": "qcon:Safeguarding",
+        "staffing": "qcon:Staffing"
       }
     },
     "qocRecipient": {
       "@id": "ref:qocRecipient",
-      "@type": "@id"
+      "@type": "@id",
+      "@container": "@set"
     },
     "qocReferrer": {
       "@id": "ref:qocReferrer",
       "@type": "@id"
     },
+    "qocService": {
+      "@id": "ref:qocService",
+      "@type": "@id"
+    },
+    "qocServiceDescription": "ref:qocServiceDescription",
+    "qocServiceIdentifier": {
+      "@id": "ref:identifier",
+      "@type": "@id"
+    },
+    "qocServiceName": "ref:qocServiceName",
     "qocSubject": {
       "@id": "ref:qocSubject",
       "@type": "@id",
@@ -1833,11 +1915,13 @@
         "QualityOfCareConcern": "rtc:QualityOfCareConcern",
         "Referral": "rtc:Referral",
         "Request": "rtc:Request",
+        "Response": "rtc:Response",
         "assessment": "rtc:Assessment",
         "plan": "rtc:Plan",
         "quality-of-care-concern": "rtc:QualityOfCareConcern",
         "referral": "rtc:Referral",
-        "request": "rtc:Request"
+        "request": "rtc:Request",
+        "response": "rtc:Response"
       }
     },
     "refAssessmentQuestion": {
@@ -1876,7 +1960,8 @@
       "@type": "@vocab",
       "@context": {
         "@vocab": "https://ns.socialcaredata.io/referral-type#",
-        "General referral to social care": "rt:AdultGeneral",
+        "Care leaver returning for support": "rt:ChildReturningCareLeaver",
+        "Contact or request for support": "rt:AdultGeneral",
         "Professional concern about a child from engagement with an adult": "rt:ChildCrossService",
         "Professional concern about an adult from engagement with a child": "rt:AdultCrossService",
         "Request for care needs assessment or review": "rt:AdultCareActAssessment",
@@ -1889,6 +1974,7 @@
         "adult.safeguarding": "rt:AdultSafeguarding",
         "child.crossService": "rt:ChildCrossService",
         "child.infoRequest": "rt:ChildInfoRequest",
+        "child.returningCareLeaver": "rt:ChildReturningCareLeaver",
         "child.safeguarding": "rt:ChildSafeguarding"
       }
     },
@@ -2085,9 +2171,65 @@
       "@id": "ref:required",
       "@type": "xsd:boolean"
     },
+    "responder": {
+      "@id": "ref:responder",
+      "@type": "@id"
+    },
+    "respondsTo": {
+      "@id": "ref:respondsTo",
+      "@type": "@id"
+    },
+    "respondsToType": {
+      "@id": "ref:respondsToType",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ns.socialcaredata.io/record-type#",
+        "Care Needs Assessment": "rtc:Assessment",
+        "Care Plan": "rtc:Plan",
+        "Quality of Care Concern": "rtc:QualityOfCareConcern",
+        "QualityOfCareConcern": "rtc:QualityOfCareConcern",
+        "Referral": "rtc:Referral",
+        "Request": "rtc:Request",
+        "Response": "rtc:Response",
+        "assessment": "rtc:Assessment",
+        "plan": "rtc:Plan",
+        "quality-of-care-concern": "rtc:QualityOfCareConcern",
+        "referral": "rtc:Referral",
+        "request": "rtc:Request",
+        "response": "rtc:Response"
+      }
+    },
+    "responseDateTimeReceived": {
+      "@id": "ref:dateTimeReceived",
+      "@type": "xsd:dateTime"
+    },
+    "responseDescription": "ref:responseDescription",
+    "responseStatus": {
+      "@id": "ref:responseStatus",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://ns.socialcaredata.io/response-status#",
+        "Accepted, waitlisted": "rs:AcceptedWaitlisted",
+        "Declined, ineligible": "rs:DeclinedIneligible",
+        "Information requested": "rs:InformationRequested",
+        "accepted": "rs:Accepted",
+        "accepted.waitlisted": "rs:AcceptedWaitlisted",
+        "acknowledged": "rs:Acknowledged",
+        "closed": "rs:Closed",
+        "declined": "rs:Declined",
+        "declined.ineligible": "rs:DeclinedIneligible",
+        "delayed": "rs:Delayed",
+        "information-requested": "rs:InformationRequested",
+        "redirected": "rs:Redirected"
+      }
+    },
     "role": {
       "@id": "ref:role",
       "@container": "@set"
+    },
+    "service": {
+      "@id": "ref:qocService",
+      "@type": "@id"
     },
     "serviceType": {
       "@id": "ref:serviceType",
@@ -2095,17 +2237,23 @@
       "@container": "@set",
       "@context": {
         "@vocab": "https://ns.socialcaredata.io/service-code#",
+        "AMHP Service": "svc:AMHP",
+        "Adult Safeguarding Team": "svc:AdultSafeguarding",
+        "Adult Social Care": "svc:AdultSocialCare",
+        "Adult Social Care Front Door": "svc:AdultFrontDoor",
         "Alternative Provision School": "svc:AlternativeProvisionSchool",
         "CAMHS": "svc:Camhs",
         "Carer Respite": "svc:CarerRespite",
         "Carer Sitting Service": "svc:CarerSittingService",
         "Carer Universal Services": "svc:CarerUniversalServices",
+        "Children's Social Care": "svc:ChildrensSocialCare",
         "Community Supported Living": "svc:CommunitySupportedLiving",
         "Day Support": "svc:DaySupport",
         "Direct Payment": "svc:DirectPayment",
         "DoLs": "svc:DoLS",
         "Early Help": "svc:EarlyHelp",
         "Education Welfare Officer": "svc:EducationWelfare",
+        "Emergency Duty Team": "svc:EmergencyDutyTeam",
         "Emergency Support": "svc:EmergencySupport",
         "End of Life Care": "svc:EndOfLifeCare",
         "Extra Care Housing": "svc:ExtraCareHousing",
@@ -2113,8 +2261,11 @@
         "High School": "svc:HighSchool",
         "Home Adaptations": "svc:HomeAdaptations",
         "Home Support Domiciliary": "svc:HomeSupportDomiciliary",
+        "Hospital Social Work Team": "svc:HospitalSocialWork",
+        "Information and Advice": "svc:InformationAndAdvice",
         "LGA.<LGA Taxonomy Code>": "svc:LGA",
         "Learning Education Employment": "svc:LearningEducationEmployment",
+        "Leaving Care Service": "svc:LeavingCare",
         "Local Government Association Service Taxonomy": "svc:LGA",
         "Long Term Nursing Care": "svc:LongTermNursingCare",
         "Long Term Residential Care": "svc:LongTermResidentialCare",
@@ -2138,6 +2289,8 @@
         "Social Care": "svc:SocialCare",
         "Social Worker Support": "svc:SocialWorkerSupport",
         "Youth Offending": "svc:YouthOffending",
+        "adult-front-door": "svc:AdultFrontDoor",
+        "adult-safeguarding": "svc:AdultSafeguarding",
         "advocacy": "svc:Advocacy",
         "alternative-provision-school": "svc:AlternativeProvisionSchool",
         "carer-respite": "svc:CarerRespite",
@@ -2148,6 +2301,7 @@
         "direct-payment": "svc:DirectPayment",
         "early-help": "svc:EarlyHelp",
         "education-welfare": "svc:EducationWelfare",
+        "emergency-duty-team": "svc:EmergencyDutyTeam",
         "emergency-support": "svc:EmergencySupport",
         "end-of-life-care": "svc:EndOfLifeCare",
         "equipment": "svc:Equipment",
@@ -2156,7 +2310,10 @@
         "high-school": "svc:HighSchool",
         "home-adaptations": "svc:HomeAdaptations",
         "home-support-domiciliary": "svc:HomeSupportDomiciliary",
+        "hospital-social-work": "svc:HospitalSocialWork",
+        "information-and-advice": "svc:InformationAndAdvice",
         "learning-education-employment": "svc:LearningEducationEmployment",
+        "leaving-care": "svc:LeavingCare",
         "long-term-nursing-care": "svc:LongTermNursingCare",
         "long-term-residential-care": "svc:LongTermResidentialCare",
         "meals": "svc:Meals",
@@ -2173,7 +2330,10 @@
         "short-term-nursing-care": "svc:ShortTermNursingCare",
         "short-term-residential-care": "svc:ShortTermResidentialCare",
         "social-care": "svc:SocialCare",
+        "social-care.adults": "svc:AdultSocialCare",
+        "social-care.children": "svc:ChildrensSocialCare",
         "social-worker-support": "svc:SocialWorkerSupport",
+        "telecare": "svc:Telecare",
         "transport": "svc:Transport",
         "youth-offending": "svc:YouthOffending"
       }
@@ -2208,10 +2368,6 @@
     "startDateTime": {
       "@id": "ref:startDateTime",
       "@type": "xsd:dateTime"
-    },
-    "status": {
-      "@id": "ref:workingStatus",
-      "@type": "xsd:boolean"
     },
     "subjectPerson": {
       "@id": "ref:subjectPerson",

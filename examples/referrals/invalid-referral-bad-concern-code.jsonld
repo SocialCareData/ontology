@@ -1,0 +1,50 @@
+{
+  "@context": "../../../_data/model/referrals/context.jsonld",
+  "@id": "https://example.org/referrals/REF-INVALID-002",
+  "@type": "Referral",
+  "identifier": {
+    "@type": "Identifier",
+    "value": "REF-INVALID-002",
+    "system": "https://example.org/referrals"
+  },
+  "type": "child.safeguarding",
+  "dateCompleted": "2026-10-14T09:00:00Z",
+  "subject": [
+    {
+      "@type": "IntakePerson",
+      "isAwareOfReferral": true,
+      "name": [
+        {
+          "@type": "Name",
+          "givenName": [
+            "Jane"
+          ],
+          "familyName": "Doe"
+        }
+      ]
+    }
+  ],
+  "referrer": {
+    "@type": "ReferrerDetails",
+    "referrerType": "Professional",
+    "referrerProfessionalId": {
+      "@type": "Identifier",
+      "value": "PROF-001",
+      "system": "https://example.org/professionals"
+    }
+  },
+  "concern": [
+    {
+      "@type": "ConcernDetail",
+      "concernType": "child.contextualRisk",
+      "description": "Uses a code removed from the concern list."
+    }
+  ],
+  "recipient": [
+    {
+      "@type": "Identifier",
+      "value": "ORG-CSC-01",
+      "system": "https://example.org/organisations"
+    }
+  ]
+}

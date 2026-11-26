@@ -6,6 +6,13 @@
       "constraint": "sh:in"
     }
   ],
+  "invalid-episode-bad-record-relationship.jsonld": [
+    {
+      "focus": "LinkedRecord",
+      "path": "recordRelationship",
+      "constraint": "sh:in"
+    }
+  ],
   "invalid-episode-missing-subjectPerson.jsonld": [
     {
       "focus": "ServiceEpisode",

@@ -1,0 +1,32 @@
+{
+  "@context": "../../../_data/model/referrals/context.jsonld",
+  "@id": "https://example.org/concerns/QOC-INVALID-002",
+  "@type": "QualityOfCareConcern",
+  "identifier": {
+    "@type": "Identifier",
+    "value": "QOC-INVALID-002",
+    "system": "https://example.org/concerns"
+  },
+  "subject": [
+    {
+      "@type": "IntakePerson",
+      "isAwareOfReferral": false,
+      "notes": "Resident in the ground-floor lounge, seen without water for several hours."
+    }
+  ],
+  "recipient": [
+    {
+      "@type": "Identifier",
+      "value": "ORG-ASC-01",
+      "system": "https://example.org/organisations"
+    }
+  ],
+  "concern": [
+    {
+      "@type": "QocConcernDetail",
+      "concernType": "UNASSIGNED",
+      "description": "On three afternoon visits this week, residents in the ground-floor lounge had empty water jugs left out of reach. Staff said they were too short-handed to do regular drinks rounds."
+    }
+  ],
+  "dateCompleted": "2026-10-14T11:00:00Z"
+}

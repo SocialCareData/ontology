@@ -42,7 +42,7 @@ sg:linkedRecord a owl:ObjectProperty ;
     rdfs:label "linkedRecord" ;
     dct:title "linkedRecord" ;
     rdfs:range sg:LinkedRecord ;
-    skos:definition "Linked records associated with this episode or life event (e.g. referrals, requests, concerns, assessments, plans)." ;
+    skos:definition "Other records linked to this one, such as related referrals, requests, quality-of-care concerns, responses, assessments or plans." ;
     skos:inScheme sg:safeguarding .
 
 sg:measurement a owl:ObjectProperty ;
@@ -321,7 +321,7 @@ sg:recordRelationship a owl:ObjectProperty ;
     rdfs:label "recordRelationship" ;
     dct:title "recordRelationship" ;
     rdfs:range sg:record-relationship ;
-    skos:definition "The nature of the relationship (e.g. trigger, outcome, context)." ;
+    skos:definition "How this record relates to the linked record, for example as an escalation of it or a follow-up to it." ;
     skos:inScheme sg:safeguarding .
 
 sg:recordType a owl:ObjectProperty ;
@@ -374,7 +374,7 @@ sg:LinkedRecord a owl:Class ;
         [ a owl:Restriction ;
             owl:cardinality 1 ;
             owl:onProperty sg:recordType ] ;
-    skos:definition "A reference to an associated external or cross-standard record (such as a referral, service request, quality-of-care concern, care needs assessment, or care plan)." ;
+    skos:definition "A reference to an associated external or cross-standard record (such as a referral, service request, quality-of-care concern, response, care needs assessment, or care plan)." ;
     skos:exactMatch sg:LinkedRecord ;
     skos:inScheme sg:safeguarding .
 
@@ -458,23 +458,11 @@ epc:Admin a owl:Class ;
     rdfs:subClassOf sg:episode-code ;
     skos:definition "Case management, paperwork, coordination, and other administrative support." .
 
-epc:AdultNonStatutoryServices a owl:Class ;
-    rdfs:label "request.adult-non-statutory" ;
-    dct:title "Non-Statutory Services Request (Adult)" ;
-    rdfs:subClassOf sg:episode-code ;
-    skos:definition "Request to non-statutory or community services for an adult." .
-
 epc:AdultSafeguarding a owl:Class ;
     rdfs:label "assessment.adult-safeguarding" ;
     dct:title "Adult Safeguarding Enquiry" ;
     rdfs:subClassOf sg:episode-code ;
     skos:definition "Adult Safeguarding Enquiry (Section 42)" .
-
-epc:AdultStatutoryServices a owl:Class ;
-    rdfs:label "request.adult-statutory" ;
-    dct:title "Statutory Services Request (Adult)" ;
-    rdfs:subClassOf sg:episode-code ;
-    skos:definition "Request to statutory services for an adult (e.g. NHS Continuing Healthcare, statutory advocacy)." .
 
 epc:Assessment a owl:Class ;
     rdfs:label "assessment" ;
@@ -524,23 +512,11 @@ epc:ChildLookedAfter a owl:Class ;
     rdfs:subClassOf sg:episode-code ;
     skos:definition "Child in LA care" .
 
-epc:ChildNonStatutoryServices a owl:Class ;
-    rdfs:label "request.child-non-statutory" ;
-    dct:title "Non-Statutory Services Request (Child)" ;
-    rdfs:subClassOf sg:episode-code ;
-    skos:definition "Request to non-statutory or community services for a child." .
-
 epc:ChildS47 a owl:Class ;
     rdfs:label "request.child-s47" ;
     dct:title "Section 47 Enquiry Escalation" ;
     rdfs:subClassOf sg:episode-code ;
     skos:definition "Escalation to section 47 child protection enquiry." .
-
-epc:ChildStatutoryServices a owl:Class ;
-    rdfs:label "request.child-statutory" ;
-    dct:title "Statutory Services Request (Child)" ;
-    rdfs:subClassOf sg:episode-code ;
-    skos:definition "Request to statutory services for a child (e.g. CAMHS, statutory advocacy)." .
 
 epc:CinPlan a owl:Class ;
     rdfs:label "plan.cin-plan" ;
@@ -656,6 +632,12 @@ epc:Section47 a owl:Class ;
     rdfs:subClassOf sg:episode-code ;
     skos:definition "Section 47 Enquiry" .
 
+epc:Service a owl:Class ;
+    rdfs:label "request.service" ;
+    dct:title "Request to Another Service" ;
+    rdfs:subClassOf sg:episode-code ;
+    skos:definition "Request to another service to take action, such as CAMHS, NHS Continuing Healthcare, advocacy, or a voluntary or community organisation." .
+
 eo:Assessment a owl:Class ;
     rdfs:label "assessment" ;
     dct:title "Assessment" ;
@@ -768,7 +750,7 @@ eo:Request a owl:Class ;
     rdfs:label "request" ;
     dct:title "Request" ;
     rdfs:subClassOf sg:episode-outcome ;
-    skos:definition "Episode concluded by requesting a specific statutory or non-statutory service." .
+    skos:definition "Episode concluded by requesting a specific service." .
 
 evc:AdultCareActAssessmentReferral a owl:Class ;
     rdfs:label "referral.adult-care-act-assessment" ;
@@ -1640,12 +1622,42 @@ rtc:Request a owl:Class ;
     rdfs:subClassOf sg:record-type ;
     skos:definition "Outward request for services (PUB06)." .
 
+rtc:Response a owl:Class ;
+    rdfs:label "response" ;
+    dct:title "Response" ;
+    rdfs:subClassOf sg:record-type ;
+    skos:definition "Record of a response to a referral, request or quality-of-care concern (PUB06)." .
+
 sg:relatedServiceRef a owl:ObjectProperty ;
     rdfs:label "relatedServiceRef" ;
     dct:title "relatedService" ;
     rdfs:range sg:Identifier ;
     skos:definition "References (by Identifier) to Services associated with the entity." ;
     skos:inScheme sg:safeguarding .
+
+svc:AMHP a owl:Class ;
+    rdfs:label "AMHP" ;
+    dct:title "AMHP Service" ;
+    rdfs:subClassOf sg:service-code ;
+    skos:definition "Approved Mental Health Professional service, which coordinates assessments under the Mental Health Act 1983." .
+
+svc:AdultFrontDoor a owl:Class ;
+    rdfs:label "adult-front-door" ;
+    dct:title "Adult Social Care Front Door" ;
+    rdfs:subClassOf sg:service-code ;
+    skos:definition "The first point of contact for adult social care, which receives and triages contacts, referrals and requests for support. Also known locally as a contact centre, first contact or access team." .
+
+svc:AdultSafeguarding a owl:Class ;
+    rdfs:label "adult-safeguarding" ;
+    dct:title "Adult Safeguarding Team" ;
+    rdfs:subClassOf sg:service-code ;
+    skos:definition "The team that receives adult safeguarding concerns and makes or coordinates enquiries under section 42 of the Care Act 2014." .
+
+svc:AdultSocialCare a owl:Class ;
+    rdfs:label "social-care.adults" ;
+    dct:title "Adult Social Care" ;
+    rdfs:subClassOf sg:service-code ;
+    skos:definition "Local authority adult social care services." .
 
 svc:Advocacy a owl:Class ;
     rdfs:label "advocacy" ;
@@ -1695,6 +1707,12 @@ svc:CarerUniversalServices a owl:Class ;
     rdfs:subClassOf sg:service-code ;
     skos:definition "Unpaid carer universal services" .
 
+svc:ChildrensSocialCare a owl:Class ;
+    rdfs:label "social-care.children" ;
+    dct:title "Children's Social Care" ;
+    rdfs:subClassOf sg:service-code ;
+    skos:definition "Local authority children's social care services." .
+
 svc:CommunitySupportedLiving a owl:Class ;
     rdfs:label "community-supported-living" ;
     dct:title "Community Supported Living" ;
@@ -1736,6 +1754,12 @@ svc:EducationWelfare a owl:Class ;
     dct:title "Education Welfare Officer" ;
     rdfs:subClassOf sg:service-code ;
     skos:definition "Education welfare officer" .
+
+svc:EmergencyDutyTeam a owl:Class ;
+    rdfs:label "emergency-duty-team" ;
+    dct:title "Emergency Duty Team" ;
+    rdfs:subClassOf sg:service-code ;
+    skos:definition "Out-of-hours social care service covering urgent situations for children and adults when daytime teams are closed." .
 
 svc:EmergencySupport a owl:Class ;
     rdfs:label "emergency-support" ;
@@ -1785,6 +1809,18 @@ svc:HomeSupportDomiciliary a owl:Class ;
     rdfs:subClassOf sg:service-code ;
     skos:definition "Home support or domiciliary care" .
 
+svc:HospitalSocialWork a owl:Class ;
+    rdfs:label "hospital-social-work" ;
+    dct:title "Hospital Social Work Team" ;
+    rdfs:subClassOf sg:service-code ;
+    skos:definition "Social workers based in or linked to a hospital, who assess and plan support for people being discharged." .
+
+svc:InformationAndAdvice a owl:Class ;
+    rdfs:label "information-and-advice" ;
+    dct:title "Information and Advice" ;
+    rdfs:subClassOf sg:service-code ;
+    skos:definition "Information, advice and signposting about care and support, which local authorities must provide under section 4 of the Care Act 2014." .
+
 svc:LGA a owl:Class ;
     rdfs:label "LGA.<LGA Taxonomy Code>" ;
     dct:title "Local Government Association Service Taxonomy" ;
@@ -1796,6 +1832,12 @@ svc:LearningEducationEmployment a owl:Class ;
     dct:title "Learning Education Employment" ;
     rdfs:subClassOf sg:service-code ;
     skos:definition "Learning, education or employment support" .
+
+svc:LeavingCare a owl:Class ;
+    rdfs:label "leaving-care" ;
+    dct:title "Leaving Care Service" ;
+    rdfs:subClassOf sg:service-code ;
+    skos:definition "The local authority's service for care leavers, including personal advisers and support for former relevant children up to age 25 under the Children Act 1989. Also known locally as a 16+, after care or independent living service." .
 
 svc:LongTermNursingCare a owl:Class ;
     rdfs:label "long-term-nursing-care" ;
@@ -1910,13 +1952,19 @@ svc:SocialCare a owl:Class ;
     rdfs:label "social-care" ;
     dct:title "Social Care" ;
     rdfs:subClassOf sg:service-code ;
-    skos:definition "Social Care Department" .
+    skos:definition "Local authority social care, where children's and adult services are not distinguished. Use the children's or adult code where known." .
 
 svc:SocialWorkerSupport a owl:Class ;
     rdfs:label "social-worker-support" ;
     dct:title "Social Worker Support" ;
     rdfs:subClassOf sg:service-code ;
     skos:definition "Professional support: Social worker" .
+
+svc:Telecare a owl:Class ;
+    rdfs:label "telecare" ;
+    dct:title "Telecare / Assistive Technology" ;
+    rdfs:subClassOf sg:service-code ;
+    skos:definition "Technology that helps a person stay safe and independent at home, such as community alarms, sensors and monitoring." .
 
 svc:Transport a owl:Class ;
     rdfs:label "transport" ;
@@ -2117,14 +2165,15 @@ sg:record-relationship a owl:Class ;
 sg:record-type a owl:Class ;
     rdfs:label "RecordTypeCode" ;
     dct:title "Record Type" ;
-    owl:unionOf ( rtc:Referral rtc:Request rtc:QualityOfCareConcern rtc:Assessment rtc:Plan ) ;
+    owl:unionOf ( rtc:Referral rtc:Request rtc:QualityOfCareConcern rtc:Response rtc:Assessment rtc:Plan ) ;
     skos:definition "Codes to indicate the type of linked record." ;
     skos:inScheme sg:safeguarding ;
     linkml:permissible_values rtc:Assessment,
         rtc:Plan,
         rtc:QualityOfCareConcern,
         rtc:Referral,
-        rtc:Request .
+        rtc:Request,
+        rtc:Response .
 
 sg:service-delivery a owl:Class ;
     rdfs:label "ServiceDelivery" ;
@@ -2215,13 +2264,11 @@ sg:event-code a owl:Class ;
 sg:episode-code a owl:Class ;
     rdfs:label "EpisodeCode" ;
     dct:title "Episode Code" ;
-    owl:unionOf ( epc:Assessment epc:EarlyHelp epc:Section47 epc:AdultSafeguarding epc:CareActAssessment epc:OtherAssessment epc:MashReview epc:ReferralReview epc:Plan epc:Ehcp epc:FamilyCourtOrder epc:CinPlan epc:CpPlan epc:CamhsPlan epc:ChildLookedAfter epc:CarePlan epc:OtherPlan epc:Provision epc:FaceToFaceContact epc:RemoteContact epc:DirectProvision epc:IndirectProvision epc:Admin epc:Miscellaneous epc:Request epc:Notification epc:ChildEarlyHelp epc:ChildCin epc:ChildS47 epc:ChildEmergency epc:ChildStatutoryServices epc:ChildNonStatutoryServices epc:AdultStatutoryServices epc:AdultNonStatutoryServices ) ;
+    owl:unionOf ( epc:Assessment epc:EarlyHelp epc:Section47 epc:AdultSafeguarding epc:CareActAssessment epc:OtherAssessment epc:MashReview epc:ReferralReview epc:Plan epc:Ehcp epc:FamilyCourtOrder epc:CinPlan epc:CpPlan epc:CamhsPlan epc:ChildLookedAfter epc:CarePlan epc:OtherPlan epc:Provision epc:FaceToFaceContact epc:RemoteContact epc:DirectProvision epc:IndirectProvision epc:Admin epc:Miscellaneous epc:Request epc:Notification epc:Service epc:ChildEarlyHelp epc:ChildCin epc:ChildS47 epc:ChildEmergency ) ;
     skos:definition "Codes to indicate the type of service episode." ;
     skos:inScheme sg:safeguarding ;
     linkml:permissible_values epc:Admin,
-        epc:AdultNonStatutoryServices,
         epc:AdultSafeguarding,
-        epc:AdultStatutoryServices,
         epc:Assessment,
         epc:CamhsPlan,
         epc:CareActAssessment,
@@ -2230,9 +2277,7 @@ sg:episode-code a owl:Class ;
         epc:ChildEarlyHelp,
         epc:ChildEmergency,
         epc:ChildLookedAfter,
-        epc:ChildNonStatutoryServices,
         epc:ChildS47,
-        epc:ChildStatutoryServices,
         epc:CinPlan,
         epc:CpPlan,
         epc:DirectProvision,
@@ -2251,15 +2296,20 @@ sg:episode-code a owl:Class ;
         epc:ReferralReview,
         epc:RemoteContact,
         epc:Request,
-        epc:Section47 .
+        epc:Section47,
+        epc:Service .
 
 sg:service-code a owl:Class ;
     rdfs:label "ServiceCode" ;
     dct:title "Service Code" ;
-    owl:unionOf ( svc:YouthOffending svc:PrimarySchool svc:HighSchool svc:SenPrimarySchool svc:SenHighSchool svc:AlternativeProvisionSchool svc:SocialCare svc:FamilyCourt svc:Camhs svc:Reablement svc:ShortTermNursingCare svc:ShortTermResidentialCare svc:LongTermNursingCare svc:LongTermResidentialCare svc:HomeSupportDomiciliary svc:DaySupport svc:Meals svc:Transport svc:Equipment svc:DirectPayment svc:SharedLives svc:CommunitySupportedLiving svc:ExtraCareHousing svc:SocialWorkerSupport svc:OtherProfessionalSupport svc:LearningEducationEmployment svc:EndOfLifeCare svc:EmergencySupport svc:OtherShortTermSupport svc:OtherLongTermSupport svc:CarerRespite svc:CarerSittingService svc:CarerUniversalServices svc:OtherCarerSupport svc:MASH svc:EarlyHelp svc:EducationWelfare svc:HomeAdaptations svc:OccupationalTherapy svc:CHC svc:CMHT svc:S117Aftercare svc:DoLS svc:D2A svc:SensoryTeam svc:Advocacy svc:LGA ) ;
+    owl:unionOf ( svc:YouthOffending svc:PrimarySchool svc:HighSchool svc:SenPrimarySchool svc:SenHighSchool svc:AlternativeProvisionSchool svc:SocialCare svc:ChildrensSocialCare svc:AdultSocialCare svc:FamilyCourt svc:Camhs svc:Reablement svc:ShortTermNursingCare svc:ShortTermResidentialCare svc:LongTermNursingCare svc:LongTermResidentialCare svc:HomeSupportDomiciliary svc:DaySupport svc:Meals svc:Transport svc:Equipment svc:DirectPayment svc:SharedLives svc:CommunitySupportedLiving svc:ExtraCareHousing svc:SocialWorkerSupport svc:OtherProfessionalSupport svc:LearningEducationEmployment svc:EndOfLifeCare svc:EmergencySupport svc:OtherShortTermSupport svc:OtherLongTermSupport svc:CarerRespite svc:CarerSittingService svc:CarerUniversalServices svc:OtherCarerSupport svc:LeavingCare svc:MASH svc:EarlyHelp svc:EducationWelfare svc:HomeAdaptations svc:OccupationalTherapy svc:CHC svc:CMHT svc:S117Aftercare svc:DoLS svc:D2A svc:SensoryTeam svc:Advocacy svc:AdultFrontDoor svc:AdultSafeguarding svc:InformationAndAdvice svc:HospitalSocialWork svc:Telecare svc:AMHP svc:EmergencyDutyTeam svc:LGA ) ;
     skos:definition "Codes to indicate the type of service." ;
     skos:inScheme sg:safeguarding ;
-    linkml:permissible_values svc:Advocacy,
+    linkml:permissible_values svc:AMHP,
+        svc:AdultFrontDoor,
+        svc:AdultSafeguarding,
+        svc:AdultSocialCare,
+        svc:Advocacy,
         svc:AlternativeProvisionSchool,
         svc:CHC,
         svc:CMHT,
@@ -2267,6 +2317,7 @@ sg:service-code a owl:Class ;
         svc:CarerRespite,
         svc:CarerSittingService,
         svc:CarerUniversalServices,
+        svc:ChildrensSocialCare,
         svc:CommunitySupportedLiving,
         svc:D2A,
         svc:DaySupport,
@@ -2274,6 +2325,7 @@ sg:service-code a owl:Class ;
         svc:DoLS,
         svc:EarlyHelp,
         svc:EducationWelfare,
+        svc:EmergencyDutyTeam,
         svc:EmergencySupport,
         svc:EndOfLifeCare,
         svc:Equipment,
@@ -2282,8 +2334,11 @@ sg:service-code a owl:Class ;
         svc:HighSchool,
         svc:HomeAdaptations,
         svc:HomeSupportDomiciliary,
+        svc:HospitalSocialWork,
+        svc:InformationAndAdvice,
         svc:LGA,
         svc:LearningEducationEmployment,
+        svc:LeavingCare,
         svc:LongTermNursingCare,
         svc:LongTermResidentialCare,
         svc:MASH,
@@ -2304,6 +2359,7 @@ sg:service-code a owl:Class ;
         svc:ShortTermResidentialCare,
         svc:SocialCare,
         svc:SocialWorkerSupport,
+        svc:Telecare,
         svc:Transport,
         svc:YouthOffending .
 
@@ -2311,7 +2367,7 @@ sg:safeguarding a owl:Ontology ;
     rdfs:label "safeguarding" ;
     dct:license "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" ;
     dct:title "Safeguarding Standard Data Model" ;
-    pav:version "1.0.0" ;
+    pav:version "1.1.0" ;
     owl:imports sg:common ;
     skos:definition "A LinkML data model for the Safeguarding Standard: a common data model for recording the services, professionals, organisations, service episodes and life events involved in safeguarding and promoting the wellbeing of a person, to support multi-agency information sharing (MAIS)." .
 

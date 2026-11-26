@@ -1,4 +1,39 @@
 {
+  "invalid-qoc-bad-concern-code.jsonld": [
+    {
+      "focus": "QocConcernDetail",
+      "path": "concernType",
+      "constraint": "sh:in"
+    }
+  ],
+  "invalid-qoc-missing-service.jsonld": [
+    {
+      "focus": "QualityOfCareConcern",
+      "path": "service",
+      "constraint": "sh:minCount"
+    }
+  ],
+  "invalid-referral-bad-concern-code.jsonld": [
+    {
+      "focus": "ConcernDetail",
+      "path": "concernType",
+      "constraint": "sh:in"
+    }
+  ],
+  "invalid-referral-bad-question-category.jsonld": [
+    {
+      "focus": "ReferralAssessmentQuestion",
+      "path": "category",
+      "constraint": "sh:in"
+    }
+  ],
+  "invalid-referral-missing-awareness.jsonld": [
+    {
+      "focus": "IntakePerson",
+      "path": "isAwareOfReferral",
+      "constraint": "sh:minCount"
+    }
+  ],
   "invalid-referral-missing-subject.jsonld": [
     {
       "focus": "Referral",
@@ -6,11 +41,32 @@
       "constraint": "sh:minCount"
     }
   ],
+  "invalid-referral-professional-id-missing-value.jsonld": [
+    {
+      "focus": "Identifier",
+      "path": "value",
+      "constraint": "sh:minCount"
+    }
+  ],
+  "invalid-request-bad-record-relationship.jsonld": [
+    {
+      "focus": "LinkedRecord",
+      "path": "recordRelationship",
+      "constraint": "sh:in"
+    }
+  ],
   "invalid-request-missing-purpose.jsonld": [
     {
       "focus": "Request",
       "path": "purpose",
       "constraint": "sh:minCount"
+    }
+  ],
+  "invalid-response-bad-status.jsonld": [
+    {
+      "focus": "Response",
+      "path": "status",
+      "constraint": "sh:in"
     }
   ]
 }
