@@ -3,12 +3,14 @@
 @prefix linkml: <https://w3id.org/linkml/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix pav: <http://purl.org/pav/> .
+@prefix qcon: <https://ns.socialcaredata.io/qoc-concern#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix ref: <https://ns.socialcaredata.io/> .
 @prefix rft: <https://ns.socialcaredata.io/referrer-type#> .
 @prefix rp: <https://ns.socialcaredata.io/request-purpose#> .
 @prefix rqc: <https://ns.socialcaredata.io/referral-question-category#> .
+@prefix rs: <https://ns.socialcaredata.io/response-status#> .
 @prefix rt: <https://ns.socialcaredata.io/referral-type#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -27,13 +29,6 @@ ref:involvementActorId a owl:ObjectProperty ;
     skos:definition "Identifier(s) of the professional or actor involved." ;
     skos:inScheme ref:referrals .
 
-ref:pathway a owl:ObjectProperty ;
-    rdfs:label "pathway" ;
-    dct:title "pathway" ;
-    rdfs:range ref:service-code ;
-    skos:definition "What kind of support pathway do you think this referral should initiate?" ;
-    skos:inScheme ref:referrals .
-
 ref:personalNetwork a owl:ObjectProperty ;
     rdfs:label "personalNetwork" ;
     dct:title "personalNetwork" ;
@@ -44,7 +39,7 @@ ref:personalNetwork a owl:ObjectProperty ;
 ref:qocSubject a owl:ObjectProperty ;
     rdfs:label "qocSubject" ;
     dct:title "subject" ;
-    rdfs:range ref:Person ;
+    rdfs:range ref:IntakePerson ;
     skos:definition "Who is the person? (Optional for anonymisation)." ;
     skos:inScheme ref:referrals .
 
@@ -58,14 +53,17 @@ ref:refAssessmentQuestion a owl:ObjectProperty ;
 ref:QualityOfCareConcern a owl:Class ;
     rdfs:label "QualityOfCareConcern" ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:cardinality 1 ;
+            owl:minCardinality 1 ;
             owl:onProperty ref:qocRecipient ],
         [ a owl:Restriction ;
             owl:maxCardinality 1 ;
             owl:onProperty ref:refDateCompleted ],
         [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ref:qocService ],
+        [ a owl:Restriction ;
             owl:minCardinality 1 ;
-            owl:onProperty ref:concern ],
+            owl:onProperty ref:qocConcern ],
         [ a owl:Restriction ;
             owl:maxCardinality 1 ;
             owl:onProperty ref:refIdentifier ],
@@ -102,7 +100,7 @@ ref:Referral a owl:Class ;
         [ a owl:Restriction ;
             owl:minCardinality 1 ;
             owl:onProperty ref:refSubject ] ;
-    skos:definition "Inward, person-centric, point-of-entry referral into social services." ;
+    skos:definition "Inward, person-centric, point-of-entry referral into social services. A referral is not the way to report an emergency: where someone is in immediate danger, the emergency services should be called on 999 first." ;
     skos:exactMatch ref:Referral ;
     skos:inScheme ref:referrals .
 
@@ -110,10 +108,10 @@ ref:Request a owl:Class ;
     rdfs:label "Request" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:cardinality 1 ;
-            owl:onProperty ref:requestSubject ],
+            owl:onProperty ref:purpose ],
         [ a owl:Restriction ;
             owl:cardinality 1 ;
-            owl:onProperty ref:purpose ],
+            owl:onProperty ref:requestSubject ],
         [ a owl:Restriction ;
             owl:maxCardinality 1 ;
             owl:onProperty ref:refDateCompleted ],
@@ -126,22 +124,56 @@ ref:Request a owl:Class ;
         [ a owl:Restriction ;
             owl:minCardinality 1 ;
             owl:onProperty ref:requestRecipient ] ;
-    skos:definition "Outward request for services for an existing subject of care." ;
+    skos:definition "Outward request for services for a person already known to social care. A request can be the outcome of a Multi-Agency Safeguarding Hub (MASH) decision in children's services or a front-door decision in adult social care. However, it is most commonly any request made from social services to another service (like CAMHS or an advocacy provider), for both children and adults." ;
     skos:exactMatch ref:Request ;
+    skos:inScheme ref:referrals .
+
+ref:Response a owl:Class ;
+    rdfs:label "Response" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:responseDescription ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ref:responseStatus ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:respondsToType ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ref:responder ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:refIdentifier ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ref:respondsTo ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ref:responseDateTimeReceived ] ;
+    skos:definition "A record, held in a case management system, that describes a response to a referral, request or quality-of-care concern that has been sent or received. It confirms receipt and gives basic information about its contents. It is not necessarily a message between the parties, it does not capture the full response, and counterparty services that receive referrals, requests and concerns are not obliged to send one. Each response is a separate record of what happened at a point in time, so a referral that is acknowledged and later accepted has two responses." ;
+    skos:exactMatch ref:Response ;
+    skos:inScheme ref:referrals .
+
+ref:concern a owl:ObjectProperty ;
+    rdfs:label "concern" ;
+    dct:title "concern" ;
+    rdfs:range ref:ConcernDetail ;
+    skos:definition "What is the concern? Initially, this may be left UNASSIGNED, to be assigned at triage by professionals." ;
     skos:inScheme ref:referrals .
 
 ref:concernDescription a owl:DatatypeProperty ;
     rdfs:label "concernDescription" ;
     dct:title "description" ;
     rdfs:range xsd:string ;
-    skos:definition "Free text description of concern." ;
+    skos:definition "Free-text description of the concern, in the referrer's own words. When the type is UNASSIGNED, triage by professionals relies on this description." ;
     skos:inScheme ref:referrals .
 
 ref:concernType a owl:ObjectProperty ;
     rdfs:label "concernType" ;
     dct:title "concernType" ;
     rdfs:range ref:concern-code ;
-    skos:definition "The code identifying the concern." ;
+    skos:definition "The type of concern, or UNASSIGNED if no type was given when the referral was made. An UNASSIGNED concern is assigned a type at triage." ;
     skos:inScheme ref:referrals .
 
 ref:documentDescription a owl:DatatypeProperty ;
@@ -179,6 +211,13 @@ ref:documentUrl a owl:DatatypeProperty ;
     skos:definition "Web address or storage URI where the document can be retrieved." ;
     skos:inScheme ref:referrals .
 
+ref:intakeNotes a owl:DatatypeProperty ;
+    rdfs:label "intakeNotes" ;
+    dct:title "notes" ;
+    rdfs:range xsd:string ;
+    skos:definition "Free-text notes about the person to convey identifying information where little else is known (eg. where they have been seen in the local area). Also the location to record anything about how to contact the person safely, and why they are not aware of the referral, if they are not." ;
+    skos:inScheme ref:referrals .
+
 ref:involvementActorType a owl:ObjectProperty ;
     rdfs:label "involvementActorType" ;
     dct:title "actorType" ;
@@ -193,6 +232,13 @@ ref:involvementDescription a owl:DatatypeProperty ;
     skos:definition "Free text description of involvement." ;
     skos:inScheme ref:referrals .
 
+ref:isAwareOfReferral a owl:DatatypeProperty ;
+    rdfs:label "isAwareOfReferral" ;
+    dct:title "isAwareOfReferral" ;
+    rdfs:range xsd:boolean ;
+    skos:definition "Does this person know that the referral or concern is being made? This is about awareness of the referral itself, not of the problem it describes, and is not the same as consent. If not, say why in notes." ;
+    skos:inScheme ref:referrals .
+
 ref:networkDescription a owl:DatatypeProperty ;
     rdfs:label "networkDescription" ;
     dct:title "description" ;
@@ -203,7 +249,7 @@ ref:networkDescription a owl:DatatypeProperty ;
 ref:networkPerson a owl:ObjectProperty ;
     rdfs:label "networkPerson" ;
     dct:title "person" ;
-    rdfs:range ref:Person ;
+    rdfs:range ref:IntakePerson ;
     skos:definition "Person in the personal network." ;
     skos:inScheme ref:referrals .
 
@@ -218,14 +264,35 @@ ref:purpose a owl:ObjectProperty ;
     rdfs:label "purpose" ;
     dct:title "purpose" ;
     rdfs:range ref:request-purpose ;
-    skos:definition "What is the request?" ;
+    skos:definition "What kind of request is this? The function this request serves." ;
+    skos:inScheme ref:referrals .
+
+ref:qocConcern a owl:ObjectProperty ;
+    rdfs:label "qocConcern" ;
+    dct:title "concern" ;
+    rdfs:range ref:QocConcernDetail ;
+    skos:definition "What is the concern? Initially, this may be left UNASSIGNED, to be assigned at triage by professionals." ;
+    skos:inScheme ref:referrals .
+
+ref:qocConcernDescription a owl:DatatypeProperty ;
+    rdfs:label "qocConcernDescription" ;
+    dct:title "description" ;
+    rdfs:range xsd:string ;
+    skos:definition "Free-text description of the concern, in the words of the person raising it. This is what triage relies on when the type is UNASSIGNED." ;
+    skos:inScheme ref:referrals .
+
+ref:qocConcernType a owl:ObjectProperty ;
+    rdfs:label "qocConcernType" ;
+    dct:title "concernType" ;
+    rdfs:range ref:qoc-concern-code ;
+    skos:definition "The type of concern, or UNASSIGNED if no type was given when the concern was raised. An UNASSIGNED concern is assigned a type at triage." ;
     skos:inScheme ref:referrals .
 
 ref:qocRecipient a owl:ObjectProperty ;
     rdfs:label "qocRecipient" ;
     dct:title "recipient" ;
     rdfs:range ref:Identifier ;
-    skos:definition "What service is involved? (Organisation / Service identifier)." ;
+    skos:definition "Who was this concern sent to? Generally the local authority and the Care Quality Commission." ;
     skos:inScheme ref:referrals .
 
 ref:qocReferrer a owl:ObjectProperty ;
@@ -233,6 +300,34 @@ ref:qocReferrer a owl:ObjectProperty ;
     dct:title "referrer" ;
     rdfs:range ref:ReferrerDetails ;
     skos:definition "Who is the referrer? (Optional for anonymisation)." ;
+    skos:inScheme ref:referrals .
+
+ref:qocService a owl:ObjectProperty ;
+    rdfs:label "qocService" ;
+    dct:title "service" ;
+    rdfs:range ref:QocService ;
+    skos:definition "Which care provider or service is the concern about?" ;
+    skos:inScheme ref:referrals .
+
+ref:qocServiceDescription a owl:DatatypeProperty ;
+    rdfs:label "qocServiceDescription" ;
+    dct:title "description" ;
+    rdfs:range xsd:string ;
+    skos:definition "Free-text description of the service (not the concern), in the words of the person raising the concern. For example, \"the carers that visit my dad in the mornings\"." ;
+    skos:inScheme ref:referrals .
+
+ref:qocServiceIdentifier a owl:ObjectProperty ;
+    rdfs:label "qocServiceIdentifier" ;
+    dct:title "identifier" ;
+    rdfs:range ref:Identifier ;
+    skos:definition "Identifier for the service, if known, such as its Care Quality Commission location ID or its identifier in the local authority's system." ;
+    skos:inScheme ref:referrals .
+
+ref:qocServiceName a owl:DatatypeProperty ;
+    rdfs:label "qocServiceName" ;
+    dct:title "name" ;
+    rdfs:range xsd:string ;
+    skos:definition "The name of the service, if known." ;
     skos:inScheme ref:referrals .
 
 ref:refInvolvement a owl:ObjectProperty ;
@@ -259,7 +354,7 @@ ref:refReferrer a owl:ObjectProperty ;
 ref:refSubject a owl:ObjectProperty ;
     rdfs:label "refSubject" ;
     dct:title "subject" ;
-    rdfs:range ref:Person ;
+    rdfs:range ref:IntakePerson ;
     skos:definition "Who is the person?" ;
     skos:inScheme ref:referrals .
 
@@ -333,6 +428,48 @@ ref:requestSubject a owl:ObjectProperty ;
     skos:definition "Who is the person? (Person identifier)." ;
     skos:inScheme ref:referrals .
 
+ref:responder a owl:ObjectProperty ;
+    rdfs:label "responder" ;
+    dct:title "responder" ;
+    rdfs:range ref:Identifier ;
+    skos:definition "The organisation, service or professional that responded. Shows the direction of the response, for example whether a local authority sent it or received it." ;
+    skos:inScheme ref:referrals .
+
+ref:respondsTo a owl:ObjectProperty ;
+    rdfs:label "respondsTo" ;
+    dct:title "respondsTo" ;
+    rdfs:range ref:Identifier ;
+    skos:definition "The referral, request or quality-of-care concern being responded to." ;
+    skos:inScheme ref:referrals .
+
+ref:respondsToType a owl:ObjectProperty ;
+    rdfs:label "respondsToType" ;
+    dct:title "respondsToType" ;
+    rdfs:range ref:record-type ;
+    skos:definition "The type of record being responded to (referral, request or quality-of-care concern). Helps where the identifier alone is ambiguous." ;
+    skos:inScheme ref:referrals .
+
+ref:responseDateTimeReceived a owl:DatatypeProperty ;
+    rdfs:label "responseDateTimeReceived" ;
+    dct:title "dateTimeReceived" ;
+    rdfs:range xsd:dateTime ;
+    skos:definition "When the response was received by the party it was sent to. For a response the record holder sent, where the time it was received is not known, use the time it was sent." ;
+    skos:inScheme ref:referrals .
+
+ref:responseDescription a owl:DatatypeProperty ;
+    rdfs:label "responseDescription" ;
+    dct:title "description" ;
+    rdfs:range xsd:string ;
+    skos:definition "Free-text summary of what the responder said." ;
+    skos:inScheme ref:referrals .
+
+ref:responseStatus a owl:ObjectProperty ;
+    rdfs:label "responseStatus" ;
+    dct:title "status" ;
+    rdfs:range ref:response-status ;
+    skos:definition "What was the response?" ;
+    skos:inScheme ref:referrals .
+
 ref:ConcernDetail a owl:Class ;
     rdfs:label "ConcernDetail" ;
     rdfs:subClassOf [ a owl:Restriction ;
@@ -341,7 +478,7 @@ ref:ConcernDetail a owl:Class ;
         [ a owl:Restriction ;
             owl:maxCardinality 1 ;
             owl:onProperty ref:concernDescription ] ;
-    skos:definition "Identified concern and optional descriptive details." ;
+    skos:definition "A concern raised in a referral: a keyword type and the referrer's description of it. The type may be left UNASSIGNED in the initial referral (by referrer's choice, or by not presenting them an option in the user-facing form) and assigned at triage." ;
     skos:exactMatch ref:ConcernDetail ;
     skos:inScheme ref:referrals .
 
@@ -381,6 +518,34 @@ ref:PersonalNetworkMember a owl:Class ;
     skos:exactMatch ref:PersonalNetworkMember ;
     skos:inScheme ref:referrals .
 
+ref:QocConcernDetail a owl:Class ;
+    rdfs:label "QocConcernDetail" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:qocConcernDescription ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ref:qocConcernType ] ;
+    skos:definition "A concern raised about a care provider or service: a keyword type and a description of it. The type may be left UNASSIGNED when the concern is raised (by the choice of the person raising it, or by not presenting them an option in the user-facing form) and assigned at triage." ;
+    skos:exactMatch ref:QocConcernDetail ;
+    skos:inScheme ref:referrals .
+
+ref:QocService a owl:Class ;
+    rdfs:label "QocService" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:qocServiceName ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:qocServiceDescription ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:qocServiceIdentifier ] ;
+    skos:definition """The care provider or service a quality-of-care concern is about, as far as the person raising the concern can describe it. Every property is optional, because they may not know the service's name or identifier, and the service may not be recorded in the local authority's system. Triage can complete the details and update the record later.
+Guidance for implementers: * A record should carry at least one detail (most likely, the description), but this is not enforced by the model.""" ;
+    skos:exactMatch ref:QocService ;
+    skos:inScheme ref:referrals .
+
 ref:ReferralAssessmentQuestion a owl:Class ;
     rdfs:label "ReferralAssessmentQuestion" ;
     rdfs:subClassOf [ a owl:Restriction ;
@@ -406,118 +571,203 @@ ref:ReferralInvolvement a owl:Class ;
     skos:exactMatch ref:ReferralInvolvement ;
     skos:inScheme ref:referrals .
 
-ref:concern a owl:ObjectProperty ;
-    rdfs:label "concern" ;
-    dct:title "concern" ;
-    rdfs:range ref:ConcernDetail ;
-    skos:definition "What is the concern?" ;
-    skos:inScheme ref:referrals .
+con:AdultCareAndSupportNeeds a owl:Class ;
+    rdfs:label "adult.careAndSupportNeeds" ;
+    dct:title "Care and support needs" ;
+    rdfs:subClassOf ref:concern-code ;
+    skos:definition "The adult appears to need care and support (section 9 of the Care Act 2014), and no abuse or neglect is suspected. For example, difficulty living independently or managing daily living tasks, or needing equipment or adaptations at home. Used for contacts or requests for support, requests for occupational therapy or home equipment, and requests for care needs assessments." .
 
-con:AdultDiscrimination a owl:Class ;
-    rdfs:label "adult.discrimination" ;
-    dct:title "Discrimination" ;
-    rdfs:subClassOf ref:concern-code .
+con:AdultDiscriminatoryAbuse a owl:Class ;
+    rdfs:label "adult.discriminatoryAbuse" ;
+    dct:title "Discriminatory abuse" ;
+    rdfs:subClassOf ref:concern-code ;
+    skos:definition "Harassment, slurs or similar treatment because of a protected characteristic such as race, sex, age, disability, religion or sexual orientation." .
 
 con:AdultDomesticAbuse a owl:Class ;
     rdfs:label "adult.domesticAbuse" ;
-    dct:title "Domestic abuse" ;
-    rdfs:subClassOf ref:concern-code .
+    dct:title "Domestic violence or abuse" ;
+    rdfs:subClassOf ref:concern-code ;
+    skos:definition "Abuse within an intimate or family relationship, including coercive control and psychological, physical, sexual, financial and emotional abuse, and so-called honour-based violence." .
 
 con:AdultEmotionalAbuse a owl:Class ;
     rdfs:label "adult.emotionalAbuse" ;
-    dct:title "Emotional abuse" ;
-    rdfs:subClassOf ref:concern-code .
+    dct:title "Psychological or emotional abuse" ;
+    rdfs:subClassOf ref:concern-code ;
+    skos:definition "Includes threats, humiliation, controlling, intimidation, coercion, harassment, verbal abuse, isolation, and withdrawal from services or support." .
 
-con:AdultFinancialCoercion a owl:Class ;
-    rdfs:label "adult.financialCoercion" ;
-    dct:title "Financial coercion" ;
-    rdfs:subClassOf ref:concern-code .
+con:AdultFinancialAbuse a owl:Class ;
+    rdfs:label "adult.financialAbuse" ;
+    dct:title "Financial or material abuse" ;
+    rdfs:subClassOf ref:concern-code ;
+    skos:definition "Includes theft, fraud, scams, coercion over financial affairs, and misuse of property, possessions or benefits." .
 
 con:AdultModernSlavery a owl:Class ;
     rdfs:label "adult.modernSlavery" ;
     dct:title "Modern slavery" ;
-    rdfs:subClassOf ref:concern-code .
+    rdfs:subClassOf ref:concern-code ;
+    skos:definition "Includes slavery, human trafficking, forced labour and domestic servitude." .
 
 con:AdultNeglect a owl:Class ;
     rdfs:label "adult.neglect" ;
     dct:title "Neglect or acts of omission" ;
-    rdfs:subClassOf ref:concern-code .
+    rdfs:subClassOf ref:concern-code ;
+    skos:definition "Includes ignoring medical, emotional or physical care needs, failing to provide access to services, and withholding medication, food or heating." .
+
+con:AdultOrganisationalAbuse a owl:Class ;
+    rdfs:label "adult.organisationalAbuse" ;
+    dct:title "Organisational or institutional abuse" ;
+    rdfs:subClassOf ref:concern-code ;
+    skos:definition "Neglect and poor practice within an institution or care setting, or in care provided at home, from one-off incidents to ongoing ill-treatment." .
 
 con:AdultOther a owl:Class ;
     rdfs:label "adult.other" ;
     dct:title "Other" ;
-    rdfs:subClassOf ref:concern-code .
+    rdfs:subClassOf ref:concern-code ;
+    skos:definition "A concern about an adult that does not fit the categories above. Describe it in the concern's description." .
 
 con:AdultPhysicalAbuse a owl:Class ;
     rdfs:label "adult.physicalAbuse" ;
     dct:title "Physical abuse" ;
-    rdfs:subClassOf ref:concern-code .
+    rdfs:subClassOf ref:concern-code ;
+    skos:definition "Includes assault, hitting, slapping, misuse of medication, restraint and inappropriate physical sanctions." .
 
-con:AdultSelfHarm a owl:Class ;
-    rdfs:label "adult.selfHarm" ;
-    dct:title "Self-neglect or self-harm" ;
-    rdfs:subClassOf ref:concern-code .
+con:AdultSelfNeglect a owl:Class ;
+    rdfs:label "adult.selfNeglect" ;
+    dct:title "Self-neglect" ;
+    rdfs:subClassOf ref:concern-code ;
+    skos:definition "Neglecting one's own personal hygiene, health or surroundings, including hoarding." .
 
 con:AdultSexualAbuse a owl:Class ;
     rdfs:label "adult.sexualAbuse" ;
     dct:title "Sexual abuse" ;
-    rdfs:subClassOf ref:concern-code .
-
-con:AdultSubstanceAbuse a owl:Class ;
-    rdfs:label "adult.substanceAbuse" ;
-    dct:title "Substance abuse" ;
-    rdfs:subClassOf ref:concern-code .
-
-con:ChildContextualRisk a owl:Class ;
-    rdfs:label "child.contextualRisk" ;
-    dct:title "Contextual risk" ;
-    rdfs:subClassOf ref:concern-code .
+    rdfs:subClassOf ref:concern-code ;
+    skos:definition "Includes rape, indecent exposure, sexual harassment, inappropriate touching, and sexual acts the adult has not consented to or could not consent to." .
 
 con:ChildEmotionalAbuse a owl:Class ;
     rdfs:label "child.emotionalAbuse" ;
     dct:title "Emotional abuse" ;
-    rdfs:subClassOf ref:concern-code .
+    rdfs:subClassOf ref:concern-code ;
+    skos:definition "Persistent emotional maltreatment that severely affects a child's emotional development, including seeing or hearing the ill-treatment of others, such as domestic abuse." .
 
-con:ChildExploitation a owl:Class ;
-    rdfs:label "child.exploitation" ;
-    dct:title "Exploitation" ;
-    rdfs:subClassOf ref:concern-code .
-
-con:ChildGoingMissing a owl:Class ;
-    rdfs:label "child.goingMissing" ;
-    dct:title "Going missing" ;
-    rdfs:subClassOf ref:concern-code .
-
-con:ChildMissingEducation a owl:Class ;
-    rdfs:label "child.missingEducation" ;
-    dct:title "Missing education" ;
-    rdfs:subClassOf ref:concern-code .
+con:ChildExtrafamilialHarm a owl:Class ;
+    rdfs:label "child.extrafamilialHarm" ;
+    dct:title "Extra-familial harm" ;
+    rdfs:subClassOf ref:concern-code ;
+    skos:definition "Harm from outside the family, for example criminal or sexual exploitation, serious youth violence, county lines or radicalisation." .
 
 con:ChildNeglect a owl:Class ;
     rdfs:label "child.neglect" ;
     dct:title "Neglect" ;
-    rdfs:subClassOf ref:concern-code .
+    rdfs:subClassOf ref:concern-code ;
+    skos:definition "Persistent failure to meet a child's basic physical or psychological needs, likely to seriously impair their health or development." .
 
 con:ChildOther a owl:Class ;
-    rdfs:label "child.Other" ;
+    rdfs:label "child.other" ;
     dct:title "Other" ;
     rdfs:subClassOf ref:concern-code ;
-    skos:altLabel "child.other" .
-
-con:ChildParentalConcern a owl:Class ;
-    rdfs:label "child.parentalConcern" ;
-    dct:title "Parental mental health or substance abuse issues" ;
-    rdfs:subClassOf ref:concern-code .
+    skos:definition "A concern about a child that does not fit the categories above. Describe it in the concern's description." .
 
 con:ChildPhysicalAbuse a owl:Class ;
     rdfs:label "child.physicalAbuse" ;
     dct:title "Physical abuse" ;
-    rdfs:subClassOf ref:concern-code .
+    rdfs:subClassOf ref:concern-code ;
+    skos:definition "Deliberately causing physical harm to a child, for example hitting, shaking, burning or poisoning, or fabricating or inducing illness." .
 
 con:ChildSexualAbuse a owl:Class ;
     rdfs:label "child.sexualAbuse" ;
     dct:title "Sexual abuse" ;
-    rdfs:subClassOf ref:concern-code .
+    rdfs:subClassOf ref:concern-code ;
+    skos:definition "Forcing or enticing a child to take part in sexual activities, whether or not the child is aware of what is happening, including online and non-contact abuse." .
+
+con:Unassigned a owl:Class ;
+    rdfs:label "UNASSIGNED" ;
+    dct:title "Unassigned" ;
+    rdfs:subClassOf ref:concern-code ;
+    skos:definition "Not yet classified. The concern has been described but no type was given when the referral was made, either by the referrer's choice or because the form did not ask; the type is assigned at triage, by professionals." .
+
+qcon:Complaints a owl:Class ;
+    rdfs:label "complaints" ;
+    dct:title "Receiving and acting on complaints (Regulation 16)" ;
+    rdfs:subClassOf ref:qoc-concern-code ;
+    skos:definition "Concerns about how the provider handles complaints. For example, complaints being ignored or not investigated, or people being afraid to complain." .
+
+qcon:DignityAndRespect a owl:Class ;
+    rdfs:label "dignityAndRespect" ;
+    dct:title "Dignity and respect (Regulation 10)" ;
+    rdfs:subClassOf ref:qoc-concern-code ;
+    skos:definition "Concerns that people are not treated with dignity and respect. For example, a lack of privacy during personal care, being left in soiled clothing or bedding, being spoken to disrespectfully, or not being supported to stay independent." .
+
+qcon:DutyOfCandour a owl:Class ;
+    rdfs:label "dutyOfCandour" ;
+    dct:title "Duty of candour (Regulation 20)" ;
+    rdfs:subClassOf ref:qoc-concern-code ;
+    skos:definition "Concerns that the provider has not been open and honest when something has gone wrong. For example, not telling the person or their family about a serious incident, or not apologising or explaining what happened." .
+
+qcon:FitAndProperPersons a owl:Class ;
+    rdfs:label "fitAndProperPersons" ;
+    dct:title "Fit and proper persons employed (Regulation 19)" ;
+    rdfs:subClassOf ref:qoc-concern-code ;
+    skos:definition "Concerns that the provider employs people who are not suitable for their role. For example, staff working without the required recruitment or DBS checks." .
+
+qcon:GoodGovernance a owl:Class ;
+    rdfs:label "goodGovernance" ;
+    dct:title "Good governance (Regulation 17)" ;
+    rdfs:subClassOf ref:qoc-concern-code ;
+    skos:definition "Concerns about how the service is run and overseen. For example, missing or inaccurate care records, no effective checks on the quality and safety of care, or the provider not acting on feedback or known problems." .
+
+qcon:NeedForConsent a owl:Class ;
+    rdfs:label "needForConsent" ;
+    dct:title "Need for consent (Regulation 11)" ;
+    rdfs:subClassOf ref:qoc-concern-code ;
+    skos:definition "Concerns that care or treatment is given without the person's consent, or without following the Mental Capacity Act 2005 where the person lacks capacity to consent." .
+
+qcon:NutritionAndHydration a owl:Class ;
+    rdfs:label "nutritionAndHydration" ;
+    dct:title "Meeting nutritional and hydration needs (Regulation 14)" ;
+    rdfs:subClassOf ref:qoc-concern-code ;
+    skos:definition "Concerns that people do not get enough to eat and drink, or the help they need to eat and drink. For example, food or drink left out of reach, unexplained weight loss or dehydration, or dietary, medical or cultural needs being ignored." .
+
+qcon:Other a owl:Class ;
+    rdfs:label "other" ;
+    dct:title "Other" ;
+    rdfs:subClassOf ref:qoc-concern-code ;
+    skos:definition "A concern that does not fit any of the regulations above, for example about a service that is not registered with CQC. Describe it in the concern's description." .
+
+qcon:PersonCentredCare a owl:Class ;
+    rdfs:label "personCentredCare" ;
+    dct:title "Person-centred care (Regulation 9)" ;
+    rdfs:subClassOf ref:qoc-concern-code ;
+    skos:definition "Concerns that care does not meet the person's needs or reflect their preferences. For example, care plans not being followed; home-care visits that are missed, late or cut short; or the person and their family not being involved in decisions about their care." .
+
+qcon:PremisesAndEquipment a owl:Class ;
+    rdfs:label "premisesAndEquipment" ;
+    dct:title "Premises and equipment (Regulation 15)" ;
+    rdfs:subClassOf ref:qoc-concern-code ;
+    skos:definition "Concerns about the premises or equipment used for care. For example, dirty or unsafe premises, poor maintenance or security, or equipment such as hoists, call bells or pressure-relieving mattresses missing, broken or not maintained." .
+
+qcon:SafeCareAndTreatment a owl:Class ;
+    rdfs:label "safeCareAndTreatment" ;
+    dct:title "Safe care and treatment (Regulation 12)" ;
+    rdfs:subClassOf ref:qoc-concern-code ;
+    skos:definition "Concerns that care or treatment is unsafe. For example, medication errors (missed, late or wrong doses), avoidable falls or pressure ulcers, unsafe moving and handling, poor infection control, or missed or late home-care visits that leave the person at risk, such as a missed medication visit." .
+
+qcon:Safeguarding a owl:Class ;
+    rdfs:label "safeguarding" ;
+    dct:title "Safeguarding service users from abuse and improper treatment (Regulation 13)" ;
+    rdfs:subClassOf ref:qoc-concern-code ;
+    skos:definition "Concerns that people are not protected from abuse or improper treatment. For example, abuse or neglect by staff, theft from residents, degrading treatment, or restraint or deprivation of liberty without lawful authority. Where a particular person is at risk of harm, also raise an adult safeguarding referral and link the two records." .
+
+qcon:Staffing a owl:Class ;
+    rdfs:label "staffing" ;
+    dct:title "Staffing (Regulation 18)" ;
+    rdfs:subClassOf ref:qoc-concern-code ;
+    skos:definition "Concerns that there are not enough suitably skilled staff. For example, persistent understaffing, staff without the training, supervision or skills their role needs, or home-care visits missed, late or shortened because of staff shortages." .
+
+qcon:Unassigned a owl:Class ;
+    rdfs:label "UNASSIGNED" ;
+    dct:title "Unassigned" ;
+    rdfs:subClassOf ref:qoc-concern-code ;
+    skos:definition "Not yet classified. The concern has been described but no type was given when it was raised, either by the person raising it or because the form did not ask; the type is assigned at triage, by professionals." .
 
 rqc:ActionsTaken a owl:Class ;
     rdfs:label "ACTIONS_TAKEN" ;
@@ -607,47 +857,62 @@ rqc:SubmissionWorkflow a owl:Class ;
 rt:AdultCareActAssessment a owl:Class ;
     rdfs:label "adult.careActAssessment" ;
     dct:title "Request for care needs assessment or review" ;
-    rdfs:subClassOf ref:referral-type .
+    rdfs:subClassOf ref:referral-type ;
+    skos:definition "A request for a needs assessment (section 9 of the Care Act 2014) or a review of an existing care and support plan (section 27)." .
 
 rt:AdultCrossService a owl:Class ;
     rdfs:label "adult.crossService" ;
     dct:title "Professional concern about an adult from engagement with a child" ;
-    rdfs:subClassOf ref:referral-type .
+    rdfs:subClassOf ref:referral-type ;
+    skos:definition "A concern about an adult raised by a professional working with a child connected to them, such as the child's parent or carer. For example, from a school, health visitor, children's social care or child and adolescent mental health services." .
 
 rt:AdultGeneral a owl:Class ;
     rdfs:label "adult.general" ;
-    dct:title "General referral to social care" ;
-    rdfs:subClassOf ref:referral-type .
+    dct:title "Contact or request for support" ;
+    rdfs:subClassOf ref:referral-type ;
+    skos:definition "A person, or someone on their behalf, contacting adult social care about care and support needs, where the kind of help needed is not yet clear." .
 
 rt:AdultIndependentLiving a owl:Class ;
     rdfs:label "adult.independentLiving" ;
     dct:title "Request for occupational therapy or home equipment" ;
-    rdfs:subClassOf ref:referral-type .
+    rdfs:subClassOf ref:referral-type ;
+    skos:definition "A request for an occupational therapy assessment, equipment or minor adaptations to help a person stay safe and independent at home, such as grab rails or bathing equipment." .
 
 rt:AdultInfoRequest a owl:Class ;
     rdfs:label "adult.infoRequest" ;
     dct:title "Information request" ;
-    rdfs:subClassOf ref:referral-type .
+    rdfs:subClassOf ref:referral-type ;
+    skos:definition "A request for information or advice about care and support, which local authorities must provide under section 4 of the Care Act 2014, that does not itself raise a concern or ask for an assessment." .
 
 rt:AdultSafeguarding a owl:Class ;
     rdfs:label "adult.safeguarding" ;
     dct:title "Safeguarding concern" ;
-    rdfs:subClassOf ref:referral-type .
+    rdfs:subClassOf ref:referral-type ;
+    skos:definition "A concern that an adult with care and support needs is experiencing, or is at risk of, abuse or neglect, and cannot protect themselves because of those needs. Triage decides whether this meets the criteria for a safeguarding enquiry under section 42 of the Care Act 2014." .
 
 rt:ChildCrossService a owl:Class ;
     rdfs:label "child.crossService" ;
     dct:title "Professional concern about a child from engagement with an adult" ;
-    rdfs:subClassOf ref:referral-type .
+    rdfs:subClassOf ref:referral-type ;
+    skos:definition "A concern about a child raised by a professional working with an adult connected to them, such as the child's parent or someone in their household. For example, from adult mental health, drug and alcohol, probation or adult social care services." .
 
 rt:ChildInfoRequest a owl:Class ;
     rdfs:label "child.infoRequest" ;
     dct:title "Information request" ;
-    rdfs:subClassOf ref:referral-type .
+    rdfs:subClassOf ref:referral-type ;
+    skos:definition "A request for information or advice about a child or family, or about the support available, that does not itself raise a concern. For example, a parent asking what help is available, or a professional asking for advice." .
+
+rt:ChildReturningCareLeaver a owl:Class ;
+    rdfs:label "child.returningCareLeaver" ;
+    dct:title "Care leaver returning for support" ;
+    rdfs:subClassOf ref:referral-type ;
+    skos:definition "A care leaver getting back in touch with the local authority to ask for support, such as a personal adviser, which former relevant children can request up to age 25 under the Children Act 1989 (as amended by the Children and Social Work Act 2017). Usually a self-referral. The care leaver is an adult, but leaving care support is provided by children's services." .
 
 rt:ChildSafeguarding a owl:Class ;
     rdfs:label "child.safeguarding" ;
     dct:title "Safeguarding concern" ;
-    rdfs:subClassOf ref:referral-type .
+    rdfs:subClassOf ref:referral-type ;
+    skos:definition "A concern that a child is being, or is at risk of being, abused, neglected or otherwise harmed, inside or outside the family. Depending on (MASH) triage, this may lead to enquiries under section 47 of the Children Act 1989, an assessment of the child's needs, or early help." .
 
 rft:FamilyMember a owl:Class ;
     rdfs:label "FamilyMember" ;
@@ -669,51 +934,114 @@ rft:Self a owl:Class ;
     dct:title "Self" ;
     rdfs:subClassOf ref:referrer-type .
 
-rp:AdultNonStatutoryServices a owl:Class ;
-    rdfs:label "adult.nonStatutoryServices" ;
-    dct:title "Request to non-statutory services" ;
-    rdfs:subClassOf ref:request-purpose .
+rp:AdultNeedsAssessment a owl:Class ;
+    rdfs:label "adult.needsAssessment" ;
+    dct:title "Request for Care Act needs or carer's assessment" ;
+    rdfs:subClassOf ref:request-purpose ;
+    skos:definition "Request for a needs assessment (section 9 of the Care Act 2014) or a carer's assessment (section 10)." .
 
-rp:AdultStatutoryServices a owl:Class ;
-    rdfs:label "adult.statutoryServices" ;
-    dct:title "Request to statutory services (like NHS CHC or advocacy)" ;
-    rdfs:subClassOf ref:request-purpose .
+rp:AdultPrevention a owl:Class ;
+    rdfs:label "adult.prevention" ;
+    dct:title "Request for prevention or reablement services" ;
+    rdfs:subClassOf ref:request-purpose ;
+    skos:definition "Request for services that prevent, reduce or delay the need for care and support, under section 2 of the Care Act 2014. For example, reablement, intermediate care, or equipment and minor adaptations." .
+
+rp:AdultS42Enquiry a owl:Class ;
+    rdfs:label "adult.s42Enquiry" ;
+    dct:title "Escalation to s42 safeguarding enquiry" ;
+    rdfs:subClassOf ref:request-purpose ;
+    skos:definition "Escalation to an enquiry under section 42 of the Care Act 2014, where an adult with care and support needs is experiencing, or is at risk of, abuse or neglect and cannot protect themselves because of those needs." .
 
 rp:ChildCIN a owl:Class ;
     rdfs:label "child.CIN" ;
     dct:title "Escalation to s17 CiN assessment" ;
     rdfs:subClassOf ref:request-purpose ;
-    skos:altLabel "child.cin" .
+    skos:altLabel "child.cin" ;
+    skos:definition "Request for an assessment of whether the child is a child in need, under section 17 of the Children Act 1989." .
 
 rp:ChildEarlyHelp a owl:Class ;
     rdfs:label "child.earlyHelp" ;
     dct:title "Request to Early Help services" ;
-    rdfs:subClassOf ref:request-purpose .
+    rdfs:subClassOf ref:request-purpose ;
+    skos:definition "Request for early help: support for the child and family where needs do not meet the threshold for statutory children's social care, as set out in Working Together to Safeguard Children 2023." .
 
 rp:ChildEmergency a owl:Class ;
     rdfs:label "child.emergency" ;
     dct:title "Immediate emergency protection" ;
-    rdfs:subClassOf ref:request-purpose .
-
-rp:ChildNonStatutoryServices a owl:Class ;
-    rdfs:label "child.nonStatutoryServices" ;
-    dct:title "Request to non-statutory services" ;
-    rdfs:subClassOf ref:request-purpose .
+    rdfs:subClassOf ref:request-purpose ;
+    skos:definition "Immediate action to protect the child, such as police protection (section 46 of the Children Act 1989) or an emergency protection order (section 44)." .
 
 rp:ChildS47 a owl:Class ;
     rdfs:label "child.s47" ;
     dct:title "Escalation to s47 enquiry" ;
-    rdfs:subClassOf ref:request-purpose .
-
-rp:ChildStatutoryServices a owl:Class ;
-    rdfs:label "child.statutoryServices" ;
-    dct:title "Request to statutory services (like CAMHS or advocacy)" ;
-    rdfs:subClassOf ref:request-purpose .
+    rdfs:subClassOf ref:request-purpose ;
+    skos:definition "Escalation to enquiries under section 47 of the Children Act 1989, where there is reasonable cause to suspect the child is suffering, or is likely to suffer, significant harm. Normally follows a strategy discussion." .
 
 rp:Notification a owl:Class ;
     rdfs:label "notification" ;
     dct:title "Notification or signposting" ;
-    rdfs:subClassOf ref:request-purpose .
+    rdfs:subClassOf ref:request-purpose ;
+    skos:definition "Letting a service know about the person, or signposting the person to it, without asking it to take action. Used where no further involvement is needed but another service should be aware." .
+
+rp:Service a owl:Class ;
+    rdfs:label "service" ;
+    dct:title "Request to another service" ;
+    rdfs:subClassOf ref:request-purpose ;
+    skos:definition "Asking another service to take action for the person, such as child and adolescent mental health services, NHS Continuing Healthcare, advocacy, education, or a voluntary or community organisation. The kind of service is identified by the request's recipient." .
+
+rs:Accepted a owl:Class ;
+    rdfs:label "accepted" ;
+    dct:title "Accepted" ;
+    rdfs:subClassOf ref:response-status ;
+    skos:definition "The responder will act on the referral, request or concern." .
+
+rs:AcceptedWaitlisted a owl:Class ;
+    rdfs:label "accepted.waitlisted" ;
+    dct:title "Accepted, waitlisted" ;
+    rdfs:subClassOf ref:response-status ;
+    skos:definition "Accepted, but there will be a wait before the responder acts." .
+
+rs:Acknowledged a owl:Class ;
+    rdfs:label "acknowledged" ;
+    dct:title "Acknowledged" ;
+    rdfs:subClassOf ref:response-status ;
+    skos:definition "Received, but no decision has been made yet." .
+
+rs:Closed a owl:Class ;
+    rdfs:label "closed" ;
+    dct:title "Closed" ;
+    rdfs:subClassOf ref:response-status ;
+    skos:definition "No further action, after the referral, request or concern was accepted or assessed." .
+
+rs:Declined a owl:Class ;
+    rdfs:label "declined" ;
+    dct:title "Declined" ;
+    rdfs:subClassOf ref:response-status ;
+    skos:definition "The responder will not act on the referral, request or concern." .
+
+rs:DeclinedIneligible a owl:Class ;
+    rdfs:label "declined.ineligible" ;
+    dct:title "Declined, ineligible" ;
+    rdfs:subClassOf ref:response-status ;
+    skos:definition "Declined because the person or the need does not meet the responder's eligibility criteria or threshold." .
+
+rs:Delayed a owl:Class ;
+    rdfs:label "delayed" ;
+    dct:title "Delayed" ;
+    rdfs:subClassOf ref:response-status ;
+    skos:definition "A decision, or the start of a service, will be later than expected." .
+
+rs:InformationRequested a owl:Class ;
+    rdfs:label "information-requested" ;
+    dct:title "Information requested" ;
+    rdfs:subClassOf ref:response-status ;
+    skos:definition "The responder needs more information before it can make a decision." .
+
+rs:Redirected a owl:Class ;
+    rdfs:label "redirected" ;
+    dct:title "Redirected" ;
+    rdfs:subClassOf ref:response-status ;
+    skos:definition "Passed on to another team or service. Where the new referral or request is known, link it with linkedRecord." .
 
 ref:ReferrerDetails a owl:Class ;
     rdfs:label "ReferrerDetails" ;
@@ -746,11 +1074,52 @@ ref:refDateCompleted a owl:DatatypeProperty ;
     skos:definition "Date completed." ;
     skos:inScheme ref:referrals .
 
+ref:IntakePerson a owl:Class ;
+    rdfs:label "IntakePerson" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty ref:genderCode ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty ref:isDeceased ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:genderCode ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:isDeceased ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ref:isAwareOfReferral ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:deceasedDate ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:dateOfBirth ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty ref:ethnicityCode ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:ethnicityCode ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty ref:intakeNotes ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty ref:name ],
+        ref:Person ;
+    skos:definition """A person as first recorded when their details enter social care, for example as the subject of a referral. Every Person field is optional, because the referrer may know only some details (only an address, or only a name), and a free-text note can capture an overall account where very little else is known.
+Guidance for implementers: * A record should carry at least one detail, but this is not enforced by the model. * Record how the person can be contacted with the Person contact and address fields. Anything else about contacting them (when or how it is safe to, or what to avoid) belongs in notes. * Where the person is not aware of the referral, record why in notes. * Once the person has been matched to an existing record, such as their record in the case management system, add a reference to it in matchedPersonRef. This is usually done at triage. * Referrals submitted by professionals (like social workers, teachers, and doctors) should generally be held to a higher standard, requiring more data than a referral from, say, a member of the public.""" ;
+    skos:exactMatch ref:IntakePerson ;
+    skos:inScheme ref:referrals .
+
 ref:refIdentifier a owl:ObjectProperty ;
     rdfs:label "refIdentifier" ;
     dct:title "identifier" ;
     rdfs:range ref:Identifier ;
-    skos:definition "Identifier for this referral, request, or concern." ;
+    skos:definition "Identifier for this referral, request, concern, or response." ;
     skos:inScheme ref:referrals .
 
 ref:referrer-type a owl:Class ;
@@ -764,10 +1133,42 @@ ref:referrer-type a owl:Class ;
         rft:Professional,
         rft:Self .
 
+ref:request-purpose a owl:Class ;
+    rdfs:label "RequestPurposeCode" ;
+    dct:title "Request Purposes" ;
+    owl:unionOf ( rp:Notification rp:Service rp:ChildEarlyHelp rp:ChildCIN rp:ChildS47 rp:ChildEmergency rp:AdultPrevention rp:AdultNeedsAssessment rp:AdultS42Enquiry ) ;
+    skos:definition "The purpose of an outward request for services. Requests are made at any stage of a person's involvement with social care: some carry out a front-door decision (such as a MASH decision in children's services), others come from ongoing work, such as asking for specialist support alongside a plan. Where a purpose has a statutory basis or implies urgency (such as escalation to a section 47 or section 42 enquiry), the code carries it. A request may go to a team within the same local authority (for example, the team that carries out child in need assessments) as well as to an outside service, such as CAMHS, an advocacy provider or a community organisation. notification and service are general purposes, used for any kind of service which is identified by the request's recipient. The other purposes are specific front-door or statutory decisions. This list is likely to change as safeguarding practice and workflows change, and will be updated accordingly, most likely by adding new purposes." ;
+    skos:inScheme ref:referrals ;
+    linkml:permissible_values rp:AdultNeedsAssessment,
+        rp:AdultPrevention,
+        rp:AdultS42Enquiry,
+        rp:ChildCIN,
+        rp:ChildEarlyHelp,
+        rp:ChildEmergency,
+        rp:ChildS47,
+        rp:Notification,
+        rp:Service .
+
+ref:response-status a owl:Class ;
+    rdfs:label "ResponseStatusCode" ;
+    dct:title "Response Statuses" ;
+    owl:unionOf ( rs:Acknowledged rs:InformationRequested rs:Accepted rs:AcceptedWaitlisted rs:Delayed rs:Redirected rs:Declined rs:DeclinedIneligible rs:Closed ) ;
+    skos:definition "What a response to a referral, request or quality-of-care concern says. Each status is what the responder said at one point in time; a later response may give a different status." ;
+    skos:inScheme ref:referrals ;
+    linkml:permissible_values rs:Accepted,
+        rs:AcceptedWaitlisted,
+        rs:Acknowledged,
+        rs:Closed,
+        rs:Declined,
+        rs:DeclinedIneligible,
+        rs:Delayed,
+        rs:InformationRequested,
+        rs:Redirected .
+
 ref:referral-type a owl:Class ;
     rdfs:label "ReferralTypeCode" ;
     dct:title "Referral Types" ;
-    owl:unionOf ( rt:ChildSafeguarding rt:ChildInfoRequest rt:ChildCrossService rt:AdultGeneral rt:AdultSafeguarding rt:AdultIndependentLiving rt:AdultCareActAssessment rt:AdultInfoRequest rt:AdultCrossService ) ;
+    owl:unionOf ( rt:ChildSafeguarding rt:ChildInfoRequest rt:ChildCrossService rt:ChildReturningCareLeaver rt:AdultGeneral rt:AdultSafeguarding rt:AdultIndependentLiving rt:AdultCareActAssessment rt:AdultInfoRequest rt:AdultCrossService ) ;
     skos:definition "Codes representing the type of inward referral." ;
     skos:inScheme ref:referrals ;
     linkml:permissible_values rt:AdultCareActAssessment,
@@ -778,23 +1179,29 @@ ref:referral-type a owl:Class ;
         rt:AdultSafeguarding,
         rt:ChildCrossService,
         rt:ChildInfoRequest,
+        rt:ChildReturningCareLeaver,
         rt:ChildSafeguarding .
 
-ref:request-purpose a owl:Class ;
-    rdfs:label "RequestPurposeCode" ;
-    dct:title "Request Purposes" ;
-    owl:unionOf ( rp:Notification rp:ChildEarlyHelp rp:ChildCIN rp:ChildS47 rp:ChildEmergency rp:ChildStatutoryServices rp:ChildNonStatutoryServices rp:AdultStatutoryServices rp:AdultNonStatutoryServices ) ;
-    skos:definition "Codes indicating the purpose of an outward request for services." ;
+ref:qoc-concern-code a owl:Class ;
+    rdfs:label "QocConcernCode" ;
+    dct:title "Quality-of-Care Concerns" ;
+    owl:unionOf ( qcon:Unassigned qcon:PersonCentredCare qcon:DignityAndRespect qcon:NeedForConsent qcon:SafeCareAndTreatment qcon:Safeguarding qcon:NutritionAndHydration qcon:PremisesAndEquipment qcon:Complaints qcon:GoodGovernance qcon:Staffing qcon:FitAndProperPersons qcon:DutyOfCandour qcon:Other ) ;
+    skos:definition "The nature of a quality-of-care concern about a care provider or service. Each type is one of the fundamental standards in Regulations 9 to 20 of the Health and Social Care Act 2008 (Regulated Activities) Regulations 2014, which every CQC-registered provider must meet: a concern of that type is a concern that the provider is not meeting that regulation. One incident may relate to several regulations (a missed home-care visit, for example, may concern Regulations 9, 12 and 18), in which case record a concern for each. UNASSIGNED marks a concern that was not classified when it was raised, to be assigned at triage." ;
     skos:inScheme ref:referrals ;
-    linkml:permissible_values rp:AdultNonStatutoryServices,
-        rp:AdultStatutoryServices,
-        rp:ChildCIN,
-        rp:ChildEarlyHelp,
-        rp:ChildEmergency,
-        rp:ChildNonStatutoryServices,
-        rp:ChildS47,
-        rp:ChildStatutoryServices,
-        rp:Notification .
+    linkml:permissible_values qcon:Complaints,
+        qcon:DignityAndRespect,
+        qcon:DutyOfCandour,
+        qcon:FitAndProperPersons,
+        qcon:GoodGovernance,
+        qcon:NeedForConsent,
+        qcon:NutritionAndHydration,
+        qcon:Other,
+        qcon:PersonCentredCare,
+        qcon:PremisesAndEquipment,
+        qcon:SafeCareAndTreatment,
+        qcon:Safeguarding,
+        qcon:Staffing,
+        qcon:Unassigned .
 
 ref:referral-question-category a owl:Class ;
     rdfs:label "ReferralQuestionCategory" ;
@@ -823,30 +1230,28 @@ ref:referral-question-category a owl:Class ;
 ref:concern-code a owl:Class ;
     rdfs:label "ConcernCode" ;
     dct:title "Concerns" ;
-    owl:unionOf ( con:ChildPhysicalAbuse con:ChildSexualAbuse con:ChildEmotionalAbuse con:ChildNeglect con:ChildExploitation con:ChildParentalConcern con:ChildMissingEducation con:ChildGoingMissing con:ChildContextualRisk con:ChildOther con:AdultPhysicalAbuse con:AdultSexualAbuse con:AdultEmotionalAbuse con:AdultNeglect con:AdultFinancialCoercion con:AdultDiscrimination con:AdultDomesticAbuse con:AdultModernSlavery con:AdultSelfHarm con:AdultSubstanceAbuse con:AdultOther ) ;
-    skos:definition "Codes representing the nature of concerns in referrals and quality-of-care reports." ;
+    owl:unionOf ( con:Unassigned con:ChildPhysicalAbuse con:ChildSexualAbuse con:ChildEmotionalAbuse con:ChildNeglect con:ChildExtrafamilialHarm con:ChildOther con:AdultPhysicalAbuse con:AdultDomesticAbuse con:AdultSexualAbuse con:AdultEmotionalAbuse con:AdultFinancialAbuse con:AdultModernSlavery con:AdultDiscriminatoryAbuse con:AdultOrganisationalAbuse con:AdultNeglect con:AdultSelfNeglect con:AdultCareAndSupportNeeds con:AdultOther ) ;
+    skos:definition "The nature of the concern raised in a referral. The child codes are the four categories of abuse and neglect that Working Together to Safeguard Children 2023 uses for the significant harm threshold in the Children Act 1989, plus extra-familial harm. The adult codes are the types of abuse and neglect in the Care and Support Statutory Guidance under the Care Act 2014, plus care and support needs, for referrals where no abuse or neglect is suspected. Each group has an Other code for concerns outside these categories. UNASSIGNED marks a concern that was not classified when the referral was made, either by the referrer's choice or because the form did not ask, to be assigned at triage." ;
     skos:inScheme ref:referrals ;
-    linkml:permissible_values con:AdultDiscrimination,
+    linkml:permissible_values con:AdultCareAndSupportNeeds,
+        con:AdultDiscriminatoryAbuse,
         con:AdultDomesticAbuse,
         con:AdultEmotionalAbuse,
-        con:AdultFinancialCoercion,
+        con:AdultFinancialAbuse,
         con:AdultModernSlavery,
         con:AdultNeglect,
+        con:AdultOrganisationalAbuse,
         con:AdultOther,
         con:AdultPhysicalAbuse,
-        con:AdultSelfHarm,
+        con:AdultSelfNeglect,
         con:AdultSexualAbuse,
-        con:AdultSubstanceAbuse,
-        con:ChildContextualRisk,
         con:ChildEmotionalAbuse,
-        con:ChildExploitation,
-        con:ChildGoingMissing,
-        con:ChildMissingEducation,
+        con:ChildExtrafamilialHarm,
         con:ChildNeglect,
         con:ChildOther,
-        con:ChildParentalConcern,
         con:ChildPhysicalAbuse,
-        con:ChildSexualAbuse .
+        con:ChildSexualAbuse,
+        con:Unassigned .
 
 ref:referrals a owl:Ontology ;
     rdfs:label "referrals" ;

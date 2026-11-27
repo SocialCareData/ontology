@@ -1,0 +1,63 @@
+{
+  "@context": "../../../_data/model/referrals/context.jsonld",
+  "@id": "https://example.org/referrals/REF-INVALID-003",
+  "@type": "Referral",
+  "identifier": {
+    "@type": "Identifier",
+    "value": "REF-INVALID-003",
+    "system": "https://example.org/referrals"
+  },
+  "type": "child.safeguarding",
+  "dateCompleted": "2026-10-14T09:00:00Z",
+  "subject": [
+    {
+      "@type": "IntakePerson",
+      "isAwareOfReferral": true,
+      "name": [
+        {
+          "@type": "Name",
+          "givenName": [
+            "Jane"
+          ],
+          "familyName": "Doe"
+        }
+      ]
+    }
+  ],
+  "referrer": {
+    "@type": "ReferrerDetails",
+    "referrerType": "Professional",
+    "referrerProfessionalId": {
+      "@type": "Identifier",
+      "value": "PROF-001",
+      "system": "https://example.org/professionals"
+    }
+  },
+  "concern": [
+    {
+      "@type": "ConcernDetail",
+      "concernType": "child.neglect",
+      "description": "Observed severe neglect concerns."
+    }
+  ],
+  "recipient": [
+    {
+      "@type": "Identifier",
+      "value": "ORG-CSC-01",
+      "system": "https://example.org/organisations"
+    }
+  ],
+  "assessmentQuestion": [
+    {
+      "@type": "ReferralAssessmentQuestion",
+      "questionId": "suggestedPathway",
+      "category": "PATHWAY",
+      "questionText": "What kind of support do you think would help?",
+      "answer": [
+        "early-help"
+      ],
+      "answerType": "Enum",
+      "required": false
+    }
+  ]
+}

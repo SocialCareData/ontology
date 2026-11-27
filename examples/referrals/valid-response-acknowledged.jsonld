@@ -1,0 +1,17 @@
+{
+  "@context": "../../../_data/model/referrals/context.jsonld",
+  "@id": "https://example.org/responses/RES-2026-001",
+  "@type": "Response",
+  "respondsTo": {
+    "@type": "Identifier",
+    "value": "REF-2026-001",
+    "system": "https://example.org/referrals"
+  },
+  "responder": {
+    "@type": "Identifier",
+    "value": "ORG-CSC-01",
+    "system": "https://example.org/organisations"
+  },
+  "dateTimeReceived": "2026-10-14T09:05:00Z",
+  "status": "acknowledged"
+}

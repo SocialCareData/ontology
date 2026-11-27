@@ -1,0 +1,43 @@
+{
+  "@context": "../../../_data/model/referrals/context.jsonld",
+  "@id": "https://example.org/responses/RES-2026-002",
+  "@type": "Response",
+  "identifier": {
+    "@type": "Identifier",
+    "value": "RES-2026-002",
+    "system": "https://example.org/responses"
+  },
+  "respondsTo": {
+    "@type": "Identifier",
+    "value": "REQ-2026-001",
+    "system": "https://example.org/requests"
+  },
+  "respondsToType": "request",
+  "responder": {
+    "@type": "Identifier",
+    "value": "CAMHS-01",
+    "system": "https://example.org/services"
+  },
+  "dateTimeReceived": "2026-10-21T14:30:00Z",
+  "status": "redirected",
+  "description": "Does not meet the threshold for specialist CAMHS. Passed to the mental health support team in the young person's school.",
+  "attachment": [
+    {
+      "@type": "DocumentReference",
+      "title": "CAMHS triage outcome letter",
+      "url": "https://example.org/documents/CAMHS-01-2026-0412.pdf",
+      "mimeType": "application/pdf"
+    }
+  ],
+  "linkedRecord": [
+    {
+      "@type": "LinkedRecord",
+      "recordId": {
+        "@type": "Identifier",
+        "value": "MHST-REF-2026-0412",
+        "system": "https://example.org/camhs/referrals"
+      },
+      "recordType": "referral"
+    }
+  ]
+}
