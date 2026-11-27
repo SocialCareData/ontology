@@ -48,6 +48,33 @@
       "constraint": "sh:minCount"
     }
   ],
+  "invalid-referral.jsonld": [
+    {
+      "focus": "PersonalNetworkMember",
+      "path": "person",
+      "constraint": "sh:class"
+    },
+    {
+      "focus": "Referral",
+      "path": "dateCompleted",
+      "constraint": "sh:datatype"
+    },
+    {
+      "focus": "Referral",
+      "path": "recipient",
+      "constraint": "sh:minCount"
+    },
+    {
+      "focus": "Referral",
+      "path": "subject",
+      "constraint": "sh:class"
+    },
+    {
+      "focus": "ReferrerDetails",
+      "path": "referrerType",
+      "constraint": "sh:in"
+    }
+  ],
   "invalid-request-bad-record-relationship.jsonld": [
     {
       "focus": "LinkedRecord",

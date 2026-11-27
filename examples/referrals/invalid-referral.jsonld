@@ -1,0 +1,65 @@
+{
+  "@context": "../../../_data/model/referrals/context.jsonld",
+  "@id": "https://example.org/referrals/REF-2026-001",
+  "@type": "Referral",
+  "identifier": {
+    "@type": "Identifier",
+    "value": "REF-2026-001",
+    "system": "https://example.org/referrals"
+  },
+  "type": "child.safeguarding",
+  "dateCompleted": "14/10/2026",
+  "subject": [
+    {
+      "@type": "Person",
+      "name": [
+        {
+          "@type": "Name",
+          "givenName": ["Jane"],
+          "familyName": "Doe"
+        }
+      ]
+    }
+  ],
+  "personalNetwork": [
+    {
+      "@type": "PersonalNetworkMember",
+      "networkPerson": {
+        "@type": "Person",
+        "name": [
+          {
+            "@type": "Name",
+            "givenName": ["Mary"],
+            "familyName": "Smith"
+          }
+        ]
+      },
+      "networkRelationship": "AUNT",
+      "networkDescription": "Maternal aunt providing child care"
+    }
+  ],
+  "referrer": {
+    "@type": "ReferrerDetails",
+    "referrerType": "Teacher",
+    "referrerProfessionalId": {
+      "@type": "Identifier",
+      "value": "PROF-001",
+      "system": "https://example.org/professionals"
+    }
+  },
+  "concern": [
+    {
+      "@type": "ConcernDetail",
+      "concernType": "child.neglect",
+      "description": "Observed severe neglect concerns."
+    }
+  ],
+  "involvement": {
+    "@type": "ReferralInvolvement",
+    "actorType": "Self",
+    "involvementDescription": "Contacted emergency duty team."
+  },
+  "pathway": [
+    "early-help"
+  ]
+}
